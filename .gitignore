@@ -1,0 +1,13 @@
+.vscode/
+__pycache__/
+venv/
+
+# Calculix files
+executables/
+*.12d
+*.cvg
+*.dat
+*.frd
+*.inp
+*.sta
+*.nam

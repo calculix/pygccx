@@ -191,6 +191,18 @@ class EElementResults(str, Enum):
     """Zienkiewicz-Zhu improved stress. Notice that ZZS and ERR are mutually ex-
         clusive."""
 
+class EContactResults(str, Enum):
+    CDIS = 'CDIS'
+    """Relative contact displacements"""
+    CSTR = 'CSTR'
+    """Contact stresses"""
+    CELS = 'CELS'
+    """Contact energy"""
+    PCON = 'PCON'
+    """Only for face-to-face penalty contact.\n 
+    Magnitude and phase of the relative contact displacements and
+    contact stresses in a frequency calculation with cyclic symmetry. """
+
 class ESolvers(str, Enum):
     DEFAULT = 'DEFAUL'
     ITERATIVE_SCALING = 'ITERATIVE SCALING'

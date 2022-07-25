@@ -21,6 +21,12 @@ class NodeFile:
     name:str = ''
     desc:str = ''
 
+    def __post_init__(self):
+        if not self.entities:
+            raise ValueError('entities must not be empty')
+        if self.time_points and self.frequency != 1:
+            raise ValueError("frequency and time_points are mutually exclusive.")
+
     def __str__(self):
         s = '*NODE FILE'
         if self.frequency != 1: s += f',FREQUENCY={self.frequency}'

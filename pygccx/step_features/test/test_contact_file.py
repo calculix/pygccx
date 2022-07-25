@@ -25,6 +25,13 @@ class TestContactFile(TestCase):
         known +='CDIS,CELS\n'
         self.assertEqual(str(cf), known)
 
+    def test_last_iteration(self):
+
+        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], last_Iterations=True)
+        known = '*CONTACT FILE,LAST ITERATIONS\n'
+        known +='CDIS,CELS\n'
+        self.assertEqual(str(cf), known)
+
     def test_contact_elements(self):
 
         cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], contact_elements=True)

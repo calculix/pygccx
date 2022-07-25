@@ -60,9 +60,19 @@ class TestElFile(TestCase):
         known +='S\n'
         self.assertEqual(str(ef), known)
 
+    def test_section_forces(self):
+
+        ef = ElFile([EElementResults.S], section_forces=True)
+        known = '*EL FILE,SECTION FORCES\n'
+        known +='S\n'
+        self.assertEqual(str(ef), known)
+
     def test_empty_entities(self):
         self.assertRaises(ValueError, ElFile, [])
 
     def test_time_points_and_frequency(self):
         tp = TimePoints('TP1', (1,2,3,4))
         self.assertRaises(ValueError, ElFile, [EElementResults.S], time_points=tp, frequency=2)
+
+    def test_section_forces_and_output_3D(self):
+        self.assertRaises(ValueError, ElFile, [EElementResults.S], section_forces=True, output=EResultOutputs._3D)

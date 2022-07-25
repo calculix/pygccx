@@ -5,26 +5,80 @@ from enums import EResultOutputs, EElementResults
 
 @dataclass(frozen=True, slots=True)
 class ElFile:
+    """
+    Class to select element result entities for printing in file jobname.frd for
+    subsequent viewing by CalculiX GraphiX.
+
+    Args:
+        entities:Iterable (i.e. a list) of element result entities.
+        frequency: Optional. integer that indicates that the results of every Nth increment 
+            will be stored. frequency and time_points are mutually exclusive.
+        global_: Optional. Flag if results should be stored in the global or local nodal 
+                coordinate system.
+        output: Optional. Affects only 1D and 2D Elements. Enum if results should be stored 
+            in the expanded form (3D) or in the original form (2D). DEFAULT: Only beams and 
+            shells are expanded.
+            section_forces == True and output == 3D are mutually exclusive.
+            IMPORTANT: In order to use the result reader of pygccx, only 2D can be used.
+        output_all: Optional. Flag if the data has to be stored for all nodes, including 
+            those belonging to elements which have been deactivated.
+        section_forces: Optional. Flag if the stresses in the beam nodes should be replaced 
+            by the section forces. Only relevant for beam elements. section_forces == True 
+            and output == 3D are mutually exclusive.
+        time_points: Optional. TimePoints object specifying the times for which results should 
+            be stored.frequency and time_points are mutually exclusive.
+        nset: Optional. Node set object for which results should be stored.
+        last_Iterations: Optional. If True, leads to the storage of the displacements in all 
+            iterations of the  last increment in a file with name ResultsForLastIterations.frd
+        contact_elements: Optional. If True, stores the contact elements which have been 
+            generated in each iteration in a file with the name jobname.cel.
+        name: Optional. Name of this instance
+        desc: Optional. A short description of this instance. This is written to the ccx input file.
+    """
 
     entities:Iterable[EElementResults]
+    """Iterable (i.e. a list) of element result entities."""
     frequency:int = 1
+    """integer that indicates that the results of every Nth increment will be stored.
+    frequency and time_points are mutually exclusive."""
     global_:bool = True
+    """Flag if results should be stored in the global or local nodal coordinate system."""
     output: EResultOutputs = EResultOutputs.DEFAULT
+    """Affects only 1D and 2D Elements. Enum if results should be stored in the expanded
+    form (3D) or in the original form (2D). DEFAULT: Only beams and shells are expanded.
+    section_forces == True and output == 3D are mutually exclusive.
+    IMPORTANT: In order to use the result reader of pygccx, only 2D can be used."""
     output_all:bool = False
+    """Flag if the data has to be stored for all nodes, including those belonging to 
+    elements which have been deactivated."""
     section_forces:bool = False
+    """Flag if the stresses in the beam nodes should be replaced by the section forces.
+    Only relevant for beam elements. section_forces == True and output == 3D are mutually 
+    exclusive."""
     time_points:Optional[IStepFeature] = None
+    """TimePoints object specifying the times for which results should be stored.
+    frequency and time_points are mutually exclusive."""
     nset:Optional[ISet] = None
+    """node set object for which results should be stored."""
     last_Iterations:bool = False
+    """If True, leads to the storage of the displacements in all iterations of the 
+    last increment in a file with name ResultsForLastIterations.frd"""
     contact_elements:bool = False
+    """If True, stores the contact elements which have been generated in each iteration 
+    in a file with the name jobname.cel."""
     name:str = ''
+    """Name of this instance"""
     desc:str = ''
+    """A short description of this instance. This is written to the ccx input file."""
 
     def __post_init__(self):
         if not self.entities:
             raise ValueError('entities must not be empty')
         if self.time_points and self.frequency != 1:
             raise ValueError("frequency and time_points are mutually exclusive.")
-            
+        if self.section_forces and self.output == EResultOutputs._3D:
+            raise ValueError("section_forces == True and output == 3D are mutually exclusive.")
+
     def __str__(self):
         s = '*EL FILE'
         if self.frequency != 1: s += f',FREQUENCY={self.frequency}'

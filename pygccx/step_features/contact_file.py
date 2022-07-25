@@ -5,14 +5,42 @@ from enums import EContactResults
 
 @dataclass(frozen=True, slots=True)
 class ContactFile:
+    """
+    Class to select contact result entities for printing in file jobname.frd for
+    subsequent viewing by CalculiX GraphiX.
+
+    Args:
+        entities:Iterable (i.e. a list) of contact result entities.
+        frequency: Optional. integer that indicates that the results of every Nth increment 
+            will be stored. frequency and time_points are mutually exclusive.
+        time_points: Optional. TimePoints object specifying the times for which results should 
+            be stored.frequency and time_points are mutually exclusive.
+        last_Iterations: Optional. If True, leads to the storage of the displacements in all 
+            iterations of the  last increment in a file with name ResultsForLastIterations.frd
+        contact_elements: Optional. If True, stores the contact elements which have been 
+            generated in each iteration in a file with the name jobname.cel.
+        name: Optional. Name of this instance
+        desc: Optional. A short description of this instance. This is written to the ccx input file.
+    """
 
     entities:Iterable[EContactResults]
+    """Iterable (i.e. a list) of contact result entities."""
     frequency:int = 1
+    """integer that indicates that the results of every Nth increment will be stored.
+    frequency and time_points are mutually exclusive."""
     time_points:Optional[IStepFeature] = None
+    """TimePoints object specifying the times for which results should be stored.
+    frequency and time_points are mutually exclusive."""
     last_Iterations:bool = False
+    """If True, leads to the storage of the displacements in all iterations of the 
+    last increment in a file with name ResultsForLastIterations.frd"""
     contact_elements:bool = False
+    """If True, stores the contact elements which have been generated in each iteration 
+    in a file with the name jobname.cel."""
     name:str = ''
+    """Name of this instance"""
     desc:str = ''
+    """A short description of this instance. This is written to the ccx input file."""
 
     def __post_init__(self):
         if not self.entities:

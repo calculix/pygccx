@@ -8,8 +8,50 @@ number = int|float
 
 def make_contact(name:str, contact_type:EContactTypes, dep_surf:ISurface, ind_surf:ISurface,
                 pressure_overclosure:EPressureOverclosures, small_sliding:bool=False,              
-                adjust:Optional[number|ISet]=None, clearance:Optional[number]=None, desc:str='', **kwargs) -> tuple[IModelFeature]:
+                adjust:Optional[number|ISet]=None, clearance:Optional[number]=None, 
+                mue:Optional[number]=None, lam:Optional[number]=None, desc:str='', **kwargs) -> tuple[IModelFeature]:
 
+    """
+    Function to set up a contact.
+
+    This function creates all the neccessary model features needed for a contact and
+    returns this features in a tuple
+
+    Args:
+        name (str): Name of the contact.
+        contact_type (EContactTypes): Enum of the contact type(i.e. NODE_TO_SURFACE)
+        dep_surf (ISurface): Surface object for the dependent contact side. 
+                             surf_type can be EL_FACE or NODE for contact_type NODE_TO_SURFACE 
+        ind_surf (ISurface): Surface object for the independent contact side.
+                             surf_type must be EL_FACE 
+        pressure_overclosure (EPressureOverclosures): Enum of the pressure overclosure (i.e. EXPONENTIAL)
+        small_sliding (bool): Optional. Flag is small sliding should be turned on. 
+                              Only for contact_type NODE_TO_SURFACE.
+        adjust (number | ISet): Optional. Value or node set for contact adjustment
+        clearance (number): Optional. Clarance between contact surfaces. 
+                            If specified, a Clearance object is generated.
+        mue (number): Friction coefficient. If specified, a Friction object is generated.
+        lam (number): Stick slope. Must be provided if mue is given
+        desc (str): Optional. Description of this contact.
+
+    Keyword Args:
+        c0 (number): decay-length for contact type EXPONENTIAL, spring generation 
+                     distance for contact type LINEAR
+        p0 (number): pressure at zero distance for contact type EXPONENTIAL
+        k (number): contact stiffness for contact type LINEAR and TIED.
+                    For TIED this value is also used for the tangential stiffness
+        sig_inf (number): pressure at high contact distance for contact type LINEAR 
+                          and NODE TO SURFACE
+        table (Iterable[Iterable[number]]): Pressure - Overclosure pairs for contact 
+                                            type TABULAR
+
+
+    Raises:
+        ValueError: Raised if Mue is specified, but not lam
+
+    Returns:
+        tuple[IModelFeatures]: All model features needed for this contact
+    """
     out:list[IModelFeature] = []
 
     # Surface Interaction
@@ -35,8 +77,6 @@ def make_contact(name:str, contact_type:EContactTypes, dep_surf:ISurface, ind_su
             Friction(mue=0.5, lam=kwargs.get('k'))  # type: ignore | this is save, because k is checked in SurfaceBehavior
         )
     else:
-        mue:number|None = kwargs.get('mue')
-        lam:number|None = kwargs.get('lam')
         if mue is not None: 
             if lam is None:
                 raise ValueError('A value for lam has to be specified if a value for mue is given')
@@ -47,6 +87,7 @@ def make_contact(name:str, contact_type:EContactTypes, dep_surf:ISurface, ind_su
         out.append(Clearance(ind_surf, dep_surf, clearance))
 
     # Contact Pair
+    if contact_type != EContactTypes.NODE_TO_SURFACE: small_sliding = False
     out.append(
         ContactPair(interaction, contact_type, dep_surf, ind_surf, small_sliding, adjust)
     )

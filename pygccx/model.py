@@ -96,17 +96,17 @@ class Model:
         """Writes the ccx input file and shows it in cgx"""
 
         self.write_ccx_input_file()
-        subprocess.run(f'{self.cgx_path} -c {self.jobname}.inp', cwd=self.working_dir)
+        subprocess.run(f'{self.cgx_path} -c "{self.jobname}.inp"', cwd=self.working_dir)
 
     def solve(self):
         """Writes the ccx input file and solves it in ccx"""
         self.write_ccx_input_file()
-        subprocess.run(f'{self.ccx_path} -i {self.jobname}', cwd=self.working_dir)
+        subprocess.run(f'{self.ccx_path} -i "{self.jobname}"', cwd=self.working_dir)
 
     def show_results_in_cgx(self):
         """Writes the ccx input file and shows it in cgx"""
 
-        subprocess.run(f'{self.cgx_path} {self.jobname}.frd', cwd=self.working_dir)
+        subprocess.run(f'{self.cgx_path} "{self.jobname}.frd" "{self.jobname}.inp"', cwd=self.working_dir)
 
     def __enter__(self):
         return self

@@ -12,3 +12,4 @@ from .surface_interaction import SurfaceInteraction
 from .surface_behavior import SurfaceBehavior
 from .contact_pair import ContactPair
 from . clearance import Clearance
+from .group_funcs import make_contact

@@ -10,6 +10,23 @@
 - Postpro in CGX
 - Postpro in GMSH
 
+# Design rules
+Provide the users the most support of theis IDEs. This means:
+- Use of type hints and protocolls where ever possible
+- No module, class, or class members without a docstring
+- Use Enums for options, not strings
+- Write docstrings for the Enums
+- Each Enum class name starts with an "E" and is placed in the modul "enums"
+
+Maintainability:
+- User depedancy injection and inversion of control
+- write code against protocolls not implementations
+- Each protocoll class name starts with an "I" and is placed in the module "protocolls"
+- classes are only instanciated in class "Model" or by the user to pass it to other classes
+- write for every class a unit test with 100% coverage.
+- if possible, write an integation test (i.e. a ccx model which uses the new class / feature)
+
+
 # Prerequisites
 - Python 3.10
 - Packages from requirements.txt

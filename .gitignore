@@ -11,3 +11,5 @@ executables/
 *.inp
 *.sta
 *.nam
+*.out
+*.fbd

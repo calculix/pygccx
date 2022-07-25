@@ -35,7 +35,7 @@ class ContactPair:
         if self.type == EContactTypes.SURFACE_TO_SURFACE and self.dep_surf.type == ESurfTypes.NODE:
             raise ValueError('dep_surf must be of type EL_FACE, if SURFACE_TO_SURFACE is selected')
         if self.type != EContactTypes.NODE_TO_SURFACE and self.small_sliding:
-            raise ValueError('small_sliding has to be False for contact type NODE_TO_SURFACE')
+            raise ValueError('small_sliding can only be True for contact type NODE_TO_SURFACE')
         if self.adjust is not None:
             if isinstance(self.adjust, ISet) and self.adjust.type != ESetTypes.NODE:
                 raise ValueError(f'Set type of adjust must be NODE, got {self.adjust.type.name}')

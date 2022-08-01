@@ -18,9 +18,10 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from dataclasses import dataclass
+from typing import Any
 
 number = int|float
-@dataclass(frozen=True, slots=True)
+@dataclass
 class Friction:
 
     """
@@ -42,11 +43,14 @@ class Friction:
     desc:str = ''
     """A short description of this instance. This is written to the ccx input file."""
 
-    def __post_init__(self):
-        if self.mue <= 0:
-            raise ValueError(f'mue must be greater than 0, got {self.mue}')
-        if self.lam <= 0:
-            raise ValueError(f'lam must be greater than 0, got {self.lam}')
+    def __setattr__(self, name: str, value: Any) -> None:
+
+        if name == 'mue' and value <= 0:
+            raise ValueError(f'mue must be greater than 0, got {value}')
+        if name == 'lam' and value <= 0:
+            raise ValueError(f'lam must be greater than 0, got {value}')
+        super().__setattr__(name, value)
+       
 
     def __str__(self):
         s = '*FRICTION\n'

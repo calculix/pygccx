@@ -17,11 +17,11 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, InitVar
 from typing import Optional
 from protocols import ISet
 
-@dataclass(frozen=True, slots=True)
+@dataclass
 class Boundary():
     """
     Class representing a homogenious boundary.
@@ -38,21 +38,21 @@ class Boundary():
         desc: Optional. A short description of this Boundary. This is written to the ccx input file.
     """
 
-    nid_or_set:int|ISet
+    nid_or_set:InitVar[int|ISet]
     """node id or node set of first condition to be constrained"""
-    first_dof:int
+    first_dof:InitVar[int]
     """first dof of first condition to be constrained"""
-    last_dof:Optional[int]=None
+    last_dof:InitVar[Optional[int]]=None
     """last dof of first condition to be constrained, optional"""
     name:str = ''
     """The name of this Boundary. Not used"""
     desc:str = ''
     """A short description of this Boundary. This is written to the ccx input file."""
 
-    _conditions:list = field(default_factory=list, init=False)
+    conditions:list = field(default_factory=list, init=False)
 
-    def __post_init__(self):
-        self.add_condition(self.nid_or_set, self.first_dof, self.last_dof)
+    def __post_init__(self, nid_or_set, first_dof, last_dof):
+        self.add_condition(nid_or_set, first_dof, last_dof)
 
     def add_condition(self, nid_or_set:int|ISet, first_dof:int, last_dof:Optional[int]=None):
         if isinstance(nid_or_set, int):
@@ -64,12 +64,12 @@ class Boundary():
             if last_dof  <= first_dof:
                 raise ValueError(f'last_dof must be greater than first dof') 
         
-        self._conditions.append((nid_or_set, first_dof, last_dof))
+        self.conditions.append((nid_or_set, first_dof, last_dof))
                 
     def __str__(self):
 
         s = '*BOUNDARY\n'
-        for c in self._conditions:
+        for c in self.conditions:
             if isinstance(c[0], int): s += f'{c[0]},'
             if isinstance(c[0], ISet): s += f'{c[0].name},'
             s += f'{c[1]},'

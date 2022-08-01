@@ -18,11 +18,11 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import Optional, Any
 from enums import EStepAmplitudes
 from protocols import IStepFeature
 
-@dataclass(frozen=True, slots=True)
+@dataclass
 class Step:
     """
     Class to define a step
@@ -51,9 +51,11 @@ class Step:
 
     step_features:list[IStepFeature] = field(default_factory=list, init=False)
 
-    def __post_init__(self):
-        if self.inc < 1:
+    def __setattr__(self, name: str, value: Any) -> None:
+        if name == 'inc' and value < 1:
             raise ValueError(f'inc must be greater than 1, got {self.inc}')
+        super().__setattr__(name, value)
+            
 
     def add_step_features(self, *step_features:IStepFeature):
         """Adds the given step features to this step"""

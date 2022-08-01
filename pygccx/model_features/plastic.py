@@ -17,7 +17,7 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, InitVar
 from enums import EHardeningRules
 from typing import Sequence
 import numpy as np
@@ -25,7 +25,7 @@ import numpy.typing as npt
 
 number = int|float
 
-@dataclass(frozen=True, slots=True)
+@dataclass
 class CyclicHardening:
     """
     Class to define the isotropic hardening curve of a material when in
@@ -47,21 +47,21 @@ class CyclicHardening:
 
     """
 
-    stress:Sequence[number]|npt.NDArray[np.float64]
+    stress:InitVar[Sequence[number]|npt.NDArray[np.float64]]
     """Sequence of mises stresses for first temperature. Must be same length as strain"""
-    strain:Sequence[number]|npt.NDArray[np.float64]
+    strain:InitVar[Sequence[number]|npt.NDArray[np.float64]]
     """Sequence of equ. plastic srains for first temperature. Must be same length as stress"""
-    temp:number = 294.
+    temp:InitVar[number] = 294.
     """temperature of first stress-strain table"""
     name:str = ''
     """Name of this instance"""
     desc:str = ''
     """A short description of this instance. This is written to the ccx input file."""
 
-    _plastic_params_for_temps:list = field(default_factory=list, init=False)
+    plastic_params_for_temps:list = field(default_factory=list, init=False)
 
-    def __post_init__(self):
-        self.add_plastic_stress_strain_for_temp(self.temp, self.stress,self.strain)
+    def __post_init__(self, stress, strain, temp):
+        self.add_plastic_stress_strain_for_temp(temp, stress, strain)
 
 
     def add_plastic_stress_strain_for_temp(self, temp:number, stress:Sequence[number]|npt.NDArray[np.float64], strain:Sequence[number]|npt.NDArray[np.float64]): 
@@ -79,14 +79,14 @@ class CyclicHardening:
 
         if len(stress) != len(strain):
             raise ValueError(f"stress and srain must have equal length.")
-        self._plastic_params_for_temps.append((temp, stress, strain))
+        self.plastic_params_for_temps.append((temp, stress, strain))
 
 
     def __str__(self):
 
         s = f'*CYCLIC HARDENING\n'
 
-        for p in self._plastic_params_for_temps:
+        for p in self.plastic_params_for_temps:
             temp, stress, strain = p
             for s_, e_ in zip(stress, strain):
                 s += f'{s_:15.7e},{e_:15.7e},{temp:15.7e}\n' 
@@ -94,7 +94,7 @@ class CyclicHardening:
         return s
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass
 class Plastic(CyclicHardening):
 
     """
@@ -127,7 +127,7 @@ class Plastic(CyclicHardening):
             s += f',HARDENING={self.hardening.value}'
         s += '\n'
 
-        for p in self._plastic_params_for_temps:
+        for p in self.plastic_params_for_temps:
             temp, stress, strain = p
             for s_, e_ in zip(stress, strain):
                 s += f'{s_:15.7e},{e_:15.7e},{temp:15.7e}\n' 

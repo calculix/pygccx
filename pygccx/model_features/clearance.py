@@ -22,7 +22,7 @@ from protocols import ISurface
 
 number = int|float
 
-@dataclass(frozen=True, slots=True)
+@dataclass
 class Clearance:
     """
     Class to define a clearance between the slave and master surface of a contact pair

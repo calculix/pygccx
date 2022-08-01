@@ -22,7 +22,7 @@ from typing import Iterable
 
 number = int|float
 
-@dataclass(frozen=True, slots=True)
+@dataclass
 class TimePoints:
     """
     Class to specify a sequence of time points.

@@ -18,8 +18,9 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from dataclasses import dataclass
+from typing import Any
 
-@dataclass(frozen=True, slots=True)
+@dataclass
 class SurfaceInteraction:
 
     """
@@ -33,9 +34,11 @@ class SurfaceInteraction:
     name:str
     desc:str = ''
 
-    def __post_init__(self):
-        if len(self.name) > 80:
-            raise ValueError(f'name can only contain up to 80 characters, got {len(self.name)}')
+    def __setattr__(self, name: str, value: Any) -> None:
+
+        if name == 'name' and len(value) > 80:
+            raise ValueError(f'name can only contain up to 80 characters, got {len(value)}')
+        super().__setattr__(name, value)   
 
 
     def __str__(self):

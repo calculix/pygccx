@@ -18,21 +18,23 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Any
 from enums import ESetTypes
 from protocols import IModelFeature, ISet
 
-@dataclass(frozen=True, slots=True)
+@dataclass
 class SolidSection:
     elset:ISet
     material:IModelFeature
     orientation:Optional[IModelFeature] = None
     name:str = ''
     desc:str = ''
-    
-    def __post_init__(self):
-        if self.elset.type != ESetTypes.ELEMENT:
-            raise ValueError(f'set_type of elset must be ELEMENT, got {self.elset.type}')
+
+    def __setattr__(self, name: str, value: Any) -> None:
+
+        if name == "elset" and value.type != ESetTypes.ELEMENT:
+            raise ValueError(f'type of elset must be ELEMENT, got {value.type}')
+        super().__setattr__(name, value)
 
     def __str__(self):
         s = f'*SOLID SECTION,MATERIAL={self.material.name},ELSET={self.elset.name}'

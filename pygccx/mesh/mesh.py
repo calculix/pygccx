@@ -131,15 +131,16 @@ class Mesh:
         self.surfaces.append(surf)
         return surf
 
-    def add_node(self, id:int, coords:Sequence[numeric], node_set:protocols.ISet|None=None):
+    def add_node(self, coords:Sequence[numeric], id:Optional[int]=None, node_set:Optional[protocols.ISet]=None) -> int:
         """
         Adds a node to this mesh. .
 
         If a node with same id already exists, it is replaced.
+        if id is omitted, the next available id is used
 
-        Args:
-            id (int): id of the new node
+        Args:    
             coords (Sequence[float]): coordinates of the new node. [x, y, z]
+            id (int, optional): id of the new node
             node_set (interfaces.Set, optional): Set with type == NODE where the new node should be added to. Defaults to None.
 
         Raises:
@@ -147,14 +148,12 @@ class Mesh:
             ValueError: raised if node_set is not None and node_set.set_type != NODE
             ValueError: raised if len(coords) != 3 
             ValueError: raised if not all coordinates in coords are numeric
+
+        Returns:
+            (int): The id of the node
         """
-        # check types
-        if not isinstance(id, int): 
-            raise TypeError(f"id has to be of type int, got {type(id)}")
-        if not isinstance(coords, Sequence): 
-            raise TypeError(f"coords has to be a sequence, got {type(coords)}")
-        if node_set and not isinstance(node_set, protocols.ISet):
-            raise TypeError(f"node_face does not adhere to protocol ISet.")
+
+        if id is None: id = self.get_next_node_id()
 
         if id <= 0: 
             raise ValueError(f"id has to be greater than 0, got {id}")
@@ -168,31 +167,38 @@ class Mesh:
         except:
             raise ValueError(f"coords has to be a sequence of numeric values.")
 
-        if node_set: 
-            node_set.ids.add(id)
+        if node_set: node_set.ids.add(id)
+
+        return id
     
-    def add_element(self, id:int, etype: enums.EEtypes, nids:tuple[int,...], element_set:Optional[protocols.ISet]=None):
+    def add_element(self, etype: enums.EEtypes, nids:tuple[int,...], id:Optional[int], element_set:Optional[protocols.ISet]=None) -> int:
         """
         Adds an element to this mesh.
 
-        Is an element with the same id already exists, it is replaced.
+        If an element with the same id already exists, it is replaced.
+        if id is omitted, the next available id is used.
 
-        Args:
-            id (int): Id of the new element
+        Args:           
             etype (EEtypes): Type of the new Element
             nids (tuple[int,...]): node ids of the new Element
+            id (int, optional): Id of the new element
             element_set (ISet, optional): Set with type == ELEMENT where the new 
                         element should be added to. Defaults to None.
 
         Raises:
             ValueError: Raised if type of set is not ELEMENT
+
+        Returns:
+            (int): The id of the element
         """
         if element_set and element_set.type != enums.ESetTypes.ELEMENT:
             raise ValueError(f"set_type of element_set has to be {enums.ESetTypes.ELEMENT}, got {element_set}.")
         
+        if id is None: id = self.get_next_element_id()
         self.elements[id] = Element(id, etype, nids)
         if element_set:
             element_set.ids.add(id)
+        return id
 
     def add_surface(self, surface:protocols.ISurface):
         self.surfaces.append(surface)

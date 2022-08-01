@@ -18,11 +18,11 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Any
 from protocols import ISet
 from enums import ESetTypes
 
-@dataclass(frozen=True, slots=True)
+@dataclass
 class RigidBody:
     """
     Class to define a rigid body consisting of nodes or elements.
@@ -46,12 +46,14 @@ class RigidBody:
     desc:str = ''
     """A short description of this rigid body. This is written to the ccx input file."""
 
-    def __post_init__(self):
+    def __setattr__(self, name: str, value: Any) -> None:
 
-        if self.ref_node <= 0:
-            raise ValueError(f'ref_node must be greater than 0, got {self.ref_node}')
-        if self.rot_node is not None and self.rot_node <= 0:
-            raise ValueError(f'rot_node must be greater than 0, got {self.rot_node}')
+        if name == 'ref_node' and value <= 0:
+            raise ValueError(f'ref_node must be greater than 0, got {value}')
+        if name == 'rot_node' and value is not None and value <= 0:
+            raise ValueError(f'rot_node must be greater than 0, got {value}')
+
+        super().__setattr__(name, value)
 
     def __str__(self):
         s = '*RIGID BODY,'

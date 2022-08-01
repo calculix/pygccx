@@ -18,13 +18,13 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from dataclasses import dataclass
-from typing import Sequence
+from typing import Sequence, Any
 import numpy as np
 from enums import EOrientationSystems, EOrientationRotAxis
 
 number = int|float
 
-@dataclass(frozen=True, slots=True)
+@dataclass
 class Orientation:
 
     """
@@ -56,11 +56,11 @@ class Orientation:
     desc:str = ''
     """A short description of this Instance. This is written to the ccx input file."""
 
-    def __post_init__(self):
-        if len(self.pnt_a) != 3:
-            raise ValueError(f'pnt_a must have exactly 3 elements, got {len(self.pnt_a)}')
-        if len(self.pnt_b) != 3:
-            raise ValueError(f'pnt_b must have exactly 3 elements, got {len(self.pnt_b)}')
+    def __setattr__(self, name: str, value: Any) -> None:
+
+        if name in ['pnt_a', 'pnt_b'] and len(value) != 3:
+            raise ValueError(f'{name} must have exactly 3 elements, got {len(value)}')
+        super().__setattr__(name, value)
 
     def __str__(self):
         s = f'*ORIENTATION,NAME={self.name},SYSTEM={self.system.value}\n'

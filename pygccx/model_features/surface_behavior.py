@@ -18,14 +18,14 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from dataclasses import dataclass, field
-from typing import Optional, Iterable
+from typing import Optional, Iterable, Any
 from enums import EPressureOverclosures
 import numpy as np
 import numpy.typing as npt
 
 number = int|float
 
-@dataclass(frozen=True, slots=True)
+@dataclass
 class SurfaceBehavior:
     """ 
     Class to define the surface behavior of a surface interaction.
@@ -100,7 +100,18 @@ class SurfaceBehavior:
     desc:str = ''
     """A short description of this instance. This is written to the ccx input file."""
 
+    _is_initialized:bool = field(init=False, default=False)
+
+    def __setattr__(self, name: str, value: Any) -> None:
+        super().__setattr__(name, value)
+        self._validate()
+
     def __post_init__(self):
+        self._is_initialized = True
+
+    def _validate(self):
+
+        if not self._is_initialized: return 
         if self.pressure_overclosure == EPressureOverclosures.EXPONENTIAL:
             if self.c0 is None:
                 raise ValueError(f'c0 must be specified for pressure_overclosure == EXPONENTIAL')

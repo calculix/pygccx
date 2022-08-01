@@ -17,12 +17,12 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from dataclasses import dataclass
-from typing import Iterable, Optional
-from protocols import IStepFeature, ISet
+from dataclasses import dataclass, field
+from typing import Iterable, Optional, Any
+from protocols import IStepFeature
 from enums import EContactResults
 
-@dataclass(frozen=True, slots=True)
+@dataclass
 class ContactFile:
     """
     Class to select contact result entities for printing in file jobname.frd for
@@ -61,7 +61,17 @@ class ContactFile:
     desc:str = ''
     """A short description of this instance. This is written to the ccx input file."""
 
+    _is_initialized:bool = field(init=False, default=False)
+
+    def __setattr__(self, name: str, value: Any) -> None:
+        super().__setattr__(name, value)
+        self._validate()
+
     def __post_init__(self):
+        self._is_initialized = True
+
+    def _validate(self):
+        if not self._is_initialized: return
         if not self.entities:
             raise ValueError('entities must not be empty')
         if self.time_points and self.frequency != 1:

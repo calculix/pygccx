@@ -71,6 +71,3 @@ class TestAmplitude(TestCase):
         known += '  2.0000000e-01, -1.0000000e+00\n'
         known += '  3.0000000e-01,  3.0000000e+00\n'
         self.assertEqual(str(a), known)
-
-    def test_times_and_amps_defferent_length(self):
-        self.assertRaises(ValueError, Amplitude, 'TestAmp', [0.,.1,.2], [0,1,-1,3])

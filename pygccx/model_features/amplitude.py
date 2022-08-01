@@ -24,7 +24,7 @@ import numpy.typing as npt
 
 number = int|float
 
-@dataclass(frozen=True, slots=True)
+@dataclass
 class Amplitude:
     name:str
     times:Sequence[number]|npt.NDArray[np.float64]
@@ -33,10 +33,6 @@ class Amplitude:
     shift_x:Optional[number] = None
     shift_y:Optional[number] = None
     desc:str = ''
-
-    def __post_init__(self):
-        if len(self.times) != len(self.amps):
-            raise ValueError(f'times and amps mast have equal length, got {len(self.times)} and {len(self.amps)}')
 
     def __str__(self):
         s = f'*AMPLITUDE,NAME={self.name},'

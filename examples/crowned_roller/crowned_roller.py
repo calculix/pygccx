@@ -65,10 +65,8 @@ def main():
         # model.show_gmsh_gui()
         model.update_mesh_from_gmsh()
         mesh = model.mesh
-        trans_pilot = mesh.get_next_node_id()
-        mesh.add_node(trans_pilot,(0,10,0))
-        rot_pilot = mesh.get_next_node_id()
-        mesh.add_node(rot_pilot,(0,10,0))
+        trans_pilot = mesh.add_node((0,10,0))
+        rot_pilot = mesh.add_node((0,10,0))
 
         halve_space = mesh.get_el_set_by_name('HALVE_SPACE')
         roller = mesh.get_el_set_by_name('ROLLER')

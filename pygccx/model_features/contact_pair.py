@@ -17,15 +17,14 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from dataclasses import dataclass
-from multiprocessing.sharedctypes import Value
-from typing import Optional
+from dataclasses import dataclass, field
+from typing import Optional, Any
 from enums import EContactTypes, ESetTypes, ESurfTypes
 from protocols import IModelFeature, ISet, ISurface
 
 number = int|float
 
-@dataclass(frozen=True, slots=True)
+@dataclass
 class ContactPair:
     interaction:IModelFeature
     "Interaction instance"
@@ -48,7 +47,19 @@ class ContactPair:
     desc:str = ''
     """A short description of this Instance. This is written to the ccx input file."""
 
+    _is_initialized:bool = field(init=False, default=False)
+
+    def __setattr__(self, name: str, value: Any) -> None:
+        super().__setattr__(name, value)
+        self._validate()
+
     def __post_init__(self):
+        self._is_initialized = True # triggers first validation through __setattr__
+
+    def _validate(self):
+
+        if not self._is_initialized: return
+
         if self.ind_surf.type == ESurfTypes.NODE:
             raise ValueError('ind_surf must be of type EL_FACE')
         if self.type == EContactTypes.SURFACE_TO_SURFACE and self.dep_surf.type == ESurfTypes.NODE:

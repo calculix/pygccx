@@ -17,12 +17,12 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, InitVar
 from enums import EELasticTypes
 
 number = int|float
 
-@dataclass(frozen=True, slots=True)
+@dataclass
 class Elastic:
 
     """
@@ -34,15 +34,15 @@ class Elastic:
 
     """
 
-    elastic_params:tuple[number, ...]
+    elastic_params:InitVar[tuple[number, ...]]
     type:EELasticTypes = EELasticTypes.ISO
-    temp:number = 294.
+    temp:InitVar[number] = 294.
     name:str = ''
     desc:str = ''
-    _elastic_params_for_temps:list = field(default_factory=list, init=False)
+    elastic_params_for_temps:list = field(default_factory=list, init=False)
 
-    def __post_init__(self):
-        self.add_elastic_params_for_temp(self.temp, *self.elastic_params)
+    def __post_init__(self, elastic_params, temp):
+        self.add_elastic_params_for_temp(temp, *elastic_params)
 
 
     def add_elastic_params_for_temp(self, temp:number, *elastic_params:number): 
@@ -65,7 +65,7 @@ class Elastic:
 
         if len(elastic_params) != req_len[self.type]:
             raise ValueError(f"length of params must be {req_len[self.type]} for type == {self.type.name}, got {len(elastic_params)}")
-        self._elastic_params_for_temps.append(elastic_params + (temp,))
+        self.elastic_params_for_temps.append(elastic_params + (temp,))
 
 
     def __str__(self):
@@ -73,7 +73,7 @@ class Elastic:
         s = f'*ELASTIC,TYPE={self.type.value}\n'
         n = 8
 
-        for p in self._elastic_params_for_temps:
+        for p in self.elastic_params_for_temps:
             lines = [p[i:i+n] for i in range(0, len(p) or 1, n)]
             for i, line in enumerate(lines):
                 s += ','.join(map(str, line)) 

@@ -23,7 +23,7 @@ from enums import ESolvers
 
 number = int|float
 
-@dataclass(frozen=True, slots=True)
+@dataclass
 class Static:
     """
     Class to define a static analysis
@@ -46,7 +46,7 @@ class Static:
     solver:ESolvers = ESolvers.DEFAULT
     """Solver which should be used for the step"""
     direct:bool = False
-    """Flag is direct time stepping should be switched on. 
+    """Flag if direct time stepping should be switched on. 
     True switches off auto time stepping"""
     init_time_inc:number = 1.
     """Size of the first time increment of the step."""
@@ -65,9 +65,6 @@ class Static:
     """Name of this instance"""
     desc:str = ''
     """A short description of this instance. This is written to the ccx input file."""
-
-    def __post_init__(self):
-        pass
 
 
     def __str__(self):

@@ -60,10 +60,8 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     )
 
     # make a coupling for load application
-    # get the next free node id for the pilot node
-    pilot = mesh.get_next_node_id()
     # add pilot node to the mesh
-    mesh.add_node(pilot, (100, 5, 5))
+    pilot = mesh.add_node((100, 5, 5))
     # get the node set for load application
     load_set = mesh.get_node_set_by_name('LOAD')
     # make an element face based surface from the load node set

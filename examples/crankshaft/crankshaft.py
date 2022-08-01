@@ -41,16 +41,11 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     model.update_mesh_from_gmsh()
     mesh = model.mesh
     # Add remote nodes for rigid bodies and dcoupling
-    ref_fix1 = mesh.get_next_node_id()
-    mesh.add_node(ref_fix1, (0., 0., 40.))
-    rot_fix1 = mesh.get_next_node_id()
-    mesh.add_node(rot_fix1, (0., 0., 40.))
-    ref_fix2 = mesh.get_next_node_id()
-    mesh.add_node(ref_fix2, (0., 0., -110.))
-    rot_fix2 = mesh.get_next_node_id()
-    mesh.add_node(rot_fix2, (0., 0., -110.))
-    ref_load_1 = mesh.get_next_node_id()
-    mesh.add_node(ref_load_1, (0., 70., -22.5))
+    ref_fix1 = mesh.add_node((0., 0., 40.))
+    rot_fix1 = mesh.add_node((0., 0., 40.))
+    ref_fix2 = mesh.add_node((0., 0., -110.))
+    rot_fix2 = mesh.add_node((0., 0., -110.))
+    ref_load_1 = mesh.add_node((0., 70., -22.5))
 
     # Add surface for load application
     load_surf = model.mesh.add_surface_from_node_set(

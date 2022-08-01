@@ -18,12 +18,12 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import Optional, Any
 from enum import Enum
 from protocols import IStepFeature, ISurface
 from enums import ECouplingTypes, ESurfTypes
 
-@dataclass(frozen=True, slots=True)
+@dataclass
 class Coupling:
 
     type:ECouplingTypes
@@ -35,9 +35,11 @@ class Coupling:
     orientation:Optional[IStepFeature] = None
     desc:str = ''
 
-    def __post_init__(self):
-        if self.surface.type != ESurfTypes.EL_FACE:
-            raise ValueError(f'surf_type of surface must be EL_FACE, got {self.surface.type.name}')
+    def __setattr__(self, name: str, value: Any) -> None:
+        if name == 'surface':
+            if value.type != ESurfTypes.EL_FACE:
+                raise ValueError(f'type of surface must be EL_FACE, got {value.type.name}')
+        super().__setattr__(name, value)
 
     def __str__(self) -> str:
         

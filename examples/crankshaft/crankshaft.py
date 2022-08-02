@@ -15,6 +15,15 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with pygccx.  
 If not, see <http://www.gnu.org/licenses/>.
+
+===============================================================================
+Model of a crankshaft with a rotating load.
+
+used model features:
+Boundary, RigidBody, Coupling, Material, Elastic, SolidSection
+
+used step features:
+Step, Static, Cload, NodeFile, ElFile
 '''
 
 import sys, os

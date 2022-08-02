@@ -10,7 +10,7 @@
 - Postpro in CGX
 - Postpro in GMSH
 
-# Design rules
+# Design guide lines
 Provide the users the most support of theis IDEs. This means:
 - Use of type hints and protocolls where ever possible
 - No module, class, or class members without a docstring
@@ -19,12 +19,14 @@ Provide the users the most support of theis IDEs. This means:
 - Each Enum class name starts with an "E" and is placed in the modul "enums"
 
 Maintainability:
-- User depedancy injection and inversion of control
+- Use depedancy injection and inversion of control
 - write code against protocolls not implementations
 - Each protocoll class name starts with an "I" and is placed in the module "protocolls"
 - classes are only instanciated in class "Model" or by the user to pass it to other classes
 - write for every class a unit test with 100% coverage.
 - if possible, write an integation test (i.e. a ccx model which uses the new class / feature)
+- Use dataclasses 
+- Validate data in classes using \_\_setattr__ and raise exceptions accordingly.
 
 
 # Prerequisites

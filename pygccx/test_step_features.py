@@ -18,6 +18,7 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 import unittest
+from step_features.test.test_boundary import TestBoundary
 from step_features.test.test_step import TestStep
 from step_features.test.test_static import TestStatic
 from step_features.test.test_cload import TestCload

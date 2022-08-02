@@ -17,6 +17,7 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
+from .boundary import Boundary
 from .step import Step
 from .static import Static
 from .cload import Cload

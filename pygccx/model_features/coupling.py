@@ -17,7 +17,7 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Optional, Any
 from enum import Enum
 from protocols import IStepFeature, ISurface
@@ -25,15 +25,38 @@ from enums import ECouplingTypes, ESurfTypes
 
 @dataclass
 class Coupling:
+    """
+    Class to generate a kinematic or a distributing coupling.
+    This class combines the keyword *COUPLING with one of the 
+    keywords *DISTRIBUTING or *KINEMATIC depending on the selected type.
+
+    Args:
+        type: Type of the coupling. DISTRIBUTING or KINEMATIC
+        ref_node: Reference node id
+        surface: Dependant surface. Must be of type EL_FACE
+        name: Name of the coupling
+        first_dof: First dof to be used in the coupling
+        last_dof: Optional. Last dof to be used in the coupling. If omitted, only first_dof is used
+        orientation: Optional. Orientation object to assign a local coordinate system
+        desc: Optional. A short description of this instance. This is written to the ccx input file.
+    """
 
     type:ECouplingTypes
+    """Type of the coupling. DISTRIBUTING or KINEMATIC"""
     ref_node:int
+    """Reference node id"""
     surface:ISurface
+    """Dependant surface. Must be of type EL_FACE"""
     name:str 
+    """Name of the coupling"""
     first_dof:int
+    """First dof to be used in the coupling"""
     last_dof:Optional[int] = None
+    """Last dof to be used in the coupling. If omitted, only first_dof is used"""
     orientation:Optional[IStepFeature] = None
+    """Orientation object to assign a local coordinate system"""
     desc:str = ''
+    """A short description of this instance. This is written to the ccx input file."""
 
     def __setattr__(self, name: str, value: Any) -> None:
         if name == 'surface':

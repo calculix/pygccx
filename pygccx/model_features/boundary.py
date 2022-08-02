@@ -49,7 +49,9 @@ class Boundary():
     desc:str = ''
     """A short description of this Boundary. This is written to the ccx input file."""
 
-    conditions:list = field(default_factory=list, init=False)
+    conditions:list[tuple] = field(default_factory=list, init=False)
+    """List of conditions in the form:\n
+    [(nid_or_set, first_dof, last_dof), ...]"""
 
     def __post_init__(self, nid_or_set, first_dof, last_dof):
         self.add_condition(nid_or_set, first_dof, last_dof)

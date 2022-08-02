@@ -91,7 +91,9 @@ class Cload:
     desc:str = ''
     """A short description of this Cload. This is written to the ccx input file."""
 
-    loads:list = field(default_factory=list, init=False)
+    loads:list[tuple] = field(default_factory=list, init=False)
+    """List of loads in the form:\n
+    [(nid_or_set, dof, mag), ...]"""
 
     _is_initialized:bool = field(init=False, default=False)
 

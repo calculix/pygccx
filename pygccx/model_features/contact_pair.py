@@ -26,8 +26,28 @@ number = int|float
 
 @dataclass
 class ContactPair:
+    """
+    Class to express that two surfaces can make contact
+
+    Args:
+        interaction: Interaction instance
+        type: Contact type
+        dep_surf: Dependant Surface of type NODE or EL_FACE. 
+        If type==SURFACE_TO_SURFACE is selected, the dependant surface must be 
+        of type EL_FACE
+        ind_surf: Dependant Surface of type EL_FACE
+        small_sliding: Optional. Flag if small sliding should be active. If None:
+        Default for node-to-surface: small_sliding==False. 
+        For all other contact types it is True
+        adjust: Optional. If a node set is passed, all nodes in the set are adjusted 
+        at the start of the calculation. If a real number is passed, all nodes 
+        for which the clearance is smaller or equal to this number are adjusted.
+        name: Optional. The name of this Instance. Not used
+        desc: Optional. A short description of this Instance. This is written to the ccx input file.
+    
+    """
     interaction:IModelFeature
-    "Interaction instance"
+    """Interaction instance"""
     type:EContactTypes
     """Contact type"""
     dep_surf:ISurface

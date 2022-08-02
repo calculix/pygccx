@@ -26,13 +26,32 @@ number = int|float
 
 @dataclass
 class Amplitude:
+    """
+    Class to specify an amplitude history versus time
+
+    Args:
+        name: Name of this amplitude
+        times: Sequence of times. Same length as amps
+        amps: Sequence of amplitudes. Same langth as times
+        use_total_time: Optional. Flag if total time should be used
+        shift_x: Optional. Shift in X (time) direction
+        shift_y: Optional. Shift in Y (amplitude) direction
+        desc: Optional. A short description of this instance. This is written to the ccx input file.
+    """
     name:str
+    """Name of this amplitude"""
     times:Sequence[number]|npt.NDArray[np.float64]
+    """Sequence of times. Same length as amps"""
     amps:Sequence[number]|npt.NDArray[np.float64]
+    """Sequence of amplitudes. Same langth as times"""
     use_total_time:bool = False
+    """Flag if total time should be used"""
     shift_x:Optional[number] = None
+    """Shift in X (time) direction"""
     shift_y:Optional[number] = None
+    """Shift in Y (amplitude) direction"""
     desc:str = ''
+    """A short description of this instance. This is written to the ccx input file."""
 
     def __str__(self):
         s = f'*AMPLITUDE,NAME={self.name},'

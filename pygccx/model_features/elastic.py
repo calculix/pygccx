@@ -30,16 +30,29 @@ class Elastic:
 
     The elastic parameters for the first temperature have to be provided
     to the init of this class. Further sets to define temperature dependance
-    can be added by the method add_elastic_params_for_temp()
+    can be added by the method add_elastic_params_for_temp().
 
+    Args:
+        elastic_params: First set of elastic parameters
+        type: Type of elasticity. ISO, ORTHO, etc
+        temp: Optional. Temperature of first elastic parameter set
+        name: Optional. Name of this instance.
+        desc: Optional. A short description of this instance. This is written to the ccx input file.
     """
 
     elastic_params:InitVar[tuple[number, ...]]
+    """First set of elastic parameters"""
     type:EELasticTypes = EELasticTypes.ISO
+    """Type of elasticity. ISO, ORTHO, etc"""
     temp:InitVar[number] = 294.
+    """Temperature of first elastic parameter set"""
     name:str = ''
+    """Name of this instance."""
     desc:str = ''
-    elastic_params_for_temps:list = field(default_factory=list, init=False)
+    """A short description of this instance. This is written to the ccx input file."""
+    elastic_params_for_temps:list[tuple] = field(default_factory=list, init=False)
+    """List with temperature dependant elastic parameters in the form:\n
+    [(temp1, p11, p12, ...), (temp2, p21, p22, ...), ...]"""
 
     def __post_init__(self, elastic_params, temp):
         self.add_elastic_params_for_temp(temp, *elastic_params)

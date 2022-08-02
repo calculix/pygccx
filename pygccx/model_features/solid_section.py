@@ -24,11 +24,28 @@ from protocols import IModelFeature, ISet
 
 @dataclass
 class SolidSection:
+    """
+    Class to assign material properties to 3D, plane stress, plane
+    strain, axisymmetric and truss element set
+
+    Args:
+        elset: Element set where this solid section should be applied to.
+        material: Material object which should be appliet to elset.
+        orientation: Optional. Orientation system for material.
+        name: Optional. The name of this Instance. Not used.
+        desc: Optional. A short description of this Instance. This is written to the ccx input file.
+
+    """
     elset:ISet
+    """Element set where this solid section should be applied to."""
     material:IModelFeature
+    """Material object which should be appliet to elset"""
     orientation:Optional[IModelFeature] = None
+    """Orientation system for material"""
     name:str = ''
+    """The name of this Instance. Not used"""
     desc:str = ''
+    """A short description of this Instance. This is written to the ccx input file."""
 
     def __setattr__(self, name: str, value: Any) -> None:
 

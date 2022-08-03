@@ -121,8 +121,8 @@ class CoordinateSystem:
         Rotates this coordinate system about its x-axis by the given angle.
 
         Args:
-            ang (number): Rotation angle in rad
-            degrees (bool): Flag if ang is given in deg.
+            ang (number): Rotation angle 
+            degrees (bool): Flag if ang is given in deg. Default = False
         """
         self._rotate(0, ang, degrees)
 
@@ -131,8 +131,8 @@ class CoordinateSystem:
         Rotates this coordinate system about its y-axis by the given angle.
 
         Args:
-            ang (number): Rotation angle in rad
-            degrees (bool): Flag if ang is given in deg.
+            ang (number): Rotation angle 
+            degrees (bool): Flag if ang is given in deg. Default = False
         """
         self._rotate(1, ang, degrees)
 
@@ -141,8 +141,8 @@ class CoordinateSystem:
         Rotates this coordinate system about its z-axis by the given angle.
 
         Args:
-            ang (number): Rotation angle in rad
-            degrees (bool): Flag if ang is given in deg.
+            ang (number): Rotation angle 
+            degrees (bool): Flag if ang is given in deg. Default = False
         """
         self._rotate(2, ang, degrees)
 

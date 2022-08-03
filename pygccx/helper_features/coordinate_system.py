@@ -55,11 +55,11 @@ class CoordinateSystem:
         self.set_origin(origin)
         self.set_matrix(matrix)
 
-    def get_origin(self) -> np.ndarray:
+    def get_origin(self) -> npt.NDArray:
         """Gets the origin of this coordinate system as 1D numpy array"""
         return self._origin
 
-    def set_origin(self, origin:Sequence[number]):
+    def set_origin(self, origin:Sequence[number]|npt.NDArray):
         """
         Sets the origin of this coordinate system.
 
@@ -73,24 +73,24 @@ class CoordinateSystem:
             raise ValueError(f'origin must have a length of 3, got {len(origin)}')
         self._origin = np.array(origin, dtype=float)
 
-    def get_matrix(self) -> np.ndarray:
+    def get_matrix(self) -> npt.NDArray:
         """Gets the orientation matrix of this coordinate system as 2D numoy array.
-        row 0: vector of x axis
-        row 1: vector of y axis
-        row 2: vector of z axis
+        row 0: vector of x axis in global system
+        row 1: vector of y axis in global system
+        row 2: vector of z axis in global system
         """
         return self._matrix
 
-    def set_matrix(self, matrix:Sequence[Sequence[number]]):
+    def set_matrix(self, matrix:Sequence[Sequence[number]]|npt.NDArray):
         """
         Sets the orientation matrix of this coordinate system.
  
         Args:
             matrix (Sequence[Sequence[number]]): New matrix. Must be in the form 
                                                  [[nxx,nxy,nxz],[nyx,nyy,nyz],[nzx,nzy,nzz]]
-                                                 row 0: vector of x axis
-                                                 row 1: vector of y axis
-                                                 row 2: vector of z axis
+                                                 row 0: vector of x axis in global system
+                                                 row 1: vector of y axis in global system
+                                                 row 2: vector of z axis in global system
 
         Raises:
             ValueError: Raised if number of rows id not 3

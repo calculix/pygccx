@@ -21,6 +21,7 @@ from dataclasses import dataclass
 from typing import Sequence, Any
 import numpy as np
 from enums import EOrientationSystems, EOrientationRotAxis
+from protocols import ICoordinateSystem
 
 number = int|float
 
@@ -64,8 +65,28 @@ class Orientation:
 
     def __str__(self):
         s = f'*ORIENTATION,NAME={self.name},SYSTEM={self.system.value}\n'
-        s += f'{",".join(map(str,self.pnt_a))},{",".join(map(str,self.pnt_b))}\n'
+        s += f'{",".join(map(str, self.pnt_a))},{",".join(map(str, self.pnt_b))}\n'
         if self.rot_axis != EOrientationRotAxis.NONE and self.system == EOrientationSystems.RECTANGULAR:
             s += f'{self.rot_axis.value},{self.rot_angle}\n'
 
         return s
+
+    @classmethod
+    def from_coordinate_system(cls, cs:ICoordinateSystem):
+        """
+        Returns an Orientation object made from the given coordinate system.
+        The name of the orientation is the name of the coordinate system prefixed with 'OR_'
+        """
+
+        mat = cs.get_matrix()
+        ori = cs.get_origin()
+
+        if cs.type == EOrientationSystems.RECTANGULAR:       
+            pnt_a, pnt_b, _ = mat
+        else:
+            pnt_a, pnt_b = ori, ori + mat[2]
+
+        return cls('OR_' + cs.name, pnt_a, pnt_b, system=cs.type)
+
+
+        

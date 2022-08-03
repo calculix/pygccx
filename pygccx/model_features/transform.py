@@ -22,6 +22,7 @@ from typing import Sequence, Any
 import numpy as np
 from protocols import ISet
 from enums import EOrientationSystems, ESetTypes
+from protocols import ICoordinateSystem
 
 number = int|float
 
@@ -67,3 +68,18 @@ class Transform:
 
 
         return s
+
+    @classmethod
+    def from_coordinate_system(cls, nset:ISet, cs:ICoordinateSystem):
+        """
+        Returns a Transform object made from the given node set and coordinate system.
+        """
+        mat = cs.get_matrix()
+        ori = cs.get_origin()
+
+        if cs.type == EOrientationSystems.RECTANGULAR:       
+            pnt_a, pnt_b, _ = mat
+        else:
+            pnt_a, pnt_b = ori, ori + mat[2]
+
+        return cls(nset, pnt_a, pnt_b, system=cs.type)

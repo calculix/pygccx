@@ -17,8 +17,11 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from typing import Protocol, runtime_checkable
+from typing import Protocol, runtime_checkable, Sequence
+import numpy.typing as npt
 import enums
+
+number = int|float
 
 class ISurface(Protocol):
     name:str
@@ -91,3 +94,22 @@ class IStep(Protocol):
     step_features:list[IStepFeature]
 
     def add_step_features(self, *step_features:IStepFeature): ...
+
+class ICoordinateSystem(Protocol):
+    name:str
+    """Name of this coordinate system. Used if an Orientation or Transform is
+        instanciated using this coordinate system."""
+    type:enums.EOrientationSystems
+    """Type of this coordinate system"""
+
+    def get_origin(self) -> npt.NDArray:
+        """Gets the origin of this coordinate system as 1D numpy array"""
+        ...
+
+    def get_matrix(self) -> npt.NDArray:
+        """Gets the orientation matrix of this coordinate system as 2D numoy array.
+        row 0: vector of x axis in global system
+        row 1: vector of y axis in global system
+        row 2: vector of z axis in global system
+        """
+        ...

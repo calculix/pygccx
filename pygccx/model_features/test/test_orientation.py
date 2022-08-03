@@ -18,9 +18,24 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
+from dataclasses import dataclass
 from model_features import Orientation
 from enums import EOrientationRotAxis, EOrientationSystems
 from protocols import IModelFeature
+import numpy as np
+
+@dataclass
+class CoordinateSystemMock:
+    name:str
+    type:EOrientationSystems
+
+    def get_origin(self):
+        return np.array([1,2,3])
+
+    def get_matrix(self):
+        return np.array([[0, 0, 1],
+                        [0, -1, 0],
+                        [1, 0, 0]])
 
 class TestOrientation(TestCase):
 
@@ -60,3 +75,17 @@ class TestOrientation(TestCase):
 
     def test_pnt_b_false_length(self):
         self.assertRaises(ValueError, Orientation, 'O1', (0,0,1), (1,0))
+
+    def test_from_coordinate_system_rectangular(self):
+        cs = CoordinateSystemMock('C1', EOrientationSystems.RECTANGULAR)
+        o = Orientation.from_coordinate_system(cs)
+        known = '*ORIENTATION,NAME=OR_C1,SYSTEM=RECTANGULAR\n'
+        known += '0,0,1,0,-1,0\n'
+        self.assertEqual(str(o), known)
+    
+    def test_from_coordinate_system_cylindrical(self):
+        cs = CoordinateSystemMock('C1', EOrientationSystems.CYLINDRICAL)
+        o = Orientation.from_coordinate_system(cs)
+        known = '*ORIENTATION,NAME=OR_C1,SYSTEM=CYLINDRICAL\n'
+        known += '1,2,3,2,2,3\n'
+        self.assertEqual(str(o), known)

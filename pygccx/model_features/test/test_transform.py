@@ -22,6 +22,7 @@ from dataclasses import dataclass
 from model_features import Transform
 from enums import EOrientationSystems, ESetTypes
 from protocols import IModelFeature
+import numpy as np
 
 @dataclass()
 class SetMock():
@@ -29,6 +30,19 @@ class SetMock():
     type:ESetTypes
     dim:int
     ids:set[int]
+
+@dataclass
+class CoordinateSystemMock:
+    name:str
+    type:EOrientationSystems
+
+    def get_origin(self):
+        return np.array([1,2,3])
+
+    def get_matrix(self):
+        return np.array([[0, 0, 1],
+                        [0, -1, 0],
+                        [1, 0, 0]])
 
 class TestTransform(TestCase):
 
@@ -60,3 +74,17 @@ class TestTransform(TestCase):
     def test_wrong_set_type(self):
         eset = SetMock('S2', ESetTypes.ELEMENT, 3, set([1,2,3,4]))
         self.assertRaises(ValueError, Transform, eset, (0,0,1), (1,0))
+
+    def test_from_coordinate_system_rectangular(self):
+        cs = CoordinateSystemMock('C1', EOrientationSystems.RECTANGULAR)
+        t = Transform.from_coordinate_system(self.nset, cs)
+        known = '*TRANSFORM,NSET=S1,TYPE=R\n'
+        known += '0,0,1,0,-1,0\n'
+        self.assertEqual(str(t), known)
+    
+    def test_from_coordinate_system_cylindrical(self):
+        cs = CoordinateSystemMock('C1', EOrientationSystems.CYLINDRICAL)
+        t = Transform.from_coordinate_system(self.nset, cs)
+        known = '*TRANSFORM,NSET=S1,TYPE=C\n'
+        known += '1,2,3,2,2,3\n'
+        self.assertEqual(str(t), known)

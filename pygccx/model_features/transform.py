@@ -20,39 +20,36 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass
 from typing import Sequence, Any
 import numpy as np
-from enums import EOrientationSystems, EOrientationRotAxis
+from protocols import ISet
+from enums import EOrientationSystems, ESetTypes
 
 number = int|float
 
 @dataclass
-class Orientation:
+class Transform:
 
     """
     Class to specify a local axis system X'-Y'-Z' to be used for
-    defining material properties.
+    defining SPC's, MPC's and nodal force.
 
     Args:
-        name: Name of this Orientation
+        nset: Node set for which the transformation applies.
         pnt_a: First point to define the orientation in the form [x, y, z]
         pnt_b: Second point to define the orientation in the form [x, y, z]
-        system: Optional. Type of the orientation system
-        rot_axis: Optional. Axis for additional rotation (only if system == RECTANGULAR)
-        rot_angle: Optional. Additional rotation angle about rot_axis (only if system == RECTANGULAR and rot_axis != NONE
+        system: Optional. Type of the transformation system
+        name: Optional. Name of this instance
         desc: Optional. A short description of this Instance. This is written to the ccx input file.
     """
-
-    name:str  
-    """Name of this Orientation"""
+    nset:ISet
+    """Node set for which the transformation applies."""
     pnt_a:Sequence[number]|np.ndarray
     """First point to define the orientation in the form [x, y, z]"""
     pnt_b:Sequence[number]|np.ndarray
     """Second point to define the orientation in the form [x, y, z]"""
     system: EOrientationSystems = EOrientationSystems.RECTANGULAR
-    """Type of the orientation system"""
-    rot_axis:EOrientationRotAxis = EOrientationRotAxis.NONE
-    """Axis for additional rotation (only if system == RECTANGULAR)"""
-    rot_angle:float = 0.
-    """Additional rotation angle about rot_axis (only if system == RECTANGULAR and rot_axis != NONE"""
+    """Type of the transformation system"""
+    name:str = ''
+    """Name of this instance"""
     desc:str = ''
     """A short description of this Instance. This is written to the ccx input file."""
 
@@ -60,12 +57,13 @@ class Orientation:
 
         if name in ['pnt_a', 'pnt_b'] and len(value) != 3:
             raise ValueError(f'{name} must have exactly 3 elements, got {len(value)}')
+        if name == 'nset' and value.type != ESetTypes.NODE:
+            raise ValueError(f'Set type of {name} must be NODE, got {value.type.name}' )
         super().__setattr__(name, value)
 
     def __str__(self):
-        s = f'*ORIENTATION,NAME={self.name},SYSTEM={self.system.value}\n'
+        s = f'*TRANSFORM,NSET={self.nset.name},TYPE={self.system.value[0]}\n'
         s += f'{",".join(map(str,self.pnt_a))},{",".join(map(str,self.pnt_b))}\n'
-        if self.rot_axis != EOrientationRotAxis.NONE and self.system == EOrientationSystems.RECTANGULAR:
-            s += f'{self.rot_axis.value},{self.rot_angle}\n'
+
 
         return s

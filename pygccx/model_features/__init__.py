@@ -24,6 +24,7 @@ from .material import Material
 from .elastic import Elastic
 from .plastic import Plastic, CyclicHardening
 from .orientation import Orientation
+from .transform import Transform
 from .solid_section import SolidSection
 from .coupling import Coupling
 from .friction import Friction

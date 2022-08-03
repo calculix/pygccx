@@ -25,6 +25,7 @@ from model_features.test.test_material import TestMaterial
 from model_features.test.test_elastic import TestElastic
 from model_features.test.test_plastic import TestPlastic
 from model_features.test.test_cyclic_hardening import TestCyclicHardening
+from model_features.test.test_transform import TestTransform
 from model_features.test.test_orientation import TestOrientation
 from model_features.test.test_solid_section import TestSolidSection
 from model_features.test.test_coupling import TestCoupling

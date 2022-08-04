@@ -18,11 +18,12 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from dataclasses import dataclass, field
-from typing import Sequence, Optional
+from typing import Iterable, Sequence, Optional
 import numpy as np
 import enums
 from . import surface
 from .element import Element
+from .set import Set
 import protocols
 
 numeric = int|float|np.number
@@ -55,6 +56,7 @@ class Mesh:
     def get_set_by_name_and_type(self, set_name:str, set_type:enums.ESetTypes=enums.ESetTypes.NODE) -> protocols.ISet:
         """Gets a set by its name and type. If no such set exists an exception is raised."""
 
+        set_name = set_name.upper()
         if set_type == enums.ESetTypes.NODE:
             for s in self.node_sets:
                 if s.name == set_name: return s
@@ -200,6 +202,47 @@ class Mesh:
             element_set.ids.add(id)
         return id
 
+    def add_set(self, set_name:str, set_type:enums.ESetTypes, ids:Iterable[int], dim:int=0) -> protocols.ISet:
+        """
+        Adds a new set to the mesh.
+
+        If a mesh with the same name already exists (case insensitive) an exception is raised.\n
+        
+        The optional parameter dim gives the dimension of the underlying geometry.
+        When a mesh is updated from gmsh, this parameter is set automatically for each 
+        node or element set.
+        When you create a new set with this method, dim is only important if the new set 
+        is of type NODE and should be used to create an element face surface via 
+        get_surface_from_node_set or add_surface_from_node_set.
+        In this case make sure all node ids are on the surface of the model and dim = 2.
+
+        Args:
+            set_name (str): Name of the new set
+            set_type (enums.ESetTypes): type of the new set
+            ids (Iterable[int]): ids (node or element) of the new set
+            dim (int, optional): Dimension of the set. Defaults to 0.
+
+        Raises:
+            ValueError: Raised if set with set_name already exists (case insensitive)
+
+        Returns:
+            ISet: The new set
+        """
+
+        set_name = set_name.upper()
+        # check if set with name already exists
+        sets_to_check = self.node_sets if set_type == enums.ESetTypes.NODE else self.element_sets
+        for s in sets_to_check:
+            if s.name == set_name: 
+                raise ValueError(f'Set with name {set_name} already exists')
+
+        new_set = Set(set_name, set_type, dim, set(ids))
+        if set_type == enums.ESetTypes.NODE:
+            self.node_sets.append(new_set)
+        else:
+            self.element_sets.append(new_set)
+        return new_set
+
     def add_surface(self, surface:protocols.ISurface):
         self.surfaces.append(surface)
 
@@ -214,7 +257,7 @@ class Mesh:
             f.write_ccx(buffer)
 
     def _write_nodes_ccx(self, buffer:list[str]):
-        buffer += ['*NODE, NSET=Nall']
+        buffer += ['*NODE']
         for nid, coords in self.nodes.items():
             buffer += ['{},{:15.7e},{:15.7e},{:15.7e}'.format(nid, *coords)]
 
@@ -222,7 +265,7 @@ class Mesh:
         EEtypes = {e.type for e in self.elements.values()}
         for etype in EEtypes:
             elems = (e for e in self.elements.values() if e.type==etype)
-            buffer += [f'*ELEMENT, TYPE={etype.name}, ELSET=Eall']
+            buffer += [f'*ELEMENT, TYPE={etype.name}']
             for e in elems:
                 lst = (e.id,) + e.node_ids
                 _write_as_chunks(buffer, lst, 16)

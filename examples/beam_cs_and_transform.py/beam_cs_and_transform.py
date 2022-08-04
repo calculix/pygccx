@@ -18,22 +18,17 @@ If not, see <http://www.gnu.org/licenses/>.
 
 ===============================================================================
 Model of a beam with one end fixed and a force at the other end.
-Material is linear elastic and ideal plastic with a yield strength 
-of 355N/mm²
-Analytic solution of plastic collapse load:
-W_pl = b*h**2 / 4 = 10**3 / 4 = 250mm³
-M_pl = W_pl * R_e = 250mm³ * 355N/mm² = 88750Nmm
-F_pl = M_pl / L = 88750Nmm / 100mm = 887.5N
-
-Because each node at the fixed end is constrained in all 3 dofs
-and due to the coarse mesh, a load of 950N can be applied without 
-plastic collapse.
+The force is rotated 45° around the global z-axis using a
+CoordinateSystem and Transform.
 
 used model features:
-Boundary, Coupling, Material, Elastic, Plastic, SolidSection
+Boundary, Transform, Coupling (kinematic), Material, Elastic, SolidSection
 
 used step features:
 Step, Static, Cload, NodeFile, ElFile
+
+used helper features:
+CoordinateSystem
 '''
 
 import sys, os
@@ -43,6 +38,7 @@ sys.path += ['../../', '../../pygccx']
 from pygccx import model as ccx_model
 from pygccx import model_features as mf
 from pygccx import step_features as sf
+from pygccx import helper_features as hf
 from pygccx import enums
 
 # change this paths to your location of ccx and cgx
@@ -50,7 +46,7 @@ CCX_PATH = os.path.join('../../', 'executables', 'calculix_2.19_4win', 'ccx_stat
 CGX_PATH = os.path.join('../../', 'executables', 'calculix_2.19_4win', 'cgx_GLUT.exe')
 
 with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
-    model.jobname = 'beam_plastic'
+    model.jobname = 'beam_cs_and_transform'
 
     # make model of a beam in gmsh
     # Cross section = 10x10; Length = 100
@@ -81,33 +77,38 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     # make a coupling for load application
     # add pilot node to the mesh
     pilot = mesh.add_node((100, 5, 5))
+
+    # rotate pilot 45° around global z
+    pilot_set = mesh.add_set('pilot_set', enums.ESetTypes.NODE, [pilot]) # set is needed for Transform
+    cs = hf.CoordinateSystem('C1')
+    cs.rotate_z(45, degrees=True)
     # get the node set for load application
     load_set = mesh.get_node_set_by_name('LOAD')
     # make an element face based surface from the load node set
     # and add it to the mesh
     load_surf = mesh.add_surface_from_node_set('LOAD_SURF', load_set, enums.ESurfTypes.EL_FACE)
-    # make a distributing coupling and add it to the mdel features
+    # make a Transform and a kinamatic coupling and add it to the model features
     model.add_model_features(
-        mf.Coupling(enums.ECouplingTypes.DISTRIBUTING, pilot, load_surf, 'COUP_LOAD', 1,3)
+        mf.Transform.from_coordinate_system(pilot_set, cs),
+        mf.Coupling(enums.ECouplingTypes.KINEMATIC, pilot, load_surf, 'COUP_LOAD', 1,3)
     )
 
     # material
     mat = mf.Material('STEEL')
     el = mf.Elastic((210000., 0.3))
-    pl = mf.Plastic(stress=[355.,355.], strain=[0., 1.])
     sos = mf.SolidSection(
         elset=mesh.get_el_set_by_name('BEAM'),
         material = mat
     )
-    model.add_model_features(mat, el, pl, sos)
+    model.add_model_features(mat, el, sos)
 
     # step
     step = sf.Step(nlgeom=True) # new steg with NLGEOM
     model.add_steps(step)       # add step to model
     # add features to the step
     step.add_step_features(
-        sf.Static(),                # step is a static one
-        sf.Cload(pilot, 2, 950),  # force in Y at pilot node with magnitude 20000
+        sf.Static(enums.ESolvers.SPOOLES),                # step is a static one
+        sf.Cload(pilot, 1, 20000),  # force in Y at pilot node with magnitude 20000
         sf.NodeFile([enums.ENodeResults.U]), # request deformations in frd file
         sf.ElFile([enums.EElementResults.S]) # request stresses in frd file
     )

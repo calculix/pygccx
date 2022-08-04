@@ -120,5 +120,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
 
     model.solve()
 
+    model.show_results_in_cgx()
+
 
 

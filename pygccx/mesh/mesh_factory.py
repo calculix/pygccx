@@ -77,7 +77,7 @@ def _get_physical_groups_from_gmsh(gmsh:'_gmsh') -> tuple[list[ISet], list[ISet]
     for dim, tag in gmsh.model.getPhysicalGroups():
         pg_name = gmsh.model.getPhysicalName(dim, tag)
         nids, _ = gmsh.model.mesh.getNodesForPhysicalGroup(dim, tag)
-        node_sets.append(Set(name=pg_name, 
+        node_sets.append(Set(name=pg_name.upper(), 
                         type=ESetTypes.NODE, 
                         dim=dim, ids=set(nids)))
         
@@ -87,7 +87,7 @@ def _get_physical_groups_from_gmsh(gmsh:'_gmsh') -> tuple[list[ISet], list[ISet]
                 _ , et_eids, _ = gmsh.model.mesh.getElements(dim, geo_id)
                 for eids in et_eids: element_ids.update(eids)
 
-            element_sets.append(Set(name=pg_name, 
+            element_sets.append(Set(name=pg_name.upper(), 
                                 type=ESetTypes.ELEMENT, 
                                 dim=dim, ids=element_ids))
     return node_sets, element_sets

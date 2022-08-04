@@ -85,7 +85,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     mat = mf.Material('STEEL')
     el = mf.Elastic((210000., 0.3))
     sos = mf.SolidSection(
-        elset=mesh.get_set_by_name_and_type('BEAM', enums.ESetTypes.ELEMENT),
+        elset=mesh.get_el_set_by_name('BEAM'),
         material = mat
     )
     model.add_model_features(mat, el, sos)

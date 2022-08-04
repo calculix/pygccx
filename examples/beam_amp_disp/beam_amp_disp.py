@@ -40,7 +40,7 @@ CCX_PATH = os.path.join('../../', 'executables', 'calculix_2.19_4win', 'ccx_stat
 CGX_PATH = os.path.join('../../', 'executables', 'calculix_2.19_4win', 'cgx_GLUT.exe')
 
 with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
-    model.jobname = 'beam'
+    model.jobname = 'beam_amp_disp'
 
     # make model of a beam in gmsh
     # Cross section = 10x10; Length = 100
@@ -79,7 +79,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     mat = mf.Material('STEEL')
     el = mf.Elastic((210000., 0.3))
     sos = mf.SolidSection(
-        elset=mesh.get_set_by_name_and_type('BEAM', enums.ESetTypes.ELEMENT),
+        elset=mesh.get_el_set_by_name('BEAM'),
         material = mat
     )
     model.add_model_features(mat, el, sos)

@@ -67,8 +67,10 @@ class Model:
         via gmsh gui or gmsh api.
         After the call, the mesh object of this model is updated.
 
-        Important: The mesh object of this model will be raplaced by a new one.
-        All changes since the last update (added nodes, surfaces etc) will be lost.
+        Important: 
+        - Only nodes, elements and sets are processed ehich are in physical groups.
+        - The mesh object of this model will be raplaced by a new one.
+          All changes since the last update (added nodes, surfaces etc) will be lost.
         """
         self.mesh = msh.mesh_factory.mesh_from_gmsh(self.get_gmsh())  # type: ignore
 

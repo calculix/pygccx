@@ -44,14 +44,11 @@ class Mesh:
         """Gets a tuple of elements for the given ids"""
         return tuple(self.elements[eid] for eid in ids)
 
-    def get_elements_by_type(self, type:enums.EEtypes) -> tuple[protocols.IElement]:
-        """Gets a tuple of elements with the given element type.
-        
-        if etype is a str, etype must be a valid ccx element name.
-        """         
-        if not isinstance(type, enums.EEtypes):
-            raise TypeError(f'etype has to be of type EEtypes, got {type(type)}')
-        return tuple(e for e in self.elements.values() if e.type == type)
+    def get_elements_by_type(self, etype:enums.EEtypes) -> tuple[protocols.IElement]:
+        """Gets a tuple of elements with the given element type."""         
+        if not isinstance(etype, enums.EEtypes):
+            raise TypeError(f'etype has to be of type EEtypes, got {type(etype)}')
+        return tuple(e for e in self.elements.values() if e.type == etype)
 
     def get_set_by_name_and_type(self, set_name:str, set_type:enums.ESetTypes=enums.ESetTypes.NODE) -> protocols.ISet:
         """Gets a set by its name and type. If no such set exists an exception is raised."""
@@ -100,7 +97,7 @@ class Mesh:
             name (str): The name of the returned surface
             node_set (ISet): The node set for which the surface should be returned.
                             Type of node_set must be NODE and dim must be 2.
-            stype: (ESurfTypes): Enum of which type the returned surface should be
+            surf_type: (ESurfTypes): Enum of which type the returned surface should be
 
         Raises:
             ValueError: Raised if type of node_set is not NODE
@@ -122,7 +119,7 @@ class Mesh:
             name (str): The name of the returned surface
             node_set (ISet): The node set for which the surface should be returned.
                             Type of node_set must be NODE and dim must be 2.
-            stype: (ESurfTypes): Enum of which type the returned surface should be
+            surf_type: (ESurfTypes): Enum of which type the returned surface should be
 
         Raises:
             ValueError: Raised if type of node_set is not NODE
@@ -245,6 +242,24 @@ class Mesh:
 
     def add_surface(self, surface:protocols.ISurface):
         self.surfaces.append(surface)
+
+    def change_element_type(self, etype:enums.EEtypes, ids:Iterable[int]):
+        """
+        Changes the element type for all elements with the given ids.
+
+        The given etype must be compatible with the current element type.
+        I.e. C3D20R -> C3D20 or C3D8I -> C3D8R
+
+        Raises:
+            ValueError: Raised if given etype is not compatible with current element type
+
+        Args:
+            etype (enums.EEtypes): The new element type
+            ids (Iterable[int]): Ids of elements to change
+        """
+
+        for id in ids:
+            self.elements[id].type = etype
 
     def write_ccx(self, buffer:list[str]):
 

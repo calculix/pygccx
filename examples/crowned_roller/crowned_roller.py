@@ -27,7 +27,7 @@ Roller and plate are made out of steel. E = 210000N/mm², mue = 0.3
 The roller is modeled as a rigid body, so the Emodule of the plate must be halved.
 See https://elib.dlr.de/12219/1/diss_041005_duplex_rgb.pdf page 45, eq. 3.12
 
-The analysis constits of two load steps.
+The analysis consists of two load steps.
 Step 1: Load of 40_000N is applied at center of roller (no tilting)
         Analytic solution:
         p_h = 271 * sqrt(F / (D * L)) 
@@ -132,11 +132,6 @@ def main():
         # model.show_model_in_cgx()
         model.solve()
         model.show_results_in_cgx()
-
-
-
-
-
 
 def build_mesh_in_gmsh(gmsh:ccx_model._gmsh):  # type: ignore
 

@@ -28,17 +28,17 @@ class Clearance:
     Class to define a clearance between the slave and master surface of a contact pair
 
     Args:
-        master: Independant surface
-        slave: Dependant surface
+        master: Independent surface
+        slave: Dependent surface
         value: Clearance value
         name: Optional. The name of this Instance. Not used
         desc: Optional. A short description of this Instance. This is written to the ccx input file.
     """
     
     master:ISurface
-    """Independant surface"""
+    """Independent surface"""
     slave:ISurface
-    """Dependant surface"""
+    """Dependent surface"""
     value:number
     """Clearance value"""
     name:str = ''

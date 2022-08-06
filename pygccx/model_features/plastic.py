@@ -32,13 +32,13 @@ class CyclicHardening:
     the Plastic object hardening == EHardeningRules.COMBINED is selected
 
     The plastic stress and strain for the first temperature have to be provided
-    to the init of this class. Further sets to define temperature dependance
+    to the init of this class. Further sets to define temperature dependence
     can be added by the method add_plastic_params_for_temp()
 
     Args:
         stress: Sequence of mises stresses for first temperature. Must be same 
                 length as strain
-        strain: Sequence of equ. plastic srains for first temperature. Must be 
+        strain: Sequence of equ. plastic strains for first temperature. Must be 
                 same length as stress
         temp: temperature of first stress-strain table
         name: Optional. Name of this instance
@@ -50,7 +50,7 @@ class CyclicHardening:
     stress:InitVar[Sequence[number]|npt.NDArray[np.float64]]
     """Sequence of mises stresses for first temperature. Must be same length as strain"""
     strain:InitVar[Sequence[number]|npt.NDArray[np.float64]]
-    """Sequence of equ. plastic srains for first temperature. Must be same length as stress"""
+    """Sequence of equ. plastic strains for first temperature. Must be same length as stress"""
     temp:InitVar[number] = 294.
     """temperature of first stress-strain table"""
     name:str = ''
@@ -71,14 +71,14 @@ class CyclicHardening:
         Args:
             temp (number): temperature for this 
             stress (Sequence[number]|npt.NDArray[np.float64]): Sequence of mises stresses. Must be same length as strain
-            strain (Sequence[number]|npt.NDArray[np.float64]): Sequence of equ. plastic srains. Must be same length as stress
+            strain (Sequence[number]|npt.NDArray[np.float64]): Sequence of equ. plastic strains. Must be same length as stress
 
         Raises:
             ValueError: Raised if stress and strain have different lengths.
         """
 
         if len(stress) != len(strain):
-            raise ValueError(f"stress and srain must have equal length.")
+            raise ValueError(f"stress and strain must have equal length.")
         self.plastic_params_for_temps.append((temp, stress, strain))
 
 
@@ -101,13 +101,13 @@ class Plastic(CyclicHardening):
     Class to define the plastic properties of a material
 
     The plastic stress and strain for the first temperature have to be provided
-    to the init of this class. Further sets to define temperature dependance
+    to the init of this class. Further sets to define temperature dependence
     can be added by the method add_plastic_params_for_temp()
 
     Args:
         stress: Sequence of mises stresses for first temperature. Must be same 
                 length as strain
-        strain: Sequence of equ. plastic srains for first temperature. Must be 
+        strain: Sequence of equ. plastic strains for first temperature. Must be 
                 same length as stress
         temp: temperature of first stress-strain table
         hardening: Optional. Hardening rule

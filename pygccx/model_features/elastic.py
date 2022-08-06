@@ -29,7 +29,7 @@ class Elastic:
     Class to define the elastic properties of a material
 
     The elastic parameters for the first temperature have to be provided
-    to the init of this class. Further sets to define temperature dependance
+    to the init of this class. Further sets to define temperature dependence
     can be added by the method add_elastic_params_for_temp().
 
     Args:
@@ -51,7 +51,7 @@ class Elastic:
     desc:str = ''
     """A short description of this instance. This is written to the ccx input file."""
     elastic_params_for_temps:list[tuple] = field(default_factory=list, init=False)
-    """List with temperature dependant elastic parameters in the form:\n
+    """List with temperature dependent elastic parameters in the form:\n
     [(temp1, p11, p12, ...), (temp2, p21, p22, ...), ...]"""
 
     def __post_init__(self, elastic_params, temp):
@@ -64,7 +64,7 @@ class Elastic:
 
         This method can be used for all elastic types (ISO, ORTHO, ...).
         The order of values in params is the same as stated in the ccx docs.
-        I.e. for ISO: params = (emodule, mue)
+        I.e. for ISO: params = (Emodule, mue)
 
         Args:
             params (tuple[int | float,...]): elastic parameters. Depends on selected type. See ccx docs.

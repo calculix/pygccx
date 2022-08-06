@@ -32,7 +32,7 @@ class Amplitude:
     Args:
         name: Name of this amplitude
         times: Sequence of times. Same length as amps
-        amps: Sequence of amplitudes. Same langth as times
+        amps: Sequence of amplitudes. Same length as times
         use_total_time: Optional. Flag if total time should be used
         shift_x: Optional. Shift in X (time) direction
         shift_y: Optional. Shift in Y (amplitude) direction
@@ -43,7 +43,7 @@ class Amplitude:
     times:Sequence[number]|npt.NDArray[np.float64]
     """Sequence of times. Same length as amps"""
     amps:Sequence[number]|npt.NDArray[np.float64]
-    """Sequence of amplitudes. Same langth as times"""
+    """Sequence of amplitudes. Same length as times"""
     use_total_time:bool = False
     """Flag if total time should be used"""
     shift_x:Optional[number] = None

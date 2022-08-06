@@ -49,7 +49,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     # translate to ccx mesh 
     model.update_mesh_from_gmsh()
     mesh = model.mesh
-    # Add remote nodes for rigid bodies and dcoupling
+    # Add remote nodes for rigid bodies and coupling
     ref_fix1 = mesh.add_node((0., 0., 40.))
     rot_fix1 = mesh.add_node((0., 0., 40.))
     ref_fix2 = mesh.add_node((0., 0., -110.))

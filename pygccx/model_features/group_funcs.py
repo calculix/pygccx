@@ -33,7 +33,7 @@ def make_contact(name:str, contact_type:EContactTypes, dep_surf:ISurface, ind_su
     """
     Function to set up a contact.
 
-    This function creates all the neccessary model features needed for a contact and
+    This function creates all the necessary model features needed for a contact and
     returns this features in a tuple
 
     Args:
@@ -47,7 +47,7 @@ def make_contact(name:str, contact_type:EContactTypes, dep_surf:ISurface, ind_su
         small_sliding (bool): Optional. Flag is small sliding should be turned on. 
                               Only for contact_type NODE_TO_SURFACE.
         adjust (number | ISet): Optional. Value or node set for contact adjustment
-        clearance (number): Optional. Clarance between contact surfaces. 
+        clearance (number): Optional. Clearance between contact surfaces. 
                             If specified, a Clearance object is generated.
         mue (number): Friction coefficient. If specified, a Friction object is generated.
         lam (number): Stick slope. Must be provided if mue is given
@@ -66,7 +66,7 @@ def make_contact(name:str, contact_type:EContactTypes, dep_surf:ISurface, ind_su
 
 
     Raises:
-        ValueError: Raised if Mue is specified, but not lam
+        ValueError: Raised if mue is specified, but not lam
 
     Returns:
         tuple[IModelFeatures]: All model features needed for this contact

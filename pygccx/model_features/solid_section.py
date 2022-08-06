@@ -30,7 +30,7 @@ class SolidSection:
 
     Args:
         elset: Element set where this solid section should be applied to.
-        material: Material object which should be appliet to elset.
+        material: Material object which should be applies to elset.
         orientation: Optional. Orientation system for material.
         name: Optional. The name of this Instance. Not used.
         desc: Optional. A short description of this Instance. This is written to the ccx input file.
@@ -39,7 +39,7 @@ class SolidSection:
     elset:ISet
     """Element set where this solid section should be applied to."""
     material:IModelFeature
-    """Material object which should be appliet to elset"""
+    """Material object which should be applies to elset"""
     orientation:Optional[IModelFeature] = None
     """Orientation system for material"""
     name:str = ''

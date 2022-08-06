@@ -75,7 +75,7 @@ CORNER_NODE_COUNT_TABLE = {
 
 def get_element_dimension(type:EEtypes) -> int:
     """
-    Gets the dimension vor the given element type.
+    Gets the dimension for the given element type.
 
     0 for point elements (i.e. SPRING1, MASS), 
     1 for line elements (i.e. SPRING2, B32)
@@ -96,7 +96,7 @@ def get_element_dimension(type:EEtypes) -> int:
     elif type in (EEtypes.C3D4, EEtypes.C3D8, EEtypes.C3D8R, EEtypes.C3D8I, EEtypes.C3D6, 
                    EEtypes.C3D10, EEtypes.C3D20, EEtypes.C3D20R, EEtypes.C3D15):
         return 3
-    raise ValueError(f'unkown etype, got{type}')
+    raise ValueError(f'unknown etype, got{type}')
 
 @dataclass()
 class Element:

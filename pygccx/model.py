@@ -32,15 +32,15 @@ from protocols import IModelFeature, IStep
 class Model:
 
     ccx_path:str
-    """Path to ccx executeable"""
+    """Path to ccx executable"""
     cgx_path:str
-    """Path to cgx executeable"""
+    """Path to cgx executable"""
     jobname:str = 'jobname'
     """Name of the job. All generated files will have this name."""
     working_dir:str = os.getcwd()
     """Working directory where all generated files will be stored"""
     mesh:msh.Mesh = field(init=False)
-    """Mesh objct of this model"""
+    """Mesh object of this model"""
     model_features:list[IModelFeature] = field(default_factory=list, init=False)
     """List of model features (aka model keywords)"""
     steps:list[IStep] = field(default_factory=list, init=False)
@@ -68,14 +68,14 @@ class Model:
         After the call, the mesh object of this model is updated.
 
         Important: 
-        - Only nodes, elements and sets are processed ehich are in physical groups.
-        - The mesh object of this model will be raplaced by a new one.
-          All changes since the last update (added nodes, surfaces etc) will be lost.
+        - Only nodes, elements and sets are processed which are in physical groups.
+        - The mesh object of this model will be replaced by a new one.
+          All changes since the last update (added nodes, surfaces etc.) will be lost.
         """
         self.mesh = msh.mesh_factory.mesh_from_gmsh(self.get_gmsh())  # type: ignore
 
     def write_ccx_input_file(self):
-        """Wirtes the ccx input file 'jobname.inp' to the working directory."""
+        """Writes the ccx input file 'jobname.inp' to the working directory."""
 
         buffer = []
         self.mesh.write_ccx(buffer)

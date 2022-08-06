@@ -30,8 +30,8 @@ class Step:
     Args:
         nlgeom: Optional. Flag if geometrically nonlinear effects should be taken into account.
                 If True, nlgeom is turned on for this and all subsequent steps
-                if False, nlgeom is explicitely turned off for this and all subsequent steps
-                if None, nlgeom is ommitted for this step and the value from the previous step remains active
+                if False, nlgeom is explicitly turned off for this and all subsequent steps
+                if None, nlgeom is omitted for this step and the value from the previous step remains active
         inc: Optional. Max number of increments for this step
         amplitude: Optional. Enum if load should be ramped (default) or stepped within this step
         perturbation: Optional. Flag if the last non-perturbative step should be used as a preload

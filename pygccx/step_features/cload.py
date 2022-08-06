@@ -44,7 +44,7 @@ class Cload:
                     that the loading is real or in-phase.
                     2 indicates that the load is imaginary or equivalently 
                     phaseshifted by 90deg
-        sector: Optional. Sector where the force schould be applied. Only for 
+        sector: Optional. Sector where the force should be applied. Only for 
                     *MODAL DYNAMIC and *STEADY STATE DYNAMICS calculations with cyclic 
                     symmetry
         submodel: Optional. Specifies that the forces in the specified degrees of freedom 
@@ -75,7 +75,7 @@ class Cload:
     """ only for *STEADY STATE DYNAMICS calculations. 1 means that the loading is real or in-phase.
     2 indicates that the load is imaginary or equivalently phaseshifted by 90◦"""
     sector:Optional[int] = None
-    """Sector where the force schould be applied. Only for *MODAL DYNAMIC and
+    """Sector where the force should be applied. Only for *MODAL DYNAMIC and
     *STEADY STATE DYNAMICS calculations with cyclic symmetry"""
     submodel:bool = False
     """Specifies that the forces in the specified degrees of freedom of the listed nodes will be 

@@ -32,12 +32,12 @@ class CoordinateSystem:
     """
     Class representing a local coordinate system.
 
-    Objects of this class can be used to instanciate an Orientation or a Transform
+    Objects of this class can be used to instantiate an Orientation or a Transform
     or to convert results (displacements, stresses, ...) from the global system.
 
     Args:
         name: Name of this coordinate system. Used if an Orientation or Transform is
-            instanciated using this coordinate system.
+            instantiated using this coordinate system.
         type: Optional. Type of this coordinate system. Default is RECTANGULAR
         origin: Optional. Origin of this coordinate system Default is (0.,0.,0.)
         matrix: Optional. Orientation matrix of this coordinate system. 
@@ -74,7 +74,7 @@ class CoordinateSystem:
         self._origin = np.array(origin, dtype=float)
 
     def get_matrix(self) -> npt.NDArray:
-        """Gets the orientation matrix of this coordinate system as 2D numoy array.
+        """Gets the orientation matrix of this coordinate system as 2D numpy array.
         row 0: vector of x axis in global system
         row 1: vector of y axis in global system
         row 2: vector of z axis in global system

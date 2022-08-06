@@ -45,7 +45,7 @@ class SurfaceBehavior:
                 area). Default value 10−3.
                 
         p0: Mandatory for pressure_overclosure == EXPONENTIAL\n
-            Contact pressureat zero distance
+            Contact pressure at zero distance
 
         k:bMandatory for pressure_overclosure == LINEAR and TIED\n
             Slope of the pressure-overclosure curve
@@ -79,7 +79,7 @@ class SurfaceBehavior:
 
     p0:Optional[number] = field(kw_only=True, default=None)
     """Mandatory for pressure_overclosure == EXPONENTIAL\n
-    Contact pressureat zero distance"""
+    Contact pressure at zero distance"""
 
     k:Optional[number] = field(kw_only=True, default=None)
     """Mandatory for pressure_overclosure == LINEAR and TIED\n

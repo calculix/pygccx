@@ -43,7 +43,7 @@ class EEtypes(IntEnum):
     GAPUNI = auto()
     """Two-node unidirectional gap element"""
     DASHPOTA = auto()
-    """Two-node 3-dimensional dashpo"""
+    """Two-node 3-dimensional dashpot"""
     SPRING2 = auto()
     """Two-node 3-dimensional spring"""
     SPRINGA = auto()
@@ -58,7 +58,7 @@ class EEtypes(IntEnum):
     C3D8I = auto()
     """Incompatible mode eight-node brick element"""
     C3D6 = auto()
-    """Six-node wedge elemen"""
+    """Six-node wedge element"""
     C3D10 = auto()
     """Ten-node tetrahedral element"""
     C3D20 = auto()
@@ -66,7 +66,7 @@ class EEtypes(IntEnum):
     C3D20R = auto()  
     """Twenty-node brick element with reduced integration"""
     C3D15 = auto()
-    """Fifteen-node wedge elemen"""
+    """Fifteen-node wedge element"""
 
 class ECouplingTypes(str, Enum):
     DISTRIBUTING = '*DISTRIBUTING'
@@ -75,10 +75,9 @@ class ECouplingTypes(str, Enum):
         among the nodes belonging to the element surface. The weights are calculated
         from the area within the surface the reference node corresponds with."""
     KINEMATIC = '*KINEMATIC'
-    """A kinematic con-
-        straint specifies that the displacement in a certain direction i at a node corre-
-        sponds to the rigid body motion of this node about a reference node. Therefore,
-        the location of the reference node is important."""
+    """A kinematic constraint specifies that the displacement in a certain direction i  
+       at a node corresponds to the rigid body motion of this node about a reference node. 
+       Therefore, the location of the reference node is important."""
 
 class EELasticTypes(str, Enum):
     ISO = 'ISO'
@@ -86,7 +85,7 @@ class EELasticTypes(str, Enum):
     ORTHO = 'ORTHO'
     """Orthotropic"""
     ENGINEERING_CONSTANTS = 'ENGINEERING CONSTANTS'
-    """Orthotropic defined by eng. constants """
+    """Orthotropic defined by engineering constants """
     ANISO = 'ANISO'
     """Anisotropic"""
 
@@ -152,8 +151,8 @@ class ENodeResults(str, Enum):
 class EElementResults(str, Enum):
     CEEQ= 'CEEQ'
     """equivalent creep strain (is converted internally into PEEQ
-        since the viscoplastic theory does not distinguish between the two; conse-
-        quently, the user will find PEEQ in the frd file, not CEEQ."""
+        since the viscoplastic theory does not distinguish between the two; 
+        consequently, the user will find PEEQ in the frd file, not CEEQ."""
     E = 'E'
     """strain. This is the total
         Lagrangian strain for (hyper)elastic materials and incremental plasticity
@@ -201,14 +200,13 @@ class EElementResults(str, Enum):
         irrespective whether these output requests are on the same keyword card
         or on different keyword cards)"""
     THE = 'THE'
-    """strain. This is the thermal strain calculated by sub-
-        tracting the mechanical strain (extrapolated to the nodes) from the total
-        strain (extrapolated to the nodes) at the nodes. Selection of THE triggers
-        the selection of E and ME. This is needed to ensure that E (the total
-        strain) and ME (the mechanical strain) are extrapolated to the nodes."""
+    """strain. This is the thermal strain calculated by subtracting the mechanical 
+       strain (extrapolated to the nodes) from the total strain (extrapolated to the nodes) 
+       at the nodes. Selection of THE triggers the selection of E and ME. This is needed 
+       to ensure that E (the total strain) and ME (the mechanical strain) are extrapolated 
+       to the nodes."""
     ZZS = 'ZZS'
-    """Zienkiewicz-Zhu improved stress. Notice that ZZS and ERR are mutually ex-
-        clusive."""
+    """Zienkiewicz-Zhu improved stress. Notice that ZZS and ERR are mutually exclusive."""
 
 class EContactResults(str, Enum):
     CDIS = 'CDIS'

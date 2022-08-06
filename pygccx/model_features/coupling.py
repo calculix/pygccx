@@ -33,7 +33,7 @@ class Coupling:
     Args:
         type: Type of the coupling. DISTRIBUTING or KINEMATIC
         ref_node: Reference node id
-        surface: Dependant surface. Must be of type EL_FACE
+        surface: Dependent surface. Must be of type EL_FACE
         name: Name of the coupling
         first_dof: First dof to be used in the coupling
         last_dof: Optional. Last dof to be used in the coupling. If omitted, only first_dof is used
@@ -46,7 +46,7 @@ class Coupling:
     ref_node:int
     """Reference node id"""
     surface:ISurface
-    """Dependant surface. Must be of type EL_FACE"""
+    """Dependent surface. Must be of type EL_FACE"""
     name:str 
     """Name of the coupling"""
     first_dof:int

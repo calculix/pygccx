@@ -24,7 +24,7 @@ from protocols import ISet
 @dataclass
 class Boundary():
     """
-    Class representing a homogenious boundary.
+    Class representing a homogeneous boundary.
 
     The first condition (first line under the *BOUNDARY keyword) has
     to be provided to the init of this class. Further conditions can be added

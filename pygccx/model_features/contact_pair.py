@@ -32,10 +32,10 @@ class ContactPair:
     Args:
         interaction: Interaction instance
         type: Contact type
-        dep_surf: Dependant Surface of type NODE or EL_FACE. 
-        If type==SURFACE_TO_SURFACE is selected, the dependant surface must be 
+        dep_surf: Dependent Surface of type NODE or EL_FACE. 
+        If type==SURFACE_TO_SURFACE is selected, the dependent surface must be 
         of type EL_FACE
-        ind_surf: Dependant Surface of type EL_FACE
+        ind_surf: Independent Surface of type EL_FACE
         small_sliding: Optional. Flag if small sliding should be active. If None:
         Default for node-to-surface: small_sliding==False. 
         For all other contact types it is True
@@ -51,10 +51,10 @@ class ContactPair:
     type:EContactTypes
     """Contact type"""
     dep_surf:ISurface
-    """Dependant Surface of type NODE or EL_FACE. If type==SURFACE_TO_SURFACE is selected,
-    the dependant surface must be of type EL_FACE"""
+    """Dependent Surface of type NODE or EL_FACE. If type==SURFACE_TO_SURFACE is selected,
+    the dependent surface must be of type EL_FACE"""
     ind_surf:ISurface
-    """Dependant Surface of type EL_FACE"""
+    """Independent Surface of type EL_FACE"""
     small_sliding:bool = False
     """Flag if small sliding should be active. If None:
     Default for node-to-surface: small_sliding==False. For all other contact types it is True"""

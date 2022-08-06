@@ -79,14 +79,14 @@ class IModelFeature(Protocol):
     name:str
     """Gets the name of this model feature"""
     desc:str
-    """Gets the dircription of this model feature. This will alse be written to the ccx input file"""
+    """Gets the description of this model feature. This will also be written to the ccx input file"""
 
 @runtime_checkable
 class IStepFeature(Protocol):
     name:str
     """Gets the name of this model feature"""
     desc:str
-    """Gets the dircription of this model feature. This will alse be written to the ccx input file"""
+    """Gets the description of this model feature. This will also be written to the ccx input file"""
 
 @runtime_checkable
 class IStep(Protocol):
@@ -98,7 +98,7 @@ class IStep(Protocol):
 class ICoordinateSystem(Protocol):
     name:str
     """Name of this coordinate system. Used if an Orientation or Transform is
-        instanciated using this coordinate system."""
+        instantiated using this coordinate system."""
     type:enums.EOrientationSystems
     """Type of this coordinate system"""
 
@@ -107,7 +107,7 @@ class ICoordinateSystem(Protocol):
         ...
 
     def get_matrix(self) -> npt.NDArray:
-        """Gets the orientation matrix of this coordinate system as 2D numoy array.
+        """Gets the orientation matrix of this coordinate system as 2D numpy array.
         row 0: vector of x axis in global system
         row 1: vector of y axis in global system
         row 2: vector of z axis in global system

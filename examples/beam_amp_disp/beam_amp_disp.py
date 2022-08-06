@@ -57,7 +57,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
 
     # translate the mesh to ccx
     # this translates all nodes, elements, node sets and element sets
-    # from gmsh to ccx. All the entities are then accessable through 
+    # from gmsh to ccx. All the entities are then accessible through 
     # model.mesh
     model.update_mesh_from_gmsh()
     mesh = model.mesh
@@ -85,7 +85,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     model.add_model_features(mat, el, sos)
 
     # step
-    step = sf.Step(nlgeom=True) # new steg with NLGEOM
+    step = sf.Step(nlgeom=True) # new step with NLGEOM
     model.add_steps(step)       # add step to model
     # add features to the step
     step.add_step_features(

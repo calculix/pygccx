@@ -64,7 +64,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
 
     # fix the left end
     fix_set = model.mesh.get_node_set_by_name('FIX')
-    model.add_model_features(
+    model.add_model_keywords(
         mk.Boundary(fix_set, first_dof=1, last_dof=3)
     )
 
@@ -73,7 +73,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
 
     # make amplitude
     amp = mk.Amplitude('A1', times=[0,0.5,1], amps=[0,0.1,1])
-    model.add_model_features(amp)
+    model.add_model_keywords(amp)
 
     # material
     mat = mk.Material('STEEL')
@@ -82,13 +82,13 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
         elset=mesh.get_el_set_by_name('BEAM'),
         material = mat
     )
-    model.add_model_features(mat, el, sos)
+    model.add_model_keywords(mat, el, sos)
 
     # step
     step = sk.Step(nlgeom=True) # new step with NLGEOM
     model.add_steps(step)       # add step to model
     # add features to the step
-    step.add_step_features(
+    step.add_step_keywords(
         sk.Static(direct=True,init_time_inc=0.5),                # step is a static one
         sk.Boundary(load_set, 2, 2, amplitude=amp),  # displacement in Y at tip with magnitude 2
         sk.NodeFile([enums.ENodeResults.U]), # request deformations in frd file

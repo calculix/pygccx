@@ -84,7 +84,7 @@ def main():
         fix_y = mesh.get_node_set_by_name('FIX_Y')
         fix_x = mesh.get_node_set_by_name('FIX_X')
 
-        model.add_model_features(
+        model.add_model_keywords(
             mk.RigidBody(roller, trans_pilot, rot_pilot)
         )
 
@@ -94,7 +94,7 @@ def main():
         boundary.add_condition(rot_pilot,1,2)
         boundary.add_condition(trans_pilot,1)
         boundary.add_condition(trans_pilot,3)
-        model.add_model_features(boundary)
+        model.add_model_keywords(boundary)
 
         target_surf = mesh.add_surface_from_node_set('TARGET_SURF', target, enums.ESurfTypes.EL_FACE)
         contact_surf = mesh.add_surface_from_node_set('CONTACT_SURF', contact, enums.ESurfTypes.EL_FACE)
@@ -104,16 +104,16 @@ def main():
                                             adjust=1e-5,
                                             k=210000*50, sig_inf = .1)
 
-        model.add_model_features(*contact_features)
+        model.add_model_keywords(*contact_features)
 
         mat = mk.Material('STEEL')
         el = mk.Elastic((210000/2, 0.3))
         sos1 = mk.SolidSection(plate, mat)
         sos2 = mk.SolidSection(roller, mat)
-        model.add_model_features(mat,el,sos1, sos2)
+        model.add_model_keywords(mat,el,sos1, sos2)
 
         step_1 = sk.Step()
-        step_1.add_step_features(
+        step_1.add_step_keywords(
             sk.Static(init_time_inc=0.01),
             sk.Cload(trans_pilot,2,-20000),
             sk.NodeFile([enums.ENodeResults.U]),
@@ -121,7 +121,7 @@ def main():
             sk.ContactFile([enums.EContactResults.CDIS])
         )
         step_2 = sk.Step()
-        step_2.add_step_features(
+        step_2.add_step_keywords(
             sk.Static(),
             sk.Cload(rot_pilot,3,-20000 * 2), # note cload of step 1 is still active
             sk.NodeFile([enums.ENodeResults.U]),

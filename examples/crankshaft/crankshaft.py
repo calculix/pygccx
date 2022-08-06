@@ -64,7 +64,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     )
 
     # Add Rigid Bodies
-    model.add_model_features(
+    model.add_model_keywords(
         mk.RigidBody(
             set=mesh.get_node_set_by_name('FIX1'),
             ref_node=ref_fix1,
@@ -80,12 +80,12 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     )
 
     # Add load distributing
-    model.add_model_features(
+    model.add_model_keywords(
         mk.Coupling(enums.ECouplingTypes.DISTRIBUTING, ref_node=ref_load_1, surface=load_surf, name='C1', first_dof=1, last_dof=3),
     )
 
     # Add boundaries
-    model.add_model_features(
+    model.add_model_keywords(
         mk.Boundary(ref_fix1, 1, 3, desc='Fixed support'),
         mk.Boundary(ref_fix2, 1, 2, desc='Loose support'),
         mk.Boundary(rot_fix2, 3, desc='Torsional support')
@@ -93,7 +93,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
 
     # Add material
     steel = mk.Material('Steel', desc='Material for crankshaft')
-    model.add_model_features(
+    model.add_model_keywords(
         steel,
         mk.Elastic((210000., 0.3)),
         mk.SolidSection(elset=mesh.get_el_set_by_name('Crankshaft'),
@@ -107,7 +107,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
         step = sk.Step(nlgeom=True)  
         load = sk.Cload(ref_load_1 , 1, fx)
         load.add_load(ref_load_1, 2, fy)
-        step.add_step_features(
+        step.add_step_keywords(
             sk.Static(direct=True),
             load,
             sk.NodeFile([enums.ENodeResults.U]),

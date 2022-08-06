@@ -64,7 +64,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
 
     # fix the left end
     fix_set = model.mesh.get_node_set_by_name('FIX')
-    model.add_model_features(
+    model.add_model_keywords(
         mk.Boundary(fix_set, first_dof=1, last_dof=3)
     )
 
@@ -77,7 +77,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     # and add it to the mesh
     load_surf = mesh.add_surface_from_node_set('LOAD_SURF', load_set, enums.ESurfTypes.EL_FACE)
     # make a distributing coupling and add it to the model features
-    model.add_model_features(
+    model.add_model_keywords(
         mk.Coupling(enums.ECouplingTypes.DISTRIBUTING, pilot, load_surf, 'COUP_LOAD', 1,3)
     )
 
@@ -88,13 +88,13 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
         elset=mesh.get_el_set_by_name('BEAM'),
         material = mat
     )
-    model.add_model_features(mat, el, sos)
+    model.add_model_keywords(mat, el, sos)
 
     # step
     step = sk.Step(nlgeom=True) # new step with NLGEOM
     model.add_steps(step)       # add step to model
     # add features to the step
-    step.add_step_features(
+    step.add_step_keywords(
         sk.Static(),                # step is a static one
         sk.Cload(pilot, 2, 20000),  # force in Y at pilot node with magnitude 20000
         sk.NodeFile([enums.ENodeResults.U]), # request deformations in frd file

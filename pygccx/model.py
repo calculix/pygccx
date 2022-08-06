@@ -117,7 +117,7 @@ class Model:
         with open(filename, 'w') as f:
             f.writelines(f'{s}\n' for s in buffer)
 
-    def add_model_features(self, *model_features:IModelFeature):
+    def add_model_keywords(self, *model_features:IModelFeature):
         """Adds the given model features to this model"""
         self.model_features.extend(model_features)
 

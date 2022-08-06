@@ -93,7 +93,7 @@ class IStep(Protocol):
     desc:str
     step_features:list[IStepFeature]
 
-    def add_step_features(self, *step_features:IStepFeature): ...
+    def add_step_keywords(self, *step_features:IStepFeature): ...
 
 class ICoordinateSystem(Protocol):
     name:str

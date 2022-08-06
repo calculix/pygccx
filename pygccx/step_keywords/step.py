@@ -57,7 +57,7 @@ class Step:
         super().__setattr__(name, value)
             
 
-    def add_step_features(self, *step_features:IStepFeature):
+    def add_step_keywords(self, *step_features:IStepFeature):
         """Adds the given step features to this step"""
         self.step_features.extend(step_features)
 

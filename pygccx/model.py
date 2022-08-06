@@ -20,12 +20,15 @@ If not, see <http://www.gnu.org/licenses/>.
 import os
 import subprocess
 from dataclasses import dataclass, field
+from typing import Optional
 
 import gmsh as _gmsh
+
 _gmsh.initialize()
 _gmsh.option.setNumber("Mesh.SecondOrderIncomplete", 1)
 
 import mesh as msh
+import enums
 from protocols import IModelFeature, IStep
 
 @dataclass
@@ -60,7 +63,7 @@ class Model:
         try: self.get_gmsh().fltk.run()
         except: pass
 
-    def update_mesh_from_gmsh(self):
+    def update_mesh_from_gmsh(self, type_mapping:Optional[dict[int, enums.EEtypes]]=None):
         """
         Updates the mesh of this model from gmsh model. 
         Call this method every time you have made changes to the gmsh model 
@@ -68,11 +71,20 @@ class Model:
         After the call, the mesh object of this model is updated.
 
         Important: 
+        - Only solid elements are processed
         - Only nodes, elements and sets are processed which are in physical groups.
         - The mesh object of this model will be replaced by a new one.
           All changes since the last update (added nodes, surfaces etc.) will be lost.
+        
+        If type_mapping is omitted, the default mapping from gmsh element type number to ccx is:
+        {4 : C3D4, 5 : C3D8I, 6 : C3D6, 11 : C3D10, 17 : C3D20R, 18 : C3D15}
+
+        Args:
+            type_mapping (dict[int, EEtypes], optional): A dictionary for mapping gmsh element type 
+            numbers to ccx element type enums. If provided, it is used to update the default type mapping dict.
         """
-        self.mesh = msh.mesh_factory.mesh_from_gmsh(self.get_gmsh())  # type: ignore
+        
+        self.mesh = msh.mesh_factory.mesh_from_gmsh(self.get_gmsh(), type_mapping)  # type: ignore
 
     def write_ccx_input_file(self):
         """Writes the ccx input file 'jobname.inp' to the working directory."""

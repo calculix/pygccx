@@ -17,7 +17,7 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 from . import Mesh, Element, Set
 from enums import EEtypes, ESetTypes
 from protocols import IElement, ISet
@@ -31,7 +31,16 @@ GMSH_2_CCX_ETYPE_MAP = {
     6 : EEtypes.C3D6,
     11: EEtypes.C3D10,
     17: EEtypes.C3D20R,  
-    18: EEtypes.C3D15,
+    18: EEtypes.C3D15
+}
+
+GMSH_2_CCX_ALLOWED_MAPPING = {
+    4 : (EEtypes.C3D4,),
+    5 : (EEtypes.C3D8I, EEtypes.C3D8, EEtypes.C3D8R),
+    6 : (EEtypes.C3D6,),
+    11: (EEtypes.C3D10,),
+    17: (EEtypes.C3D20R, EEtypes.C3D20),
+    18: (EEtypes.C3D15,)
 }
 
 GMSH_2_CCX_NODE_MAP = {
@@ -52,10 +61,10 @@ GMSH_2_CCX_NODE_MAP = {
 def set_gmsh_2_ccx_etype_map(gmsh_etype:int, ccx_etype:EEtypes):
     GMSH_2_CCX_ETYPE_MAP[gmsh_etype] = ccx_etype
 
-def mesh_from_gmsh(gmsh:'_gmsh') -> Mesh:  # type: ignore
+def mesh_from_gmsh(gmsh:'_gmsh', type_mapping:Optional[dict[int, EEtypes]]=None) -> Mesh:  # type: ignore
 
     nodes = _get_nodes_from_gmsh(gmsh)
-    elems = _get_elements_from_gmsh(gmsh)
+    elems = _get_elements_from_gmsh(gmsh, type_mapping)
     node_sets, element_sets = _get_physical_groups_from_gmsh(gmsh)
     return Mesh(nodes, elems, node_sets, element_sets) 
 
@@ -64,7 +73,12 @@ def _get_nodes_from_gmsh(gmsh:'_gmsh') -> dict[int, tuple[float, float, float]]:
     nids, ncoords, _ = gmsh.model.mesh.get_nodes()
     return {int(nid): tuple(coords) for nid, coords in zip(nids, ncoords.reshape((-1,3)))}  # type: ignore
 
-def _get_elements_from_gmsh(gmsh:'_gmsh') -> dict[int, IElement]:  # type: ignore
+def _get_elements_from_gmsh(gmsh:'_gmsh', type_mapping:Optional[dict[int, EEtypes]]=None) -> dict[int, IElement]:  # type: ignore
+
+    etype_map = GMSH_2_CCX_ETYPE_MAP.copy()
+    if type_mapping:
+        _check_type_mapping(type_mapping) 
+        etype_map.update(type_mapping)
 
     elems = {}
     EEtypes, eids, nids = gmsh.model.mesh.getElements(3)
@@ -73,9 +87,20 @@ def _get_elements_from_gmsh(gmsh:'_gmsh') -> dict[int, IElement]:  # type: ignor
         for e_id, e_nids in zip(et_eids, et_nids):
             elems[e_id] = Element(
                 int(e_id), 
-                GMSH_2_CCX_ETYPE_MAP[et], 
+                etype_map[et], 
                 _reorder_nodes_from_gmsh_2_ccx(et, e_nids))
     return elems
+
+def _check_type_mapping(type_mapping:dict[int, EEtypes]):
+
+    for gt, ccxt in type_mapping.items():
+        if gt not in GMSH_2_CCX_ETYPE_MAP:
+            raise ValueError(f'{gt} is not a supported gmsh element type number.')
+
+        allowed_types = GMSH_2_CCX_ALLOWED_MAPPING[gt]
+        if ccxt not in allowed_types:
+            allowed_str = ','.join([x.name for x in allowed_types])
+            raise ValueError(f'gmsh type {gt} can not be mapped to {ccxt.name}. Only {allowed_str} are allowed')
 
 def _reorder_nodes_from_gmsh_2_ccx(gmsh_etype:int, nids) -> tuple[int, ...]:
     ccx_indices = GMSH_2_CCX_NODE_MAP.get(gmsh_etype)

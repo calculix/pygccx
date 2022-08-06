@@ -20,25 +20,38 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass
 from typing import Any
 
+from protocols import ISet
+from enums import ESetTypes
+
+number = int|float
+
 @dataclass
-class Material:
+class Mass:
     """
-    Class to indicate the start of a material definition
+    Class to specify the nodal mass in MASS elements 
 
     Args:
-        name: Name of this material up to 80 characters
-        desc: Optional. A short description of this Material. This is written to the ccx input file.
+        elset: Element set for which this mass applies
+        mass: Mass of each element belonging to elset
+        name: Optional. Name of this instance
+        desc: Optional. A short description of this instance. This is written to the ccx input file.
     """
-    name:str
-    """Name of this material up to 80 characters"""
+    elset: ISet
+    """Element set for which this mass applies"""
+    mass: number
+    """Mass of each element belonging to elset"""
+    name:str = ''
+    """Name of this instance"""
     desc:str = ''
-    """A short description of this Material. This is written to the ccx input file"""
+    """A short description of this instance. This is written to the ccx input file"""
 
     def __setattr__(self, name: str, value: Any) -> None:
 
-        if name == 'name' and len(value) > 80:
-            raise ValueError(f'name can only contain up to 80 characters, got {len(value)}')
+        if name == 'elset' and value.type != ESetTypes.ELEMENT:
+            raise ValueError(f'Set type of elset must be ELEMENT, got {value.name}')
         super().__setattr__(name, value)         
 
     def __str__(self):
-        return f'*MATERIAL,NAME={self.name}\n'
+        s = f'*MASS,ELSET={self.elset.name}\n'
+        s += f'{self.mass:.7e}\n'
+        return s

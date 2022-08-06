@@ -1,12 +1,17 @@
 Hello every one,
 
-as I have written in my thread "boolen" I'm currently working on a python framework for building
-and solving CCX models.
-Now my project has reached a certain level and I want to make it open source.
+as I have written in my thread "Boolean-like parameters in ccx input keywords", I'm currently working on a python framework for building
+and solving CalculiX models.
+Now my project has reached a certain level and I want to make it open source under the GPL V3.
 
-Ich würde mich freuen, wenn sich jemand das Projekt anschauen möchte. Viellwicht möchte auch jemand 
-an der Entwicklung teilnehmen. Es gibt noch sehr viel zu tun:
-Implementing new keywords, writing tests, writing more and/or better documentation, refactoring, 
-improving usability and a lot of discussion.
 Here is the GitHub link:
 https://github.com/FrozenWinterheart/pygccx_project.git
+
+I would appreciate if anyone would like to take a look or try it out. Maybe someone would like
+to contribute. There is still a lot to do:
+Implementing new keywords, writing tests, writing more and/or better documentation, refactoring, 
+improving usability and a lot of discussion.
+
+To get a first impression, look at the files in the examples folder.
+
+

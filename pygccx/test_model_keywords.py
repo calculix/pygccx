@@ -21,6 +21,7 @@ import unittest
 from model_keywords.test.test_amplitude import TestAmplitude
 from model_keywords.test.test_boundary import TestBoundary
 from model_keywords.test.test_rigid_body import TestRigidBody
+from model_keywords.test.test_mass import TestMass
 from model_keywords.test.test_material import TestMaterial
 from model_keywords.test.test_elastic import TestElastic
 from model_keywords.test.test_plastic import TestPlastic

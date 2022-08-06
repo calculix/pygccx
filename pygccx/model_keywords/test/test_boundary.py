@@ -19,7 +19,7 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from model_features import Boundary
+from model_keywords import Boundary
 from enums import ESetTypes
 from protocols import IModelFeature
 

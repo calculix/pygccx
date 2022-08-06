@@ -14,7 +14,7 @@ in pygccx.
 
 Look in the examples folder for a quick start and to learn more about how to use pygccx.
 
-ATM no postprocessing capabilities are implemented.<br>
+ATM no postprocessing capabilities are implemented. This is one of next mile stones.<br>
 
 # Install Pygccx
 Up to now there is no pip package. To use pygccx do the following:
@@ -24,18 +24,45 @@ Up to now there is no pip package. To use pygccx do the following:
 - Append the path to pygccx to sys.path
 - Now import pygccx should work
 
-
-# Planned capabilities of Pygccx:
+# Capabilities of Pygccx:
 - Static analysis of 3D structures (only solid elements, no shells or beams)
 - Build geometry and mesh using Gmsh-Python API
 - Read and convert 3D mesh (only nodes, sets and solid elements) from GMSH to CCX
 - Add additional abstract elements (SPRING, GAP, MASS) to model
-- Support of all CCX keywords for static analysis
-- Writing of CCX input file
+- Writing of CCX input file<br>
+    - Implemented model keywords:
+        - *AMPLIUTUDE
+        - *BOUNDARY (homogenous)
+        - *CLEARANCE
+        - *CONTACT PAIR
+        - *COUPLING
+        - *EALSTIC
+        - *FRICTION
+        - *MATERIAL
+        - ORIENTATION
+        - *PLASTIC
+        - *RIGID BODY
+        - *SOLID SECTION
+        - *SURFACE BEHAVIOR
+        - *SURFACE INTERACTION
+        - *TRANSFORM <br>
+    - Implemented step keywords:
+        - *BOUNDARY (inhomogenous)
+        - *CLOAD
+        - *CONTACT FILE
+        - *EL FILE
+        - *NODE FILE
+        - *STATIC
+        - *STEP
+        - *TIME POINTS
+- Show CCX input file in CGX
 - Solve CCX input file
+- Show result file in CGX
+
+# Planned capabilities of Pygccx:
+- Support of all CCX keywords for static analysis
 - Read result files
 - Provide result object for querying results
-- Postpro in CGX
 - Postpro in GMSH
 
 # Design guidelines

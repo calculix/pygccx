@@ -19,7 +19,7 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from model_features import ContactPair
+from model_keywords import ContactPair
 from enums import EContactTypes, ESetTypes, ESurfTypes
 from protocols import IModelFeature
 

@@ -18,7 +18,7 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from step_features import Static
+from step_keywords import Static
 from enums import ESolvers
 from protocols import IStepFeature
 

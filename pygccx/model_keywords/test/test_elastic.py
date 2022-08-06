@@ -18,7 +18,7 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from model_features import Elastic
+from model_keywords import Elastic
 from enums import EELasticTypes
 from protocols import IModelFeature
 

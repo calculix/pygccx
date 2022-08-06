@@ -18,7 +18,7 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from model_features import Amplitude
+from model_keywords import Amplitude
 from protocols import IModelFeature
 
 class TestAmplitude(TestCase):

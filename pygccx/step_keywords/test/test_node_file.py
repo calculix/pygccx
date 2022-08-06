@@ -18,7 +18,7 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from step_features import NodeFile, TimePoints
+from step_keywords import NodeFile, TimePoints
 from enums import ENodeResults, EResultOutputs
 
 class TestNodeFile(TestCase):

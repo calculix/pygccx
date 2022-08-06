@@ -17,16 +17,22 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-import unittest
-from step_features.test.test_boundary import TestBoundary
-from step_features.test.test_step import TestStep
-from step_features.test.test_static import TestStatic
-from step_features.test.test_cload import TestCload
-from step_features.test.test_time_points import TestTimePoints
-from step_features.test.test_contact_file import TestContactFile
-from step_features.test.test_node_file import TestNodeFile
-from step_features.test.test_el_file import TestElFile
+from unittest import TestCase
+from model_keywords import Material
+from protocols import IModelFeature
 
+class TestMaterial(TestCase):
 
-if __name__ == '__main__':
-    unittest.main()
+    def test_is_IModelFeature(self):
+        m = Material('Steel')
+        self.assertTrue(isinstance(m, IModelFeature))
+
+    def test_happy_case(self):
+        m = Material('Steel')
+
+        known = '*MATERIAL,NAME=Steel\n'
+        self.assertEqual(str(m), known)
+
+    def test_name_too_long(self):
+        name = 'a' * 81
+        self.assertRaises(ValueError, Material, name)

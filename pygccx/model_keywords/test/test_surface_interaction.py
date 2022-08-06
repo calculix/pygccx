@@ -18,25 +18,20 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from model_features import Friction
+from model_keywords import SurfaceInteraction
 from protocols import IModelFeature
 
-class TestFriction(TestCase):
+class TestSurfaceInteraction(TestCase):
 
     def test_is_IModelFeature(self):
-        f = Friction(0.3, 50000.)
-        self.assertTrue(isinstance(f, IModelFeature))
+        si = SurfaceInteraction('SI1')
+        self.assertTrue(isinstance(si, IModelFeature))
 
     def test_happy_case(self):
-        f = Friction(0.3, 50000.)
-        known = '*FRICTION\n'
-        known += '0.3,50000.0\n'
-        self.assertEqual(str(f), known)
+        si = SurfaceInteraction('SI1')
+        known = '*SURFACE INTERACTION,NAME=SI1\n'
+        self.assertEqual(str(si), known)
 
-    def test_mue_lower_zero(self):
-        self.assertRaises(ValueError, Friction, 0, 50000)
-        self.assertRaises(ValueError, Friction, -1, 50000)
-
-    def test_lam_lower_zero(self):
-        self.assertRaises(ValueError, Friction, 0.3, 0)
-        self.assertRaises(ValueError, Friction, 0.3, -1)
+    def test_name_too_long(self):
+        name = 'a' * 81
+        self.assertRaises(ValueError, SurfaceInteraction, name)

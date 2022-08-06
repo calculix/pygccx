@@ -19,7 +19,7 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from model_features import Clearance
+from model_keywords import Clearance
 from enums import ESurfTypes
 from protocols import IModelFeature
 

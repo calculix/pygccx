@@ -18,7 +18,7 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from step_features import Step
+from step_keywords import Step
 from enums import EStepAmplitudes
 from protocols import IStep
 

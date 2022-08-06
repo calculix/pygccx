@@ -19,7 +19,7 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from model_features import Coupling
+from model_keywords import Coupling
 from enums import ESurfTypes, ECouplingTypes
 from protocols import IModelFeature
 

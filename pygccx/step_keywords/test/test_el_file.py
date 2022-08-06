@@ -18,7 +18,7 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from step_features import ElFile, TimePoints
+from step_keywords import ElFile, TimePoints
 from enums import EElementResults, EResultOutputs
 
 class TestElFile(TestCase):

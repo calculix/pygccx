@@ -18,7 +18,7 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from model_features import SurfaceBehavior
+from model_keywords import SurfaceBehavior
 from enums import EPressureOverclosures
 from protocols import IModelFeature
 

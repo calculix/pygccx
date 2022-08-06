@@ -29,10 +29,10 @@ Because each node at the fixed end is constrained in all 3 dofs
 and due to the coarse mesh, a load of 950N can be applied without 
 plastic collapse.
 
-used model features:
+used model keywords:
 Boundary, Coupling, Material, Elastic, Plastic, SolidSection
 
-used step features:
+used step keywords:
 Step, Static, Cload, NodeFile, ElFile
 '''
 
@@ -41,8 +41,8 @@ os.chdir(sys.path[0])
 sys.path += ['../../', '../../pygccx']
 
 from pygccx import model as ccx_model
-from pygccx import model_features as mf
-from pygccx import step_features as sf
+from pygccx import model_keywords as mk
+from pygccx import step_keywords as sk
 from pygccx import enums
 
 # change this paths to your location of ccx and cgx
@@ -75,7 +75,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     # fix the left end
     fix_set = model.mesh.get_node_set_by_name('FIX')
     model.add_model_features(
-        mf.Boundary(fix_set, first_dof=1, last_dof=3)
+        mk.Boundary(fix_set, first_dof=1, last_dof=3)
     )
 
     # make a coupling for load application
@@ -88,28 +88,28 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     load_surf = mesh.add_surface_from_node_set('LOAD_SURF', load_set, enums.ESurfTypes.EL_FACE)
     # make a distributing coupling and add it to the model features
     model.add_model_features(
-        mf.Coupling(enums.ECouplingTypes.DISTRIBUTING, pilot, load_surf, 'COUP_LOAD', 1,3)
+        mk.Coupling(enums.ECouplingTypes.DISTRIBUTING, pilot, load_surf, 'COUP_LOAD', 1,3)
     )
 
     # material
-    mat = mf.Material('STEEL')
-    el = mf.Elastic((210000., 0.3))
-    pl = mf.Plastic(stress=[355.,355.], strain=[0., 1.])
-    sos = mf.SolidSection(
+    mat = mk.Material('STEEL')
+    el = mk.Elastic((210000., 0.3))
+    pl = mk.Plastic(stress=[355.,355.], strain=[0., 1.])
+    sos = mk.SolidSection(
         elset=mesh.get_el_set_by_name('BEAM'),
         material = mat
     )
     model.add_model_features(mat, el, pl, sos)
 
     # step
-    step = sf.Step(nlgeom=True) # new step with NLGEOM
+    step = sk.Step(nlgeom=True) # new step with NLGEOM
     model.add_steps(step)       # add step to model
     # add features to the step
     step.add_step_features(
-        sf.Static(),                # step is a static one
-        sf.Cload(pilot, 2, 950),  # force in Y at pilot node with magnitude 20000
-        sf.NodeFile([enums.ENodeResults.U]), # request deformations in frd file
-        sf.ElFile([enums.EElementResults.S]) # request stresses in frd file
+        sk.Static(),                # step is a static one
+        sk.Cload(pilot, 2, 950),  # force in Y at pilot node with magnitude 20000
+        sk.NodeFile([enums.ENodeResults.U]), # request deformations in frd file
+        sk.ElFile([enums.EElementResults.S]) # request stresses in frd file
     )
     
     model.solve()

@@ -19,7 +19,7 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from step_features import Cload
+from step_keywords import Cload
 from enums import ESetTypes, ELoadOps
 from protocols import IStepFeature
 

@@ -19,10 +19,10 @@ If not, see <http://www.gnu.org/licenses/>.
 ===============================================================================
 Model of a beam with one end fixed and a prescribed displacement at the other end.
 
-used model features:
+used model keywords:
 Boundary, Amplitude, Material, Elastic, SolidSection
 
-used step features:
+used step keywords:
 Step, Static, Boundary, NodeFile, ElFile
 '''
 
@@ -31,8 +31,8 @@ os.chdir(sys.path[0])
 sys.path += ['../../', '../../pygccx']
 
 from pygccx import model as ccx_model
-from pygccx import model_features as mf
-from pygccx import step_features as sf
+from pygccx import model_keywords as mk
+from pygccx import step_keywords as sk
 from pygccx import enums
 
 # change this paths to your location of ccx and cgx
@@ -65,34 +65,34 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     # fix the left end
     fix_set = model.mesh.get_node_set_by_name('FIX')
     model.add_model_features(
-        mf.Boundary(fix_set, first_dof=1, last_dof=3)
+        mk.Boundary(fix_set, first_dof=1, last_dof=3)
     )
 
     # get node set for application of displacement on right end
     load_set = mesh.get_node_set_by_name('LOAD')
 
     # make amplitude
-    amp = mf.Amplitude('A1', times=[0,0.5,1], amps=[0,0.1,1])
+    amp = mk.Amplitude('A1', times=[0,0.5,1], amps=[0,0.1,1])
     model.add_model_features(amp)
 
     # material
-    mat = mf.Material('STEEL')
-    el = mf.Elastic((210000., 0.3))
-    sos = mf.SolidSection(
+    mat = mk.Material('STEEL')
+    el = mk.Elastic((210000., 0.3))
+    sos = mk.SolidSection(
         elset=mesh.get_el_set_by_name('BEAM'),
         material = mat
     )
     model.add_model_features(mat, el, sos)
 
     # step
-    step = sf.Step(nlgeom=True) # new step with NLGEOM
+    step = sk.Step(nlgeom=True) # new step with NLGEOM
     model.add_steps(step)       # add step to model
     # add features to the step
     step.add_step_features(
-        sf.Static(direct=True,init_time_inc=0.5),                # step is a static one
-        sf.Boundary(load_set, 2, 2, amplitude=amp),  # displacement in Y at tip with magnitude 2
-        sf.NodeFile([enums.ENodeResults.U]), # request deformations in frd file
-        sf.ElFile([enums.EElementResults.S]) # request stresses in frd file
+        sk.Static(direct=True,init_time_inc=0.5),                # step is a static one
+        sk.Boundary(load_set, 2, 2, amplitude=amp),  # displacement in Y at tip with magnitude 2
+        sk.NodeFile([enums.ENodeResults.U]), # request deformations in frd file
+        sk.ElFile([enums.EElementResults.S]) # request stresses in frd file
     )
     
     model.solve()

@@ -18,7 +18,7 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from step_features import TimePoints
+from step_keywords import TimePoints
 import numpy as np
 from protocols import IStepFeature
 

@@ -19,17 +19,10 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from model_features import Transform
-from enums import EOrientationSystems, ESetTypes
+from model_keywords import Orientation
+from enums import EOrientationRotAxis, EOrientationSystems
 from protocols import IModelFeature
 import numpy as np
-
-@dataclass()
-class SetMock():
-    name:str
-    type:ESetTypes
-    dim:int
-    ids:set[int]
 
 @dataclass
 class CoordinateSystemMock:
@@ -44,47 +37,55 @@ class CoordinateSystemMock:
                         [0, -1, 0],
                         [1, 0, 0]])
 
-class TestTransform(TestCase):
-
-    def setUp(self) -> None:
-        self.nset = SetMock('S1', ESetTypes.NODE, 2, set([1,2,3,4]))
+class TestOrientation(TestCase):
 
     def test_is_IModelFeature(self):
-        t = Transform(self.nset, (0,0,1), (1,0,0))
-        self.assertTrue(isinstance(t, IModelFeature))
+        o = Orientation('O1', (0,0,1), (1,0,0))
+        self.assertTrue(isinstance(o, IModelFeature))
 
     def test_rectangular(self): 
-        t = Transform(self.nset, (0,0,1), (1,0,0))
-        known = '*TRANSFORM,NSET=S1,TYPE=R\n'
+        o = Orientation('O1', (0,0,1), (1,0,0))
+        known = '*ORIENTATION,NAME=O1,SYSTEM=RECTANGULAR\n'
         known += '0,0,1,1,0,0\n'
-        self.assertEqual(str(t), known)
+        self.assertEqual(str(o), known)
 
     def test_cylindrical(self):
-        o = Transform(self.nset, (0,0,1), (1,0,0), EOrientationSystems.CYLINDRICAL)
-        known = '*TRANSFORM,NSET=S1,TYPE=C\n'
+        o = Orientation('O1', (0,0,1), (1,0,0), EOrientationSystems.CYLINDRICAL)
+        known = '*ORIENTATION,NAME=O1,SYSTEM=CYLINDRICAL\n'
+        known += '0,0,1,1,0,0\n'
+        self.assertEqual(str(o), known)
+
+    def test_rectangular_w_rot(self): 
+        o = Orientation('O1', (0,0,1), (1,0,0), rot_axis=EOrientationRotAxis.Y, rot_angle=1.67)
+        known = '*ORIENTATION,NAME=O1,SYSTEM=RECTANGULAR\n'
+        known += '0,0,1,1,0,0\n'
+        known += '2,1.67\n'
+        self.assertEqual(str(o), known)
+
+    def test_cylindrical_w_rot(self):
+        o = Orientation('O1', (0,0,1), (1,0,0), EOrientationSystems.CYLINDRICAL,
+                        rot_axis=EOrientationRotAxis.Y, rot_angle=1.67)
+        # rotation has no influence
+        known = '*ORIENTATION,NAME=O1,SYSTEM=CYLINDRICAL\n'
         known += '0,0,1,1,0,0\n'
         self.assertEqual(str(o), known)
 
     def test_pnt_a_false_length(self):
-        self.assertRaises(ValueError, Transform, self.nset, (0,1), (1,0,0))
+        self.assertRaises(ValueError, Orientation, 'O1', (0,1), (1,0,0))
 
     def test_pnt_b_false_length(self):
-        self.assertRaises(ValueError, Transform, self.nset, (0,0,1), (1,0))
-
-    def test_wrong_set_type(self):
-        eset = SetMock('S2', ESetTypes.ELEMENT, 3, set([1,2,3,4]))
-        self.assertRaises(ValueError, Transform, eset, (0,0,1), (1,0))
+        self.assertRaises(ValueError, Orientation, 'O1', (0,0,1), (1,0))
 
     def test_from_coordinate_system_rectangular(self):
         cs = CoordinateSystemMock('C1', EOrientationSystems.RECTANGULAR)
-        t = Transform.from_coordinate_system(self.nset, cs)
-        known = '*TRANSFORM,NSET=S1,TYPE=R\n'
+        o = Orientation.from_coordinate_system(cs)
+        known = '*ORIENTATION,NAME=OR_C1,SYSTEM=RECTANGULAR\n'
         known += '0,0,1,0,-1,0\n'
-        self.assertEqual(str(t), known)
+        self.assertEqual(str(o), known)
     
     def test_from_coordinate_system_cylindrical(self):
         cs = CoordinateSystemMock('C1', EOrientationSystems.CYLINDRICAL)
-        t = Transform.from_coordinate_system(self.nset, cs)
-        known = '*TRANSFORM,NSET=S1,TYPE=C\n'
+        o = Orientation.from_coordinate_system(cs)
+        known = '*ORIENTATION,NAME=OR_C1,SYSTEM=CYLINDRICAL\n'
         known += '1,2,3,2,2,3\n'
-        self.assertEqual(str(t), known)
+        self.assertEqual(str(o), known)

@@ -19,7 +19,7 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from model_features import RigidBody
+from model_keywords import RigidBody
 from enums import ESetTypes
 from protocols import IModelFeature
 

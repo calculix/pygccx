@@ -19,7 +19,7 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field
 from typing import Iterable, Optional, Any
-from protocols import IStepFeature, ISet
+from protocols import IKeyword, ISet
 from enums import EResultOutputs, EElementResults
 
 @dataclass
@@ -74,7 +74,7 @@ class ElFile:
     """Flag if the stresses in the beam nodes should be replaced by the section forces.
     Only relevant for beam elements. section_forces == True and output == 3D are mutually 
     exclusive."""
-    time_points:Optional[IStepFeature] = None
+    time_points:Optional[IKeyword] = None
     """TimePoints object specifying the times for which results should be stored.
     frequency and time_points are mutually exclusive."""
     nset:Optional[ISet] = None

@@ -20,13 +20,13 @@ If not, see <http://www.gnu.org/licenses/>.
 from unittest import TestCase
 from model_keywords import Elastic
 from enums import EELasticTypes
-from protocols import IModelFeature
+from protocols import IKeyword
 
 class TestElastic(TestCase):
 
-    def test_is_IModelFeature(self):
+    def test_is_IKeyword(self):
         e = Elastic((210000., 0.3))
-        self.assertTrue(isinstance(e, IModelFeature))
+        self.assertTrue(isinstance(e, IKeyword))
 
     def test_iso(self):
         e = Elastic((210000., 0.3))

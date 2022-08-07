@@ -21,7 +21,7 @@ from unittest import TestCase
 from dataclasses import dataclass
 from model_keywords import Mass
 from enums import ESetTypes
-from protocols import IModelFeature
+from protocols import IKeyword
 
 @dataclass()
 class SetMock():
@@ -36,9 +36,9 @@ class TestMass(TestCase):
         self.nset = SetMock('N1', ESetTypes.NODE, 2, set([1,2,3,4]))
         self.eset = SetMock('E1', ESetTypes.ELEMENT, 1, set([1,2,3,4]))
 
-    def test_is_IModelFeature(self):
+    def test_is_IKeyword(self):
         m = Mass(self.eset, 1e3)
-        self.assertTrue(isinstance(m, IModelFeature))
+        self.assertTrue(isinstance(m, IKeyword))
 
     def test_happy_case(self):
         m = Mass(self.eset, 1e3)

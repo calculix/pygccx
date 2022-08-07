@@ -19,13 +19,13 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from unittest import TestCase
 from model_keywords import Amplitude
-from protocols import IModelFeature
+from protocols import IKeyword
 
 class TestAmplitude(TestCase):
 
-    def test_is_IModelFeature(self):
+    def test_is_IKeyword(self):
         a = Amplitude('TestAmp', times = [0.,.1,.2,.3], amps=[0,1,-1,3])
-        self.assertTrue(isinstance(a, IModelFeature))
+        self.assertTrue(isinstance(a, IKeyword))
 
     def test_only_mandatory_params(self):
         a = Amplitude('TestAmp', times = [0.,.1,.2,.3], amps=[0,1,-1,3])

@@ -20,13 +20,13 @@ If not, see <http://www.gnu.org/licenses/>.
 from unittest import TestCase
 from model_keywords import SurfaceBehavior
 from enums import EPressureOverclosures
-from protocols import IModelFeature
+from protocols import IKeyword
 
 class TestSurfaceBehavior(TestCase):
 
-    def test_is_IModelFeature(self):
+    def test_is_IKeyword(self):
         sb = SurfaceBehavior(EPressureOverclosures.EXPONENTIAL, c0=1.e-4, p0=.1)
-        self.assertTrue(isinstance(sb, IModelFeature))
+        self.assertTrue(isinstance(sb, IKeyword))
 
     def test_exponential(self):
         sb = SurfaceBehavior(EPressureOverclosures.EXPONENTIAL, c0=1.e-4, p0=.1)

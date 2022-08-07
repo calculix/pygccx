@@ -20,13 +20,13 @@ If not, see <http://www.gnu.org/licenses/>.
 from unittest import TestCase
 from step_keywords import TimePoints
 import numpy as np
-from protocols import IStepFeature
+from protocols import IKeyword
 
 class TestTimePoints(TestCase):
 
-    def test_is_IStepFeature(self):
+    def test_is_IKeyword(self):
         tp = TimePoints('TP1', [1,2,3])
-        self.assertTrue(isinstance(tp, IStepFeature))
+        self.assertTrue(isinstance(tp, IKeyword))
 
     def test_default(self):
         tp = TimePoints('TP1', [1,2,3])

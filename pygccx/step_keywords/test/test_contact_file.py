@@ -20,8 +20,13 @@ If not, see <http://www.gnu.org/licenses/>.
 from unittest import TestCase
 from step_keywords import ContactFile, TimePoints
 from enums import EContactResults
+from protocols import IKeyword
 
 class TestContactFile(TestCase):
+
+    def test_is_IKeyword(self):
+        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS])
+        self.assertTrue(isinstance(cf, IKeyword))
 
     def test_default(self):
 

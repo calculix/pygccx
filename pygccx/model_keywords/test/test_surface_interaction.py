@@ -19,13 +19,13 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from unittest import TestCase
 from model_keywords import SurfaceInteraction
-from protocols import IModelFeature
+from protocols import IKeyword
 
 class TestSurfaceInteraction(TestCase):
 
-    def test_is_IModelFeature(self):
+    def test_is_IKeyword(self):
         si = SurfaceInteraction('SI1')
-        self.assertTrue(isinstance(si, IModelFeature))
+        self.assertTrue(isinstance(si, IKeyword))
 
     def test_happy_case(self):
         si = SurfaceInteraction('SI1')

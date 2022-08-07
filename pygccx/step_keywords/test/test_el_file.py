@@ -20,8 +20,13 @@ If not, see <http://www.gnu.org/licenses/>.
 from unittest import TestCase
 from step_keywords import ElFile, TimePoints
 from enums import EElementResults, EResultOutputs
+from protocols import IKeyword
 
 class TestElFile(TestCase):
+
+    def test_is_IKeyword(self):
+        ef = ElFile([EElementResults.S, EElementResults.E])
+        self.assertTrue(isinstance(ef, IKeyword))
 
     def test_default(self):
 

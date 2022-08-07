@@ -69,7 +69,7 @@ class CyclicHardening:
         Adds a table of plastic stress and strain for a given temperature.
 
         Args:
-            temp (number): temperature for this 
+            temp (number): temperature for this table
             stress (Sequence[number]|npt.NDArray[np.float64]): Sequence of mises stresses. Must be same length as strain
             strain (Sequence[number]|npt.NDArray[np.float64]): Sequence of equ. plastic strains. Must be same length as stress
 

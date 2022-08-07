@@ -20,13 +20,13 @@ If not, see <http://www.gnu.org/licenses/>.
 from unittest import TestCase
 from step_keywords import Static
 from enums import ESolvers
-from protocols import IStepFeature
+from protocols import IKeyword
 
 class TestStatic(TestCase):
 
-    def test_is_IStepFeature(self):
+    def test_is_IKeyword(self):
         s = Static()
-        self.assertTrue(isinstance(s, IStepFeature))
+        self.assertTrue(isinstance(s, IKeyword))
 
     def test_default(self):
         s = Static()

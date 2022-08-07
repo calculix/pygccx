@@ -19,13 +19,13 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from unittest import TestCase
 from model_keywords import Material
-from protocols import IModelFeature
+from protocols import IKeyword
 
 class TestMaterial(TestCase):
 
-    def test_is_IModelFeature(self):
+    def test_is_IKeyword(self):
         m = Material('Steel')
-        self.assertTrue(isinstance(m, IModelFeature))
+        self.assertTrue(isinstance(m, IKeyword))
 
     def test_happy_case(self):
         m = Material('Steel')

@@ -21,7 +21,7 @@ from unittest import TestCase
 from dataclasses import dataclass
 from model_keywords import Orientation
 from enums import EOrientationRotAxis, EOrientationSystems
-from protocols import IModelFeature
+from protocols import IKeyword
 import numpy as np
 
 @dataclass
@@ -39,9 +39,9 @@ class CoordinateSystemMock:
 
 class TestOrientation(TestCase):
 
-    def test_is_IModelFeature(self):
+    def test_is_IKeyword(self):
         o = Orientation('O1', (0,0,1), (1,0,0))
-        self.assertTrue(isinstance(o, IModelFeature))
+        self.assertTrue(isinstance(o, IKeyword))
 
     def test_rectangular(self): 
         o = Orientation('O1', (0,0,1), (1,0,0))

@@ -21,7 +21,7 @@ from unittest import TestCase
 from dataclasses import dataclass
 from model_keywords import Clearance
 from enums import ESurfTypes
-from protocols import IModelFeature
+from protocols import IKeyword
 
 @dataclass
 class SurfaceMock:
@@ -35,9 +35,9 @@ class TestClearance(TestCase):
         self.s1 = SurfaceMock('S1', ESurfTypes.EL_FACE)
         self.s2 = SurfaceMock('S2', ESurfTypes.EL_FACE)
 
-    def test_is_IModelFeature(self):
+    def test_is_IKeyword(self):
         c = Clearance(self.s1, self.s2, 0.1)
-        self.assertTrue(isinstance(c, IModelFeature))
+        self.assertTrue(isinstance(c, IKeyword))
 
     def test_default(self):
         c = Clearance(self.s1, self.s2, 0.1)

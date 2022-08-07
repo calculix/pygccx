@@ -21,14 +21,14 @@ from typing import Optional
 
 from . import ContactPair, SurfaceInteraction, SurfaceBehavior, Friction, Clearance
 from enums import EContactTypes, EPressureOverclosures
-from protocols import ISet, ISurface, IModelFeature
+from protocols import ISet, ISurface, IKeyword
 
 number = int|float
 
 def make_contact(name:str, contact_type:EContactTypes, dep_surf:ISurface, ind_surf:ISurface,
                 pressure_overclosure:EPressureOverclosures, small_sliding:bool=False,              
                 adjust:Optional[number|ISet]=None, clearance:Optional[number]=None, 
-                mue:Optional[number]=None, lam:Optional[number]=None, desc:str='', **kwargs) -> tuple[IModelFeature]:
+                mue:Optional[number]=None, lam:Optional[number]=None, desc:str='', **kwargs) -> tuple[IKeyword]:
 
     """
     Function to set up a contact.
@@ -71,7 +71,7 @@ def make_contact(name:str, contact_type:EContactTypes, dep_surf:ISurface, ind_su
     Returns:
         tuple[IModelFeatures]: All model features needed for this contact
     """
-    out:list[IModelFeature] = []
+    out:list[IKeyword] = []
 
     # Surface Interaction
     interaction = SurfaceInteraction(name, desc)

@@ -21,7 +21,7 @@ from unittest import TestCase
 from dataclasses import dataclass
 from model_keywords import ContactPair
 from enums import EContactTypes, ESetTypes, ESurfTypes
-from protocols import IModelFeature
+from protocols import IKeyword
 
 @dataclass
 class InteractionMock:
@@ -52,9 +52,9 @@ class TestContactPair(TestCase):
         self.dep_surf_node = SurfaceMock('dep_surf', ESurfTypes.NODE)
         self.ind_surf_node = SurfaceMock('ind_surf', ESurfTypes.NODE)
 
-    def test_is_IModelFeature(self):
+    def test_is_IKeyword(self):
         cp = ContactPair(self.ia, EContactTypes.NODE_TO_SURFACE, self.dep_surf, self.ind_surf)
-        self.assertTrue(isinstance(cp, IModelFeature))
+        self.assertTrue(isinstance(cp, IKeyword))
 
     def test_default(self):
         cp = ContactPair(self.ia, EContactTypes.NODE_TO_SURFACE, self.dep_surf, self.ind_surf)

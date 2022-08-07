@@ -20,7 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass
 from typing import Optional, Any
 from enums import ESetTypes
-from protocols import IModelFeature, ISet
+from protocols import IKeyword, ISet
 
 @dataclass
 class SolidSection:
@@ -38,9 +38,9 @@ class SolidSection:
     """
     elset:ISet
     """Element set where this solid section should be applied to."""
-    material:IModelFeature
+    material:IKeyword
     """Material object which should be applies to elset"""
-    orientation:Optional[IModelFeature] = None
+    orientation:Optional[IKeyword] = None
     """Orientation system for material"""
     name:str = ''
     """The name of this Instance. Not used"""

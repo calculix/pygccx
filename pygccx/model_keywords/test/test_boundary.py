@@ -21,7 +21,7 @@ from unittest import TestCase
 from dataclasses import dataclass
 from model_keywords import Boundary
 from enums import ESetTypes
-from protocols import IModelFeature
+from protocols import IKeyword
 
 @dataclass()
 class SetMock():
@@ -32,9 +32,9 @@ class SetMock():
 
 class TestBoundary(TestCase):
 
-    def test_is_IModelFeature(self):
+    def test_is_IKeyword(self):
         b = Boundary(1, 1, 3)
-        self.assertTrue(isinstance(b, IModelFeature))
+        self.assertTrue(isinstance(b, IKeyword))
 
     def test_first_dof_and_last_dof(self):
 

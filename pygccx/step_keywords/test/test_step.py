@@ -24,7 +24,7 @@ from protocols import IStep
 
 class TestStep(TestCase):
 
-    def test_is_IStepFeature(self):
+    def test_is_IStep(self):
         s = Step()
         self.assertTrue(isinstance(s, IStep))
 

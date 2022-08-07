@@ -19,13 +19,13 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from unittest import TestCase
 from model_keywords import Friction
-from protocols import IModelFeature
+from protocols import IKeyword
 
 class TestFriction(TestCase):
 
-    def test_is_IModelFeature(self):
+    def test_is_IKeyword(self):
         f = Friction(0.3, 50000.)
-        self.assertTrue(isinstance(f, IModelFeature))
+        self.assertTrue(isinstance(f, IKeyword))
 
     def test_happy_case(self):
         f = Friction(0.3, 50000.)

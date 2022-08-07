@@ -21,7 +21,7 @@ from unittest import TestCase
 from dataclasses import dataclass
 from model_keywords import Coupling
 from enums import ESurfTypes, ECouplingTypes
-from protocols import IModelFeature
+from protocols import IKeyword
 
 @dataclass
 class SurfaceMock:
@@ -40,11 +40,11 @@ class TestCoupling(TestCase):
         self.surf = SurfaceMock('S1', ESurfTypes.EL_FACE)
         self.ori = OrientationMock('O1')
 
-    def test_is_IModelFeature(self):
+    def test_is_IKeyword(self):
         c = Coupling(ECouplingTypes.DISTRIBUTING,
                         ref_node=1, surface=self.surf,
                         name='C1', first_dof=1)
-        self.assertTrue(isinstance(c, IModelFeature))
+        self.assertTrue(isinstance(c, IKeyword))
 
     def test_default(self):
         c = Coupling(ECouplingTypes.DISTRIBUTING,

@@ -21,7 +21,7 @@ from unittest import TestCase
 from dataclasses import dataclass
 from step_keywords import Boundary
 from enums import ESetTypes, ELoadOps
-from protocols import IStepFeature
+from protocols import IKeyword
 
 @dataclass
 class AmplitudeMock:
@@ -37,9 +37,9 @@ class SetMock():
 
 class TestBoundary(TestCase):
 
-    def test_is_IStepFeature(self):
+    def test_is_IKeyword(self):
         b = Boundary(99, 1, 1.234)
-        self.assertTrue(isinstance(b, IStepFeature))
+        self.assertTrue(isinstance(b, IKeyword))
 
     def test_default(self):
         b = Boundary(99, 1, 1.234)

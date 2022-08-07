@@ -21,7 +21,7 @@ from unittest import TestCase
 from dataclasses import dataclass
 from model_keywords import Transform
 from enums import EOrientationSystems, ESetTypes
-from protocols import IModelFeature
+from protocols import IKeyword
 import numpy as np
 
 @dataclass()
@@ -49,9 +49,9 @@ class TestTransform(TestCase):
     def setUp(self) -> None:
         self.nset = SetMock('S1', ESetTypes.NODE, 2, set([1,2,3,4]))
 
-    def test_is_IModelFeature(self):
+    def test_is_IKeyword(self):
         t = Transform(self.nset, (0,0,1), (1,0,0))
-        self.assertTrue(isinstance(t, IModelFeature))
+        self.assertTrue(isinstance(t, IKeyword))
 
     def test_rectangular(self): 
         t = Transform(self.nset, (0,0,1), (1,0,0))

@@ -21,7 +21,7 @@ from unittest import TestCase
 from dataclasses import dataclass
 from step_keywords import Cload
 from enums import ESetTypes, ELoadOps
-from protocols import IStepFeature
+from protocols import IKeyword
 
 @dataclass
 class AmplitudeMock:
@@ -37,9 +37,9 @@ class SetMock():
 
 class TestCload(TestCase):
 
-    def test_is_IStepFeature(self):
+    def test_is_IKeyword(self):
         c = Cload(99, 1, 1.234)
-        self.assertTrue(isinstance(c, IStepFeature))
+        self.assertTrue(isinstance(c, IKeyword))
 
     def test_default(self):
         c = Cload(99, 1, 1.234)

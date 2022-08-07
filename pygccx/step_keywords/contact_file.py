@@ -19,7 +19,7 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field
 from typing import Iterable, Optional, Any
-from protocols import IStepFeature
+from protocols import IKeyword
 from enums import EContactResults
 
 @dataclass
@@ -47,7 +47,7 @@ class ContactFile:
     frequency:int = 1
     """integer that indicates that the results of every Nth increment will be stored.
     frequency and time_points are mutually exclusive."""
-    time_points:Optional[IStepFeature] = None
+    time_points:Optional[IKeyword] = None
     """TimePoints object specifying the times for which results should be stored.
     frequency and time_points are mutually exclusive."""
     last_Iterations:bool = False

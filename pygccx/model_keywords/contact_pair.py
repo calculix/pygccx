@@ -20,7 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass, field
 from typing import Optional, Any
 from enums import EContactTypes, ESetTypes, ESurfTypes
-from protocols import IModelFeature, ISet, ISurface
+from protocols import IKeyword, ISet, ISurface
 
 number = int|float
 
@@ -46,7 +46,7 @@ class ContactPair:
         desc: Optional. A short description of this Instance. This is written to the ccx input file.
     
     """
-    interaction:IModelFeature
+    interaction:IKeyword
     """Interaction instance"""
     type:EContactTypes
     """Contact type"""

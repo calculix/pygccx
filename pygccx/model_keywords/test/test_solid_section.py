@@ -21,7 +21,7 @@ from unittest import TestCase
 from dataclasses import dataclass
 from model_keywords import SolidSection
 from enums import ESetTypes
-from protocols import IModelFeature
+from protocols import IKeyword
 
 @dataclass()
 class SetMock():
@@ -42,9 +42,9 @@ class TestSolidSection(TestCase):
         self.mat = FeatureMock('MAT1')
         self.ori = FeatureMock('OR1')
 
-    def test_is_IModelFeature(self):
+    def test_is_IKeyword(self):
         sos = SolidSection(self.s, self.mat)
-        self.assertTrue(isinstance(sos, IModelFeature))
+        self.assertTrue(isinstance(sos, IKeyword))
     
     def test_wo_orientation(self):
         sos = SolidSection(self.s, self.mat)

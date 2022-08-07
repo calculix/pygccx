@@ -20,7 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass, field
 from typing import Optional, Any
 from enums import EStepAmplitudes
-from protocols import IStepFeature
+from protocols import IKeyword
 
 @dataclass
 class Step:
@@ -49,7 +49,7 @@ class Step:
     desc:str = ''
     """A short description of this step. This is written to the ccx input file."""
 
-    step_features:list[IStepFeature] = field(default_factory=list, init=False)
+    step_features:list[IKeyword] = field(default_factory=list, init=False)
 
     def __setattr__(self, name: str, value: Any) -> None:
         if name == 'inc' and value < 1:
@@ -57,9 +57,9 @@ class Step:
         super().__setattr__(name, value)
             
 
-    def add_step_keywords(self, *step_features:IStepFeature):
+    def add_step_keywords(self, *step_keywords:IKeyword):
         """Adds the given step features to this step"""
-        self.step_features.extend(step_features)
+        self.step_features.extend(step_keywords)
 
     def __str__(self):
 

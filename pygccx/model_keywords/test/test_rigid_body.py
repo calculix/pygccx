@@ -21,7 +21,7 @@ from unittest import TestCase
 from dataclasses import dataclass
 from model_keywords import RigidBody
 from enums import ESetTypes
-from protocols import IModelFeature
+from protocols import IKeyword
 
 @dataclass()
 class SetMock():
@@ -37,9 +37,9 @@ class TestRigidBody(TestCase):
         self.nset = SetMock('TestSet', ESetTypes.NODE, 2, set((1, 2)))
         self.eset = SetMock('TestSet', ESetTypes.ELEMENT, 2, set((1, 2)))
 
-    def test_is_IModelFeature(self):
+    def test_is_IKeyword(self):
         rb = RigidBody(self.nset, 1, 2)
-        self.assertTrue(isinstance(rb, IModelFeature))
+        self.assertTrue(isinstance(rb, IKeyword))
 
     def test_node_set_and_ref_node_and_rot_node(self):
       

@@ -20,7 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass, field, InitVar
 from typing import Optional, Any
 from enums import ELoadOps
-from protocols import IModelFeature, ISet
+from protocols import IKeyword, ISet
 
 number = int|float
 
@@ -59,7 +59,7 @@ class Boundary:
     """Last degree of freedom on which the first condition (first line under *BOUNDARY) should be applied"""
     op:ELoadOps = ELoadOps.MOD
     """Option if boundary values should be modified or defined new"""
-    amplitude:Optional[IModelFeature] = None
+    amplitude:Optional[IKeyword] = None
     """Amplitude object"""
     time_delay:Optional[number] = None
     """time shift by which the AMPLITUDE definition it refers to is moved in positive time direction"""

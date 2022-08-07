@@ -75,25 +75,25 @@ class ISet(Protocol):
     """Gets the ids of this set"""
 
 @runtime_checkable
-class IModelFeature(Protocol):
+class IKeyword(Protocol):
     name:str
-    """Gets the name of this model feature"""
+    """Gets the name of this keyword"""
     desc:str
-    """Gets the description of this model feature. This will also be written to the ccx input file"""
+    """Gets the description of this keyword. This will also be written to the ccx input file"""
 
-@runtime_checkable
-class IStepFeature(Protocol):
-    name:str
-    """Gets the name of this model feature"""
-    desc:str
-    """Gets the description of this model feature. This will also be written to the ccx input file"""
+# @runtime_checkable
+# class IStepKeyword(Protocol):
+#     name:str
+#     """Gets the name of this model feature"""
+#     desc:str
+#     """Gets the description of this model feature. This will also be written to the ccx input file"""
 
 @runtime_checkable
 class IStep(Protocol):
     desc:str
-    step_features:list[IStepFeature]
+    step_features:list[IKeyword]
 
-    def add_step_keywords(self, *step_features:IStepFeature): ...
+    def add_step_keywords(self, *step_keywords:IKeyword): ...
 
 class ICoordinateSystem(Protocol):
     name:str

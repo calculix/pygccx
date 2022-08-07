@@ -20,7 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass
 from typing import Optional, Any
 from enum import Enum
-from protocols import IStepFeature, ISurface
+from protocols import IKeyword, ISurface
 from enums import ECouplingTypes, ESurfTypes
 
 @dataclass
@@ -53,7 +53,7 @@ class Coupling:
     """First dof to be used in the coupling"""
     last_dof:Optional[int] = None
     """Last dof to be used in the coupling. If omitted, only first_dof is used"""
-    orientation:Optional[IStepFeature] = None
+    orientation:Optional[IKeyword] = None
     """Orientation object to assign a local coordinate system"""
     desc:str = ''
     """A short description of this instance. This is written to the ccx input file."""

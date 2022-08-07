@@ -20,8 +20,13 @@ If not, see <http://www.gnu.org/licenses/>.
 from unittest import TestCase
 from step_keywords import NodeFile, TimePoints
 from enums import ENodeResults, EResultOutputs
+from protocols import IKeyword
 
 class TestNodeFile(TestCase):
+
+    def test_is_IKeyword(self):
+        nf = NodeFile([ENodeResults.U, ENodeResults.RF])
+        self.assertTrue(isinstance(nf, IKeyword))
 
     def test_default(self):
 

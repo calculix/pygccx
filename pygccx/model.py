@@ -29,7 +29,7 @@ _gmsh.option.setNumber("Mesh.SecondOrderIncomplete", 1)
 
 import mesh as msh
 import enums
-from protocols import IModelFeature, IStep
+from protocols import IKeyword, IStep
 
 @dataclass
 class Model:
@@ -44,7 +44,7 @@ class Model:
     """Working directory where all generated files will be stored"""
     mesh:msh.Mesh = field(init=False)
     """Mesh object of this model"""
-    model_features:list[IModelFeature] = field(default_factory=list, init=False)
+    model_features:list[IKeyword] = field(default_factory=list, init=False)
     """List of model features (aka model keywords)"""
     steps:list[IStep] = field(default_factory=list, init=False)
     """List of all analysis steps"""
@@ -117,9 +117,9 @@ class Model:
         with open(filename, 'w') as f:
             f.writelines(f'{s}\n' for s in buffer)
 
-    def add_model_keywords(self, *model_features:IModelFeature):
+    def add_model_keywords(self, *model_keywords:IKeyword):
         """Adds the given model features to this model"""
-        self.model_features.extend(model_features)
+        self.model_features.extend(model_keywords)
 
     def add_steps(self, *steps:IStep):
         """Adds the given steps to this model"""

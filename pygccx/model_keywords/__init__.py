@@ -34,5 +34,6 @@ from .friction import Friction
 from .surface_interaction import SurfaceInteraction
 from .surface_behavior import SurfaceBehavior
 from .contact_pair import ContactPair
-from . clearance import Clearance
+from .clearance import Clearance
+from .gap import Gap
 from .group_funcs import make_contact

@@ -42,6 +42,10 @@ class TestSpringLin(TestCase):
         self.elset = SetMock('S1', ESetTypes.ELEMENT, 1, set([1,2,3,4]))
         self.ori = OrientationMock('O1')
 
+    def test_is_IKeyword(self):
+        sp = SpringLin(self.elset, 10)
+        self.assertTrue(isinstance(sp, IKeyword))
+
     def test_default_spring_a(self):
         sp = SpringLin(self.elset, 10)
         known = '*SPRING,ELSET=S1\n'
@@ -103,6 +107,10 @@ class TestSpringNonlin(TestCase):
         self.nset = SetMock('S1', ESetTypes.NODE, 1, set([1,2,3,4]))
         self.elset = SetMock('S1', ESetTypes.ELEMENT, 1, set([1,2,3,4]))
         self.ori = OrientationMock('O1')
+
+    def test_is_IKeyword(self):
+        sp = SpringNonlin(self.elset, [0,10,100], [0,1,2])
+        self.assertTrue(isinstance(sp, IKeyword))
 
     def test_default_spring_a(self):
         sp = SpringNonlin(self.elset, [0,10,100], [0,1,2])

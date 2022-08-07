@@ -36,6 +36,7 @@ Up to now there is no pip package. To use pygccx do the following:
         - *CLEARANCE
         - *CONTACT PAIR
         - *COUPLING
+        - *DISTRIBUTING COUPLING
         - *EALSTIC
         - *FRICTION
         - *MASS

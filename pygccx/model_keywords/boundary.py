@@ -39,11 +39,8 @@ class Boundary():
     """
 
     nid_or_set:InitVar[int|ISet]
-    """node id or node set of first condition to be constrained"""
     first_dof:InitVar[int]
-    """first dof of first condition to be constrained"""
     last_dof:InitVar[Optional[int]]=None
-    """last dof of first condition to be constrained, optional"""
     name:str = ''
     """The name of this Boundary. Not used"""
     desc:str = ''
@@ -57,6 +54,19 @@ class Boundary():
         self.add_condition(nid_or_set, first_dof, last_dof)
 
     def add_condition(self, nid_or_set:int|ISet, first_dof:int, last_dof:Optional[int]=None):
+        """
+        Adds a condition to this Boundary
+
+        Args:
+            nid_or_set (int | ISet): node id or node set to be constrained
+            first_dof (int): first dof of condition to be constrained
+            last_dof (Optional[int], optional): last dof of condition to be constrained, optional. Defaults to None.
+
+        Raises:
+            ValueError: Raised if nid_or_set is an int and < 1
+            ValueError: Raised if first_dof is < 1
+            ValueError: Raised if last_dof <= first_dof
+        """
         if isinstance(nid_or_set, int):
             if nid_or_set < 1:
                 raise ValueError(f'nid must be greater than 0, got {nid_or_set}')

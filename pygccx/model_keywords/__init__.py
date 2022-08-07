@@ -20,6 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 from .amplitude import Amplitude
 from .rigid_body import RigidBody
 from .boundary import Boundary
+from .distributing_coupling import DistribuitingCoupling
 from .mass import Mass
 from .material import Material
 from .elastic import Elastic

@@ -40,10 +40,11 @@ Up to now there is no pip package. To use pygccx do the following:
         - *FRICTION
         - *MASS
         - *MATERIAL
-        - ORIENTATION
+        - *ORIENTATION
         - *PLASTIC
         - *RIGID BODY
         - *SOLID SECTION
+        - *SPRING
         - *SURFACE BEHAVIOR
         - *SURFACE INTERACTION
         - *TRANSFORM <br>

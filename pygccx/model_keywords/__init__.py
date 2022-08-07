@@ -26,6 +26,7 @@ from .elastic import Elastic
 from .plastic import Plastic, CyclicHardening
 from .orientation import Orientation
 from .transform import Transform
+from .spring import SpringLin, SpringNonlin
 from .solid_section import SolidSection
 from .coupling import Coupling
 from .friction import Friction

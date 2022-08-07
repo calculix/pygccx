@@ -35,6 +35,7 @@ from model_keywords.test.test_surface_interaction import TestSurfaceInteraction
 from model_keywords.test.test_surface_behavior import TestSurfaceBehavior
 from model_keywords.test.test_contact_pair import TestContactPair
 from model_keywords.test.test_clearance import TestClearance
+from model_keywords.test.test_spring import TestSpringLin, TestSpringNonlin
 
 if __name__ == '__main__':
     unittest.main()

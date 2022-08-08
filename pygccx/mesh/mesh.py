@@ -170,7 +170,7 @@ class Mesh:
 
         return id
     
-    def add_element(self, etype: enums.EEtypes, nids:tuple[int,...], id:Optional[int], element_set:Optional[protocols.ISet]=None) -> int:
+    def add_element(self, etype: enums.EEtypes, nids:tuple[int,...], id:Optional[int]=None, element_set:Optional[protocols.ISet]=None) -> int:
         """
         Adds an element to this mesh.
 
@@ -280,7 +280,7 @@ class Mesh:
         EEtypes = {e.type for e in self.elements.values()}
         for etype in EEtypes:
             elems = (e for e in self.elements.values() if e.type==etype)
-            buffer += [f'*ELEMENT, TYPE={etype.name}']
+            buffer += [f'*ELEMENT,TYPE={etype.name}']
             for e in elems:
                 lst = (e.id,) + e.node_ids
                 _write_as_chunks(buffer, lst, 16)
@@ -288,11 +288,11 @@ class Mesh:
     def _write_sets_ccx(self, buffer:list[str]):
         for s in self.node_sets:
             if s.ids:
-                buffer += [f'*NSET, NSET={s.name}']
+                buffer += [f'*NSET,NSET={s.name}']
                 _write_as_chunks(buffer, tuple(s.ids), 16)
         for s in self.element_sets:
             if s.ids:
-                buffer += [f'*ELSET, ELSET={s.name}']
+                buffer += [f'*ELSET,ELSET={s.name}']
                 _write_as_chunks(buffer, tuple(s.ids), 16)
 
 def _write_as_chunks(buffer:list[str], seq:Sequence, n:int):

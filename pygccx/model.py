@@ -125,15 +125,28 @@ class Model:
         """Adds the given steps to this model"""
         self.steps.extend(steps)
 
-    def show_model_in_cgx(self):
-        """Writes the ccx input file and shows it in cgx"""
+    def show_model_in_cgx(self, write_ccx_input:bool=True):
+        """
+        Shows the CCX input file in CGX.
+        Per default, the input file is written before.
 
-        self.write_ccx_input_file()
+        Args:
+            write_ccx_input (bool, optional): Flag if CCX input file should be written before opening CGX. Defaults to True.
+        """
+
+        if  write_ccx_input: self.write_ccx_input_file()
         subprocess.run(f'{self.cgx_path} -c "{self.jobname}.inp"', cwd=self.working_dir)
 
-    def solve(self):
-        """Writes the ccx input file and solves it in ccx"""
-        self.write_ccx_input_file()
+    def solve(self, write_ccx_input:bool=True):
+        """
+        Solves the CCX input file.
+
+        Per default, the input file is written before.
+
+        Args:
+            write_ccx_input (bool, optional): Flag if CCX input file should be written before solve. Defaults to True.
+        """
+        if  write_ccx_input: self.write_ccx_input_file()
         subprocess.run(f'{self.ccx_path} -i "{self.jobname}"', cwd=self.working_dir)
 
     def show_results_in_cgx(self):

@@ -85,7 +85,7 @@ def _get_elements_from_gmsh(gmsh:'_gmsh', type_mapping:Optional[dict[int, EEtype
     for et, et_eids, et_nids in zip(EEtypes, eids, nids):
         et_nids = et_nids.reshape((len(et_eids), -1))  # type: ignore
         for e_id, e_nids in zip(et_eids, et_nids):
-            elems[e_id] = Element(
+            elems[int(e_id)] = Element(
                 int(e_id), 
                 etype_map[et], 
                 _reorder_nodes_from_gmsh_2_ccx(et, e_nids))

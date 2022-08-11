@@ -19,14 +19,11 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field
 from typing import Iterable, Sequence, Optional
-import numpy as np
 import enums
 from . import surface
 from .element import Element
 from .set import Set
 import protocols
-
-numeric = int|float|np.number
 
 @dataclass(repr=False)
 class Mesh:
@@ -36,30 +33,25 @@ class Mesh:
     element_sets:list[protocols.ISet]
     surfaces:list[protocols.ISurface] = field(default_factory=list, init=False)
 
-    def get_nodes_by_ids(self, ids:Sequence[int]) -> tuple[tuple[float, float, float]]:
+    def get_nodes_by_ids(self, *ids:int) -> tuple[tuple[float, float, float],...]:
         """Gets a tuple of node coordinates for the given ids"""
         return tuple(self.nodes[nid] for nid in ids)
 
-    def get_elements_by_ids(self, ids:Sequence) -> tuple[protocols.IElement]:
+    def get_elements_by_ids(self, *ids:int) -> tuple[protocols.IElement,...]:
         """Gets a tuple of elements for the given ids"""
         return tuple(self.elements[eid] for eid in ids)
 
-    def get_elements_by_type(self, etype:enums.EEtypes) -> tuple[protocols.IElement]:
+    def get_elements_by_type(self, etype:enums.EEtypes) -> tuple[protocols.IElement,...]:
         """Gets a tuple of elements with the given element type."""         
-        if not isinstance(etype, enums.EEtypes):
-            raise TypeError(f'etype has to be of type EEtypes, got {type(etype)}')
         return tuple(e for e in self.elements.values() if e.type == etype)
 
     def get_set_by_name_and_type(self, set_name:str, set_type:enums.ESetTypes=enums.ESetTypes.NODE) -> protocols.ISet:
         """Gets a set by its name and type. If no such set exists an exception is raised."""
 
         set_name = set_name.upper()
-        if set_type == enums.ESetTypes.NODE:
-            for s in self.node_sets:
-                if s.name == set_name: return s
-        if set_type == enums.ESetTypes.ELEMENT:
-            for s in self.element_sets:
-                if s.name == set_name: return s
+        sets = self.node_sets if set_type == enums.ESetTypes.NODE else self.element_sets
+        for s in sets:
+            if s.name == set_name: return s
         raise ValueError(f'No set with name {set_name} found.')
 
     def get_node_set_by_name(self, set_name:str) -> protocols.ISet:
@@ -72,6 +64,8 @@ class Mesh:
         
     def get_max_node_id(self) -> int:
         """Gets the maximum defined node id"""
+
+        if not self.nodes: return 0
         return max(self.nodes.keys())
 
     def get_next_node_id(self) -> int:
@@ -80,6 +74,8 @@ class Mesh:
 
     def get_max_element_id(self) -> int:
         """Gets the maximum defined element id"""
+
+        if not self.elements: return 0
         return max(self.elements.keys())
 
     def get_next_element_id(self) -> int :
@@ -89,19 +85,18 @@ class Mesh:
     def get_surface_from_node_set(self, surf_name:str,
                             node_set:protocols.ISet, 
                             surf_type:enums.ESurfTypes) -> protocols.ISurface:
-
         """
         Gets a surface from a given node set.
 
         Args:
-            name (str): The name of the returned surface
+            surf_name (str): The name of the returned surface
             node_set (ISet): The node set for which the surface should be returned.
                             Type of node_set must be NODE and dim must be 2.
             surf_type: (ESurfTypes): Enum of which type the returned surface should be
 
         Raises:
             ValueError: Raised if type of node_set is not NODE
-            ValueError: RAISED if dim of node_set is not 2
+            ValueError: Raised if dim of node_set is not 2
         """
 
         return surface.get_surface_from_node_set(surf_name, self.elements.values(), 
@@ -110,13 +105,12 @@ class Mesh:
     def add_surface_from_node_set(self, surf_name:str,
                             node_set:protocols.ISet, 
                             surf_type:enums.ESurfTypes) -> protocols.ISurface:
-
         """
         Makes a surface from a given node set, adds it to the surfaces of this mesh
-        and returns for further use.
+        and returns it for further use.
 
         Args:
-            name (str): The name of the returned surface
+            surf_name (str): The name of the returned surface
             node_set (ISet): The node set for which the surface should be returned.
                             Type of node_set must be NODE and dim must be 2.
             surf_type: (ESurfTypes): Enum of which type the returned surface should be
@@ -125,12 +119,13 @@ class Mesh:
             ValueError: Raised if type of node_set is not NODE
             ValueError: RAISED if dim of node_set is not 2
         """
+
         surf = surface.get_surface_from_node_set(surf_name, self.elements.values(), 
                                                 node_set, surf_type)
         self.surfaces.append(surf)
         return surf
 
-    def add_node(self, coords:Sequence[numeric], id:Optional[int]=None, node_set:Optional[protocols.ISet]=None) -> int:
+    def add_node(self, coords:Sequence[protocols.number], id:Optional[int]=None, node_set:Optional[protocols.ISet]=None) -> int:
         """
         Adds a node to this mesh. .
 
@@ -138,9 +133,9 @@ class Mesh:
         if id is omitted, the next available id is used
 
         Args:    
-            coords (Sequence[float]): coordinates of the new node. [x, y, z]
+            coords (Sequence[number]): coordinates of the new node. [x, y, z]
             id (int, optional): id of the new node
-            node_set (interfaces.Set, optional): Set with type == NODE where the new node should be added to. Defaults to None.
+            node_set (ISet, optional): Set with type == NODE where the new node should be added to. Defaults to None.
 
         Raises:
             ValueError: raised if id is < 1
@@ -170,7 +165,7 @@ class Mesh:
 
         return id
     
-    def add_element(self, etype: enums.EEtypes, nids:tuple[int,...], id:Optional[int]=None, element_set:Optional[protocols.ISet]=None) -> int:
+    def add_element(self, etype: enums.EEtypes, nids:tuple[int,...], id:Optional[int]=None, el_set:Optional[protocols.ISet]=None) -> int:
         """
         Adds an element to this mesh.
 
@@ -185,18 +180,22 @@ class Mesh:
                         element should be added to. Defaults to None.
 
         Raises:
+            ValueError: raised if id is < 1
             ValueError: Raised if type of set is not ELEMENT
 
         Returns:
             (int): The id of the element
         """
-        if element_set and element_set.type != enums.ESetTypes.ELEMENT:
-            raise ValueError(f"set_type of element_set has to be {enums.ESetTypes.ELEMENT}, got {element_set}.")
-        
+
         if id is None: id = self.get_next_element_id()
+        if id <= 0: 
+            raise ValueError(f"id has to be greater than 0, got {id}")
+        if el_set and el_set.type != enums.ESetTypes.ELEMENT:
+            raise ValueError(f"set_type of element_set has to be {enums.ESetTypes.ELEMENT}, got {el_set}.")
+
         self.elements[id] = Element(id, etype, nids)
-        if element_set:
-            element_set.ids.add(id)
+        if el_set: el_set.ids.add(id)
+
         return id
 
     def add_set(self, set_name:str, set_type:enums.ESetTypes, ids:Iterable[int], dim:int=0) -> protocols.ISet:
@@ -216,7 +215,7 @@ class Mesh:
         Args:
             set_name (str): Name of the new set
             set_type (enums.ESetTypes): type of the new set
-            ids (Iterable[int]): ids (node or element) of the new set
+            ids (int): ids (node or element) of the new set
             dim (int, optional): Dimension of the set. Defaults to 0.
 
         Raises:
@@ -243,7 +242,7 @@ class Mesh:
     def add_surface(self, surface:protocols.ISurface):
         self.surfaces.append(surface)
 
-    def change_element_type(self, etype:enums.EEtypes, ids:Iterable[int]):
+    def change_element_type(self, etype:enums.EEtypes, *ids:int):
         """
         Changes the element type for all elements with the given ids.
 
@@ -266,17 +265,16 @@ class Mesh:
         self._write_nodes_ccx(buffer)
         self._write_elements_ccx(buffer)
         self._write_sets_ccx(buffer)
-
-        # write surfaces
-        for f in self.surfaces:
-            f.write_ccx(buffer)
+        self._write_surfaces_ccx(buffer)
 
     def _write_nodes_ccx(self, buffer:list[str]):
+        if not self.nodes: return
         buffer += ['*NODE']
         for nid, coords in self.nodes.items():
             buffer += ['{},{:15.7e},{:15.7e},{:15.7e}'.format(nid, *coords)]
 
     def _write_elements_ccx(self, buffer:list[str]):
+        if not self.elements:return
         EEtypes = {e.type for e in self.elements.values()}
         for etype in EEtypes:
             elems = (e for e in self.elements.values() if e.type==etype)
@@ -294,6 +292,10 @@ class Mesh:
             if s.ids:
                 buffer += [f'*ELSET,ELSET={s.name}']
                 _write_as_chunks(buffer, tuple(s.ids), 16)
+
+    def _write_surfaces_ccx(self, buffer:list[str]):
+        for f in self.surfaces:
+            f.write_ccx(buffer)
 
 def _write_as_chunks(buffer:list[str], seq:Sequence, n:int):
     lines = _list_to_chunks(seq, n)

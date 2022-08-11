@@ -120,12 +120,12 @@ class Element:
             if self.id < 0:
                 raise ValueError(f"id has to be greater than 0, got{self.id}")
         no_nodes = NODE_COUNT_TABLE[self.type]
-        name = self.type.name
+        ename = self.type.name
         if len(self.node_ids) != no_nodes:   
             if name == 'node_ids':   
-                raise ValueError(f"Element of type {name} must have {no_nodes} node ids, got {len(self.node_ids)}")
+                raise ValueError(f"Element of type {ename} must have {no_nodes} node ids, got {len(self.node_ids)}")
             if name == 'type':   
-                raise ValueError(f"An element of type {name} must have {no_nodes} node ids, this element has {len(self.node_ids)}")
+                raise ValueError(f"An element of type {ename} must have {no_nodes} node ids, this element has {len(self.node_ids)}")
 
     def get_dim(self) -> int:
         """Gets the dimension of this Element"""

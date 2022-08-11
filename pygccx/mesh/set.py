@@ -22,10 +22,29 @@ from enums import ESetTypes
 
 @dataclass(frozen=True, slots=True)
 class Set():
+    """
+    Class to represent a set of nodes or elements.
+    
+    Dont instanciate this class directly. Use add_set in class model
+    """
     name:str
+    """Name of this set"""
     type: ESetTypes
+    """Type of this set. Either NODE or ELEMENT"""
     dim:int
+    """Dimension of this set. This is the dimension of the underlying gmsh geometry this set was made of.
+    I.e. a set made from a line is 1D. The dimension is only relevant if the set is a node set and 
+    should be used to made an element face surface. Only 2D node sets can be converted to an element face 
+    based surface"""
     ids:set[int]
+    """Node- or element ids of this set"""
+
+    def add_ids(self, *ids:int):
+        """
+        Adds the given ids to this set.
+        """
+
+        self.ids.update(ids)
     
 
 

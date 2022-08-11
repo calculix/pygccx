@@ -22,9 +22,7 @@ from typing import Sequence, Any
 import numpy as np
 from protocols import ISet
 from enums import EOrientationSystems, ESetTypes
-from protocols import ICoordinateSystem
-
-number = int|float
+from protocols import ICoordinateSystem, number
 
 @dataclass
 class Transform:

@@ -19,7 +19,6 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass
 from typing import Optional, Any
-from enum import Enum
 from protocols import IKeyword, ISurface
 from enums import ECouplingTypes, ESurfTypes
 

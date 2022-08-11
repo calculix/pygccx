@@ -18,13 +18,13 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from dataclasses import dataclass, field, InitVar
-from protocols import ISet, IKeyword
-from enums import ESetTypes
 from typing import Sequence, Optional, Any
 import numpy as np
 import numpy.typing as npt
 
-number = int|float
+from protocols import ISet, IKeyword, number
+from enums import ESetTypes
+
 
 @dataclass
 class SpringLin:

@@ -22,7 +22,7 @@ from typing import Sequence, Optional
 import numpy as np
 import numpy.typing as npt
 
-number = int|float
+from protocols import number
 
 @dataclass
 class Amplitude:

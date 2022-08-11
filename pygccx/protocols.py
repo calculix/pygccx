@@ -17,11 +17,12 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from typing import Protocol, runtime_checkable, Sequence
+from typing import Protocol, runtime_checkable
+import numpy as np
 import numpy.typing as npt
 import enums
 
-number = int|float
+number = int|float|np.number
 
 class ISurface(Protocol):
     name:str
@@ -80,13 +81,6 @@ class IKeyword(Protocol):
     """Gets the name of this keyword"""
     desc:str
     """Gets the description of this keyword. This will also be written to the ccx input file"""
-
-# @runtime_checkable
-# class IStepKeyword(Protocol):
-#     name:str
-#     """Gets the name of this model feature"""
-#     desc:str
-#     """Gets the description of this model feature. This will also be written to the ccx input file"""
 
 @runtime_checkable
 class IStep(Protocol):

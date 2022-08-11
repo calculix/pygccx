@@ -19,8 +19,7 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field, InitVar
 from enums import EELasticTypes
-
-number = int|float
+from protocols import number
 
 @dataclass
 class Elastic:

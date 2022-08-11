@@ -20,8 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass
 from typing import Optional
 from enums import ESolvers
-
-number = int|float
+from protocols import number
 
 @dataclass
 class Static:

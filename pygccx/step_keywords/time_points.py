@@ -19,8 +19,7 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass
 from typing import Iterable
-
-number = int|float
+from protocols import number
 
 @dataclass
 class TimePoints:

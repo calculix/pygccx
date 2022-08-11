@@ -21,9 +21,7 @@ from dataclasses import dataclass
 from typing import Sequence, Any
 import numpy as np
 from enums import EOrientationSystems, EOrientationRotAxis
-from protocols import ICoordinateSystem
-
-number = int|float
+from protocols import ICoordinateSystem, number
 
 @dataclass
 class Orientation:

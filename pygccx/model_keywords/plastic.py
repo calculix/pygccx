@@ -18,12 +18,12 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from dataclasses import dataclass, field, InitVar
-from enums import EHardeningRules
 from typing import Sequence
 import numpy as np
 import numpy.typing as npt
 
-number = int|float
+from enums import EHardeningRules
+from protocols import number
 
 @dataclass
 class CyclicHardening:

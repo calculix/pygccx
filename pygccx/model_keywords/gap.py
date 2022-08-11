@@ -22,10 +22,8 @@ from typing import Sequence, Optional, Any
 import numpy as np
 import numpy.typing as npt
 
-from protocols import ISet
+from protocols import ISet, number
 from enums import ESetTypes
-
-number = int|float
 
 @dataclass
 class Gap:
@@ -41,7 +39,7 @@ class Gap:
         name: Optional. The name of this instance
         desc: Optional. A short description of this instance. This is written to the ccx input file.
     """
-    
+
     elset:ISet
     """Set of gap elements to which the geometry definition applies"""
     clearance:number

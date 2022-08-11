@@ -20,10 +20,8 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass
 from typing import Any
 
-from protocols import ISet
+from protocols import ISet, number
 from enums import ESetTypes
-
-number = int|float
 
 @dataclass
 class Mass:

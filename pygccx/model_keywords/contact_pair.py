@@ -20,9 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass, field
 from typing import Optional, Any
 from enums import EContactTypes, ESetTypes, ESurfTypes
-from protocols import IKeyword, ISet, ISurface
-
-number = int|float
+from protocols import IKeyword, ISet, ISurface, number
 
 @dataclass
 class ContactPair:

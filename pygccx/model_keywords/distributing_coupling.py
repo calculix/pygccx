@@ -19,10 +19,8 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, InitVar, field
 from typing import Any
-from protocols import ISet
+from protocols import ISet, number
 from enums import ESetTypes
-
-number = int|float
 
 @dataclass
 class DistribuitingCoupling:
@@ -41,7 +39,7 @@ class DistribuitingCoupling:
         name: Name of this instance.
         desc: A short description of this instance. This is written to the ccx input file.
     """
-    
+
     elset: ISet
     """Element set which should contain exacty one element of type DCOUP3D"""
     nid_or_set:InitVar[int|ISet]

@@ -19,11 +19,11 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field
 from typing import Optional, Iterable, Any
-from enums import EPressureOverclosures
 import numpy as np
 import numpy.typing as npt
 
-number = int|float
+from enums import EPressureOverclosures
+from protocols import number
 
 @dataclass
 class SurfaceBehavior:

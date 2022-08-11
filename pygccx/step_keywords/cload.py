@@ -20,9 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass, field, InitVar
 from typing import Optional, Any
 from enums import ELoadOps
-from protocols import IKeyword, ISet
-
-number = int|float
+from protocols import IKeyword, ISet, number
 
 @dataclass
 class Cload:

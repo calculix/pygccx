@@ -38,6 +38,7 @@ Step 2: Load of 40_000N is applied 10% (2mm) out of center. So the pressure on o
         of the roller is higher.
 
 All bodies are meshed with linear C3D8I elements.
+Symmetry of the model is used. So only one half of the roller and plate is modeled
 
 used model keywords:
 Boundary, RigidBody, Material, Elastic, SolidSection
@@ -76,7 +77,7 @@ def main():
         trans_pilot = mesh.add_node((0,10,0))
         rot_pilot = mesh.add_node((0,10,0))
 
-        plate = mesh.get_el_set_by_name('HALVE_SPACE')
+        plate = mesh.get_el_set_by_name('PLATE')
         roller = mesh.get_el_set_by_name('ROLLER')
         target = mesh.get_node_set_by_name('TARGET')
         contact = mesh.get_node_set_by_name('CONTACT')
@@ -225,7 +226,7 @@ def build_mesh_in_gmsh(gmsh:ccx_model._gmsh):  # type: ignore
 
     # physical Groups
     gmsh.model.add_physical_group(3, [1,2], name='ROLLER')
-    gmsh.model.add_physical_group(3, range(3,12), name='HALVE_SPACE')
+    gmsh.model.add_physical_group(3, range(3,12), name='PLATE')
     gmsh.model.add_physical_group(2, [13,35], name='CONTACT')
     gmsh.model.add_physical_group(2, [60,82,126,148,192,214], name='TARGET')
     gmsh.model.add_physical_group(2, [72,112,138,178,204,244], name='FIX_Z_SYM')

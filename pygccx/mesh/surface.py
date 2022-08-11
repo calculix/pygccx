@@ -24,11 +24,22 @@ import protocols
 
 @dataclass(frozen=True, slots=True)
 class ElementSurface():
+    """
+    Class representing an element face based surface.
+    
+    Dont instanciate this class directly. Use get_surface_from_node_set
+    """
+
     name:str
+    """Name of this surface"""
     type: enums.ESurfTypes = field(default=enums.ESurfTypes.EL_FACE, init=False)
+    """Enum type of this surface."""
     element_faces:set[protocols.IElementFace]
+    """Set with element faces"""
 
     def write_ccx(self, buffer:list[str]): 
+        """Writes the CCX input string to the given buffer."""
+
         buffer += [f'*SURFACE,NAME={self.name},TYPE={self.type.value}']
         for f in self.element_faces:
             buffer += [f'{f.name}']
@@ -36,10 +47,19 @@ class ElementSurface():
 
 @dataclass(frozen=True, slots=True)
 class NodeSurface():
+    """
+    Class representing a node based surface.
+    
+    Dont instanciate this class directly. Use get_surface_from_node_set
+    """
     name:str
+    """Name of this surface"""
     type: enums.ESurfTypes = field(default=enums.ESurfTypes.NODE, init=False)
+    """Enum type of this surface."""
     node_ids:set[int]
+    '''Set with node ids belonging to this surface'''
     node_set_names:set[str]
+    '''Set with node set names belonging to this surface'''
 
     def write_ccx(self, buffer:list[str]): 
         buffer += [f'*SURFACE,NAME={self.name},TYPE={self.type.value}']

@@ -87,7 +87,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     # step
     step = sk.Step(nlgeom=True) # new step with NLGEOM
     model.add_steps(step)       # add step to model
-    # add features to the step
+    # add keywords to the step
     step.add_step_keywords(
         sk.Static(direct=True,init_time_inc=0.5),                # step is a static one
         sk.Boundary(load_set, 2, 2, amplitude=amp),  # displacement in Y at tip with magnitude 2

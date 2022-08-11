@@ -50,10 +50,11 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     gmsh.option.setNumber('Mesh.MeshSizeMax', 3)
     gmsh.option.setNumber('Mesh.ElementOrder', 2)
     gmsh.option.setNumber('Mesh.HighOrderOptimize', 1)
-    gmsh.model.mesh.generate(3)
-    gmsh.model.add_physical_group(2,[1],name='FIX')
-    gmsh.model.add_physical_group(2,[2],name='LOAD')
-    gmsh.model.add_physical_group(3,[1],name='BEAM')
+    gmsh.model.mesh.generate(3) # mesh with tet10 elements
+    # Makje physical groups (sets)
+    gmsh.model.add_physical_group(2,[1],name='FIX') # fixed end
+    gmsh.model.add_physical_group(2,[2],name='LOAD') # loaded end
+    gmsh.model.add_physical_group(3,[1],name='BEAM') # whole volume
 
     # translate the mesh to ccx
     # this translates all nodes, elements, node sets and element sets
@@ -76,7 +77,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     # make an element face based surface from the load node set
     # and add it to the mesh
     load_surf = mesh.add_surface_from_node_set('LOAD_SURF', load_set, enums.ESurfTypes.EL_FACE)
-    # make a distributing coupling and add it to the model features
+    # make a distributing coupling and add it to the model keywords
     model.add_model_keywords(
         mk.Coupling(enums.ECouplingTypes.DISTRIBUTING, pilot, load_surf, 'COUP_LOAD', 1,3)
     )
@@ -93,7 +94,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     # step
     step = sk.Step(nlgeom=True) # new step with NLGEOM
     model.add_steps(step)       # add step to model
-    # add features to the step
+    # add keywords to the step
     step.add_step_keywords(
         sk.Static(),                # step is a static one
         sk.Cload(pilot, 2, 20000),  # force in Y at pilot node with magnitude 20000

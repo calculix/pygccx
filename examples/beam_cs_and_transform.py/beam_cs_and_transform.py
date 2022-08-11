@@ -87,7 +87,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     # make an element face based surface from the load node set
     # and add it to the mesh
     load_surf = mesh.add_surface_from_node_set('LOAD_SURF', load_set, enums.ESurfTypes.EL_FACE)
-    # make a Transform and a kinematic coupling and add it to the model features
+    # make a Transform and a kinematic coupling and add it to the model keywords
     model.add_model_keywords(
         mk.Transform.from_coordinate_system(pilot_set, cs),
         mk.Coupling(enums.ECouplingTypes.KINEMATIC, pilot, load_surf, 'COUP_LOAD', 1,3)
@@ -105,7 +105,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     # step
     step = sk.Step(nlgeom=True) # new step with NLGEOM
     model.add_steps(step)       # add step to model
-    # add features to the step
+    # add keywords to the step
     step.add_step_keywords(
         sk.Static(enums.ESolvers.SPOOLES),                # step is a static one
         sk.Cload(pilot, 1, 20000),  # force in Y at pilot node with magnitude 20000

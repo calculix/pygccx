@@ -85,7 +85,7 @@ class IKeyword(Protocol):
 @runtime_checkable
 class IStep(Protocol):
     desc:str
-    step_features:list[IKeyword]
+    step_keywords:list[IKeyword]
 
     def add_step_keywords(self, *step_keywords:IKeyword): ...
 

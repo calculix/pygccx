@@ -31,8 +31,8 @@ def make_contact(name:str, contact_type:EContactTypes, dep_surf:ISurface, ind_su
     """
     Function to set up a contact.
 
-    This function creates all the necessary model features needed for a contact and
-    returns this features in a tuple
+    This function creates all the necessary model keywords needed for a contact and
+    returns this keywords in a tuple
 
     Args:
         name (str): Name of the contact.
@@ -67,7 +67,7 @@ def make_contact(name:str, contact_type:EContactTypes, dep_surf:ISurface, ind_su
         ValueError: Raised if mue is specified, but not lam
 
     Returns:
-        tuple[IModelFeatures]: All model features needed for this contact
+        tuple[IKeyword]: All model keywords needed for this contact
     """
     out:list[IKeyword] = []
 

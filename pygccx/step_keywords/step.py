@@ -49,7 +49,7 @@ class Step:
     desc:str = ''
     """A short description of this step. This is written to the ccx input file."""
 
-    step_features:list[IKeyword] = field(default_factory=list, init=False)
+    step_keywords:list[IKeyword] = field(default_factory=list, init=False)
 
     def __setattr__(self, name: str, value: Any) -> None:
         if name == 'inc' and value < 1:
@@ -58,8 +58,8 @@ class Step:
             
 
     def add_step_keywords(self, *step_keywords:IKeyword):
-        """Adds the given step features to this step"""
-        self.step_features.extend(step_keywords)
+        """Adds the given step keywords to this step"""
+        self.step_keywords.extend(step_keywords)
 
     def __str__(self):
 

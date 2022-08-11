@@ -98,13 +98,13 @@ def main():
 
         target_surf = mesh.add_surface_from_node_set('TARGET_SURF', target, enums.ESurfTypes.EL_FACE)
         contact_surf = mesh.add_surface_from_node_set('CONTACT_SURF', contact, enums.ESurfTypes.EL_FACE)
-        contact_features = mk.make_contact('ROLLER_CONTACT', enums.EContactTypes.NODE_TO_SURFACE,
+        contact_keywords = mk.make_contact('ROLLER_CONTACT', enums.EContactTypes.NODE_TO_SURFACE,
                                             target_surf, contact_surf, 
                                             enums.EPressureOverclosures.LINEAR,
                                             adjust=1e-5,
                                             k=210000*50, sig_inf = .1)
 
-        model.add_model_keywords(*contact_features)
+        model.add_model_keywords(*contact_keywords)
 
         mat = mk.Material('STEEL')
         el = mk.Elastic((210000/2, 0.3))

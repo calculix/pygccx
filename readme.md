@@ -9,7 +9,7 @@ Finally you have to define the keywords for the ccx input file.<br>
 Each Keyword is represented by a class. Each class takes the parameters and data the keyword
 needs.<br>
 So your model basically consist of the mesh object and a list of keyword objects.<br><br>
-When the model is build you can either export the CCX input file or solve the model directly
+When the model is complete you can either export the CCX input file or solve the model directly
 in pygccx.
 
 Look in the examples folder for a quick start and to learn more about how to use pygccx.

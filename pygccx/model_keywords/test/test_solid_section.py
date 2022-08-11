@@ -31,7 +31,7 @@ class SetMock():
     ids:set[int]
 
 @dataclass
-class FeatureMock():
+class KeywordMock():
     name:str
     desc:str = ''
 
@@ -39,8 +39,8 @@ class TestSolidSection(TestCase):
 
     def setUp(self) -> None:
         self.s = SetMock('SET1', ESetTypes.ELEMENT, 2, set((1,2,3,4)))
-        self.mat = FeatureMock('MAT1')
-        self.ori = FeatureMock('OR1')
+        self.mat = KeywordMock('MAT1')
+        self.ori = KeywordMock('OR1')
 
     def test_is_IKeyword(self):
         sos = SolidSection(self.s, self.mat)
@@ -58,5 +58,5 @@ class TestSolidSection(TestCase):
 
     def test_false_set_type(self):
         s = SetMock('SET1', ESetTypes.NODE, 2, set((1,2,3,4)))
-        mat = FeatureMock('MAT1')
+        mat = KeywordMock('MAT1')
         self.assertRaises(ValueError, SolidSection, s, mat)

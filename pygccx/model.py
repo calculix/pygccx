@@ -44,8 +44,8 @@ class Model:
     """Working directory where all generated files will be stored"""
     mesh:msh.Mesh = field(init=False)
     """Mesh object of this model"""
-    model_features:list[IKeyword] = field(default_factory=list, init=False)
-    """List of model features (aka model keywords)"""
+    model_keywords:list[IKeyword] = field(default_factory=list, init=False)
+    """List of model keywords (aka model keywords)"""
     steps:list[IStep] = field(default_factory=list, init=False)
     """List of all analysis steps"""
 
@@ -93,10 +93,10 @@ class Model:
         self.mesh.write_ccx(buffer)
         buffer.append('')
         buffer.append('***************************************')
-        buffer.append('** MODEL FEATURES')
+        buffer.append('** MODEL KEYWORDSS')
         buffer.append('***************************************')
         buffer.append('')
-        for mf in self.model_features:
+        for mf in self.model_keywords:
             if mf.desc: buffer.append(f'** {mf.desc}')
             buffer.append(str(mf))
 
@@ -108,7 +108,7 @@ class Model:
         for step in self.steps:
             if step.desc: buffer.append(f'** {step.desc}')
             buffer.append(str(step))
-            for sf in step.step_features:
+            for sf in step.step_keywords:
                 if sf.desc: buffer.append(f'** {sf.desc}')
                 buffer.append(str(sf))
             buffer.append('*END STEP')
@@ -118,8 +118,8 @@ class Model:
             f.writelines(f'{s}\n' for s in buffer)
 
     def add_model_keywords(self, *model_keywords:IKeyword):
-        """Adds the given model features to this model"""
-        self.model_features.extend(model_keywords)
+        """Adds the given model keywords to this model"""
+        self.model_keywords.extend(model_keywords)
 
     def add_steps(self, *steps:IStep):
         """Adds the given steps to this model"""

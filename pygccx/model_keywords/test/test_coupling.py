@@ -57,11 +57,33 @@ class TestCoupling(TestCase):
 
         self.assertEqual(str(c), known)
 
+    def test_distributing_cyclic(self):
+        c = Coupling(ECouplingTypes.DISTRIBUTING,
+                        ref_node=1, surface=self.surf,
+                        name='C1', first_dof=1, cyclic_symmetry=True)
+
+        known = '*COUPLING,CONSTRAINT NAME=C1,REF NODE=1,SURFACE=S1\n'
+        known += '*DISTRIBUTING,CYCLIC SYMMETRY\n'
+        known += '1\n'
+
+        self.assertEqual(str(c), known)
+
     def test_default_kinematic(self):
         c = Coupling(ECouplingTypes.KINEMATIC,
                         ref_node=1, surface=self.surf,
                         name='C1', first_dof=1)
 
+        known = '*COUPLING,CONSTRAINT NAME=C1,REF NODE=1,SURFACE=S1\n'
+        known += '*KINEMATIC\n'
+        known += '1\n'
+
+        self.assertEqual(str(c), known)
+
+    def test_kinematic_cyclic(self):
+        c = Coupling(ECouplingTypes.KINEMATIC,
+                        ref_node=1, surface=self.surf,
+                        name='C1', first_dof=1, cyclic_symmetry=True)
+        # cyclic_symmetry schould be ignored
         known = '*COUPLING,CONSTRAINT NAME=C1,REF NODE=1,SURFACE=S1\n'
         known += '*KINEMATIC\n'
         known += '1\n'

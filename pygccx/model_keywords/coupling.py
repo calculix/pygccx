@@ -37,6 +37,8 @@ class Coupling:
         first_dof: First dof to be used in the coupling
         last_dof: Optional. Last dof to be used in the coupling. If omitted, only first_dof is used
         orientation: Optional. Orientation object to assign a local coordinate system
+        cyclic_symmetry: Optional. Flag if the structure is assumed to be cyclic symmetric. 
+            Only relevant for type == DISTRIBUTING
         desc: Optional. A short description of this instance. This is written to the ccx input file.
     """
 
@@ -54,6 +56,8 @@ class Coupling:
     """Last dof to be used in the coupling. If omitted, only first_dof is used"""
     orientation:Optional[IKeyword] = None
     """Orientation object to assign a local coordinate system"""
+    cyclic_symmetry:bool = False
+    """Flag if the structure is assumed to be cyclic symmetric. Only relevant for type == DISTRIBUTING"""
     desc:str = ''
     """A short description of this instance. This is written to the ccx input file."""
 
@@ -67,8 +71,12 @@ class Coupling:
         
         s = f'*COUPLING,CONSTRAINT NAME={self.name},REF NODE={self.ref_node},SURFACE={self.surface.name}'
         if self.orientation: s += f',ORIENTATION={self.orientation.name}'
+        
         s += '\n'
-        s += f'{self.type.value}\n'
+        s += f'{self.type.value}'
+        if self.type == ECouplingTypes.DISTRIBUTING and self.cyclic_symmetry:
+            s += f',CYCLIC SYMMETRY'
+        s += '\n'
         s += f'{self.first_dof},'
         if self.last_dof is not None: s += f'{self.last_dof},'
         s = s.rstrip(',') + '\n'

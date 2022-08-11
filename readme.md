@@ -13,8 +13,10 @@ When the model is complete you can either export the CCX input file or solve the
 in pygccx.
 
 Look in the examples folder for a quick start and to learn more about how to use pygccx.
+The best way to explore pygccx is by using an IDE like VS Code or PyCharm with auto completion,
+intellysense and static type checking switched on. So you can see all the members, parameters types and doc strings.
 
-ATM no postprocessing capabilities are implemented. This is one of next mile stones.<br>
+ATM no postprocessing capabilities are implemented. This is one of the next mile stones.<br>
 
 # Install Pygccx
 Up to now there is no pip package. To use pygccx do the following:
@@ -51,7 +53,7 @@ Up to now there is no pip package. To use pygccx do the following:
         - *SURFACE INTERACTION
         - *TRANSFORM <br>
     - Implemented step keywords:
-        - *BOUNDARY (inhomogenous)
+        - *BOUNDARY (inhomogeneous)
         - *CLOAD
         - *CONTACT FILE
         - *EL FILE

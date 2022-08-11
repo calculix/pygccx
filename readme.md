@@ -71,25 +71,6 @@ Up to now there is no pip package. To use pygccx do the following:
 - Provide result object for querying results
 - Postpro in GMSH
 
-# Design guidelines
-Provide the users the most support of their IDEs. This means:
-- Use of type hints and protocols where ever possible
-- No module, class, or class members without a docstring
-- Use Enums for options, not strings
-- Write docstrings for the Enums
-- Each Enum class name starts with an "E" and is placed in the module "enums"
-
-Maintainability:
-- Use dependency injection and inversion of control
-- Write code against protocols not implementations
-- Each protocol class name starts with an "I" and is placed in the module "protocols"
-- Classes are only instantiated in class "Model" or by the user to pass it to other classes
-- Write for every class a unit test with 100% coverage.
-- If possible, write an integration test (i.e. a ccx model which uses the new class / feature)
-- Use data classes 
-- Validate data in classes using \_\_setattr__ and raise exceptions accordingly.
-
-
 # Prerequisites
 - Python 3.10
 - Packages from requirements.txt

@@ -25,7 +25,7 @@ class Set():
     """
     Class to represent a set of nodes or elements.
     
-    Dont instanciate this class directly. Use add_set in class model
+    Dont instanciate this class directly. Use add_set in class model.
     """
     name:str
     """Name of this set"""

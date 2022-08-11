@@ -77,9 +77,9 @@ def get_element_dimension(type:EEtypes) -> int:
     """
     Gets the dimension for the given element type.
 
-    0 for point elements (i.e. SPRING1, MASS), 
-    1 for line elements (i.e. SPRING2, B32)
-    2 for face elements (I.e. S4, CAX8), 
+    0 for point elements (i.e. SPRING1, MASS)\n
+    1 for line elements (i.e. SPRING2)\n
+    2 for face elements (I.e. S4),\n
     3 for solid elements (i.e. C3D4, C3D20)
 
     Args:
@@ -100,9 +100,13 @@ def get_element_dimension(type:EEtypes) -> int:
 
 @dataclass()
 class Element:
+    """Class representing an element"""
     id:int
+    """Id of this element"""
     type:EEtypes
+    """Enum type of this element"""
     node_ids:tuple[int, ...]
+    """Node ids belonging to this element"""
 
     _is_initialized:bool = field(init=False, default=False)
 
@@ -142,6 +146,7 @@ class Element:
         return self.node_ids[:self.get_corner_node_count()]
 
     def get_faces(self) -> tuple[IElementFace, ...]:
+        """Gets the faces of this element"""
         face_node_ind = FACE_INDEX_TABLE.get(self.type, [])
         faces = []
         for num, inds in enumerate(face_node_ind, 1):
@@ -153,12 +158,20 @@ class Element:
     
 @dataclass(frozen=True, slots=True)
 class ElementFace:
+    """
+    Class representing an element face.
+    This class is intended as a return value for Element.get_faces.
+    """
     number:int
+    """Number of this face inside the element"""
     element_id:int
+    """Id of the element this face belongs to"""
     node_ids:tuple[int, ...]
+    """Node ids of this face"""
 
     @property
     def name(self) -> str:
+        """Gets the name of this face in the form 'eid,Sx'"""
         return f'{self.element_id},S{self.number}'
 
 

@@ -25,6 +25,7 @@ import enums
 number = int|float|np.number
 
 class ISurface(Protocol):
+    """Protocol for surface classes"""
     name:str
     """Gets the name of this surface """
     type: enums.ESurfTypes
@@ -34,6 +35,7 @@ class ISurface(Protocol):
         """Writes the ccx input string of this surface to the given buffer"""
 
 class IElementFace(Protocol):
+    """Protocol for element face classes"""
     number:int
     """Gets the number of this element face inside the element with element_id"""
     element_id:int
@@ -44,6 +46,7 @@ class IElementFace(Protocol):
     """Gets the name of this element face"""
 
 class IElement(Protocol):
+    """Protocol for Element classes"""
     id:int
     """Gets the id of this element"""
     type:enums.EEtypes
@@ -66,6 +69,7 @@ class IElement(Protocol):
 
 @runtime_checkable
 class ISet(Protocol):
+    """Protocol for node- or element set classes"""
     name:str
     """Gets the name of this set"""
     type:enums.ESetTypes
@@ -77,6 +81,7 @@ class ISet(Protocol):
 
 @runtime_checkable
 class IKeyword(Protocol):
+    """Protocol for Keyword classes"""
     name:str
     """Gets the name of this keyword"""
     desc:str
@@ -84,12 +89,14 @@ class IKeyword(Protocol):
 
 @runtime_checkable
 class IStep(Protocol):
+    """Protocol for Step classes"""
     desc:str
     step_keywords:list[IKeyword]
 
     def add_step_keywords(self, *step_keywords:IKeyword): ...
 
 class ICoordinateSystem(Protocol):
+    """Protocol for coordinate systems"""
     name:str
     """Name of this coordinate system. Used if an Orientation or Transform is
         instantiated using this coordinate system."""

@@ -40,7 +40,7 @@ class Model:
     """Path to cgx executable"""
     jobname:str = 'jobname'
     """Name of the job. All generated files will have this name."""
-    working_dir:str = os.getcwd()
+    working_dir:str = field(default_factory=os.getcwd)
     """Working directory where all generated files will be stored"""
     mesh:msh.Mesh = field(init=False)
     """Mesh object of this model"""

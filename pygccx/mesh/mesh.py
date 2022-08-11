@@ -27,26 +27,55 @@ import protocols
 
 @dataclass(repr=False)
 class Mesh:
+    """Class representing the mesh of a pygccx model"""
+
     nodes:dict[int, tuple[float, float, float]] 
+    """Dict with all nodes of this mesh. Key = node id, values = coordinates"""
     elements:dict[int, protocols.IElement]
+    """Dict with all elements of this mesh. Key = element id"""
     node_sets:list[protocols.ISet]
+    """List with all node sets of this mesh"""
     element_sets:list[protocols.ISet]
+    """List with all element sets of this mesh"""
     surfaces:list[protocols.ISurface] = field(default_factory=list, init=False)
+    """List with all surfaces (node based and element face based) of this mesh"""
 
     def get_nodes_by_ids(self, *ids:int) -> tuple[tuple[float, float, float],...]:
-        """Gets a tuple of node coordinates for the given ids"""
+        """
+        Gets a tuple of node coordinates for the given ids
+
+        Returns:
+            tuple[tuple[float, float, float],...]: Coordinates of nodes for given ids
+        """
         return tuple(self.nodes[nid] for nid in ids)
 
     def get_elements_by_ids(self, *ids:int) -> tuple[protocols.IElement,...]:
-        """Gets a tuple of elements for the given ids"""
+        """
+        Gets a tuple of elements for the given ids
+
+        Returns:
+            tuple[protocols.IElement,...]: Elements for given ids
+        """
         return tuple(self.elements[eid] for eid in ids)
 
     def get_elements_by_type(self, etype:enums.EEtypes) -> tuple[protocols.IElement,...]:
-        """Gets a tuple of elements with the given element type."""         
+        """Gets a tuple of elements with the given element type."""      
         return tuple(e for e in self.elements.values() if e.type == etype)
 
     def get_set_by_name_and_type(self, set_name:str, set_type:enums.ESetTypes=enums.ESetTypes.NODE) -> protocols.ISet:
-        """Gets a set by its name and type. If no such set exists an exception is raised."""
+        """
+        Gets a set by its name and type. If no such set exists an exception is raised.
+
+        Args:
+            set_name (str): Name of set to be returned
+            set_type (enums.ESetTypes, optional): Type of set to be returned. Defaults to enums.ESetTypes.NODE.
+
+        Raises:
+            ValueError: Raised if no set with given name and type exists
+
+        Returns:
+            protocols.ISet: Set with given name and type
+        """
 
         set_name = set_name.upper()
         sets = self.node_sets if set_type == enums.ESetTypes.NODE else self.element_sets
@@ -55,11 +84,27 @@ class Mesh:
         raise ValueError(f'No set with name {set_name} found.')
 
     def get_node_set_by_name(self, set_name:str) -> protocols.ISet:
-        """Gets a node set by its name. If no such set exists an exception is raised."""
+        """
+        Gets a node set by its name. If no such set exists an exception is raised.
+
+        Args:
+            set_name (str): Name of the node set to be returned
+
+        Returns:
+            protocols.ISet: Node set with given name
+        """
         return self.get_set_by_name_and_type(set_name, enums.ESetTypes.NODE)
 
     def get_el_set_by_name(self, set_name:str) -> protocols.ISet:
-        """Gets an element set by its name. If no such set exists an exception is raised."""
+        """
+        Gets an element set by its name. If no such set exists an exception is raised.
+
+        Args:
+            set_name (str): Name of element set to be returned
+
+        Returns:
+            protocols.ISet: Element set with given name
+        """
         return self.get_set_by_name_and_type(set_name, enums.ESetTypes.ELEMENT)
         
     def get_max_node_id(self) -> int:
@@ -127,24 +172,24 @@ class Mesh:
 
     def add_node(self, coords:Sequence[protocols.number], id:Optional[int]=None, node_set:Optional[protocols.ISet]=None) -> int:
         """
-        Adds a node to this mesh. .
+        Adds a node to this mesh.
 
         If a node with same id already exists, it is replaced.
-        if id is omitted, the next available id is used
+        if id is omitted, the next available id is used.
 
-        Args:    
-            coords (Sequence[number]): coordinates of the new node. [x, y, z]
-            id (int, optional): id of the new node
-            node_set (ISet, optional): Set with type == NODE where the new node should be added to. Defaults to None.
+        Args:
+            coords (Sequence[protocols.number]): coordinates of the new node. [x, y, z]
+            id (Optional[int], optional): id of the new node. Defaults to None.
+            node_set (Optional[protocols.ISet], optional): Set with type == NODE where the new node should be added to. Defaults to None. Defaults to None.
 
         Raises:
             ValueError: raised if id is < 1
-            ValueError: raised if node_set is not None and node_set.set_type != NODE
             ValueError: raised if len(coords) != 3 
+            ValueError: raised if set type of node_set is not NODE
             ValueError: raised if not all coordinates in coords are numeric
 
         Returns:
-            (int): The id of the node
+            int: The id of the node
         """
 
         if id is None: id = self.get_next_node_id()
@@ -172,19 +217,18 @@ class Mesh:
         If an element with the same id already exists, it is replaced.
         if id is omitted, the next available id is used.
 
-        Args:           
-            etype (EEtypes): Type of the new Element
+        Args:
+            etype (enums.EEtypes): Type of the new Element
             nids (tuple[int,...]): node ids of the new Element
-            id (int, optional): Id of the new element
-            element_set (ISet, optional): Set with type == ELEMENT where the new 
-                        element should be added to. Defaults to None.
+            id (Optional[int], optional): Id of the new element. Defaults to None.
+            el_set (Optional[protocols.ISet], optional): Set with type == ELEMENT where the new element should be added to. Defaults to None.. Defaults to None.
 
         Raises:
-            ValueError: raised if id is < 1
+            ValueError: Raised if id is < 1
             ValueError: Raised if type of set is not ELEMENT
 
         Returns:
-            (int): The id of the element
+            int: The id of the element
         """
 
         if id is None: id = self.get_next_element_id()
@@ -240,6 +284,12 @@ class Mesh:
         return new_set
 
     def add_surface(self, surface:protocols.ISurface):
+        """
+        Adds the given surface to the mesh
+
+        Args:
+            surface (protocols.ISurface): The surface to be added.
+        """
         self.surfaces.append(surface)
 
     def change_element_type(self, etype:enums.EEtypes, *ids:int):
@@ -249,18 +299,19 @@ class Mesh:
         The given etype must be compatible with the current element type.
         I.e. C3D20R -> C3D20 or C3D8I -> C3D8R
 
-        Raises:
-            ValueError: Raised if given etype is not compatible with current element type
-
         Args:
             etype (enums.EEtypes): The new element type
             ids (Iterable[int]): Ids of elements to change
+
+        Raises:
+            ValueError: Raised if given etype is not compatible with current element type
         """
 
         for id in ids:
             self.elements[id].type = etype
 
     def write_ccx(self, buffer:list[str]):
+        """Writes the CCX input string to the given buffer."""
 
         self._write_nodes_ccx(buffer)
         self._write_elements_ccx(buffer)

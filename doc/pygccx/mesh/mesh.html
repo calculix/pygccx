@@ -1,0 +1,1469 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pygccx.mesh.mesh API documentation</title>
+<meta name="description" content="Copyright Matthias Sedlmaier 2022
+This file is part of pygccx …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pygccx.mesh.mesh</code></h1>
+</header>
+<section id="section-intro">
+<p>Copyright Matthias Sedlmaier 2022
+This file is part of pygccx.</p>
+<p>pygccx is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.</p>
+<p>pygccx is distributed in the hope that it will
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with pygccx.<br>
+If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#39;&#39;&#39;
+Copyright Matthias Sedlmaier 2022
+This file is part of pygccx.
+
+pygccx is free software: you can redistribute it 
+and/or modify it under the terms of the GNU General Public License as 
+published by the Free Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+pygccx is distributed in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with pygccx.  
+If not, see &lt;http://www.gnu.org/licenses/&gt;.
+&#39;&#39;&#39;
+
+from dataclasses import dataclass, field
+from typing import Iterable, Sequence, Optional
+import enums
+from . import surface
+from .element import Element
+from .set import Set
+import protocols
+
+@dataclass(repr=False)
+class Mesh:
+    &#34;&#34;&#34;Class representing the mesh of a pygccx model&#34;&#34;&#34;
+
+    nodes:dict[int, tuple[float, float, float]] 
+    &#34;&#34;&#34;Dict with all nodes of this mesh. Key = node id, values = coordinates&#34;&#34;&#34;
+    elements:dict[int, protocols.IElement]
+    &#34;&#34;&#34;Dict with all elements of this mesh. Key = element id&#34;&#34;&#34;
+    node_sets:list[protocols.ISet]
+    &#34;&#34;&#34;List with all node sets of this mesh&#34;&#34;&#34;
+    element_sets:list[protocols.ISet]
+    &#34;&#34;&#34;List with all element sets of this mesh&#34;&#34;&#34;
+    surfaces:list[protocols.ISurface] = field(default_factory=list, init=False)
+    &#34;&#34;&#34;List with all surfaces (node based and element face based) of this mesh&#34;&#34;&#34;
+
+    def get_nodes_by_ids(self, *ids:int) -&gt; tuple[tuple[float, float, float],...]:
+        &#34;&#34;&#34;
+        Gets a tuple of node coordinates for the given ids
+
+        Returns:
+            tuple[tuple[float, float, float],...]: Coordinates of nodes for given ids
+        &#34;&#34;&#34;
+        return tuple(self.nodes[nid] for nid in ids)
+
+    def get_elements_by_ids(self, *ids:int) -&gt; tuple[protocols.IElement,...]:
+        &#34;&#34;&#34;
+        Gets a tuple of elements for the given ids
+
+        Returns:
+            tuple[protocols.IElement,...]: Elements for given ids
+        &#34;&#34;&#34;
+        return tuple(self.elements[eid] for eid in ids)
+
+    def get_elements_by_type(self, etype:enums.EEtypes) -&gt; tuple[protocols.IElement,...]:
+        &#34;&#34;&#34;Gets a tuple of elements with the given element type.&#34;&#34;&#34;      
+        return tuple(e for e in self.elements.values() if e.type == etype)
+
+    def get_set_by_name_and_type(self, set_name:str, set_type:enums.ESetTypes=enums.ESetTypes.NODE) -&gt; protocols.ISet:
+        &#34;&#34;&#34;
+        Gets a set by its name and type. If no such set exists an exception is raised.
+
+        Args:
+            set_name (str): Name of set to be returned
+            set_type (enums.ESetTypes, optional): Type of set to be returned. Defaults to enums.ESetTypes.NODE.
+
+        Raises:
+            ValueError: Raised if no set with given name and type exists
+
+        Returns:
+            protocols.ISet: Set with given name and type
+        &#34;&#34;&#34;
+
+        set_name = set_name.upper()
+        sets = self.node_sets if set_type == enums.ESetTypes.NODE else self.element_sets
+        for s in sets:
+            if s.name == set_name: return s
+        raise ValueError(f&#39;No set with name {set_name} found.&#39;)
+
+    def get_node_set_by_name(self, set_name:str) -&gt; protocols.ISet:
+        &#34;&#34;&#34;
+        Gets a node set by its name. If no such set exists an exception is raised.
+
+        Args:
+            set_name (str): Name of the node set to be returned
+
+        Returns:
+            protocols.ISet: Node set with given name
+        &#34;&#34;&#34;
+        return self.get_set_by_name_and_type(set_name, enums.ESetTypes.NODE)
+
+    def get_el_set_by_name(self, set_name:str) -&gt; protocols.ISet:
+        &#34;&#34;&#34;
+        Gets an element set by its name. If no such set exists an exception is raised.
+
+        Args:
+            set_name (str): Name of element set to be returned
+
+        Returns:
+            protocols.ISet: Element set with given name
+        &#34;&#34;&#34;
+        return self.get_set_by_name_and_type(set_name, enums.ESetTypes.ELEMENT)
+        
+    def get_max_node_id(self) -&gt; int:
+        &#34;&#34;&#34;Gets the maximum defined node id&#34;&#34;&#34;
+
+        if not self.nodes: return 0
+        return max(self.nodes.keys())
+
+    def get_next_node_id(self) -&gt; int:
+        &#34;&#34;&#34;Gets the next highest free node id.&#34;&#34;&#34;
+        return self.get_max_node_id() + 1
+
+    def get_max_element_id(self) -&gt; int:
+        &#34;&#34;&#34;Gets the maximum defined element id&#34;&#34;&#34;
+
+        if not self.elements: return 0
+        return max(self.elements.keys())
+
+    def get_next_element_id(self) -&gt; int :
+        &#34;&#34;&#34;Gets the next highest free element id.&#34;&#34;&#34;
+        return self.get_max_element_id() + 1
+
+    def get_surface_from_node_set(self, surf_name:str,
+                            node_set:protocols.ISet, 
+                            surf_type:enums.ESurfTypes) -&gt; protocols.ISurface:
+        &#34;&#34;&#34;
+        Gets a surface from a given node set.
+
+        Args:
+            surf_name (str): The name of the returned surface
+            node_set (ISet): The node set for which the surface should be returned.
+                            Type of node_set must be NODE and dim must be 2.
+            surf_type: (ESurfTypes): Enum of which type the returned surface should be
+
+        Raises:
+            ValueError: Raised if type of node_set is not NODE
+            ValueError: Raised if dim of node_set is not 2
+        &#34;&#34;&#34;
+
+        return surface.get_surface_from_node_set(surf_name, self.elements.values(), 
+                                                node_set, surf_type)
+
+    def add_surface_from_node_set(self, surf_name:str,
+                            node_set:protocols.ISet, 
+                            surf_type:enums.ESurfTypes) -&gt; protocols.ISurface:
+        &#34;&#34;&#34;
+        Makes a surface from a given node set, adds it to the surfaces of this mesh
+        and returns it for further use.
+
+        Args:
+            surf_name (str): The name of the returned surface
+            node_set (ISet): The node set for which the surface should be returned.
+                            Type of node_set must be NODE and dim must be 2.
+            surf_type: (ESurfTypes): Enum of which type the returned surface should be
+
+        Raises:
+            ValueError: Raised if type of node_set is not NODE
+            ValueError: RAISED if dim of node_set is not 2
+        &#34;&#34;&#34;
+
+        surf = surface.get_surface_from_node_set(surf_name, self.elements.values(), 
+                                                node_set, surf_type)
+        self.surfaces.append(surf)
+        return surf
+
+    def add_node(self, coords:Sequence[protocols.number], id:Optional[int]=None, node_set:Optional[protocols.ISet]=None) -&gt; int:
+        &#34;&#34;&#34;
+        Adds a node to this mesh.
+
+        If a node with same id already exists, it is replaced.
+        if id is omitted, the next available id is used.
+
+        Args:
+            coords (Sequence[protocols.number]): coordinates of the new node. [x, y, z]
+            id (Optional[int], optional): id of the new node. Defaults to None.
+            node_set (Optional[protocols.ISet], optional): Set with type == NODE where the new node should be added to. Defaults to None. Defaults to None.
+
+        Raises:
+            ValueError: raised if id is &lt; 1
+            ValueError: raised if len(coords) != 3 
+            ValueError: raised if set type of node_set is not NODE
+            ValueError: raised if not all coordinates in coords are numeric
+
+        Returns:
+            int: The id of the node
+        &#34;&#34;&#34;
+
+        if id is None: id = self.get_next_node_id()
+
+        if id &lt;= 0: 
+            raise ValueError(f&#34;id has to be greater than 0, got {id}&#34;)
+        if len(coords) != 3:
+            raise ValueError(f&#34;coords has to be of length 3, got {len(coords)}&#34;)
+        if node_set and node_set.type != enums.ESetTypes.NODE:
+            raise ValueError(f&#34;set_type of node_set has to be {enums.ESetTypes.NODE}, got {node_set}.&#34;)
+
+        try:
+            self.nodes[id] = tuple(map(float, coords))
+        except:
+            raise ValueError(f&#34;coords has to be a sequence of numeric values.&#34;)
+
+        if node_set: node_set.ids.add(id)
+
+        return id
+    
+    def add_element(self, etype: enums.EEtypes, nids:tuple[int,...], id:Optional[int]=None, el_set:Optional[protocols.ISet]=None) -&gt; int:
+        &#34;&#34;&#34;
+        Adds an element to this mesh.
+
+        If an element with the same id already exists, it is replaced.
+        if id is omitted, the next available id is used.
+
+        Args:
+            etype (enums.EEtypes): Type of the new Element
+            nids (tuple[int,...]): node ids of the new Element
+            id (Optional[int], optional): Id of the new element. Defaults to None.
+            el_set (Optional[protocols.ISet], optional): Set with type == ELEMENT where the new element should be added to. Defaults to None.. Defaults to None.
+
+        Raises:
+            ValueError: Raised if id is &lt; 1
+            ValueError: Raised if type of set is not ELEMENT
+
+        Returns:
+            int: The id of the element
+        &#34;&#34;&#34;
+
+        if id is None: id = self.get_next_element_id()
+        if id &lt;= 0: 
+            raise ValueError(f&#34;id has to be greater than 0, got {id}&#34;)
+        if el_set and el_set.type != enums.ESetTypes.ELEMENT:
+            raise ValueError(f&#34;set_type of element_set has to be {enums.ESetTypes.ELEMENT}, got {el_set}.&#34;)
+
+        self.elements[id] = Element(id, etype, nids)
+        if el_set: el_set.ids.add(id)
+
+        return id
+
+    def add_set(self, set_name:str, set_type:enums.ESetTypes, ids:Iterable[int], dim:int=0) -&gt; protocols.ISet:
+        &#34;&#34;&#34;
+        Adds a new set to the mesh.
+
+        If a mesh with the same name already exists (case insensitive) an exception is raised.\n
+        
+        The optional parameter dim gives the dimension of the underlying geometry.
+        When a mesh is updated from gmsh, this parameter is set automatically for each 
+        node or element set.
+        When you create a new set with this method, dim is only important if the new set 
+        is of type NODE and should be used to create an element face surface via 
+        get_surface_from_node_set or add_surface_from_node_set.
+        In this case make sure all node ids are on the surface of the model and dim = 2.
+
+        Args:
+            set_name (str): Name of the new set
+            set_type (enums.ESetTypes): type of the new set
+            ids (int): ids (node or element) of the new set
+            dim (int, optional): Dimension of the set. Defaults to 0.
+
+        Raises:
+            ValueError: Raised if set with set_name already exists (case insensitive)
+
+        Returns:
+            ISet: The new set
+        &#34;&#34;&#34;
+
+        set_name = set_name.upper()
+        # check if set with name already exists
+        sets_to_check = self.node_sets if set_type == enums.ESetTypes.NODE else self.element_sets
+        for s in sets_to_check:
+            if s.name == set_name: 
+                raise ValueError(f&#39;Set with name {set_name} already exists&#39;)
+
+        new_set = Set(set_name, set_type, dim, set(ids))
+        if set_type == enums.ESetTypes.NODE:
+            self.node_sets.append(new_set)
+        else:
+            self.element_sets.append(new_set)
+        return new_set
+
+    def add_surface(self, surface:protocols.ISurface):
+        &#34;&#34;&#34;
+        Adds the given surface to the mesh
+
+        Args:
+            surface (protocols.ISurface): The surface to be added.
+        &#34;&#34;&#34;
+        self.surfaces.append(surface)
+
+    def change_element_type(self, etype:enums.EEtypes, *ids:int):
+        &#34;&#34;&#34;
+        Changes the element type for all elements with the given ids.
+
+        The given etype must be compatible with the current element type.
+        I.e. C3D20R -&gt; C3D20 or C3D8I -&gt; C3D8R
+
+        Args:
+            etype (enums.EEtypes): The new element type
+            ids (Iterable[int]): Ids of elements to change
+
+        Raises:
+            ValueError: Raised if given etype is not compatible with current element type
+        &#34;&#34;&#34;
+
+        for id in ids:
+            self.elements[id].type = etype
+
+    def write_ccx(self, buffer:list[str]):
+        &#34;&#34;&#34;Writes the CCX input string to the given buffer.&#34;&#34;&#34;
+
+        self._write_nodes_ccx(buffer)
+        self._write_elements_ccx(buffer)
+        self._write_sets_ccx(buffer)
+        self._write_surfaces_ccx(buffer)
+
+    def _write_nodes_ccx(self, buffer:list[str]):
+        if not self.nodes: return
+        buffer += [&#39;*NODE&#39;]
+        for nid, coords in self.nodes.items():
+            buffer += [&#39;{},{:15.7e},{:15.7e},{:15.7e}&#39;.format(nid, *coords)]
+
+    def _write_elements_ccx(self, buffer:list[str]):
+        if not self.elements:return
+        EEtypes = {e.type for e in self.elements.values()}
+        for etype in EEtypes:
+            elems = (e for e in self.elements.values() if e.type==etype)
+            buffer += [f&#39;*ELEMENT,TYPE={etype.name}&#39;]
+            for e in elems:
+                lst = (e.id,) + e.node_ids
+                _write_as_chunks(buffer, lst, 16)
+
+    def _write_sets_ccx(self, buffer:list[str]):
+        for s in self.node_sets:
+            if s.ids:
+                buffer += [f&#39;*NSET,NSET={s.name}&#39;]
+                _write_as_chunks(buffer, tuple(s.ids), 16)
+        for s in self.element_sets:
+            if s.ids:
+                buffer += [f&#39;*ELSET,ELSET={s.name}&#39;]
+                _write_as_chunks(buffer, tuple(s.ids), 16)
+
+    def _write_surfaces_ccx(self, buffer:list[str]):
+        for f in self.surfaces:
+            f.write_ccx(buffer)
+
+def _write_as_chunks(buffer:list[str], seq:Sequence, n:int):
+    lines = _list_to_chunks(seq, n)
+    for i, line in enumerate(lines):
+        if i == len(lines) - 1: 
+            buffer.append(&#39;,&#39;.join(map(str, line)))
+        else:
+            buffer.append(&#39;,&#39;.join(map(str, line)) + &#39;,&#39;)
+
+def _list_to_chunks(lst:Sequence, n:int):
+    n = max(1, n)
+    return [lst[i:i+n] for i in range(0, len(lst) or 1, n)]</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pygccx.mesh.mesh.Mesh"><code class="flex name class">
+<span>class <span class="ident">Mesh</span></span>
+<span>(</span><span>nodes: dict[int, tuple[float, float, float]], elements: dict[int, protocols.IElement], node_sets: list[protocols.ISet], element_sets: list[protocols.ISet])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class representing the mesh of a pygccx model</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass(repr=False)
+class Mesh:
+    &#34;&#34;&#34;Class representing the mesh of a pygccx model&#34;&#34;&#34;
+
+    nodes:dict[int, tuple[float, float, float]] 
+    &#34;&#34;&#34;Dict with all nodes of this mesh. Key = node id, values = coordinates&#34;&#34;&#34;
+    elements:dict[int, protocols.IElement]
+    &#34;&#34;&#34;Dict with all elements of this mesh. Key = element id&#34;&#34;&#34;
+    node_sets:list[protocols.ISet]
+    &#34;&#34;&#34;List with all node sets of this mesh&#34;&#34;&#34;
+    element_sets:list[protocols.ISet]
+    &#34;&#34;&#34;List with all element sets of this mesh&#34;&#34;&#34;
+    surfaces:list[protocols.ISurface] = field(default_factory=list, init=False)
+    &#34;&#34;&#34;List with all surfaces (node based and element face based) of this mesh&#34;&#34;&#34;
+
+    def get_nodes_by_ids(self, *ids:int) -&gt; tuple[tuple[float, float, float],...]:
+        &#34;&#34;&#34;
+        Gets a tuple of node coordinates for the given ids
+
+        Returns:
+            tuple[tuple[float, float, float],...]: Coordinates of nodes for given ids
+        &#34;&#34;&#34;
+        return tuple(self.nodes[nid] for nid in ids)
+
+    def get_elements_by_ids(self, *ids:int) -&gt; tuple[protocols.IElement,...]:
+        &#34;&#34;&#34;
+        Gets a tuple of elements for the given ids
+
+        Returns:
+            tuple[protocols.IElement,...]: Elements for given ids
+        &#34;&#34;&#34;
+        return tuple(self.elements[eid] for eid in ids)
+
+    def get_elements_by_type(self, etype:enums.EEtypes) -&gt; tuple[protocols.IElement,...]:
+        &#34;&#34;&#34;Gets a tuple of elements with the given element type.&#34;&#34;&#34;      
+        return tuple(e for e in self.elements.values() if e.type == etype)
+
+    def get_set_by_name_and_type(self, set_name:str, set_type:enums.ESetTypes=enums.ESetTypes.NODE) -&gt; protocols.ISet:
+        &#34;&#34;&#34;
+        Gets a set by its name and type. If no such set exists an exception is raised.
+
+        Args:
+            set_name (str): Name of set to be returned
+            set_type (enums.ESetTypes, optional): Type of set to be returned. Defaults to enums.ESetTypes.NODE.
+
+        Raises:
+            ValueError: Raised if no set with given name and type exists
+
+        Returns:
+            protocols.ISet: Set with given name and type
+        &#34;&#34;&#34;
+
+        set_name = set_name.upper()
+        sets = self.node_sets if set_type == enums.ESetTypes.NODE else self.element_sets
+        for s in sets:
+            if s.name == set_name: return s
+        raise ValueError(f&#39;No set with name {set_name} found.&#39;)
+
+    def get_node_set_by_name(self, set_name:str) -&gt; protocols.ISet:
+        &#34;&#34;&#34;
+        Gets a node set by its name. If no such set exists an exception is raised.
+
+        Args:
+            set_name (str): Name of the node set to be returned
+
+        Returns:
+            protocols.ISet: Node set with given name
+        &#34;&#34;&#34;
+        return self.get_set_by_name_and_type(set_name, enums.ESetTypes.NODE)
+
+    def get_el_set_by_name(self, set_name:str) -&gt; protocols.ISet:
+        &#34;&#34;&#34;
+        Gets an element set by its name. If no such set exists an exception is raised.
+
+        Args:
+            set_name (str): Name of element set to be returned
+
+        Returns:
+            protocols.ISet: Element set with given name
+        &#34;&#34;&#34;
+        return self.get_set_by_name_and_type(set_name, enums.ESetTypes.ELEMENT)
+        
+    def get_max_node_id(self) -&gt; int:
+        &#34;&#34;&#34;Gets the maximum defined node id&#34;&#34;&#34;
+
+        if not self.nodes: return 0
+        return max(self.nodes.keys())
+
+    def get_next_node_id(self) -&gt; int:
+        &#34;&#34;&#34;Gets the next highest free node id.&#34;&#34;&#34;
+        return self.get_max_node_id() + 1
+
+    def get_max_element_id(self) -&gt; int:
+        &#34;&#34;&#34;Gets the maximum defined element id&#34;&#34;&#34;
+
+        if not self.elements: return 0
+        return max(self.elements.keys())
+
+    def get_next_element_id(self) -&gt; int :
+        &#34;&#34;&#34;Gets the next highest free element id.&#34;&#34;&#34;
+        return self.get_max_element_id() + 1
+
+    def get_surface_from_node_set(self, surf_name:str,
+                            node_set:protocols.ISet, 
+                            surf_type:enums.ESurfTypes) -&gt; protocols.ISurface:
+        &#34;&#34;&#34;
+        Gets a surface from a given node set.
+
+        Args:
+            surf_name (str): The name of the returned surface
+            node_set (ISet): The node set for which the surface should be returned.
+                            Type of node_set must be NODE and dim must be 2.
+            surf_type: (ESurfTypes): Enum of which type the returned surface should be
+
+        Raises:
+            ValueError: Raised if type of node_set is not NODE
+            ValueError: Raised if dim of node_set is not 2
+        &#34;&#34;&#34;
+
+        return surface.get_surface_from_node_set(surf_name, self.elements.values(), 
+                                                node_set, surf_type)
+
+    def add_surface_from_node_set(self, surf_name:str,
+                            node_set:protocols.ISet, 
+                            surf_type:enums.ESurfTypes) -&gt; protocols.ISurface:
+        &#34;&#34;&#34;
+        Makes a surface from a given node set, adds it to the surfaces of this mesh
+        and returns it for further use.
+
+        Args:
+            surf_name (str): The name of the returned surface
+            node_set (ISet): The node set for which the surface should be returned.
+                            Type of node_set must be NODE and dim must be 2.
+            surf_type: (ESurfTypes): Enum of which type the returned surface should be
+
+        Raises:
+            ValueError: Raised if type of node_set is not NODE
+            ValueError: RAISED if dim of node_set is not 2
+        &#34;&#34;&#34;
+
+        surf = surface.get_surface_from_node_set(surf_name, self.elements.values(), 
+                                                node_set, surf_type)
+        self.surfaces.append(surf)
+        return surf
+
+    def add_node(self, coords:Sequence[protocols.number], id:Optional[int]=None, node_set:Optional[protocols.ISet]=None) -&gt; int:
+        &#34;&#34;&#34;
+        Adds a node to this mesh.
+
+        If a node with same id already exists, it is replaced.
+        if id is omitted, the next available id is used.
+
+        Args:
+            coords (Sequence[protocols.number]): coordinates of the new node. [x, y, z]
+            id (Optional[int], optional): id of the new node. Defaults to None.
+            node_set (Optional[protocols.ISet], optional): Set with type == NODE where the new node should be added to. Defaults to None. Defaults to None.
+
+        Raises:
+            ValueError: raised if id is &lt; 1
+            ValueError: raised if len(coords) != 3 
+            ValueError: raised if set type of node_set is not NODE
+            ValueError: raised if not all coordinates in coords are numeric
+
+        Returns:
+            int: The id of the node
+        &#34;&#34;&#34;
+
+        if id is None: id = self.get_next_node_id()
+
+        if id &lt;= 0: 
+            raise ValueError(f&#34;id has to be greater than 0, got {id}&#34;)
+        if len(coords) != 3:
+            raise ValueError(f&#34;coords has to be of length 3, got {len(coords)}&#34;)
+        if node_set and node_set.type != enums.ESetTypes.NODE:
+            raise ValueError(f&#34;set_type of node_set has to be {enums.ESetTypes.NODE}, got {node_set}.&#34;)
+
+        try:
+            self.nodes[id] = tuple(map(float, coords))
+        except:
+            raise ValueError(f&#34;coords has to be a sequence of numeric values.&#34;)
+
+        if node_set: node_set.ids.add(id)
+
+        return id
+    
+    def add_element(self, etype: enums.EEtypes, nids:tuple[int,...], id:Optional[int]=None, el_set:Optional[protocols.ISet]=None) -&gt; int:
+        &#34;&#34;&#34;
+        Adds an element to this mesh.
+
+        If an element with the same id already exists, it is replaced.
+        if id is omitted, the next available id is used.
+
+        Args:
+            etype (enums.EEtypes): Type of the new Element
+            nids (tuple[int,...]): node ids of the new Element
+            id (Optional[int], optional): Id of the new element. Defaults to None.
+            el_set (Optional[protocols.ISet], optional): Set with type == ELEMENT where the new element should be added to. Defaults to None.. Defaults to None.
+
+        Raises:
+            ValueError: Raised if id is &lt; 1
+            ValueError: Raised if type of set is not ELEMENT
+
+        Returns:
+            int: The id of the element
+        &#34;&#34;&#34;
+
+        if id is None: id = self.get_next_element_id()
+        if id &lt;= 0: 
+            raise ValueError(f&#34;id has to be greater than 0, got {id}&#34;)
+        if el_set and el_set.type != enums.ESetTypes.ELEMENT:
+            raise ValueError(f&#34;set_type of element_set has to be {enums.ESetTypes.ELEMENT}, got {el_set}.&#34;)
+
+        self.elements[id] = Element(id, etype, nids)
+        if el_set: el_set.ids.add(id)
+
+        return id
+
+    def add_set(self, set_name:str, set_type:enums.ESetTypes, ids:Iterable[int], dim:int=0) -&gt; protocols.ISet:
+        &#34;&#34;&#34;
+        Adds a new set to the mesh.
+
+        If a mesh with the same name already exists (case insensitive) an exception is raised.\n
+        
+        The optional parameter dim gives the dimension of the underlying geometry.
+        When a mesh is updated from gmsh, this parameter is set automatically for each 
+        node or element set.
+        When you create a new set with this method, dim is only important if the new set 
+        is of type NODE and should be used to create an element face surface via 
+        get_surface_from_node_set or add_surface_from_node_set.
+        In this case make sure all node ids are on the surface of the model and dim = 2.
+
+        Args:
+            set_name (str): Name of the new set
+            set_type (enums.ESetTypes): type of the new set
+            ids (int): ids (node or element) of the new set
+            dim (int, optional): Dimension of the set. Defaults to 0.
+
+        Raises:
+            ValueError: Raised if set with set_name already exists (case insensitive)
+
+        Returns:
+            ISet: The new set
+        &#34;&#34;&#34;
+
+        set_name = set_name.upper()
+        # check if set with name already exists
+        sets_to_check = self.node_sets if set_type == enums.ESetTypes.NODE else self.element_sets
+        for s in sets_to_check:
+            if s.name == set_name: 
+                raise ValueError(f&#39;Set with name {set_name} already exists&#39;)
+
+        new_set = Set(set_name, set_type, dim, set(ids))
+        if set_type == enums.ESetTypes.NODE:
+            self.node_sets.append(new_set)
+        else:
+            self.element_sets.append(new_set)
+        return new_set
+
+    def add_surface(self, surface:protocols.ISurface):
+        &#34;&#34;&#34;
+        Adds the given surface to the mesh
+
+        Args:
+            surface (protocols.ISurface): The surface to be added.
+        &#34;&#34;&#34;
+        self.surfaces.append(surface)
+
+    def change_element_type(self, etype:enums.EEtypes, *ids:int):
+        &#34;&#34;&#34;
+        Changes the element type for all elements with the given ids.
+
+        The given etype must be compatible with the current element type.
+        I.e. C3D20R -&gt; C3D20 or C3D8I -&gt; C3D8R
+
+        Args:
+            etype (enums.EEtypes): The new element type
+            ids (Iterable[int]): Ids of elements to change
+
+        Raises:
+            ValueError: Raised if given etype is not compatible with current element type
+        &#34;&#34;&#34;
+
+        for id in ids:
+            self.elements[id].type = etype
+
+    def write_ccx(self, buffer:list[str]):
+        &#34;&#34;&#34;Writes the CCX input string to the given buffer.&#34;&#34;&#34;
+
+        self._write_nodes_ccx(buffer)
+        self._write_elements_ccx(buffer)
+        self._write_sets_ccx(buffer)
+        self._write_surfaces_ccx(buffer)
+
+    def _write_nodes_ccx(self, buffer:list[str]):
+        if not self.nodes: return
+        buffer += [&#39;*NODE&#39;]
+        for nid, coords in self.nodes.items():
+            buffer += [&#39;{},{:15.7e},{:15.7e},{:15.7e}&#39;.format(nid, *coords)]
+
+    def _write_elements_ccx(self, buffer:list[str]):
+        if not self.elements:return
+        EEtypes = {e.type for e in self.elements.values()}
+        for etype in EEtypes:
+            elems = (e for e in self.elements.values() if e.type==etype)
+            buffer += [f&#39;*ELEMENT,TYPE={etype.name}&#39;]
+            for e in elems:
+                lst = (e.id,) + e.node_ids
+                _write_as_chunks(buffer, lst, 16)
+
+    def _write_sets_ccx(self, buffer:list[str]):
+        for s in self.node_sets:
+            if s.ids:
+                buffer += [f&#39;*NSET,NSET={s.name}&#39;]
+                _write_as_chunks(buffer, tuple(s.ids), 16)
+        for s in self.element_sets:
+            if s.ids:
+                buffer += [f&#39;*ELSET,ELSET={s.name}&#39;]
+                _write_as_chunks(buffer, tuple(s.ids), 16)
+
+    def _write_surfaces_ccx(self, buffer:list[str]):
+        for f in self.surfaces:
+            f.write_ccx(buffer)</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.mesh.mesh.Mesh.element_sets"><code class="name">var <span class="ident">element_sets</span> : list[protocols.ISet]</code></dt>
+<dd>
+<div class="desc"><p>List with all element sets of this mesh</p></div>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.elements"><code class="name">var <span class="ident">elements</span> : dict[int, protocols.IElement]</code></dt>
+<dd>
+<div class="desc"><p>Dict with all elements of this mesh. Key = element id</p></div>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.node_sets"><code class="name">var <span class="ident">node_sets</span> : list[protocols.ISet]</code></dt>
+<dd>
+<div class="desc"><p>List with all node sets of this mesh</p></div>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.nodes"><code class="name">var <span class="ident">nodes</span> : dict[int, tuple[float, float, float]]</code></dt>
+<dd>
+<div class="desc"><p>Dict with all nodes of this mesh. Key = node id, values = coordinates</p></div>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.surfaces"><code class="name">var <span class="ident">surfaces</span> : list[protocols.ISurface]</code></dt>
+<dd>
+<div class="desc"><p>List with all surfaces (node based and element face based) of this mesh</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pygccx.mesh.mesh.Mesh.add_element"><code class="name flex">
+<span>def <span class="ident">add_element</span></span>(<span>self, etype: enums.EEtypes, nids: tuple[int, ...], id: Optional[int] = None, el_set: Optional[protocols.ISet] = None) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds an element to this mesh.</p>
+<p>If an element with the same id already exists, it is replaced.
+if id is omitted, the next available id is used.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>etype</code></strong> :&ensp;<code>enums.EEtypes</code></dt>
+<dd>Type of the new Element</dd>
+<dt><strong><code>nids</code></strong> :&ensp;<code>tuple[int,&hellip;]</code></dt>
+<dd>node ids of the new Element</dd>
+<dt><strong><code>id</code></strong> :&ensp;<code>Optional[int]</code>, optional</dt>
+<dd>Id of the new element. Defaults to None.</dd>
+<dt><strong><code>el_set</code></strong> :&ensp;<code>Optional[protocols.ISet]</code>, optional</dt>
+<dd>Set with type == ELEMENT where the new element should be added to. Defaults to None.. Defaults to None.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>Raised if id is &lt; 1</dd>
+<dt><code>ValueError</code></dt>
+<dd>Raised if type of set is not ELEMENT</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>The id of the element</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_element(self, etype: enums.EEtypes, nids:tuple[int,...], id:Optional[int]=None, el_set:Optional[protocols.ISet]=None) -&gt; int:
+    &#34;&#34;&#34;
+    Adds an element to this mesh.
+
+    If an element with the same id already exists, it is replaced.
+    if id is omitted, the next available id is used.
+
+    Args:
+        etype (enums.EEtypes): Type of the new Element
+        nids (tuple[int,...]): node ids of the new Element
+        id (Optional[int], optional): Id of the new element. Defaults to None.
+        el_set (Optional[protocols.ISet], optional): Set with type == ELEMENT where the new element should be added to. Defaults to None.. Defaults to None.
+
+    Raises:
+        ValueError: Raised if id is &lt; 1
+        ValueError: Raised if type of set is not ELEMENT
+
+    Returns:
+        int: The id of the element
+    &#34;&#34;&#34;
+
+    if id is None: id = self.get_next_element_id()
+    if id &lt;= 0: 
+        raise ValueError(f&#34;id has to be greater than 0, got {id}&#34;)
+    if el_set and el_set.type != enums.ESetTypes.ELEMENT:
+        raise ValueError(f&#34;set_type of element_set has to be {enums.ESetTypes.ELEMENT}, got {el_set}.&#34;)
+
+    self.elements[id] = Element(id, etype, nids)
+    if el_set: el_set.ids.add(id)
+
+    return id</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.add_node"><code class="name flex">
+<span>def <span class="ident">add_node</span></span>(<span>self, coords: Sequence[int | float | numpy.number], id: Optional[int] = None, node_set: Optional[protocols.ISet] = None) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds a node to this mesh.</p>
+<p>If a node with same id already exists, it is replaced.
+if id is omitted, the next available id is used.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>coords</code></strong> :&ensp;<code>Sequence[protocols.number]</code></dt>
+<dd>coordinates of the new node. [x, y, z]</dd>
+<dt><strong><code>id</code></strong> :&ensp;<code>Optional[int]</code>, optional</dt>
+<dd>id of the new node. Defaults to None.</dd>
+<dt><strong><code>node_set</code></strong> :&ensp;<code>Optional[protocols.ISet]</code>, optional</dt>
+<dd>Set with type == NODE where the new node should be added to. Defaults to None. Defaults to None.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>raised if id is &lt; 1</dd>
+<dt><code>ValueError</code></dt>
+<dd>raised if len(coords) != 3 </dd>
+<dt><code>ValueError</code></dt>
+<dd>raised if set type of node_set is not NODE</dd>
+<dt><code>ValueError</code></dt>
+<dd>raised if not all coordinates in coords are numeric</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>The id of the node</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_node(self, coords:Sequence[protocols.number], id:Optional[int]=None, node_set:Optional[protocols.ISet]=None) -&gt; int:
+    &#34;&#34;&#34;
+    Adds a node to this mesh.
+
+    If a node with same id already exists, it is replaced.
+    if id is omitted, the next available id is used.
+
+    Args:
+        coords (Sequence[protocols.number]): coordinates of the new node. [x, y, z]
+        id (Optional[int], optional): id of the new node. Defaults to None.
+        node_set (Optional[protocols.ISet], optional): Set with type == NODE where the new node should be added to. Defaults to None. Defaults to None.
+
+    Raises:
+        ValueError: raised if id is &lt; 1
+        ValueError: raised if len(coords) != 3 
+        ValueError: raised if set type of node_set is not NODE
+        ValueError: raised if not all coordinates in coords are numeric
+
+    Returns:
+        int: The id of the node
+    &#34;&#34;&#34;
+
+    if id is None: id = self.get_next_node_id()
+
+    if id &lt;= 0: 
+        raise ValueError(f&#34;id has to be greater than 0, got {id}&#34;)
+    if len(coords) != 3:
+        raise ValueError(f&#34;coords has to be of length 3, got {len(coords)}&#34;)
+    if node_set and node_set.type != enums.ESetTypes.NODE:
+        raise ValueError(f&#34;set_type of node_set has to be {enums.ESetTypes.NODE}, got {node_set}.&#34;)
+
+    try:
+        self.nodes[id] = tuple(map(float, coords))
+    except:
+        raise ValueError(f&#34;coords has to be a sequence of numeric values.&#34;)
+
+    if node_set: node_set.ids.add(id)
+
+    return id</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.add_set"><code class="name flex">
+<span>def <span class="ident">add_set</span></span>(<span>self, set_name: str, set_type: enums.ESetTypes, ids: Iterable[int], dim: int = 0) ‑> protocols.ISet</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds a new set to the mesh.</p>
+<p>If a mesh with the same name already exists (case insensitive) an exception is raised.</p>
+<p>The optional parameter dim gives the dimension of the underlying geometry.
+When a mesh is updated from gmsh, this parameter is set automatically for each
+node or element set.
+When you create a new set with this method, dim is only important if the new set
+is of type NODE and should be used to create an element face surface via
+get_surface_from_node_set or add_surface_from_node_set.
+In this case make sure all node ids are on the surface of the model and dim = 2.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>set_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the new set</dd>
+<dt><strong><code>set_type</code></strong> :&ensp;<code>enums.ESetTypes</code></dt>
+<dd>type of the new set</dd>
+<dt><strong><code>ids</code></strong> :&ensp;<code>int</code></dt>
+<dd>ids (node or element) of the new set</dd>
+<dt><strong><code>dim</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Dimension of the set. Defaults to 0.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>Raised if set with set_name already exists (case insensitive)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ISet</code></dt>
+<dd>The new set</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_set(self, set_name:str, set_type:enums.ESetTypes, ids:Iterable[int], dim:int=0) -&gt; protocols.ISet:
+    &#34;&#34;&#34;
+    Adds a new set to the mesh.
+
+    If a mesh with the same name already exists (case insensitive) an exception is raised.\n
+    
+    The optional parameter dim gives the dimension of the underlying geometry.
+    When a mesh is updated from gmsh, this parameter is set automatically for each 
+    node or element set.
+    When you create a new set with this method, dim is only important if the new set 
+    is of type NODE and should be used to create an element face surface via 
+    get_surface_from_node_set or add_surface_from_node_set.
+    In this case make sure all node ids are on the surface of the model and dim = 2.
+
+    Args:
+        set_name (str): Name of the new set
+        set_type (enums.ESetTypes): type of the new set
+        ids (int): ids (node or element) of the new set
+        dim (int, optional): Dimension of the set. Defaults to 0.
+
+    Raises:
+        ValueError: Raised if set with set_name already exists (case insensitive)
+
+    Returns:
+        ISet: The new set
+    &#34;&#34;&#34;
+
+    set_name = set_name.upper()
+    # check if set with name already exists
+    sets_to_check = self.node_sets if set_type == enums.ESetTypes.NODE else self.element_sets
+    for s in sets_to_check:
+        if s.name == set_name: 
+            raise ValueError(f&#39;Set with name {set_name} already exists&#39;)
+
+    new_set = Set(set_name, set_type, dim, set(ids))
+    if set_type == enums.ESetTypes.NODE:
+        self.node_sets.append(new_set)
+    else:
+        self.element_sets.append(new_set)
+    return new_set</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.add_surface"><code class="name flex">
+<span>def <span class="ident">add_surface</span></span>(<span>self, surface: protocols.ISurface)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds the given surface to the mesh</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>surface</code></strong> :&ensp;<code>protocols.ISurface</code></dt>
+<dd>The surface to be added.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_surface(self, surface:protocols.ISurface):
+    &#34;&#34;&#34;
+    Adds the given surface to the mesh
+
+    Args:
+        surface (protocols.ISurface): The surface to be added.
+    &#34;&#34;&#34;
+    self.surfaces.append(surface)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.add_surface_from_node_set"><code class="name flex">
+<span>def <span class="ident">add_surface_from_node_set</span></span>(<span>self, surf_name: str, node_set: protocols.ISet, surf_type: enums.ESurfTypes) ‑> protocols.ISurface</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Makes a surface from a given node set, adds it to the surfaces of this mesh
+and returns it for further use.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>surf_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>The name of the returned surface</dd>
+<dt><strong><code>node_set</code></strong> :&ensp;<code>ISet</code></dt>
+<dd>The node set for which the surface should be returned.
+Type of node_set must be NODE and dim must be 2.</dd>
+<dt><strong><code>surf_type</code></strong></dt>
+<dd>(ESurfTypes): Enum of which type the returned surface should be</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>Raised if type of node_set is not NODE</dd>
+<dt><code>ValueError</code></dt>
+<dd>RAISED if dim of node_set is not 2</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_surface_from_node_set(self, surf_name:str,
+                        node_set:protocols.ISet, 
+                        surf_type:enums.ESurfTypes) -&gt; protocols.ISurface:
+    &#34;&#34;&#34;
+    Makes a surface from a given node set, adds it to the surfaces of this mesh
+    and returns it for further use.
+
+    Args:
+        surf_name (str): The name of the returned surface
+        node_set (ISet): The node set for which the surface should be returned.
+                        Type of node_set must be NODE and dim must be 2.
+        surf_type: (ESurfTypes): Enum of which type the returned surface should be
+
+    Raises:
+        ValueError: Raised if type of node_set is not NODE
+        ValueError: RAISED if dim of node_set is not 2
+    &#34;&#34;&#34;
+
+    surf = surface.get_surface_from_node_set(surf_name, self.elements.values(), 
+                                            node_set, surf_type)
+    self.surfaces.append(surf)
+    return surf</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.change_element_type"><code class="name flex">
+<span>def <span class="ident">change_element_type</span></span>(<span>self, etype: enums.EEtypes, *ids: int)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Changes the element type for all elements with the given ids.</p>
+<p>The given etype must be compatible with the current element type.
+I.e. C3D20R -&gt; C3D20 or C3D8I -&gt; C3D8R</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>etype</code></strong> :&ensp;<code>enums.EEtypes</code></dt>
+<dd>The new element type</dd>
+<dt><strong><code>ids</code></strong> :&ensp;<code>Iterable[int]</code></dt>
+<dd>Ids of elements to change</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>Raised if given etype is not compatible with current element type</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def change_element_type(self, etype:enums.EEtypes, *ids:int):
+    &#34;&#34;&#34;
+    Changes the element type for all elements with the given ids.
+
+    The given etype must be compatible with the current element type.
+    I.e. C3D20R -&gt; C3D20 or C3D8I -&gt; C3D8R
+
+    Args:
+        etype (enums.EEtypes): The new element type
+        ids (Iterable[int]): Ids of elements to change
+
+    Raises:
+        ValueError: Raised if given etype is not compatible with current element type
+    &#34;&#34;&#34;
+
+    for id in ids:
+        self.elements[id].type = etype</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.get_el_set_by_name"><code class="name flex">
+<span>def <span class="ident">get_el_set_by_name</span></span>(<span>self, set_name: str) ‑> protocols.ISet</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets an element set by its name. If no such set exists an exception is raised.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>set_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of element set to be returned</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>protocols.ISet</code></dt>
+<dd>Element set with given name</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_el_set_by_name(self, set_name:str) -&gt; protocols.ISet:
+    &#34;&#34;&#34;
+    Gets an element set by its name. If no such set exists an exception is raised.
+
+    Args:
+        set_name (str): Name of element set to be returned
+
+    Returns:
+        protocols.ISet: Element set with given name
+    &#34;&#34;&#34;
+    return self.get_set_by_name_and_type(set_name, enums.ESetTypes.ELEMENT)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.get_elements_by_ids"><code class="name flex">
+<span>def <span class="ident">get_elements_by_ids</span></span>(<span>self, *ids: int) ‑> tuple[protocols.IElement, ...]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets a tuple of elements for the given ids</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple[protocols.IElement,&hellip;]</code></dt>
+<dd>Elements for given ids</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_elements_by_ids(self, *ids:int) -&gt; tuple[protocols.IElement,...]:
+    &#34;&#34;&#34;
+    Gets a tuple of elements for the given ids
+
+    Returns:
+        tuple[protocols.IElement,...]: Elements for given ids
+    &#34;&#34;&#34;
+    return tuple(self.elements[eid] for eid in ids)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.get_elements_by_type"><code class="name flex">
+<span>def <span class="ident">get_elements_by_type</span></span>(<span>self, etype: enums.EEtypes) ‑> tuple[protocols.IElement, ...]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets a tuple of elements with the given element type.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_elements_by_type(self, etype:enums.EEtypes) -&gt; tuple[protocols.IElement,...]:
+    &#34;&#34;&#34;Gets a tuple of elements with the given element type.&#34;&#34;&#34;      
+    return tuple(e for e in self.elements.values() if e.type == etype)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.get_max_element_id"><code class="name flex">
+<span>def <span class="ident">get_max_element_id</span></span>(<span>self) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the maximum defined element id</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_max_element_id(self) -&gt; int:
+    &#34;&#34;&#34;Gets the maximum defined element id&#34;&#34;&#34;
+
+    if not self.elements: return 0
+    return max(self.elements.keys())</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.get_max_node_id"><code class="name flex">
+<span>def <span class="ident">get_max_node_id</span></span>(<span>self) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the maximum defined node id</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_max_node_id(self) -&gt; int:
+    &#34;&#34;&#34;Gets the maximum defined node id&#34;&#34;&#34;
+
+    if not self.nodes: return 0
+    return max(self.nodes.keys())</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.get_next_element_id"><code class="name flex">
+<span>def <span class="ident">get_next_element_id</span></span>(<span>self) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the next highest free element id.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_next_element_id(self) -&gt; int :
+    &#34;&#34;&#34;Gets the next highest free element id.&#34;&#34;&#34;
+    return self.get_max_element_id() + 1</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.get_next_node_id"><code class="name flex">
+<span>def <span class="ident">get_next_node_id</span></span>(<span>self) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the next highest free node id.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_next_node_id(self) -&gt; int:
+    &#34;&#34;&#34;Gets the next highest free node id.&#34;&#34;&#34;
+    return self.get_max_node_id() + 1</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.get_node_set_by_name"><code class="name flex">
+<span>def <span class="ident">get_node_set_by_name</span></span>(<span>self, set_name: str) ‑> protocols.ISet</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets a node set by its name. If no such set exists an exception is raised.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>set_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the node set to be returned</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>protocols.ISet</code></dt>
+<dd>Node set with given name</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_node_set_by_name(self, set_name:str) -&gt; protocols.ISet:
+    &#34;&#34;&#34;
+    Gets a node set by its name. If no such set exists an exception is raised.
+
+    Args:
+        set_name (str): Name of the node set to be returned
+
+    Returns:
+        protocols.ISet: Node set with given name
+    &#34;&#34;&#34;
+    return self.get_set_by_name_and_type(set_name, enums.ESetTypes.NODE)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.get_nodes_by_ids"><code class="name flex">
+<span>def <span class="ident">get_nodes_by_ids</span></span>(<span>self, *ids: int) ‑> tuple[tuple[float, float, float], ...]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets a tuple of node coordinates for the given ids</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple[tuple[float, float, float],&hellip;]</code></dt>
+<dd>Coordinates of nodes for given ids</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_nodes_by_ids(self, *ids:int) -&gt; tuple[tuple[float, float, float],...]:
+    &#34;&#34;&#34;
+    Gets a tuple of node coordinates for the given ids
+
+    Returns:
+        tuple[tuple[float, float, float],...]: Coordinates of nodes for given ids
+    &#34;&#34;&#34;
+    return tuple(self.nodes[nid] for nid in ids)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.get_set_by_name_and_type"><code class="name flex">
+<span>def <span class="ident">get_set_by_name_and_type</span></span>(<span>self, set_name: str, set_type: enums.ESetTypes = ESetTypes.NODE) ‑> protocols.ISet</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets a set by its name and type. If no such set exists an exception is raised.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>set_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of set to be returned</dd>
+<dt><strong><code>set_type</code></strong> :&ensp;<code>enums.ESetTypes</code>, optional</dt>
+<dd>Type of set to be returned. Defaults to enums.ESetTypes.NODE.</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>Raised if no set with given name and type exists</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>protocols.ISet</code></dt>
+<dd>Set with given name and type</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_set_by_name_and_type(self, set_name:str, set_type:enums.ESetTypes=enums.ESetTypes.NODE) -&gt; protocols.ISet:
+    &#34;&#34;&#34;
+    Gets a set by its name and type. If no such set exists an exception is raised.
+
+    Args:
+        set_name (str): Name of set to be returned
+        set_type (enums.ESetTypes, optional): Type of set to be returned. Defaults to enums.ESetTypes.NODE.
+
+    Raises:
+        ValueError: Raised if no set with given name and type exists
+
+    Returns:
+        protocols.ISet: Set with given name and type
+    &#34;&#34;&#34;
+
+    set_name = set_name.upper()
+    sets = self.node_sets if set_type == enums.ESetTypes.NODE else self.element_sets
+    for s in sets:
+        if s.name == set_name: return s
+    raise ValueError(f&#39;No set with name {set_name} found.&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.get_surface_from_node_set"><code class="name flex">
+<span>def <span class="ident">get_surface_from_node_set</span></span>(<span>self, surf_name: str, node_set: protocols.ISet, surf_type: enums.ESurfTypes) ‑> protocols.ISurface</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets a surface from a given node set.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>surf_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>The name of the returned surface</dd>
+<dt><strong><code>node_set</code></strong> :&ensp;<code>ISet</code></dt>
+<dd>The node set for which the surface should be returned.
+Type of node_set must be NODE and dim must be 2.</dd>
+<dt><strong><code>surf_type</code></strong></dt>
+<dd>(ESurfTypes): Enum of which type the returned surface should be</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>Raised if type of node_set is not NODE</dd>
+<dt><code>ValueError</code></dt>
+<dd>Raised if dim of node_set is not 2</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_surface_from_node_set(self, surf_name:str,
+                        node_set:protocols.ISet, 
+                        surf_type:enums.ESurfTypes) -&gt; protocols.ISurface:
+    &#34;&#34;&#34;
+    Gets a surface from a given node set.
+
+    Args:
+        surf_name (str): The name of the returned surface
+        node_set (ISet): The node set for which the surface should be returned.
+                        Type of node_set must be NODE and dim must be 2.
+        surf_type: (ESurfTypes): Enum of which type the returned surface should be
+
+    Raises:
+        ValueError: Raised if type of node_set is not NODE
+        ValueError: Raised if dim of node_set is not 2
+    &#34;&#34;&#34;
+
+    return surface.get_surface_from_node_set(surf_name, self.elements.values(), 
+                                            node_set, surf_type)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.write_ccx"><code class="name flex">
+<span>def <span class="ident">write_ccx</span></span>(<span>self, buffer: list[str])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Writes the CCX input string to the given buffer.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def write_ccx(self, buffer:list[str]):
+    &#34;&#34;&#34;Writes the CCX input string to the given buffer.&#34;&#34;&#34;
+
+    self._write_nodes_ccx(buffer)
+    self._write_elements_ccx(buffer)
+    self._write_sets_ccx(buffer)
+    self._write_surfaces_ccx(buffer)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pygccx.mesh" href="index.html">pygccx.mesh</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pygccx.mesh.mesh.Mesh" href="#pygccx.mesh.mesh.Mesh">Mesh</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.mesh.mesh.Mesh.add_element" href="#pygccx.mesh.mesh.Mesh.add_element">add_element</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.add_node" href="#pygccx.mesh.mesh.Mesh.add_node">add_node</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.add_set" href="#pygccx.mesh.mesh.Mesh.add_set">add_set</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.add_surface" href="#pygccx.mesh.mesh.Mesh.add_surface">add_surface</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.add_surface_from_node_set" href="#pygccx.mesh.mesh.Mesh.add_surface_from_node_set">add_surface_from_node_set</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.change_element_type" href="#pygccx.mesh.mesh.Mesh.change_element_type">change_element_type</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.element_sets" href="#pygccx.mesh.mesh.Mesh.element_sets">element_sets</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.elements" href="#pygccx.mesh.mesh.Mesh.elements">elements</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.get_el_set_by_name" href="#pygccx.mesh.mesh.Mesh.get_el_set_by_name">get_el_set_by_name</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.get_elements_by_ids" href="#pygccx.mesh.mesh.Mesh.get_elements_by_ids">get_elements_by_ids</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.get_elements_by_type" href="#pygccx.mesh.mesh.Mesh.get_elements_by_type">get_elements_by_type</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.get_max_element_id" href="#pygccx.mesh.mesh.Mesh.get_max_element_id">get_max_element_id</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.get_max_node_id" href="#pygccx.mesh.mesh.Mesh.get_max_node_id">get_max_node_id</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.get_next_element_id" href="#pygccx.mesh.mesh.Mesh.get_next_element_id">get_next_element_id</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.get_next_node_id" href="#pygccx.mesh.mesh.Mesh.get_next_node_id">get_next_node_id</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.get_node_set_by_name" href="#pygccx.mesh.mesh.Mesh.get_node_set_by_name">get_node_set_by_name</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.get_nodes_by_ids" href="#pygccx.mesh.mesh.Mesh.get_nodes_by_ids">get_nodes_by_ids</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.get_set_by_name_and_type" href="#pygccx.mesh.mesh.Mesh.get_set_by_name_and_type">get_set_by_name_and_type</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.get_surface_from_node_set" href="#pygccx.mesh.mesh.Mesh.get_surface_from_node_set">get_surface_from_node_set</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.node_sets" href="#pygccx.mesh.mesh.Mesh.node_sets">node_sets</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.nodes" href="#pygccx.mesh.mesh.Mesh.nodes">nodes</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.surfaces" href="#pygccx.mesh.mesh.Mesh.surfaces">surfaces</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.write_ccx" href="#pygccx.mesh.mesh.Mesh.write_ccx">write_ccx</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

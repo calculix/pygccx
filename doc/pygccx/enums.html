@@ -1,0 +1,1444 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pygccx.enums API documentation</title>
+<meta name="description" content="Copyright Matthias Sedlmaier 2022
+This file is part of pygccx …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pygccx.enums</code></h1>
+</header>
+<section id="section-intro">
+<p>Copyright Matthias Sedlmaier 2022
+This file is part of pygccx.</p>
+<p>pygccx is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.</p>
+<p>pygccx is distributed in the hope that it will
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with pygccx.<br>
+If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#39;&#39;&#39;
+Copyright Matthias Sedlmaier 2022
+This file is part of pygccx.
+
+pygccx is free software: you can redistribute it 
+and/or modify it under the terms of the GNU General Public License as 
+published by the Free Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+pygccx is distributed in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with pygccx.  
+If not, see &lt;http://www.gnu.org/licenses/&gt;.
+&#39;&#39;&#39;
+
+from enum import Enum, IntEnum, auto
+
+class ESetTypes(IntEnum):
+    NODE = 0
+    &#34;&#34;&#34;Set or surface of nodes&#34;&#34;&#34;
+    ELEMENT = 1
+    &#34;&#34;&#34;Set of elements or surface of element faces&#34;&#34;&#34;
+
+class ESurfTypes(str, Enum):
+    NODE = &#39;NODE&#39;
+    &#34;&#34;&#34;Set or surface of nodes&#34;&#34;&#34;
+    EL_FACE = &#39;ELEMENT&#39;
+    &#34;&#34;&#34;Set of elements or surface of element faces&#34;&#34;&#34;
+
+class EEtypes(IntEnum):
+    # Point Elements
+    SPRING1 = auto()
+    &#34;&#34;&#34;One-node 3-dimensional spring&#34;&#34;&#34;
+    DCOUP3D = auto()
+    &#34;&#34;&#34;One-node coupling element&#34;&#34;&#34;
+    MASS = auto()
+    &#34;&#34;&#34;One-node mass element&#34;&#34;&#34;
+    # Spring, Gap und Dashpot
+    GAPUNI = auto()
+    &#34;&#34;&#34;Two-node unidirectional gap element&#34;&#34;&#34;
+    DASHPOTA = auto()
+    &#34;&#34;&#34;Two-node 3-dimensional dashpot&#34;&#34;&#34;
+    SPRING2 = auto()
+    &#34;&#34;&#34;Two-node 3-dimensional spring&#34;&#34;&#34;
+    SPRINGA = auto()
+    &#34;&#34;&#34;Two-node 3-dimensional spring&#34;&#34;&#34;
+    # 3D Solid Elements
+    C3D4 = auto()
+    &#34;&#34;&#34;Four-node tetrahedral element&#34;&#34;&#34;
+    C3D8 = auto()
+    &#34;&#34;&#34;Eight-node brick element&#34;&#34;&#34;
+    C3D8R = auto()
+    &#34;&#34;&#34;Eight-node brick element with reduced integration&#34;&#34;&#34;
+    C3D8I = auto()
+    &#34;&#34;&#34;Incompatible mode eight-node brick element&#34;&#34;&#34;
+    C3D6 = auto()
+    &#34;&#34;&#34;Six-node wedge element&#34;&#34;&#34;
+    C3D10 = auto()
+    &#34;&#34;&#34;Ten-node tetrahedral element&#34;&#34;&#34;
+    C3D20 = auto()
+    &#34;&#34;&#34;Twenty-node brick element&#34;&#34;&#34;
+    C3D20R = auto()  
+    &#34;&#34;&#34;Twenty-node brick element with reduced integration&#34;&#34;&#34;
+    C3D15 = auto()
+    &#34;&#34;&#34;Fifteen-node wedge element&#34;&#34;&#34;
+
+class ECouplingTypes(str, Enum):
+    DISTRIBUTING = &#39;*DISTRIBUTING&#39;
+    &#34;&#34;&#34;A distributing
+        constraint specifies that a force or a moment in the reference node is distributed
+        among the nodes belonging to the element surface. The weights are calculated
+        from the area within the surface the reference node corresponds with.&#34;&#34;&#34;
+    KINEMATIC = &#39;*KINEMATIC&#39;
+    &#34;&#34;&#34;A kinematic constraint specifies that the displacement in a certain direction i  
+       at a node corresponds to the rigid body motion of this node about a reference node. 
+       Therefore, the location of the reference node is important.&#34;&#34;&#34;
+
+class EELasticTypes(str, Enum):
+    ISO = &#39;ISO&#39;
+    &#34;&#34;&#34;Isotropic&#34;&#34;&#34;
+    ORTHO = &#39;ORTHO&#39;
+    &#34;&#34;&#34;Orthotropic&#34;&#34;&#34;
+    ENGINEERING_CONSTANTS = &#39;ENGINEERING CONSTANTS&#39;
+    &#34;&#34;&#34;Orthotropic defined by engineering constants &#34;&#34;&#34;
+    ANISO = &#39;ANISO&#39;
+    &#34;&#34;&#34;Anisotropic&#34;&#34;&#34;
+
+class EOrientationSystems(str, Enum):
+    RECTANGULAR = &#39;RECTANGULAR&#39;
+    &#34;&#34;&#34;Right-handed cartesian system&#34;&#34;&#34;
+    CYLINDRICAL = &#39;CYLINDRICAL&#39;
+    &#34;&#34;&#34;Right-handed cylindrical system&#34;&#34;&#34;
+
+class EOrientationRotAxis(IntEnum):
+    NONE = 0
+    &#34;&#34;&#34;No rotation&#34;&#34;&#34;
+    X = 1
+    &#34;&#34;&#34;Rotation about local X-Axis&#34;&#34;&#34;
+    Y = 2
+    &#34;&#34;&#34;Rotation about local Y-Axis&#34;&#34;&#34;
+    Z = 3
+    &#34;&#34;&#34;Rotation about local Z-Axis&#34;&#34;&#34;
+
+class ELoadOps(str, Enum):
+    MOD = &#39;MOD&#39;
+    NEW = &#39;NEW&#39;
+
+class EResultOutputs(str, Enum):
+    DEFAULT = &#39;DEFAULT&#39;
+    &#34;&#34;&#34;Default output for 1D and 2D Elements&#34;&#34;&#34;
+    _2D = &#39;2D&#39;
+    &#34;&#34;&#34;Output of 1D and 2D Elements in their non-expanded form&#34;&#34;&#34;
+    _3D = &#39;3D&#39;
+    &#34;&#34;&#34;Output of 1D and 2D Elements in their expanded form&#34;&#34;&#34;
+
+class ENodeResults(str, Enum):
+    KEQ = &#39;KEQ&#39;
+    &#34;&#34;&#34;Equivalent stress intensity factor and related quantities in crack propagation 
+        calculations.&#34;&#34;&#34;
+    MAXU = &#39;MAXU&#39;
+    &#34;&#34;&#34;Maximum displacements orthogonal to a given vector
+        at all times for *FREQUENCY calculations with cyclic symmetry. The
+        components of the vector are the coordinates of a node stored in a node
+        set with the name RAY. This node and node set must have been defined
+        by the user.&#34;&#34;&#34;
+    NT = &#39;NT&#39;
+    &#34;&#34;&#34;Temperatures. This includes both structural temperatures and total fluid 
+        temperatures in a network.&#34;&#34;&#34;
+    PNT = &#39;PNT&#39;
+    &#34;&#34;&#34;Temperatures: magnitude and phase (only for *STEADY STATE DYNAMICS calculations).&#34;&#34;&#34;
+    PRF = &#39;PRF&#39;
+    &#34;&#34;&#34;External forces: magnitude and phase (only for *FREQUENCY calculations with 
+        cyclic symmetry).&#34;&#34;&#34;
+    PU = &#39;PU&#39;
+    &#34;&#34;&#34;Displacements: magnitude and phase (only for *STEADY STATE DYNAMICS
+        calculations and *FREQUENCY calculations with cyclic symmetry).&#34;&#34;&#34;
+    RF = &#39;RF&#39;
+    &#34;&#34;&#34;External forces (only static forces;
+        dynamic forces, such as those caused by dashpots, are not included)&#34;&#34;&#34;
+    SEN = &#39;SEN&#39;
+    &#34;&#34;&#34;Sensitivities.&#34;&#34;&#34;
+    U = &#39;U&#39;
+    &#34;&#34;&#34;Displacements.&#34;&#34;&#34;
+    V = &#39;V&#39;
+    &#34;&#34;&#34;Velocities in dynamic calculations.&#34;&#34;&#34;
+
+class EElementResults(str, Enum):
+    CEEQ= &#39;CEEQ&#39;
+    &#34;&#34;&#34;equivalent creep strain (is converted internally into PEEQ
+        since the viscoplastic theory does not distinguish between the two; 
+        consequently, the user will find PEEQ in the frd file, not CEEQ.&#34;&#34;&#34;
+    E = &#39;E&#39;
+    &#34;&#34;&#34;strain. This is the total
+        Lagrangian strain for (hyper)elastic materials and incremental plasticity
+        and the total Eulerian strain for deformation plasticity.&#34;&#34;&#34;
+    ENER = &#39;ENER&#39;
+    &#34;&#34;&#34;the energy density.&#34;&#34;&#34;
+    ERR = &#39;ERR&#39;
+    &#34;&#34;&#34;error estimator for structural calculations, Notice that ERR and ZZS are 
+        mutually exclusive.&#34;&#34;&#34;
+    HER = &#39;HER&#39;
+    &#34;&#34;&#34;error estimator for heat transfer calculations.&#34;&#34;&#34;
+    HFL = &#39;Heat flux in structures.&#39;
+    &#34;&#34;&#34;Displacements: magnitude and phase (only for *STEADY STATE DYNAMICS
+        calculations and *FREQUENCY calculations with cyclic symmetry).&#34;&#34;&#34;
+    MAXE = &#39;MAXE&#39;
+    &#34;&#34;&#34;Maximum of the absolute value of the worst principal
+        strain at all times for *FREQUENCY calculations with cyclic symmetry.
+        It is stored for nodes belonging to the node set with name STRAINDO-
+        MAIN. This node set must have been defined by the user with the *NSET
+        command. The worst principal strain is the maximum of the absolute
+        value of the principal strains times its original sign&#34;&#34;&#34;
+    MAXS = &#39;MAXS&#39;
+    &#34;&#34;&#34;maximum of the absolute value of the worst principal
+        stress at all times for *FREQUENCY calculations with cyclic symmetry.
+        It is stored for nodes belonging to the node set with name STRESSDO-
+        MAIN. This node set must have been defined by the user with the *NSET
+        7.50 *EL FILE 439 command. The worst principal stress is the maximum 
+        of the absolute value of the principal stresses times its original sign.&#34;&#34;&#34;
+    ME = &#39;ME&#39;
+    &#34;&#34;&#34;strain. This is the
+        mechanical Lagrangian strain for (hyper)elastic materials and incremental
+        plasticity and the mechanical Eulerian strain for deformation plasticity
+        (mechanical strain = total strain - thermal strain).&#34;&#34;&#34;
+    PEEQ = &#39;PEEQ&#39;
+    &#34;&#34;&#34;equivalent plastic strain.&#34;&#34;&#34;
+    PHS = &#39;PHS&#39;
+    &#34;&#34;&#34; stress: magnitude and phase (only for *STEADY STATE DYNAMICS
+        calculations and *FREQUENCY calculations with cyclic symmetry).&#34;&#34;&#34;
+    S = &#39;S&#39;
+    &#34;&#34;&#34;true (Cauchy) stress in structures. For beam elements this tensor is 
+        replaced by the section forces
+        if SECTION FORCES is selected. Selection of S automatically triggers
+        output of the error estimator ERR, unless NOE is selected after S (either
+        immediately following S, or with some other output requests in between,
+        irrespective whether these output requests are on the same keyword card
+        or on different keyword cards)&#34;&#34;&#34;
+    THE = &#39;THE&#39;
+    &#34;&#34;&#34;strain. This is the thermal strain calculated by subtracting the mechanical 
+       strain (extrapolated to the nodes) from the total strain (extrapolated to the nodes) 
+       at the nodes. Selection of THE triggers the selection of E and ME. This is needed 
+       to ensure that E (the total strain) and ME (the mechanical strain) are extrapolated 
+       to the nodes.&#34;&#34;&#34;
+    ZZS = &#39;ZZS&#39;
+    &#34;&#34;&#34;Zienkiewicz-Zhu improved stress. Notice that ZZS and ERR are mutually exclusive.&#34;&#34;&#34;
+
+class EContactResults(str, Enum):
+    CDIS = &#39;CDIS&#39;
+    &#34;&#34;&#34;Relative contact displacements&#34;&#34;&#34;
+    CSTR = &#39;CSTR&#39;
+    &#34;&#34;&#34;Contact stresses&#34;&#34;&#34;
+    CELS = &#39;CELS&#39;
+    &#34;&#34;&#34;Contact energy&#34;&#34;&#34;
+    PCON = &#39;PCON&#39;
+    &#34;&#34;&#34;Only for face-to-face penalty contact.\n 
+    Magnitude and phase of the relative contact displacements and
+    contact stresses in a frequency calculation with cyclic symmetry. &#34;&#34;&#34;
+
+class ESolvers(str, Enum):
+    DEFAULT = &#39;DEFAUL&#39;
+    ITERATIVE_SCALING = &#39;ITERATIVE SCALING&#39;
+    ITERATIVE_CHOLESKY = &#39;ITERATIVE CHOLESKY&#39;
+    SPOOLES = &#39;SPOOLES&#39;
+    PASTIX = &#39;PASTIX&#39;
+
+class EStepAmplitudes(str, Enum):
+    RAMP = &#39;RAMP&#39;
+    &#34;&#34;&#34;Loads are ramped during the step&#34;&#34;&#34;
+    STEP = &#39;STEP&#39;
+    &#34;&#34;&#34;Loads are fully applied at beginning of step&#34;&#34;&#34;
+
+class EHardeningRules(str, Enum):
+    ISOTROPIC = &#39;ISOTROPIC&#39;
+    &#34;&#34;&#34;Isotropic hardening rule&#34;&#34;&#34;
+    KINEMATIC = &#39;KINEMATIC&#39;
+    &#34;&#34;&#34;Kinematic hardening rule&#34;&#34;&#34;
+    COMBINED = &#39;COMBINED&#39;
+    &#34;&#34;&#34;Combined isotropic and kinematic hardening rule&#34;&#34;&#34;
+
+class EPressureOverclosures(str, Enum):
+    EXPONENTIAL = &#39;EXPONENTIAL&#39;
+    LINEAR = &#39;LINEAR&#39;
+    TABULAR = &#39;TABULAR&#39;
+    TIED = &#39;TIED&#39;
+    HARD = &#39;HARD&#39;
+
+class EContactTypes(str, Enum):
+    NODE_TO_SURFACE = &#39;NODE TO SURFACE&#39;
+    SURFACE_TO_SURFACE = &#39;SURFACE TO SURFACE&#39;
+    MORTAR = &#39;MORTAR&#39; 
+    LINMORTAR = &#39;LINMORTAR&#39;
+    PGLINMORTAR = &#39;PGLINMORTAR&#39;</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pygccx.enums.EContactResults"><code class="flex name class">
+<span>class <span class="ident">EContactResults</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EContactResults(str, Enum):
+    CDIS = &#39;CDIS&#39;
+    &#34;&#34;&#34;Relative contact displacements&#34;&#34;&#34;
+    CSTR = &#39;CSTR&#39;
+    &#34;&#34;&#34;Contact stresses&#34;&#34;&#34;
+    CELS = &#39;CELS&#39;
+    &#34;&#34;&#34;Contact energy&#34;&#34;&#34;
+    PCON = &#39;PCON&#39;
+    &#34;&#34;&#34;Only for face-to-face penalty contact.\n 
+    Magnitude and phase of the relative contact displacements and
+    contact stresses in a frequency calculation with cyclic symmetry. &#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EContactResults.CDIS"><code class="name">var <span class="ident">CDIS</span></code></dt>
+<dd>
+<div class="desc"><p>Relative contact displacements</p></div>
+</dd>
+<dt id="pygccx.enums.EContactResults.CELS"><code class="name">var <span class="ident">CELS</span></code></dt>
+<dd>
+<div class="desc"><p>Contact energy</p></div>
+</dd>
+<dt id="pygccx.enums.EContactResults.CSTR"><code class="name">var <span class="ident">CSTR</span></code></dt>
+<dd>
+<div class="desc"><p>Contact stresses</p></div>
+</dd>
+<dt id="pygccx.enums.EContactResults.PCON"><code class="name">var <span class="ident">PCON</span></code></dt>
+<dd>
+<div class="desc"><p>Only for face-to-face penalty contact.</p>
+<p>Magnitude and phase of the relative contact displacements and
+contact stresses in a frequency calculation with cyclic symmetry.</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.EContactTypes"><code class="flex name class">
+<span>class <span class="ident">EContactTypes</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EContactTypes(str, Enum):
+    NODE_TO_SURFACE = &#39;NODE TO SURFACE&#39;
+    SURFACE_TO_SURFACE = &#39;SURFACE TO SURFACE&#39;
+    MORTAR = &#39;MORTAR&#39; 
+    LINMORTAR = &#39;LINMORTAR&#39;
+    PGLINMORTAR = &#39;PGLINMORTAR&#39;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EContactTypes.LINMORTAR"><code class="name">var <span class="ident">LINMORTAR</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EContactTypes.MORTAR"><code class="name">var <span class="ident">MORTAR</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EContactTypes.NODE_TO_SURFACE"><code class="name">var <span class="ident">NODE_TO_SURFACE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EContactTypes.PGLINMORTAR"><code class="name">var <span class="ident">PGLINMORTAR</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EContactTypes.SURFACE_TO_SURFACE"><code class="name">var <span class="ident">SURFACE_TO_SURFACE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.ECouplingTypes"><code class="flex name class">
+<span>class <span class="ident">ECouplingTypes</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ECouplingTypes(str, Enum):
+    DISTRIBUTING = &#39;*DISTRIBUTING&#39;
+    &#34;&#34;&#34;A distributing
+        constraint specifies that a force or a moment in the reference node is distributed
+        among the nodes belonging to the element surface. The weights are calculated
+        from the area within the surface the reference node corresponds with.&#34;&#34;&#34;
+    KINEMATIC = &#39;*KINEMATIC&#39;
+    &#34;&#34;&#34;A kinematic constraint specifies that the displacement in a certain direction i  
+       at a node corresponds to the rigid body motion of this node about a reference node. 
+       Therefore, the location of the reference node is important.&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.ECouplingTypes.DISTRIBUTING"><code class="name">var <span class="ident">DISTRIBUTING</span></code></dt>
+<dd>
+<div class="desc"><p>A distributing
+constraint specifies that a force or a moment in the reference node is distributed
+among the nodes belonging to the element surface. The weights are calculated
+from the area within the surface the reference node corresponds with.</p></div>
+</dd>
+<dt id="pygccx.enums.ECouplingTypes.KINEMATIC"><code class="name">var <span class="ident">KINEMATIC</span></code></dt>
+<dd>
+<div class="desc"><p>A kinematic constraint specifies that the displacement in a certain direction i<br>
+at a node corresponds to the rigid body motion of this node about a reference node.
+Therefore, the location of the reference node is important.</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.EELasticTypes"><code class="flex name class">
+<span>class <span class="ident">EELasticTypes</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EELasticTypes(str, Enum):
+    ISO = &#39;ISO&#39;
+    &#34;&#34;&#34;Isotropic&#34;&#34;&#34;
+    ORTHO = &#39;ORTHO&#39;
+    &#34;&#34;&#34;Orthotropic&#34;&#34;&#34;
+    ENGINEERING_CONSTANTS = &#39;ENGINEERING CONSTANTS&#39;
+    &#34;&#34;&#34;Orthotropic defined by engineering constants &#34;&#34;&#34;
+    ANISO = &#39;ANISO&#39;
+    &#34;&#34;&#34;Anisotropic&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EELasticTypes.ANISO"><code class="name">var <span class="ident">ANISO</span></code></dt>
+<dd>
+<div class="desc"><p>Anisotropic</p></div>
+</dd>
+<dt id="pygccx.enums.EELasticTypes.ENGINEERING_CONSTANTS"><code class="name">var <span class="ident">ENGINEERING_CONSTANTS</span></code></dt>
+<dd>
+<div class="desc"><p>Orthotropic defined by engineering constants</p></div>
+</dd>
+<dt id="pygccx.enums.EELasticTypes.ISO"><code class="name">var <span class="ident">ISO</span></code></dt>
+<dd>
+<div class="desc"><p>Isotropic</p></div>
+</dd>
+<dt id="pygccx.enums.EELasticTypes.ORTHO"><code class="name">var <span class="ident">ORTHO</span></code></dt>
+<dd>
+<div class="desc"><p>Orthotropic</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.EElementResults"><code class="flex name class">
+<span>class <span class="ident">EElementResults</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EElementResults(str, Enum):
+    CEEQ= &#39;CEEQ&#39;
+    &#34;&#34;&#34;equivalent creep strain (is converted internally into PEEQ
+        since the viscoplastic theory does not distinguish between the two; 
+        consequently, the user will find PEEQ in the frd file, not CEEQ.&#34;&#34;&#34;
+    E = &#39;E&#39;
+    &#34;&#34;&#34;strain. This is the total
+        Lagrangian strain for (hyper)elastic materials and incremental plasticity
+        and the total Eulerian strain for deformation plasticity.&#34;&#34;&#34;
+    ENER = &#39;ENER&#39;
+    &#34;&#34;&#34;the energy density.&#34;&#34;&#34;
+    ERR = &#39;ERR&#39;
+    &#34;&#34;&#34;error estimator for structural calculations, Notice that ERR and ZZS are 
+        mutually exclusive.&#34;&#34;&#34;
+    HER = &#39;HER&#39;
+    &#34;&#34;&#34;error estimator for heat transfer calculations.&#34;&#34;&#34;
+    HFL = &#39;Heat flux in structures.&#39;
+    &#34;&#34;&#34;Displacements: magnitude and phase (only for *STEADY STATE DYNAMICS
+        calculations and *FREQUENCY calculations with cyclic symmetry).&#34;&#34;&#34;
+    MAXE = &#39;MAXE&#39;
+    &#34;&#34;&#34;Maximum of the absolute value of the worst principal
+        strain at all times for *FREQUENCY calculations with cyclic symmetry.
+        It is stored for nodes belonging to the node set with name STRAINDO-
+        MAIN. This node set must have been defined by the user with the *NSET
+        command. The worst principal strain is the maximum of the absolute
+        value of the principal strains times its original sign&#34;&#34;&#34;
+    MAXS = &#39;MAXS&#39;
+    &#34;&#34;&#34;maximum of the absolute value of the worst principal
+        stress at all times for *FREQUENCY calculations with cyclic symmetry.
+        It is stored for nodes belonging to the node set with name STRESSDO-
+        MAIN. This node set must have been defined by the user with the *NSET
+        7.50 *EL FILE 439 command. The worst principal stress is the maximum 
+        of the absolute value of the principal stresses times its original sign.&#34;&#34;&#34;
+    ME = &#39;ME&#39;
+    &#34;&#34;&#34;strain. This is the
+        mechanical Lagrangian strain for (hyper)elastic materials and incremental
+        plasticity and the mechanical Eulerian strain for deformation plasticity
+        (mechanical strain = total strain - thermal strain).&#34;&#34;&#34;
+    PEEQ = &#39;PEEQ&#39;
+    &#34;&#34;&#34;equivalent plastic strain.&#34;&#34;&#34;
+    PHS = &#39;PHS&#39;
+    &#34;&#34;&#34; stress: magnitude and phase (only for *STEADY STATE DYNAMICS
+        calculations and *FREQUENCY calculations with cyclic symmetry).&#34;&#34;&#34;
+    S = &#39;S&#39;
+    &#34;&#34;&#34;true (Cauchy) stress in structures. For beam elements this tensor is 
+        replaced by the section forces
+        if SECTION FORCES is selected. Selection of S automatically triggers
+        output of the error estimator ERR, unless NOE is selected after S (either
+        immediately following S, or with some other output requests in between,
+        irrespective whether these output requests are on the same keyword card
+        or on different keyword cards)&#34;&#34;&#34;
+    THE = &#39;THE&#39;
+    &#34;&#34;&#34;strain. This is the thermal strain calculated by subtracting the mechanical 
+       strain (extrapolated to the nodes) from the total strain (extrapolated to the nodes) 
+       at the nodes. Selection of THE triggers the selection of E and ME. This is needed 
+       to ensure that E (the total strain) and ME (the mechanical strain) are extrapolated 
+       to the nodes.&#34;&#34;&#34;
+    ZZS = &#39;ZZS&#39;
+    &#34;&#34;&#34;Zienkiewicz-Zhu improved stress. Notice that ZZS and ERR are mutually exclusive.&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EElementResults.CEEQ"><code class="name">var <span class="ident">CEEQ</span></code></dt>
+<dd>
+<div class="desc"><p>equivalent creep strain (is converted internally into PEEQ
+since the viscoplastic theory does not distinguish between the two;
+consequently, the user will find PEEQ in the frd file, not CEEQ.</p></div>
+</dd>
+<dt id="pygccx.enums.EElementResults.E"><code class="name">var <span class="ident">E</span></code></dt>
+<dd>
+<div class="desc"><p>strain. This is the total
+Lagrangian strain for (hyper)elastic materials and incremental plasticity
+and the total Eulerian strain for deformation plasticity.</p></div>
+</dd>
+<dt id="pygccx.enums.EElementResults.ENER"><code class="name">var <span class="ident">ENER</span></code></dt>
+<dd>
+<div class="desc"><p>the energy density.</p></div>
+</dd>
+<dt id="pygccx.enums.EElementResults.ERR"><code class="name">var <span class="ident">ERR</span></code></dt>
+<dd>
+<div class="desc"><p>error estimator for structural calculations, Notice that ERR and ZZS are
+mutually exclusive.</p></div>
+</dd>
+<dt id="pygccx.enums.EElementResults.HER"><code class="name">var <span class="ident">HER</span></code></dt>
+<dd>
+<div class="desc"><p>error estimator for heat transfer calculations.</p></div>
+</dd>
+<dt id="pygccx.enums.EElementResults.HFL"><code class="name">var <span class="ident">HFL</span></code></dt>
+<dd>
+<div class="desc"><p>Displacements: magnitude and phase (only for <em>STEADY STATE DYNAMICS
+calculations and </em>FREQUENCY calculations with cyclic symmetry).</p></div>
+</dd>
+<dt id="pygccx.enums.EElementResults.MAXE"><code class="name">var <span class="ident">MAXE</span></code></dt>
+<dd>
+<div class="desc"><p>Maximum of the absolute value of the worst principal
+strain at all times for <em>FREQUENCY calculations with cyclic symmetry.
+It is stored for nodes belonging to the node set with name STRAINDO-
+MAIN. This node set must have been defined by the user with the </em>NSET
+command. The worst principal strain is the maximum of the absolute
+value of the principal strains times its original sign</p></div>
+</dd>
+<dt id="pygccx.enums.EElementResults.MAXS"><code class="name">var <span class="ident">MAXS</span></code></dt>
+<dd>
+<div class="desc"><p>maximum of the absolute value of the worst principal
+stress at all times for <em>FREQUENCY calculations with cyclic symmetry.
+It is stored for nodes belonging to the node set with name STRESSDO-
+MAIN. This node set must have been defined by the user with the </em>NSET
+7.50 *EL FILE 439 command. The worst principal stress is the maximum
+of the absolute value of the principal stresses times its original sign.</p></div>
+</dd>
+<dt id="pygccx.enums.EElementResults.ME"><code class="name">var <span class="ident">ME</span></code></dt>
+<dd>
+<div class="desc"><p>strain. This is the
+mechanical Lagrangian strain for (hyper)elastic materials and incremental
+plasticity and the mechanical Eulerian strain for deformation plasticity
+(mechanical strain = total strain - thermal strain).</p></div>
+</dd>
+<dt id="pygccx.enums.EElementResults.PEEQ"><code class="name">var <span class="ident">PEEQ</span></code></dt>
+<dd>
+<div class="desc"><p>equivalent plastic strain.</p></div>
+</dd>
+<dt id="pygccx.enums.EElementResults.PHS"><code class="name">var <span class="ident">PHS</span></code></dt>
+<dd>
+<div class="desc"><p>stress: magnitude and phase (only for <em>STEADY STATE DYNAMICS
+calculations and </em>FREQUENCY calculations with cyclic symmetry).</p></div>
+</dd>
+<dt id="pygccx.enums.EElementResults.S"><code class="name">var <span class="ident">S</span></code></dt>
+<dd>
+<div class="desc"><p>true (Cauchy) stress in structures. For beam elements this tensor is
+replaced by the section forces
+if SECTION FORCES is selected. Selection of S automatically triggers
+output of the error estimator ERR, unless NOE is selected after S (either
+immediately following S, or with some other output requests in between,
+irrespective whether these output requests are on the same keyword card
+or on different keyword cards)</p></div>
+</dd>
+<dt id="pygccx.enums.EElementResults.THE"><code class="name">var <span class="ident">THE</span></code></dt>
+<dd>
+<div class="desc"><p>strain. This is the thermal strain calculated by subtracting the mechanical
+strain (extrapolated to the nodes) from the total strain (extrapolated to the nodes)
+at the nodes. Selection of THE triggers the selection of E and ME. This is needed
+to ensure that E (the total strain) and ME (the mechanical strain) are extrapolated
+to the nodes.</p></div>
+</dd>
+<dt id="pygccx.enums.EElementResults.ZZS"><code class="name">var <span class="ident">ZZS</span></code></dt>
+<dd>
+<div class="desc"><p>Zienkiewicz-Zhu improved stress. Notice that ZZS and ERR are mutually exclusive.</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.EEtypes"><code class="flex name class">
+<span>class <span class="ident">EEtypes</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EEtypes(IntEnum):
+    # Point Elements
+    SPRING1 = auto()
+    &#34;&#34;&#34;One-node 3-dimensional spring&#34;&#34;&#34;
+    DCOUP3D = auto()
+    &#34;&#34;&#34;One-node coupling element&#34;&#34;&#34;
+    MASS = auto()
+    &#34;&#34;&#34;One-node mass element&#34;&#34;&#34;
+    # Spring, Gap und Dashpot
+    GAPUNI = auto()
+    &#34;&#34;&#34;Two-node unidirectional gap element&#34;&#34;&#34;
+    DASHPOTA = auto()
+    &#34;&#34;&#34;Two-node 3-dimensional dashpot&#34;&#34;&#34;
+    SPRING2 = auto()
+    &#34;&#34;&#34;Two-node 3-dimensional spring&#34;&#34;&#34;
+    SPRINGA = auto()
+    &#34;&#34;&#34;Two-node 3-dimensional spring&#34;&#34;&#34;
+    # 3D Solid Elements
+    C3D4 = auto()
+    &#34;&#34;&#34;Four-node tetrahedral element&#34;&#34;&#34;
+    C3D8 = auto()
+    &#34;&#34;&#34;Eight-node brick element&#34;&#34;&#34;
+    C3D8R = auto()
+    &#34;&#34;&#34;Eight-node brick element with reduced integration&#34;&#34;&#34;
+    C3D8I = auto()
+    &#34;&#34;&#34;Incompatible mode eight-node brick element&#34;&#34;&#34;
+    C3D6 = auto()
+    &#34;&#34;&#34;Six-node wedge element&#34;&#34;&#34;
+    C3D10 = auto()
+    &#34;&#34;&#34;Ten-node tetrahedral element&#34;&#34;&#34;
+    C3D20 = auto()
+    &#34;&#34;&#34;Twenty-node brick element&#34;&#34;&#34;
+    C3D20R = auto()  
+    &#34;&#34;&#34;Twenty-node brick element with reduced integration&#34;&#34;&#34;
+    C3D15 = auto()
+    &#34;&#34;&#34;Fifteen-node wedge element&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.IntEnum</li>
+<li>builtins.int</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EEtypes.C3D10"><code class="name">var <span class="ident">C3D10</span></code></dt>
+<dd>
+<div class="desc"><p>Ten-node tetrahedral element</p></div>
+</dd>
+<dt id="pygccx.enums.EEtypes.C3D15"><code class="name">var <span class="ident">C3D15</span></code></dt>
+<dd>
+<div class="desc"><p>Fifteen-node wedge element</p></div>
+</dd>
+<dt id="pygccx.enums.EEtypes.C3D20"><code class="name">var <span class="ident">C3D20</span></code></dt>
+<dd>
+<div class="desc"><p>Twenty-node brick element</p></div>
+</dd>
+<dt id="pygccx.enums.EEtypes.C3D20R"><code class="name">var <span class="ident">C3D20R</span></code></dt>
+<dd>
+<div class="desc"><p>Twenty-node brick element with reduced integration</p></div>
+</dd>
+<dt id="pygccx.enums.EEtypes.C3D4"><code class="name">var <span class="ident">C3D4</span></code></dt>
+<dd>
+<div class="desc"><p>Four-node tetrahedral element</p></div>
+</dd>
+<dt id="pygccx.enums.EEtypes.C3D6"><code class="name">var <span class="ident">C3D6</span></code></dt>
+<dd>
+<div class="desc"><p>Six-node wedge element</p></div>
+</dd>
+<dt id="pygccx.enums.EEtypes.C3D8"><code class="name">var <span class="ident">C3D8</span></code></dt>
+<dd>
+<div class="desc"><p>Eight-node brick element</p></div>
+</dd>
+<dt id="pygccx.enums.EEtypes.C3D8I"><code class="name">var <span class="ident">C3D8I</span></code></dt>
+<dd>
+<div class="desc"><p>Incompatible mode eight-node brick element</p></div>
+</dd>
+<dt id="pygccx.enums.EEtypes.C3D8R"><code class="name">var <span class="ident">C3D8R</span></code></dt>
+<dd>
+<div class="desc"><p>Eight-node brick element with reduced integration</p></div>
+</dd>
+<dt id="pygccx.enums.EEtypes.DASHPOTA"><code class="name">var <span class="ident">DASHPOTA</span></code></dt>
+<dd>
+<div class="desc"><p>Two-node 3-dimensional dashpot</p></div>
+</dd>
+<dt id="pygccx.enums.EEtypes.DCOUP3D"><code class="name">var <span class="ident">DCOUP3D</span></code></dt>
+<dd>
+<div class="desc"><p>One-node coupling element</p></div>
+</dd>
+<dt id="pygccx.enums.EEtypes.GAPUNI"><code class="name">var <span class="ident">GAPUNI</span></code></dt>
+<dd>
+<div class="desc"><p>Two-node unidirectional gap element</p></div>
+</dd>
+<dt id="pygccx.enums.EEtypes.MASS"><code class="name">var <span class="ident">MASS</span></code></dt>
+<dd>
+<div class="desc"><p>One-node mass element</p></div>
+</dd>
+<dt id="pygccx.enums.EEtypes.SPRING1"><code class="name">var <span class="ident">SPRING1</span></code></dt>
+<dd>
+<div class="desc"><p>One-node 3-dimensional spring</p></div>
+</dd>
+<dt id="pygccx.enums.EEtypes.SPRING2"><code class="name">var <span class="ident">SPRING2</span></code></dt>
+<dd>
+<div class="desc"><p>Two-node 3-dimensional spring</p></div>
+</dd>
+<dt id="pygccx.enums.EEtypes.SPRINGA"><code class="name">var <span class="ident">SPRINGA</span></code></dt>
+<dd>
+<div class="desc"><p>Two-node 3-dimensional spring</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.EHardeningRules"><code class="flex name class">
+<span>class <span class="ident">EHardeningRules</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EHardeningRules(str, Enum):
+    ISOTROPIC = &#39;ISOTROPIC&#39;
+    &#34;&#34;&#34;Isotropic hardening rule&#34;&#34;&#34;
+    KINEMATIC = &#39;KINEMATIC&#39;
+    &#34;&#34;&#34;Kinematic hardening rule&#34;&#34;&#34;
+    COMBINED = &#39;COMBINED&#39;
+    &#34;&#34;&#34;Combined isotropic and kinematic hardening rule&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EHardeningRules.COMBINED"><code class="name">var <span class="ident">COMBINED</span></code></dt>
+<dd>
+<div class="desc"><p>Combined isotropic and kinematic hardening rule</p></div>
+</dd>
+<dt id="pygccx.enums.EHardeningRules.ISOTROPIC"><code class="name">var <span class="ident">ISOTROPIC</span></code></dt>
+<dd>
+<div class="desc"><p>Isotropic hardening rule</p></div>
+</dd>
+<dt id="pygccx.enums.EHardeningRules.KINEMATIC"><code class="name">var <span class="ident">KINEMATIC</span></code></dt>
+<dd>
+<div class="desc"><p>Kinematic hardening rule</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.ELoadOps"><code class="flex name class">
+<span>class <span class="ident">ELoadOps</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ELoadOps(str, Enum):
+    MOD = &#39;MOD&#39;
+    NEW = &#39;NEW&#39;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.ELoadOps.MOD"><code class="name">var <span class="ident">MOD</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.ELoadOps.NEW"><code class="name">var <span class="ident">NEW</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.ENodeResults"><code class="flex name class">
+<span>class <span class="ident">ENodeResults</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ENodeResults(str, Enum):
+    KEQ = &#39;KEQ&#39;
+    &#34;&#34;&#34;Equivalent stress intensity factor and related quantities in crack propagation 
+        calculations.&#34;&#34;&#34;
+    MAXU = &#39;MAXU&#39;
+    &#34;&#34;&#34;Maximum displacements orthogonal to a given vector
+        at all times for *FREQUENCY calculations with cyclic symmetry. The
+        components of the vector are the coordinates of a node stored in a node
+        set with the name RAY. This node and node set must have been defined
+        by the user.&#34;&#34;&#34;
+    NT = &#39;NT&#39;
+    &#34;&#34;&#34;Temperatures. This includes both structural temperatures and total fluid 
+        temperatures in a network.&#34;&#34;&#34;
+    PNT = &#39;PNT&#39;
+    &#34;&#34;&#34;Temperatures: magnitude and phase (only for *STEADY STATE DYNAMICS calculations).&#34;&#34;&#34;
+    PRF = &#39;PRF&#39;
+    &#34;&#34;&#34;External forces: magnitude and phase (only for *FREQUENCY calculations with 
+        cyclic symmetry).&#34;&#34;&#34;
+    PU = &#39;PU&#39;
+    &#34;&#34;&#34;Displacements: magnitude and phase (only for *STEADY STATE DYNAMICS
+        calculations and *FREQUENCY calculations with cyclic symmetry).&#34;&#34;&#34;
+    RF = &#39;RF&#39;
+    &#34;&#34;&#34;External forces (only static forces;
+        dynamic forces, such as those caused by dashpots, are not included)&#34;&#34;&#34;
+    SEN = &#39;SEN&#39;
+    &#34;&#34;&#34;Sensitivities.&#34;&#34;&#34;
+    U = &#39;U&#39;
+    &#34;&#34;&#34;Displacements.&#34;&#34;&#34;
+    V = &#39;V&#39;
+    &#34;&#34;&#34;Velocities in dynamic calculations.&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.ENodeResults.KEQ"><code class="name">var <span class="ident">KEQ</span></code></dt>
+<dd>
+<div class="desc"><p>Equivalent stress intensity factor and related quantities in crack propagation
+calculations.</p></div>
+</dd>
+<dt id="pygccx.enums.ENodeResults.MAXU"><code class="name">var <span class="ident">MAXU</span></code></dt>
+<dd>
+<div class="desc"><p>Maximum displacements orthogonal to a given vector
+at all times for *FREQUENCY calculations with cyclic symmetry. The
+components of the vector are the coordinates of a node stored in a node
+set with the name RAY. This node and node set must have been defined
+by the user.</p></div>
+</dd>
+<dt id="pygccx.enums.ENodeResults.NT"><code class="name">var <span class="ident">NT</span></code></dt>
+<dd>
+<div class="desc"><p>Temperatures. This includes both structural temperatures and total fluid
+temperatures in a network.</p></div>
+</dd>
+<dt id="pygccx.enums.ENodeResults.PNT"><code class="name">var <span class="ident">PNT</span></code></dt>
+<dd>
+<div class="desc"><p>Temperatures: magnitude and phase (only for *STEADY STATE DYNAMICS calculations).</p></div>
+</dd>
+<dt id="pygccx.enums.ENodeResults.PRF"><code class="name">var <span class="ident">PRF</span></code></dt>
+<dd>
+<div class="desc"><p>External forces: magnitude and phase (only for *FREQUENCY calculations with
+cyclic symmetry).</p></div>
+</dd>
+<dt id="pygccx.enums.ENodeResults.PU"><code class="name">var <span class="ident">PU</span></code></dt>
+<dd>
+<div class="desc"><p>Displacements: magnitude and phase (only for <em>STEADY STATE DYNAMICS
+calculations and </em>FREQUENCY calculations with cyclic symmetry).</p></div>
+</dd>
+<dt id="pygccx.enums.ENodeResults.RF"><code class="name">var <span class="ident">RF</span></code></dt>
+<dd>
+<div class="desc"><p>External forces (only static forces;
+dynamic forces, such as those caused by dashpots, are not included)</p></div>
+</dd>
+<dt id="pygccx.enums.ENodeResults.SEN"><code class="name">var <span class="ident">SEN</span></code></dt>
+<dd>
+<div class="desc"><p>Sensitivities.</p></div>
+</dd>
+<dt id="pygccx.enums.ENodeResults.U"><code class="name">var <span class="ident">U</span></code></dt>
+<dd>
+<div class="desc"><p>Displacements.</p></div>
+</dd>
+<dt id="pygccx.enums.ENodeResults.V"><code class="name">var <span class="ident">V</span></code></dt>
+<dd>
+<div class="desc"><p>Velocities in dynamic calculations.</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.EOrientationRotAxis"><code class="flex name class">
+<span>class <span class="ident">EOrientationRotAxis</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EOrientationRotAxis(IntEnum):
+    NONE = 0
+    &#34;&#34;&#34;No rotation&#34;&#34;&#34;
+    X = 1
+    &#34;&#34;&#34;Rotation about local X-Axis&#34;&#34;&#34;
+    Y = 2
+    &#34;&#34;&#34;Rotation about local Y-Axis&#34;&#34;&#34;
+    Z = 3
+    &#34;&#34;&#34;Rotation about local Z-Axis&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.IntEnum</li>
+<li>builtins.int</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EOrientationRotAxis.NONE"><code class="name">var <span class="ident">NONE</span></code></dt>
+<dd>
+<div class="desc"><p>No rotation</p></div>
+</dd>
+<dt id="pygccx.enums.EOrientationRotAxis.X"><code class="name">var <span class="ident">X</span></code></dt>
+<dd>
+<div class="desc"><p>Rotation about local X-Axis</p></div>
+</dd>
+<dt id="pygccx.enums.EOrientationRotAxis.Y"><code class="name">var <span class="ident">Y</span></code></dt>
+<dd>
+<div class="desc"><p>Rotation about local Y-Axis</p></div>
+</dd>
+<dt id="pygccx.enums.EOrientationRotAxis.Z"><code class="name">var <span class="ident">Z</span></code></dt>
+<dd>
+<div class="desc"><p>Rotation about local Z-Axis</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.EOrientationSystems"><code class="flex name class">
+<span>class <span class="ident">EOrientationSystems</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EOrientationSystems(str, Enum):
+    RECTANGULAR = &#39;RECTANGULAR&#39;
+    &#34;&#34;&#34;Right-handed cartesian system&#34;&#34;&#34;
+    CYLINDRICAL = &#39;CYLINDRICAL&#39;
+    &#34;&#34;&#34;Right-handed cylindrical system&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EOrientationSystems.CYLINDRICAL"><code class="name">var <span class="ident">CYLINDRICAL</span></code></dt>
+<dd>
+<div class="desc"><p>Right-handed cylindrical system</p></div>
+</dd>
+<dt id="pygccx.enums.EOrientationSystems.RECTANGULAR"><code class="name">var <span class="ident">RECTANGULAR</span></code></dt>
+<dd>
+<div class="desc"><p>Right-handed cartesian system</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.EPressureOverclosures"><code class="flex name class">
+<span>class <span class="ident">EPressureOverclosures</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EPressureOverclosures(str, Enum):
+    EXPONENTIAL = &#39;EXPONENTIAL&#39;
+    LINEAR = &#39;LINEAR&#39;
+    TABULAR = &#39;TABULAR&#39;
+    TIED = &#39;TIED&#39;
+    HARD = &#39;HARD&#39;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EPressureOverclosures.EXPONENTIAL"><code class="name">var <span class="ident">EXPONENTIAL</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EPressureOverclosures.HARD"><code class="name">var <span class="ident">HARD</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EPressureOverclosures.LINEAR"><code class="name">var <span class="ident">LINEAR</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EPressureOverclosures.TABULAR"><code class="name">var <span class="ident">TABULAR</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EPressureOverclosures.TIED"><code class="name">var <span class="ident">TIED</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.EResultOutputs"><code class="flex name class">
+<span>class <span class="ident">EResultOutputs</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EResultOutputs(str, Enum):
+    DEFAULT = &#39;DEFAULT&#39;
+    &#34;&#34;&#34;Default output for 1D and 2D Elements&#34;&#34;&#34;
+    _2D = &#39;2D&#39;
+    &#34;&#34;&#34;Output of 1D and 2D Elements in their non-expanded form&#34;&#34;&#34;
+    _3D = &#39;3D&#39;
+    &#34;&#34;&#34;Output of 1D and 2D Elements in their expanded form&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EResultOutputs.DEFAULT"><code class="name">var <span class="ident">DEFAULT</span></code></dt>
+<dd>
+<div class="desc"><p>Default output for 1D and 2D Elements</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.ESetTypes"><code class="flex name class">
+<span>class <span class="ident">ESetTypes</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ESetTypes(IntEnum):
+    NODE = 0
+    &#34;&#34;&#34;Set or surface of nodes&#34;&#34;&#34;
+    ELEMENT = 1
+    &#34;&#34;&#34;Set of elements or surface of element faces&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.IntEnum</li>
+<li>builtins.int</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.ESetTypes.ELEMENT"><code class="name">var <span class="ident">ELEMENT</span></code></dt>
+<dd>
+<div class="desc"><p>Set of elements or surface of element faces</p></div>
+</dd>
+<dt id="pygccx.enums.ESetTypes.NODE"><code class="name">var <span class="ident">NODE</span></code></dt>
+<dd>
+<div class="desc"><p>Set or surface of nodes</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.ESolvers"><code class="flex name class">
+<span>class <span class="ident">ESolvers</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ESolvers(str, Enum):
+    DEFAULT = &#39;DEFAUL&#39;
+    ITERATIVE_SCALING = &#39;ITERATIVE SCALING&#39;
+    ITERATIVE_CHOLESKY = &#39;ITERATIVE CHOLESKY&#39;
+    SPOOLES = &#39;SPOOLES&#39;
+    PASTIX = &#39;PASTIX&#39;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.ESolvers.DEFAULT"><code class="name">var <span class="ident">DEFAULT</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.ESolvers.ITERATIVE_CHOLESKY"><code class="name">var <span class="ident">ITERATIVE_CHOLESKY</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.ESolvers.ITERATIVE_SCALING"><code class="name">var <span class="ident">ITERATIVE_SCALING</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.ESolvers.PASTIX"><code class="name">var <span class="ident">PASTIX</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.ESolvers.SPOOLES"><code class="name">var <span class="ident">SPOOLES</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.EStepAmplitudes"><code class="flex name class">
+<span>class <span class="ident">EStepAmplitudes</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EStepAmplitudes(str, Enum):
+    RAMP = &#39;RAMP&#39;
+    &#34;&#34;&#34;Loads are ramped during the step&#34;&#34;&#34;
+    STEP = &#39;STEP&#39;
+    &#34;&#34;&#34;Loads are fully applied at beginning of step&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EStepAmplitudes.RAMP"><code class="name">var <span class="ident">RAMP</span></code></dt>
+<dd>
+<div class="desc"><p>Loads are ramped during the step</p></div>
+</dd>
+<dt id="pygccx.enums.EStepAmplitudes.STEP"><code class="name">var <span class="ident">STEP</span></code></dt>
+<dd>
+<div class="desc"><p>Loads are fully applied at beginning of step</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.ESurfTypes"><code class="flex name class">
+<span>class <span class="ident">ESurfTypes</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ESurfTypes(str, Enum):
+    NODE = &#39;NODE&#39;
+    &#34;&#34;&#34;Set or surface of nodes&#34;&#34;&#34;
+    EL_FACE = &#39;ELEMENT&#39;
+    &#34;&#34;&#34;Set of elements or surface of element faces&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.ESurfTypes.EL_FACE"><code class="name">var <span class="ident">EL_FACE</span></code></dt>
+<dd>
+<div class="desc"><p>Set of elements or surface of element faces</p></div>
+</dd>
+<dt id="pygccx.enums.ESurfTypes.NODE"><code class="name">var <span class="ident">NODE</span></code></dt>
+<dd>
+<div class="desc"><p>Set or surface of nodes</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pygccx" href="index.html">pygccx</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pygccx.enums.EContactResults" href="#pygccx.enums.EContactResults">EContactResults</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.EContactResults.CDIS" href="#pygccx.enums.EContactResults.CDIS">CDIS</a></code></li>
+<li><code><a title="pygccx.enums.EContactResults.CELS" href="#pygccx.enums.EContactResults.CELS">CELS</a></code></li>
+<li><code><a title="pygccx.enums.EContactResults.CSTR" href="#pygccx.enums.EContactResults.CSTR">CSTR</a></code></li>
+<li><code><a title="pygccx.enums.EContactResults.PCON" href="#pygccx.enums.EContactResults.PCON">PCON</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.EContactTypes" href="#pygccx.enums.EContactTypes">EContactTypes</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.EContactTypes.LINMORTAR" href="#pygccx.enums.EContactTypes.LINMORTAR">LINMORTAR</a></code></li>
+<li><code><a title="pygccx.enums.EContactTypes.MORTAR" href="#pygccx.enums.EContactTypes.MORTAR">MORTAR</a></code></li>
+<li><code><a title="pygccx.enums.EContactTypes.NODE_TO_SURFACE" href="#pygccx.enums.EContactTypes.NODE_TO_SURFACE">NODE_TO_SURFACE</a></code></li>
+<li><code><a title="pygccx.enums.EContactTypes.PGLINMORTAR" href="#pygccx.enums.EContactTypes.PGLINMORTAR">PGLINMORTAR</a></code></li>
+<li><code><a title="pygccx.enums.EContactTypes.SURFACE_TO_SURFACE" href="#pygccx.enums.EContactTypes.SURFACE_TO_SURFACE">SURFACE_TO_SURFACE</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.ECouplingTypes" href="#pygccx.enums.ECouplingTypes">ECouplingTypes</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.ECouplingTypes.DISTRIBUTING" href="#pygccx.enums.ECouplingTypes.DISTRIBUTING">DISTRIBUTING</a></code></li>
+<li><code><a title="pygccx.enums.ECouplingTypes.KINEMATIC" href="#pygccx.enums.ECouplingTypes.KINEMATIC">KINEMATIC</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.EELasticTypes" href="#pygccx.enums.EELasticTypes">EELasticTypes</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.EELasticTypes.ANISO" href="#pygccx.enums.EELasticTypes.ANISO">ANISO</a></code></li>
+<li><code><a title="pygccx.enums.EELasticTypes.ENGINEERING_CONSTANTS" href="#pygccx.enums.EELasticTypes.ENGINEERING_CONSTANTS">ENGINEERING_CONSTANTS</a></code></li>
+<li><code><a title="pygccx.enums.EELasticTypes.ISO" href="#pygccx.enums.EELasticTypes.ISO">ISO</a></code></li>
+<li><code><a title="pygccx.enums.EELasticTypes.ORTHO" href="#pygccx.enums.EELasticTypes.ORTHO">ORTHO</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.EElementResults" href="#pygccx.enums.EElementResults">EElementResults</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pygccx.enums.EElementResults.CEEQ" href="#pygccx.enums.EElementResults.CEEQ">CEEQ</a></code></li>
+<li><code><a title="pygccx.enums.EElementResults.E" href="#pygccx.enums.EElementResults.E">E</a></code></li>
+<li><code><a title="pygccx.enums.EElementResults.ENER" href="#pygccx.enums.EElementResults.ENER">ENER</a></code></li>
+<li><code><a title="pygccx.enums.EElementResults.ERR" href="#pygccx.enums.EElementResults.ERR">ERR</a></code></li>
+<li><code><a title="pygccx.enums.EElementResults.HER" href="#pygccx.enums.EElementResults.HER">HER</a></code></li>
+<li><code><a title="pygccx.enums.EElementResults.HFL" href="#pygccx.enums.EElementResults.HFL">HFL</a></code></li>
+<li><code><a title="pygccx.enums.EElementResults.MAXE" href="#pygccx.enums.EElementResults.MAXE">MAXE</a></code></li>
+<li><code><a title="pygccx.enums.EElementResults.MAXS" href="#pygccx.enums.EElementResults.MAXS">MAXS</a></code></li>
+<li><code><a title="pygccx.enums.EElementResults.ME" href="#pygccx.enums.EElementResults.ME">ME</a></code></li>
+<li><code><a title="pygccx.enums.EElementResults.PEEQ" href="#pygccx.enums.EElementResults.PEEQ">PEEQ</a></code></li>
+<li><code><a title="pygccx.enums.EElementResults.PHS" href="#pygccx.enums.EElementResults.PHS">PHS</a></code></li>
+<li><code><a title="pygccx.enums.EElementResults.S" href="#pygccx.enums.EElementResults.S">S</a></code></li>
+<li><code><a title="pygccx.enums.EElementResults.THE" href="#pygccx.enums.EElementResults.THE">THE</a></code></li>
+<li><code><a title="pygccx.enums.EElementResults.ZZS" href="#pygccx.enums.EElementResults.ZZS">ZZS</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.EEtypes" href="#pygccx.enums.EEtypes">EEtypes</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pygccx.enums.EEtypes.C3D10" href="#pygccx.enums.EEtypes.C3D10">C3D10</a></code></li>
+<li><code><a title="pygccx.enums.EEtypes.C3D15" href="#pygccx.enums.EEtypes.C3D15">C3D15</a></code></li>
+<li><code><a title="pygccx.enums.EEtypes.C3D20" href="#pygccx.enums.EEtypes.C3D20">C3D20</a></code></li>
+<li><code><a title="pygccx.enums.EEtypes.C3D20R" href="#pygccx.enums.EEtypes.C3D20R">C3D20R</a></code></li>
+<li><code><a title="pygccx.enums.EEtypes.C3D4" href="#pygccx.enums.EEtypes.C3D4">C3D4</a></code></li>
+<li><code><a title="pygccx.enums.EEtypes.C3D6" href="#pygccx.enums.EEtypes.C3D6">C3D6</a></code></li>
+<li><code><a title="pygccx.enums.EEtypes.C3D8" href="#pygccx.enums.EEtypes.C3D8">C3D8</a></code></li>
+<li><code><a title="pygccx.enums.EEtypes.C3D8I" href="#pygccx.enums.EEtypes.C3D8I">C3D8I</a></code></li>
+<li><code><a title="pygccx.enums.EEtypes.C3D8R" href="#pygccx.enums.EEtypes.C3D8R">C3D8R</a></code></li>
+<li><code><a title="pygccx.enums.EEtypes.DASHPOTA" href="#pygccx.enums.EEtypes.DASHPOTA">DASHPOTA</a></code></li>
+<li><code><a title="pygccx.enums.EEtypes.DCOUP3D" href="#pygccx.enums.EEtypes.DCOUP3D">DCOUP3D</a></code></li>
+<li><code><a title="pygccx.enums.EEtypes.GAPUNI" href="#pygccx.enums.EEtypes.GAPUNI">GAPUNI</a></code></li>
+<li><code><a title="pygccx.enums.EEtypes.MASS" href="#pygccx.enums.EEtypes.MASS">MASS</a></code></li>
+<li><code><a title="pygccx.enums.EEtypes.SPRING1" href="#pygccx.enums.EEtypes.SPRING1">SPRING1</a></code></li>
+<li><code><a title="pygccx.enums.EEtypes.SPRING2" href="#pygccx.enums.EEtypes.SPRING2">SPRING2</a></code></li>
+<li><code><a title="pygccx.enums.EEtypes.SPRINGA" href="#pygccx.enums.EEtypes.SPRINGA">SPRINGA</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.EHardeningRules" href="#pygccx.enums.EHardeningRules">EHardeningRules</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.EHardeningRules.COMBINED" href="#pygccx.enums.EHardeningRules.COMBINED">COMBINED</a></code></li>
+<li><code><a title="pygccx.enums.EHardeningRules.ISOTROPIC" href="#pygccx.enums.EHardeningRules.ISOTROPIC">ISOTROPIC</a></code></li>
+<li><code><a title="pygccx.enums.EHardeningRules.KINEMATIC" href="#pygccx.enums.EHardeningRules.KINEMATIC">KINEMATIC</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.ELoadOps" href="#pygccx.enums.ELoadOps">ELoadOps</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.ELoadOps.MOD" href="#pygccx.enums.ELoadOps.MOD">MOD</a></code></li>
+<li><code><a title="pygccx.enums.ELoadOps.NEW" href="#pygccx.enums.ELoadOps.NEW">NEW</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.ENodeResults" href="#pygccx.enums.ENodeResults">ENodeResults</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pygccx.enums.ENodeResults.KEQ" href="#pygccx.enums.ENodeResults.KEQ">KEQ</a></code></li>
+<li><code><a title="pygccx.enums.ENodeResults.MAXU" href="#pygccx.enums.ENodeResults.MAXU">MAXU</a></code></li>
+<li><code><a title="pygccx.enums.ENodeResults.NT" href="#pygccx.enums.ENodeResults.NT">NT</a></code></li>
+<li><code><a title="pygccx.enums.ENodeResults.PNT" href="#pygccx.enums.ENodeResults.PNT">PNT</a></code></li>
+<li><code><a title="pygccx.enums.ENodeResults.PRF" href="#pygccx.enums.ENodeResults.PRF">PRF</a></code></li>
+<li><code><a title="pygccx.enums.ENodeResults.PU" href="#pygccx.enums.ENodeResults.PU">PU</a></code></li>
+<li><code><a title="pygccx.enums.ENodeResults.RF" href="#pygccx.enums.ENodeResults.RF">RF</a></code></li>
+<li><code><a title="pygccx.enums.ENodeResults.SEN" href="#pygccx.enums.ENodeResults.SEN">SEN</a></code></li>
+<li><code><a title="pygccx.enums.ENodeResults.U" href="#pygccx.enums.ENodeResults.U">U</a></code></li>
+<li><code><a title="pygccx.enums.ENodeResults.V" href="#pygccx.enums.ENodeResults.V">V</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.EOrientationRotAxis" href="#pygccx.enums.EOrientationRotAxis">EOrientationRotAxis</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.EOrientationRotAxis.NONE" href="#pygccx.enums.EOrientationRotAxis.NONE">NONE</a></code></li>
+<li><code><a title="pygccx.enums.EOrientationRotAxis.X" href="#pygccx.enums.EOrientationRotAxis.X">X</a></code></li>
+<li><code><a title="pygccx.enums.EOrientationRotAxis.Y" href="#pygccx.enums.EOrientationRotAxis.Y">Y</a></code></li>
+<li><code><a title="pygccx.enums.EOrientationRotAxis.Z" href="#pygccx.enums.EOrientationRotAxis.Z">Z</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.EOrientationSystems" href="#pygccx.enums.EOrientationSystems">EOrientationSystems</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.EOrientationSystems.CYLINDRICAL" href="#pygccx.enums.EOrientationSystems.CYLINDRICAL">CYLINDRICAL</a></code></li>
+<li><code><a title="pygccx.enums.EOrientationSystems.RECTANGULAR" href="#pygccx.enums.EOrientationSystems.RECTANGULAR">RECTANGULAR</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.EPressureOverclosures" href="#pygccx.enums.EPressureOverclosures">EPressureOverclosures</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.EPressureOverclosures.EXPONENTIAL" href="#pygccx.enums.EPressureOverclosures.EXPONENTIAL">EXPONENTIAL</a></code></li>
+<li><code><a title="pygccx.enums.EPressureOverclosures.HARD" href="#pygccx.enums.EPressureOverclosures.HARD">HARD</a></code></li>
+<li><code><a title="pygccx.enums.EPressureOverclosures.LINEAR" href="#pygccx.enums.EPressureOverclosures.LINEAR">LINEAR</a></code></li>
+<li><code><a title="pygccx.enums.EPressureOverclosures.TABULAR" href="#pygccx.enums.EPressureOverclosures.TABULAR">TABULAR</a></code></li>
+<li><code><a title="pygccx.enums.EPressureOverclosures.TIED" href="#pygccx.enums.EPressureOverclosures.TIED">TIED</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.EResultOutputs" href="#pygccx.enums.EResultOutputs">EResultOutputs</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.EResultOutputs.DEFAULT" href="#pygccx.enums.EResultOutputs.DEFAULT">DEFAULT</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.ESetTypes" href="#pygccx.enums.ESetTypes">ESetTypes</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.ESetTypes.ELEMENT" href="#pygccx.enums.ESetTypes.ELEMENT">ELEMENT</a></code></li>
+<li><code><a title="pygccx.enums.ESetTypes.NODE" href="#pygccx.enums.ESetTypes.NODE">NODE</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.ESolvers" href="#pygccx.enums.ESolvers">ESolvers</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.ESolvers.DEFAULT" href="#pygccx.enums.ESolvers.DEFAULT">DEFAULT</a></code></li>
+<li><code><a title="pygccx.enums.ESolvers.ITERATIVE_CHOLESKY" href="#pygccx.enums.ESolvers.ITERATIVE_CHOLESKY">ITERATIVE_CHOLESKY</a></code></li>
+<li><code><a title="pygccx.enums.ESolvers.ITERATIVE_SCALING" href="#pygccx.enums.ESolvers.ITERATIVE_SCALING">ITERATIVE_SCALING</a></code></li>
+<li><code><a title="pygccx.enums.ESolvers.PASTIX" href="#pygccx.enums.ESolvers.PASTIX">PASTIX</a></code></li>
+<li><code><a title="pygccx.enums.ESolvers.SPOOLES" href="#pygccx.enums.ESolvers.SPOOLES">SPOOLES</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.EStepAmplitudes" href="#pygccx.enums.EStepAmplitudes">EStepAmplitudes</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.EStepAmplitudes.RAMP" href="#pygccx.enums.EStepAmplitudes.RAMP">RAMP</a></code></li>
+<li><code><a title="pygccx.enums.EStepAmplitudes.STEP" href="#pygccx.enums.EStepAmplitudes.STEP">STEP</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.ESurfTypes" href="#pygccx.enums.ESurfTypes">ESurfTypes</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.ESurfTypes.EL_FACE" href="#pygccx.enums.ESurfTypes.EL_FACE">EL_FACE</a></code></li>
+<li><code><a title="pygccx.enums.ESurfTypes.NODE" href="#pygccx.enums.ESurfTypes.NODE">NODE</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

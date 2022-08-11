@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pygccx.protocols API documentation</title>
+<meta name="description" content="Copyright Matthias Sedlmaier 2022
+This file is part of pygccx …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pygccx.protocols</code></h1>
+</header>
+<section id="section-intro">
+<p>Copyright Matthias Sedlmaier 2022
+This file is part of pygccx.</p>
+<p>pygccx is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.</p>
+<p>pygccx is distributed in the hope that it will
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with pygccx.<br>
+If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#39;&#39;&#39;
+Copyright Matthias Sedlmaier 2022
+This file is part of pygccx.
+
+pygccx is free software: you can redistribute it 
+and/or modify it under the terms of the GNU General Public License as 
+published by the Free Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+pygccx is distributed in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with pygccx.  
+If not, see &lt;http://www.gnu.org/licenses/&gt;.
+&#39;&#39;&#39;
+
+from typing import Protocol, runtime_checkable
+import numpy as np
+import numpy.typing as npt
+import enums
+
+number = int|float|np.number
+
+class ISurface(Protocol):
+    &#34;&#34;&#34;Protocol for surface classes&#34;&#34;&#34;
+    name:str
+    &#34;&#34;&#34;Gets the name of this surface &#34;&#34;&#34;
+    type: enums.ESurfTypes
+    &#34;&#34;&#34;Gets the type of this surface&#34;&#34;&#34;
+
+    def write_ccx(self, buffer:list[str]): 
+        &#34;&#34;&#34;Writes the ccx input string of this surface to the given buffer&#34;&#34;&#34;
+
+class IElementFace(Protocol):
+    &#34;&#34;&#34;Protocol for element face classes&#34;&#34;&#34;
+    number:int
+    &#34;&#34;&#34;Gets the number of this element face inside the element with element_id&#34;&#34;&#34;
+    element_id:int
+    &#34;&#34;&#34;Gets the id of the element this element face belongs to&#34;&#34;&#34;
+    node_ids:tuple[int, ...]
+    &#34;&#34;&#34;Gets the node ids of this element face&#34;&#34;&#34;
+    name:str
+    &#34;&#34;&#34;Gets the name of this element face&#34;&#34;&#34;
+
+class IElement(Protocol):
+    &#34;&#34;&#34;Protocol for Element classes&#34;&#34;&#34;
+    id:int
+    &#34;&#34;&#34;Gets the id of this element&#34;&#34;&#34;
+    type:enums.EEtypes
+    &#34;&#34;&#34;Gets the GMSH type of this element&#34;&#34;&#34;
+    node_ids:tuple[int, ...]
+    &#34;&#34;&#34;Gets the node ids of this element&#34;&#34;&#34;
+
+    def get_dim(self) -&gt; int:
+        &#34;&#34;&#34;Gets the dimension of this element&#34;&#34;&#34;
+        ...
+    def get_corner_node_count(self) -&gt; int:
+        &#34;&#34;&#34;Gets the number of corner nodes for this element&#34;&#34;&#34;
+        ...
+    def get_corner_node_ids(self) -&gt; tuple[int, ...]:
+        &#34;&#34;&#34;Gets the corner node ids for this element&#34;&#34;&#34;
+        ...
+    def get_faces(self) -&gt; tuple[IElementFace, ...]:
+        &#34;&#34;&#34;Gets the faces for this element&#34;&#34;&#34;
+        ...
+
+@runtime_checkable
+class ISet(Protocol):
+    &#34;&#34;&#34;Protocol for node- or element set classes&#34;&#34;&#34;
+    name:str
+    &#34;&#34;&#34;Gets the name of this set&#34;&#34;&#34;
+    type:enums.ESetTypes
+    &#34;&#34;&#34;Gets the type of this set&#34;&#34;&#34;
+    dim:int
+    &#34;&#34;&#34;Gets the dimension of this set&#34;&#34;&#34;
+    ids:set[int]
+    &#34;&#34;&#34;Gets the ids of this set&#34;&#34;&#34;
+
+@runtime_checkable
+class IKeyword(Protocol):
+    &#34;&#34;&#34;Protocol for Keyword classes&#34;&#34;&#34;
+    name:str
+    &#34;&#34;&#34;Gets the name of this keyword&#34;&#34;&#34;
+    desc:str
+    &#34;&#34;&#34;Gets the description of this keyword. This will also be written to the ccx input file&#34;&#34;&#34;
+
+@runtime_checkable
+class IStep(Protocol):
+    &#34;&#34;&#34;Protocol for Step classes&#34;&#34;&#34;
+    desc:str
+    step_keywords:list[IKeyword]
+
+    def add_step_keywords(self, *step_keywords:IKeyword): ...
+
+class ICoordinateSystem(Protocol):
+    &#34;&#34;&#34;Protocol for coordinate systems&#34;&#34;&#34;
+    name:str
+    &#34;&#34;&#34;Name of this coordinate system. Used if an Orientation or Transform is
+        instantiated using this coordinate system.&#34;&#34;&#34;
+    type:enums.EOrientationSystems
+    &#34;&#34;&#34;Type of this coordinate system&#34;&#34;&#34;
+
+    def get_origin(self) -&gt; npt.NDArray:
+        &#34;&#34;&#34;Gets the origin of this coordinate system as 1D numpy array&#34;&#34;&#34;
+        ...
+
+    def get_matrix(self) -&gt; npt.NDArray:
+        &#34;&#34;&#34;Gets the orientation matrix of this coordinate system as 2D numpy array.
+        row 0: vector of x axis in global system
+        row 1: vector of y axis in global system
+        row 2: vector of z axis in global system
+        &#34;&#34;&#34;
+        ...</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pygccx.protocols.ICoordinateSystem"><code class="flex name class">
+<span>class <span class="ident">ICoordinateSystem</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Protocol for coordinate systems</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ICoordinateSystem(Protocol):
+    &#34;&#34;&#34;Protocol for coordinate systems&#34;&#34;&#34;
+    name:str
+    &#34;&#34;&#34;Name of this coordinate system. Used if an Orientation or Transform is
+        instantiated using this coordinate system.&#34;&#34;&#34;
+    type:enums.EOrientationSystems
+    &#34;&#34;&#34;Type of this coordinate system&#34;&#34;&#34;
+
+    def get_origin(self) -&gt; npt.NDArray:
+        &#34;&#34;&#34;Gets the origin of this coordinate system as 1D numpy array&#34;&#34;&#34;
+        ...
+
+    def get_matrix(self) -&gt; npt.NDArray:
+        &#34;&#34;&#34;Gets the orientation matrix of this coordinate system as 2D numpy array.
+        row 0: vector of x axis in global system
+        row 1: vector of y axis in global system
+        row 2: vector of z axis in global system
+        &#34;&#34;&#34;
+        ...</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.protocols.ICoordinateSystem.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Name of this coordinate system. Used if an Orientation or Transform is
+instantiated using this coordinate system.</p></div>
+</dd>
+<dt id="pygccx.protocols.ICoordinateSystem.type"><code class="name">var <span class="ident">type</span> : enums.EOrientationSystems</code></dt>
+<dd>
+<div class="desc"><p>Type of this coordinate system</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pygccx.protocols.ICoordinateSystem.get_matrix"><code class="name flex">
+<span>def <span class="ident">get_matrix</span></span>(<span>self) ‑> numpy.ndarray[typing.Any, numpy.dtype[+ScalarType]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the orientation matrix of this coordinate system as 2D numpy array.
+row 0: vector of x axis in global system
+row 1: vector of y axis in global system
+row 2: vector of z axis in global system</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_matrix(self) -&gt; npt.NDArray:
+    &#34;&#34;&#34;Gets the orientation matrix of this coordinate system as 2D numpy array.
+    row 0: vector of x axis in global system
+    row 1: vector of y axis in global system
+    row 2: vector of z axis in global system
+    &#34;&#34;&#34;
+    ...</code></pre>
+</details>
+</dd>
+<dt id="pygccx.protocols.ICoordinateSystem.get_origin"><code class="name flex">
+<span>def <span class="ident">get_origin</span></span>(<span>self) ‑> numpy.ndarray[typing.Any, numpy.dtype[+ScalarType]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the origin of this coordinate system as 1D numpy array</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_origin(self) -&gt; npt.NDArray:
+    &#34;&#34;&#34;Gets the origin of this coordinate system as 1D numpy array&#34;&#34;&#34;
+    ...</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.protocols.IElement"><code class="flex name class">
+<span>class <span class="ident">IElement</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Protocol for Element classes</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class IElement(Protocol):
+    &#34;&#34;&#34;Protocol for Element classes&#34;&#34;&#34;
+    id:int
+    &#34;&#34;&#34;Gets the id of this element&#34;&#34;&#34;
+    type:enums.EEtypes
+    &#34;&#34;&#34;Gets the GMSH type of this element&#34;&#34;&#34;
+    node_ids:tuple[int, ...]
+    &#34;&#34;&#34;Gets the node ids of this element&#34;&#34;&#34;
+
+    def get_dim(self) -&gt; int:
+        &#34;&#34;&#34;Gets the dimension of this element&#34;&#34;&#34;
+        ...
+    def get_corner_node_count(self) -&gt; int:
+        &#34;&#34;&#34;Gets the number of corner nodes for this element&#34;&#34;&#34;
+        ...
+    def get_corner_node_ids(self) -&gt; tuple[int, ...]:
+        &#34;&#34;&#34;Gets the corner node ids for this element&#34;&#34;&#34;
+        ...
+    def get_faces(self) -&gt; tuple[IElementFace, ...]:
+        &#34;&#34;&#34;Gets the faces for this element&#34;&#34;&#34;
+        ...</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.protocols.IElement.id"><code class="name">var <span class="ident">id</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Gets the id of this element</p></div>
+</dd>
+<dt id="pygccx.protocols.IElement.node_ids"><code class="name">var <span class="ident">node_ids</span> : tuple[int, ...]</code></dt>
+<dd>
+<div class="desc"><p>Gets the node ids of this element</p></div>
+</dd>
+<dt id="pygccx.protocols.IElement.type"><code class="name">var <span class="ident">type</span> : enums.EEtypes</code></dt>
+<dd>
+<div class="desc"><p>Gets the GMSH type of this element</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pygccx.protocols.IElement.get_corner_node_count"><code class="name flex">
+<span>def <span class="ident">get_corner_node_count</span></span>(<span>self) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the number of corner nodes for this element</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_corner_node_count(self) -&gt; int:
+    &#34;&#34;&#34;Gets the number of corner nodes for this element&#34;&#34;&#34;
+    ...</code></pre>
+</details>
+</dd>
+<dt id="pygccx.protocols.IElement.get_corner_node_ids"><code class="name flex">
+<span>def <span class="ident">get_corner_node_ids</span></span>(<span>self) ‑> tuple[int, ...]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the corner node ids for this element</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_corner_node_ids(self) -&gt; tuple[int, ...]:
+    &#34;&#34;&#34;Gets the corner node ids for this element&#34;&#34;&#34;
+    ...</code></pre>
+</details>
+</dd>
+<dt id="pygccx.protocols.IElement.get_dim"><code class="name flex">
+<span>def <span class="ident">get_dim</span></span>(<span>self) ‑> int</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the dimension of this element</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_dim(self) -&gt; int:
+    &#34;&#34;&#34;Gets the dimension of this element&#34;&#34;&#34;
+    ...</code></pre>
+</details>
+</dd>
+<dt id="pygccx.protocols.IElement.get_faces"><code class="name flex">
+<span>def <span class="ident">get_faces</span></span>(<span>self) ‑> tuple[<a title="pygccx.protocols.IElementFace" href="#pygccx.protocols.IElementFace">IElementFace</a>, ...]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the faces for this element</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_faces(self) -&gt; tuple[IElementFace, ...]:
+    &#34;&#34;&#34;Gets the faces for this element&#34;&#34;&#34;
+    ...</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.protocols.IElementFace"><code class="flex name class">
+<span>class <span class="ident">IElementFace</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Protocol for element face classes</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class IElementFace(Protocol):
+    &#34;&#34;&#34;Protocol for element face classes&#34;&#34;&#34;
+    number:int
+    &#34;&#34;&#34;Gets the number of this element face inside the element with element_id&#34;&#34;&#34;
+    element_id:int
+    &#34;&#34;&#34;Gets the id of the element this element face belongs to&#34;&#34;&#34;
+    node_ids:tuple[int, ...]
+    &#34;&#34;&#34;Gets the node ids of this element face&#34;&#34;&#34;
+    name:str
+    &#34;&#34;&#34;Gets the name of this element face&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.protocols.IElementFace.element_id"><code class="name">var <span class="ident">element_id</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Gets the id of the element this element face belongs to</p></div>
+</dd>
+<dt id="pygccx.protocols.IElementFace.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Gets the name of this element face</p></div>
+</dd>
+<dt id="pygccx.protocols.IElementFace.node_ids"><code class="name">var <span class="ident">node_ids</span> : tuple[int, ...]</code></dt>
+<dd>
+<div class="desc"><p>Gets the node ids of this element face</p></div>
+</dd>
+<dt id="pygccx.protocols.IElementFace.number"><code class="name">var <span class="ident">number</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Gets the number of this element face inside the element with element_id</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.protocols.IKeyword"><code class="flex name class">
+<span>class <span class="ident">IKeyword</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Protocol for Keyword classes</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@runtime_checkable
+class IKeyword(Protocol):
+    &#34;&#34;&#34;Protocol for Keyword classes&#34;&#34;&#34;
+    name:str
+    &#34;&#34;&#34;Gets the name of this keyword&#34;&#34;&#34;
+    desc:str
+    &#34;&#34;&#34;Gets the description of this keyword. This will also be written to the ccx input file&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.protocols.IKeyword.desc"><code class="name">var <span class="ident">desc</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Gets the description of this keyword. This will also be written to the ccx input file</p></div>
+</dd>
+<dt id="pygccx.protocols.IKeyword.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Gets the name of this keyword</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.protocols.ISet"><code class="flex name class">
+<span>class <span class="ident">ISet</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Protocol for node- or element set classes</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@runtime_checkable
+class ISet(Protocol):
+    &#34;&#34;&#34;Protocol for node- or element set classes&#34;&#34;&#34;
+    name:str
+    &#34;&#34;&#34;Gets the name of this set&#34;&#34;&#34;
+    type:enums.ESetTypes
+    &#34;&#34;&#34;Gets the type of this set&#34;&#34;&#34;
+    dim:int
+    &#34;&#34;&#34;Gets the dimension of this set&#34;&#34;&#34;
+    ids:set[int]
+    &#34;&#34;&#34;Gets the ids of this set&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.protocols.ISet.dim"><code class="name">var <span class="ident">dim</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Gets the dimension of this set</p></div>
+</dd>
+<dt id="pygccx.protocols.ISet.ids"><code class="name">var <span class="ident">ids</span> : set[int]</code></dt>
+<dd>
+<div class="desc"><p>Gets the ids of this set</p></div>
+</dd>
+<dt id="pygccx.protocols.ISet.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Gets the name of this set</p></div>
+</dd>
+<dt id="pygccx.protocols.ISet.type"><code class="name">var <span class="ident">type</span> : enums.ESetTypes</code></dt>
+<dd>
+<div class="desc"><p>Gets the type of this set</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.protocols.IStep"><code class="flex name class">
+<span>class <span class="ident">IStep</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Protocol for Step classes</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@runtime_checkable
+class IStep(Protocol):
+    &#34;&#34;&#34;Protocol for Step classes&#34;&#34;&#34;
+    desc:str
+    step_keywords:list[IKeyword]
+
+    def add_step_keywords(self, *step_keywords:IKeyword): ...</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.protocols.IStep.desc"><code class="name">var <span class="ident">desc</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.protocols.IStep.step_keywords"><code class="name">var <span class="ident">step_keywords</span> : list[<a title="pygccx.protocols.IKeyword" href="#pygccx.protocols.IKeyword">IKeyword</a>]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pygccx.protocols.IStep.add_step_keywords"><code class="name flex">
+<span>def <span class="ident">add_step_keywords</span></span>(<span>self, *step_keywords: <a title="pygccx.protocols.IKeyword" href="#pygccx.protocols.IKeyword">IKeyword</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_step_keywords(self, *step_keywords:IKeyword): ...</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.protocols.ISurface"><code class="flex name class">
+<span>class <span class="ident">ISurface</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Protocol for surface classes</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ISurface(Protocol):
+    &#34;&#34;&#34;Protocol for surface classes&#34;&#34;&#34;
+    name:str
+    &#34;&#34;&#34;Gets the name of this surface &#34;&#34;&#34;
+    type: enums.ESurfTypes
+    &#34;&#34;&#34;Gets the type of this surface&#34;&#34;&#34;
+
+    def write_ccx(self, buffer:list[str]): 
+        &#34;&#34;&#34;Writes the ccx input string of this surface to the given buffer&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>typing.Protocol</li>
+<li>typing.Generic</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.protocols.ISurface.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Gets the name of this surface</p></div>
+</dd>
+<dt id="pygccx.protocols.ISurface.type"><code class="name">var <span class="ident">type</span> : enums.ESurfTypes</code></dt>
+<dd>
+<div class="desc"><p>Gets the type of this surface</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pygccx.protocols.ISurface.write_ccx"><code class="name flex">
+<span>def <span class="ident">write_ccx</span></span>(<span>self, buffer: list[str])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Writes the ccx input string of this surface to the given buffer</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def write_ccx(self, buffer:list[str]): 
+    &#34;&#34;&#34;Writes the ccx input string of this surface to the given buffer&#34;&#34;&#34;</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pygccx" href="index.html">pygccx</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pygccx.protocols.ICoordinateSystem" href="#pygccx.protocols.ICoordinateSystem">ICoordinateSystem</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.protocols.ICoordinateSystem.get_matrix" href="#pygccx.protocols.ICoordinateSystem.get_matrix">get_matrix</a></code></li>
+<li><code><a title="pygccx.protocols.ICoordinateSystem.get_origin" href="#pygccx.protocols.ICoordinateSystem.get_origin">get_origin</a></code></li>
+<li><code><a title="pygccx.protocols.ICoordinateSystem.name" href="#pygccx.protocols.ICoordinateSystem.name">name</a></code></li>
+<li><code><a title="pygccx.protocols.ICoordinateSystem.type" href="#pygccx.protocols.ICoordinateSystem.type">type</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.protocols.IElement" href="#pygccx.protocols.IElement">IElement</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.protocols.IElement.get_corner_node_count" href="#pygccx.protocols.IElement.get_corner_node_count">get_corner_node_count</a></code></li>
+<li><code><a title="pygccx.protocols.IElement.get_corner_node_ids" href="#pygccx.protocols.IElement.get_corner_node_ids">get_corner_node_ids</a></code></li>
+<li><code><a title="pygccx.protocols.IElement.get_dim" href="#pygccx.protocols.IElement.get_dim">get_dim</a></code></li>
+<li><code><a title="pygccx.protocols.IElement.get_faces" href="#pygccx.protocols.IElement.get_faces">get_faces</a></code></li>
+<li><code><a title="pygccx.protocols.IElement.id" href="#pygccx.protocols.IElement.id">id</a></code></li>
+<li><code><a title="pygccx.protocols.IElement.node_ids" href="#pygccx.protocols.IElement.node_ids">node_ids</a></code></li>
+<li><code><a title="pygccx.protocols.IElement.type" href="#pygccx.protocols.IElement.type">type</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.protocols.IElementFace" href="#pygccx.protocols.IElementFace">IElementFace</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.protocols.IElementFace.element_id" href="#pygccx.protocols.IElementFace.element_id">element_id</a></code></li>
+<li><code><a title="pygccx.protocols.IElementFace.name" href="#pygccx.protocols.IElementFace.name">name</a></code></li>
+<li><code><a title="pygccx.protocols.IElementFace.node_ids" href="#pygccx.protocols.IElementFace.node_ids">node_ids</a></code></li>
+<li><code><a title="pygccx.protocols.IElementFace.number" href="#pygccx.protocols.IElementFace.number">number</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.protocols.IKeyword" href="#pygccx.protocols.IKeyword">IKeyword</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.protocols.IKeyword.desc" href="#pygccx.protocols.IKeyword.desc">desc</a></code></li>
+<li><code><a title="pygccx.protocols.IKeyword.name" href="#pygccx.protocols.IKeyword.name">name</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.protocols.ISet" href="#pygccx.protocols.ISet">ISet</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.protocols.ISet.dim" href="#pygccx.protocols.ISet.dim">dim</a></code></li>
+<li><code><a title="pygccx.protocols.ISet.ids" href="#pygccx.protocols.ISet.ids">ids</a></code></li>
+<li><code><a title="pygccx.protocols.ISet.name" href="#pygccx.protocols.ISet.name">name</a></code></li>
+<li><code><a title="pygccx.protocols.ISet.type" href="#pygccx.protocols.ISet.type">type</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.protocols.IStep" href="#pygccx.protocols.IStep">IStep</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.protocols.IStep.add_step_keywords" href="#pygccx.protocols.IStep.add_step_keywords">add_step_keywords</a></code></li>
+<li><code><a title="pygccx.protocols.IStep.desc" href="#pygccx.protocols.IStep.desc">desc</a></code></li>
+<li><code><a title="pygccx.protocols.IStep.step_keywords" href="#pygccx.protocols.IStep.step_keywords">step_keywords</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.protocols.ISurface" href="#pygccx.protocols.ISurface">ISurface</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.protocols.ISurface.name" href="#pygccx.protocols.ISurface.name">name</a></code></li>
+<li><code><a title="pygccx.protocols.ISurface.type" href="#pygccx.protocols.ISurface.type">type</a></code></li>
+<li><code><a title="pygccx.protocols.ISurface.write_ccx" href="#pygccx.protocols.ISurface.write_ccx">write_ccx</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

@@ -44,14 +44,14 @@ class TestCload(TestCase):
     def test_default(self):
         c = Cload(99, 1, 1.234)
         known = '*CLOAD\n'
-        known += '99,1,1.234\n'
+        known += '99,1,1.2340000e+00\n'
         self.assertEqual(str(c), known)
 
     def test_default_with_set(self):
         s = SetMock('TestSet', ESetTypes.NODE, 2, set((1,2)))
         c = Cload(s, 1, 1.234)
         known = '*CLOAD\n'
-        known += 'TestSet,1,1.234\n'
+        known += 'TestSet,1,1.2340000e+00\n'
         self.assertEqual(str(c), known)
 
     def test_dof_lower_1(self):
@@ -66,28 +66,28 @@ class TestCload(TestCase):
         c = Cload(99, 1, 1.234)
         c.add_load(100, 2, 4.87)
         known = '*CLOAD\n'
-        known += '99,1,1.234\n'
-        known += '100,2,4.87\n'
+        known += '99,1,1.2340000e+00\n'
+        known += '100,2,4.8700000e+00\n'
         self.assertEqual(str(c), known)
 
     def test_op(self):
         c = Cload(99, 1, 1.234, op=ELoadOps.NEW)
         known = '*CLOAD,OP=NEW\n'
-        known += '99,1,1.234\n'
+        known += '99,1,1.2340000e+00\n'
         self.assertEqual(str(c), known)
 
     def test_amplitude(self):
         a = AmplitudeMock('A1')
         c = Cload(99, 1, 1.234, amplitude=a)
         known = '*CLOAD,AMPLITUDE=A1\n'
-        known += '99,1,1.234\n'
+        known += '99,1,1.2340000e+00\n'
         self.assertEqual(str(c), known)
 
     def test_time_delay(self):
         a = AmplitudeMock('A1')
         c = Cload(99, 1, 1.234, amplitude=a, time_delay=0.33)
-        known = '*CLOAD,AMPLITUDE=A1,TIME DELAY=0.33\n'
-        known += '99,1,1.234\n'
+        known = '*CLOAD,AMPLITUDE=A1,TIME DELAY=3.3000000e-01\n'
+        known += '99,1,1.2340000e+00\n'
         self.assertEqual(str(c), known)
 
     def test_time_delay_wo_amplitude(self):
@@ -97,7 +97,7 @@ class TestCload(TestCase):
     def test_load_case(self):
         c = Cload(99, 1, 1.234, load_case=2)
         known = '*CLOAD,LOAD CASE=2\n'
-        known += '99,1,1.234\n'
+        known += '99,1,1.2340000e+00\n'
         self.assertEqual(str(c), known)
 
     def test_load_case_out_of_bounds(self):
@@ -107,7 +107,7 @@ class TestCload(TestCase):
     def test_sector(self):
         c = Cload(99, 1, 1.234, sector=2)
         known = '*CLOAD,SECTOR=2\n'
-        known += '99,1,1.234\n'
+        known += '99,1,1.2340000e+00\n'
         self.assertEqual(str(c), known)
 
     def test_sector_lower_1(self):
@@ -117,13 +117,13 @@ class TestCload(TestCase):
     def test_submodel_and_step(self):
         c = Cload(99, 1, 1.234, submodel=True, step=1)
         known = '*CLOAD,SUBMODEL,STEP=1\n'
-        known += '99,1,1.234\n'
+        known += '99,1,1.2340000e+00\n'
         self.assertEqual(str(c), known) 
 
     def test_submodel_and_data_set(self):
         c = Cload(99, 1, 1.234, submodel=True, data_set=1)
         known = '*CLOAD,SUBMODEL,DATA SET=1\n'
-        known += '99,1,1.234\n'
+        known += '99,1,1.2340000e+00\n'
         self.assertEqual(str(c), known) 
 
     def test_step_wo_submodel(self):

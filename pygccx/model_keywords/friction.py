@@ -21,6 +21,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from protocols import number
+from auxiliary import f2s
 @dataclass
 class Friction:
 
@@ -54,5 +55,5 @@ class Friction:
 
     def __str__(self):
         s = '*FRICTION\n'
-        s += f'{self.mue},{self.lam}\n'
+        s += f'{f2s(self.mue)},{f2s(self.lam)}\n'
         return s

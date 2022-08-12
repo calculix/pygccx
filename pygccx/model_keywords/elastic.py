@@ -20,6 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass, field, InitVar
 from enums import EELasticTypes
 from protocols import number
+from auxiliary import f2s
 
 @dataclass
 class Elastic:
@@ -88,7 +89,7 @@ class Elastic:
         for p in self.elastic_params_for_temps:
             lines = [p[i:i+n] for i in range(0, len(p) or 1, n)]
             for i, line in enumerate(lines):
-                s += ','.join(map(str, line)) 
+                s += ','.join(map(f2s, line)) 
                 s += '\n' if i == len(lines) -1 else ',\n'
 
         return s

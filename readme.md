@@ -20,7 +20,7 @@ ATM no postprocessing capabilities are implemented. This is one of the next mile
 
 # Install Pygccx
 Up to now there is no pip package. To use pygccx do the following:
-- Install Python 3.10 or higher
+- Install Python 3.10 or higher (or make a virtual env)
 - Download the whole Project.
 - Install requirements from requirements.txt with pip install -r requirements.txt
 - Append the path to pygccx to sys.path

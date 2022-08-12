@@ -21,6 +21,7 @@ from dataclasses import dataclass, field, InitVar
 from typing import Optional, Any
 from enums import ELoadOps
 from protocols import IKeyword, ISet, number
+from auxiliary import f2s
 
 @dataclass
 class Boundary:
@@ -131,7 +132,7 @@ class Boundary:
         s = '*BOUNDARY'
         if self.op != ELoadOps.MOD: s += f',OP={self.op.value}'
         if self.amplitude: s += f',AMPLITUDE={self.amplitude.name}'
-        if self.time_delay is not None: s += f',TIME DELAY={self.time_delay}'
+        if self.time_delay is not None: s += f',TIME DELAY={f2s(self.time_delay)}'
         if self.load_case != 1: s += f',LOAD CASE={self.load_case}'
         if self.fixed: s += f',FIXED'
         if self.submodel: s += ',SUBMODEL'
@@ -142,6 +143,6 @@ class Boundary:
         for c in self.conditions:
             if isinstance(c[0], int): s += f'{c[0]},'
             if isinstance(c[0], ISet): s += f'{c[0].name},'
-            s += f'{c[1]},{c[2] if c[2] is not None else ""},{c[3]}\n'
+            s += f'{c[1]},{c[2] if c[2] is not None else ""},{f2s(c[3])}\n'
 
         return s

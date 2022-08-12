@@ -30,7 +30,8 @@ class TestElastic(TestCase):
 
     def test_iso(self):
         e = Elastic((210000., 0.3))
-        known = '*ELASTIC,TYPE=ISO\n210000.0,0.3,294.0\n'
+        known = '*ELASTIC,TYPE=ISO\n'
+        known += '2.1000000e+05,3.0000000e-01,2.9400000e+02\n'
         self.assertEqual(str(e), known)
 
     def test_ortho(self):
@@ -38,8 +39,8 @@ class TestElastic(TestCase):
                      157200.,300000.,126200.,126200.,
                      126200.), EELasticTypes.ORTHO)
         known = '*ELASTIC,TYPE=ORTHO\n'
-        known += '500000.0,157200.0,400000.0,157200.0,157200.0,300000.0,126200.0,126200.0,\n'
-        known += '126200.0,294.0\n'
+        known += '5.0000000e+05,1.5720000e+05,4.0000000e+05,1.5720000e+05,1.5720000e+05,3.0000000e+05,1.2620000e+05,1.2620000e+05,\n'
+        known += '1.2620000e+05,2.9400000e+02\n'
         self.assertEqual(str(e), known)
 
     def test_aniso(self):
@@ -47,9 +48,9 @@ class TestElastic(TestCase):
                      11,12,13,14,15,16,17,18,19,20,21),
                      EELasticTypes.ANISO, )
         known = '*ELASTIC,TYPE=ANISO\n'
-        known += '1,2,3,4,5,6,7,8,\n'
-        known += '9,10,11,12,13,14,15,16,\n'
-        known += '17,18,19,20,21,294.0\n'
+        known += '1.0000000e+00,2.0000000e+00,3.0000000e+00,4.0000000e+00,5.0000000e+00,6.0000000e+00,7.0000000e+00,8.0000000e+00,\n'
+        known += '9.0000000e+00,1.0000000e+01,1.1000000e+01,1.2000000e+01,1.3000000e+01,1.4000000e+01,1.5000000e+01,1.6000000e+01,\n'
+        known += '1.7000000e+01,1.8000000e+01,1.9000000e+01,2.0000000e+01,2.1000000e+01,2.9400000e+02\n'
         self.assertEqual(str(e), known)
 
     def test_ortho_two_temps(self):
@@ -62,10 +63,10 @@ class TestElastic(TestCase):
             126200.
         )
         known = '*ELASTIC,TYPE=ORTHO\n'
-        known += '500000.0,157200.0,400000.0,157200.0,157200.0,300000.0,126200.0,126200.0,\n'
-        known += '126200.0,294.0\n'
-        known += '500000.0,157200.0,400000.0,157200.0,157200.0,300000.0,126200.0,126200.0,\n'
-        known += '126200.0,300.0\n'
+        known += '5.0000000e+05,1.5720000e+05,4.0000000e+05,1.5720000e+05,1.5720000e+05,3.0000000e+05,1.2620000e+05,1.2620000e+05,\n'
+        known += '1.2620000e+05,2.9400000e+02\n'
+        known += '5.0000000e+05,1.5720000e+05,4.0000000e+05,1.5720000e+05,1.5720000e+05,3.0000000e+05,1.2620000e+05,1.2620000e+05,\n'
+        known += '1.2620000e+05,3.0000000e+02\n'
         self.assertEqual(str(e), known)
 
     def test_params_false_length(self):

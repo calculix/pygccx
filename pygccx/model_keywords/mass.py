@@ -21,6 +21,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from protocols import ISet, number
+from auxiliary import f2s
 from enums import ESetTypes
 
 @dataclass
@@ -51,5 +52,5 @@ class Mass:
 
     def __str__(self):
         s = f'*MASS,ELSET={self.elset.name}\n'
-        s += f'{self.mass:.7e}\n'
+        s += f'{f2s(self.mass)}\n'
         return s

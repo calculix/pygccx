@@ -30,7 +30,7 @@ class TestFriction(TestCase):
     def test_happy_case(self):
         f = Friction(0.3, 50000.)
         known = '*FRICTION\n'
-        known += '0.3,50000.0\n'
+        known += '3.0000000e-01,5.0000000e+04\n'
         self.assertEqual(str(f), known)
 
     def test_mue_lower_zero(self):

@@ -23,6 +23,7 @@ import numpy as np
 from protocols import ISet
 from enums import EOrientationSystems, ESetTypes
 from protocols import ICoordinateSystem, number
+from auxiliary import f2s
 
 @dataclass
 class Transform:
@@ -62,7 +63,7 @@ class Transform:
 
     def __str__(self):
         s = f'*TRANSFORM,NSET={self.nset.name},TYPE={self.system.value[0]}\n'
-        s += f'{",".join(map(str,self.pnt_a))},{",".join(map(str,self.pnt_b))}\n'
+        s += f'{",".join(map(f2s,self.pnt_a))},{",".join(map(f2s,self.pnt_b))}\n'
 
 
         return s

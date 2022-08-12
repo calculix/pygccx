@@ -31,40 +31,40 @@ class TestSurfaceBehavior(TestCase):
     def test_exponential(self):
         sb = SurfaceBehavior(EPressureOverclosures.EXPONENTIAL, c0=1.e-4, p0=.1)
         known = '*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=EXPONENTIAL\n'
-        known += '  1.0000000e-04,  1.0000000e-01\n'
+        known += '1.0000000e-04,1.0000000e-01\n'
         self.assertEqual(str(sb), known)
 
     def test_linear_only_k(self):
         sb = SurfaceBehavior(EPressureOverclosures.LINEAR, k=50000.)
         known = '*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=LINEAR\n'
-        known += '  5.0000000e+04\n'
+        known += '5.0000000e+04\n'
         self.assertEqual(str(sb), known)
 
     def test_linear_k_and_sig_inf(self):
         sb = SurfaceBehavior(EPressureOverclosures.LINEAR, k=50000., sig_inf=10.)
         known = '*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=LINEAR\n'
-        known += '  5.0000000e+04,  1.0000000e+01\n'
+        known += '5.0000000e+04,1.0000000e+01\n'
         self.assertEqual(str(sb), known)
 
     def test_linear_k_sig_inf_and_c0(self):
         sb = SurfaceBehavior(EPressureOverclosures.LINEAR, k=50000., sig_inf=10., c0=0.1)
         known = '*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=LINEAR\n'
-        known += '  5.0000000e+04,  1.0000000e+01,  1.0000000e-01\n'
+        known += '5.0000000e+04,1.0000000e+01,1.0000000e-01\n'
         self.assertEqual(str(sb), known)
 
     def test_tabular(self):
         sb = SurfaceBehavior(EPressureOverclosures.TABULAR,
                              table=[[0,0],[50,0.01],[500,0.02]])
         known = '*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=TABULAR\n'
-        known += '  0.0000000e+00,  0.0000000e+00\n'
-        known += '  5.0000000e+01,  1.0000000e-02\n'
-        known += '  5.0000000e+02,  2.0000000e-02\n'
+        known += '0.0000000e+00,0.0000000e+00\n'
+        known += '5.0000000e+01,1.0000000e-02\n'
+        known += '5.0000000e+02,2.0000000e-02\n'
         self.assertEqual(str(sb), known)
 
     def test_tied(self):
         sb = SurfaceBehavior(EPressureOverclosures.TIED, k=50000.)
         known = '*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=TIED\n'
-        known += '  5.0000000e+04\n'
+        known += '5.0000000e+04\n'
         self.assertEqual(str(sb), known)
 
     def test_hard(self):

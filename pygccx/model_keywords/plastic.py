@@ -24,6 +24,7 @@ import numpy.typing as npt
 
 from enums import EHardeningRules
 from protocols import number
+from auxiliary import f2s
 
 @dataclass
 class CyclicHardening:
@@ -89,7 +90,7 @@ class CyclicHardening:
         for p in self.plastic_params_for_temps:
             temp, stress, strain = p
             for s_, e_ in zip(stress, strain):
-                s += f'{s_:15.7e},{e_:15.7e},{temp:15.7e}\n' 
+                s += f'{f2s(s_)},{f2s(e_)},{f2s(temp)}\n' 
         
         return s
 
@@ -130,6 +131,6 @@ class Plastic(CyclicHardening):
         for p in self.plastic_params_for_temps:
             temp, stress, strain = p
             for s_, e_ in zip(stress, strain):
-                s += f'{s_:15.7e},{e_:15.7e},{temp:15.7e}\n' 
+                s += f'{f2s(s_)},{f2s(e_)},{f2s(temp)}\n' 
         
         return s

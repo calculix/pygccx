@@ -44,20 +44,20 @@ class TestBoundary(TestCase):
     def test_default(self):
         b = Boundary(99, 1, 1.234)
         known = '*BOUNDARY\n'
-        known += '99,1,,1.234\n'
+        known += '99,1,,1.2340000e+00\n'
         self.assertEqual(str(b), known)
 
     def test_last_dof(self):
         b = Boundary(99, 1, 1.234, 3)
         known = '*BOUNDARY\n'
-        known += '99,1,3,1.234\n'
+        known += '99,1,3,1.2340000e+00\n'
         self.assertEqual(str(b), known)
 
     def test_default_with_set(self):
         s = SetMock('TestSet', ESetTypes.NODE, 2, set((1,2)))
         b = Boundary(s, 1, 1.234)
         known = '*BOUNDARY\n'
-        known += 'TestSet,1,,1.234\n'
+        known += 'TestSet,1,,1.2340000e+00\n'
         self.assertEqual(str(b), known)
 
     def test_first_dof_lower_1(self):
@@ -77,29 +77,29 @@ class TestBoundary(TestCase):
         b.add_condition(100, 2, 4.87)
         b.add_condition(101, 2, 4.87, 3)
         known = '*BOUNDARY\n'
-        known += '99,1,,1.234\n'
-        known += '100,2,,4.87\n'
-        known += '101,2,3,4.87\n'
+        known += '99,1,,1.2340000e+00\n'
+        known += '100,2,,4.8700000e+00\n'
+        known += '101,2,3,4.8700000e+00\n'
         self.assertEqual(str(b), known)
 
     def test_op(self):
         b = Boundary(99, 1, 1.234, op=ELoadOps.NEW)
         known = '*BOUNDARY,OP=NEW\n'
-        known += '99,1,,1.234\n'
+        known += '99,1,,1.2340000e+00\n'
         self.assertEqual(str(b), known)
 
     def test_amplitude(self):
         a = AmplitudeMock('A1')
         b = Boundary(99, 1, 1.234, amplitude=a)
         known = '*BOUNDARY,AMPLITUDE=A1\n'
-        known += '99,1,,1.234\n'
+        known += '99,1,,1.2340000e+00\n'
         self.assertEqual(str(b), known)
 
     def test_time_delay(self):
         a = AmplitudeMock('A1')
         b = Boundary(99, 1, 1.234, amplitude=a, time_delay=0.33)
-        known = '*BOUNDARY,AMPLITUDE=A1,TIME DELAY=0.33\n'
-        known += '99,1,,1.234\n'
+        known = '*BOUNDARY,AMPLITUDE=A1,TIME DELAY=3.3000000e-01\n'
+        known += '99,1,,1.2340000e+00\n'
         self.assertEqual(str(b), known)
 
     def test_time_delay_wo_amplitude(self):
@@ -109,7 +109,7 @@ class TestBoundary(TestCase):
     def test_load_case(self):
         b = Boundary(99, 1, 1.234, load_case=2)
         known = '*BOUNDARY,LOAD CASE=2\n'
-        known += '99,1,,1.234\n'
+        known += '99,1,,1.2340000e+00\n'
         self.assertEqual(str(b), known)
 
     def test_load_case_out_of_bounds(self):
@@ -119,19 +119,19 @@ class TestBoundary(TestCase):
     def test_fixed(self):
         b = Boundary(99, 1, 1.234, fixed=True)
         known = '*BOUNDARY,FIXED\n'
-        known += '99,1,,1.234\n'
+        known += '99,1,,1.2340000e+00\n'
         self.assertEqual(str(b), known)
 
     def test_submodel_and_step(self):
         b = Boundary(99, 1, 1.234, submodel=True, step=1)
         known = '*BOUNDARY,SUBMODEL,STEP=1\n'
-        known += '99,1,,1.234\n'
+        known += '99,1,,1.2340000e+00\n'
         self.assertEqual(str(b), known) 
 
     def test_submodel_and_data_set(self):
         b = Boundary(99, 1, 1.234, submodel=True, data_set=1)
         known = '*BOUNDARY,SUBMODEL,DATA SET=1\n'
-        known += '99,1,,1.234\n'
+        known += '99,1,,1.2340000e+00\n'
         self.assertEqual(str(b), known) 
 
     def test_step_wo_submodel(self):

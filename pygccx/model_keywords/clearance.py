@@ -19,6 +19,7 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass
 from protocols import ISurface, number
+from auxiliary import f2s
 
 @dataclass
 class Clearance:
@@ -45,4 +46,4 @@ class Clearance:
     """A short description of this Instance. This is written to the ccx input file."""
 
     def __str__(self):
-        return f'*CLEARANCE,MASTER={self.master.name},SLAVE={self.slave.name},VALUE={self.value}\n' 
+        return f'*CLEARANCE,MASTER={self.master.name},SLAVE={self.slave.name},VALUE={f2s(self.value)}\n' 

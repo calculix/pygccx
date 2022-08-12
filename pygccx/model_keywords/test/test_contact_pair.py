@@ -85,7 +85,7 @@ class TestContactPair(TestCase):
     def test_adjust_number(self):
         cp = ContactPair(self.ia, EContactTypes.NODE_TO_SURFACE, self.dep_surf, self.ind_surf, 
                             adjust=0.1)
-        known = '*CONTACT PAIR,INTERACTION=IA1,TYPE=NODE TO SURFACE,ADJUST=0.1\n'
+        known = '*CONTACT PAIR,INTERACTION=IA1,TYPE=NODE TO SURFACE,ADJUST=1.0000000e-01\n'
         known += 'dep_surf,ind_surf\n'
         self.assertEqual(str(cp), known)
 

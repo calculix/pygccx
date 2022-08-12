@@ -24,6 +24,7 @@ import numpy.typing as npt
 
 from enums import EPressureOverclosures
 from protocols import number
+from auxiliary import f2s
 
 @dataclass
 class SurfaceBehavior:
@@ -144,21 +145,21 @@ class SurfaceBehavior:
         s = f'*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE={self.pressure_overclosure.value}\n'
 
         if self.pressure_overclosure == EPressureOverclosures.EXPONENTIAL:
-            s += f'{self.c0:15.7e},{self.p0:15.7e}\n'
+            s += f'{f2s(self.c0)},{f2s(self.p0)}\n'  # type: ignore , values can't be None because of validation
 
         if self.pressure_overclosure == EPressureOverclosures.LINEAR:
-            s += f'{self.k:15.7e}'
+            s += f'{f2s(self.k)}'  # type: ignore
             if self.sig_inf is not None:
-                s += f',{self.sig_inf:15.7e}'
+                s += f',{f2s(self.sig_inf)}'
             if self.c0 is not None:
-                s += f',{self.c0:15.7e}'
+                s += f',{f2s(self.c0)}'
             s += '\n'
 
         if self.pressure_overclosure == EPressureOverclosures.TABULAR and self.table:
             for row in self.table:
-                s += ','.join(f'{x:15.7e}' for x in row) + '\n'
+                s += ','.join(f'{f2s(x)}' for x in row) + '\n'
 
         if self.pressure_overclosure == EPressureOverclosures.TIED:
-            s += f'{self.k:15.7e}\n'
+            s += f'{f2s(self.k)}\n'  # type: ignore
 
         return s

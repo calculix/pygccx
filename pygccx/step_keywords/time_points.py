@@ -20,6 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass
 from typing import Iterable
 from protocols import number
+from auxiliary import f2s
 
 @dataclass
 class TimePoints:
@@ -47,7 +48,7 @@ class TimePoints:
         s += '\n'
 
         for t in self.times:
-            s += f'{t},\n'
+            s += f'{f2s(t)},\n'
 
         s = s.rstrip(',\n') + '\n'
         return s

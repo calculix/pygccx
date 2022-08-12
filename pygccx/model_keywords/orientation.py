@@ -22,6 +22,7 @@ from typing import Sequence, Any
 import numpy as np
 from enums import EOrientationSystems, EOrientationRotAxis
 from protocols import ICoordinateSystem, number
+from auxiliary import f2s
 
 @dataclass
 class Orientation:
@@ -50,7 +51,7 @@ class Orientation:
     """Type of the orientation system"""
     rot_axis:EOrientationRotAxis = EOrientationRotAxis.NONE
     """Axis for additional rotation (only if system == RECTANGULAR)"""
-    rot_angle:float = 0.
+    rot_angle:number = 0.
     """Additional rotation angle about rot_axis (only if system == RECTANGULAR and rot_axis != NONE"""
     desc:str = ''
     """A short description of this Instance. This is written to the ccx input file."""
@@ -63,9 +64,9 @@ class Orientation:
 
     def __str__(self):
         s = f'*ORIENTATION,NAME={self.name},SYSTEM={self.system.value}\n'
-        s += f'{",".join(map(str, self.pnt_a))},{",".join(map(str, self.pnt_b))}\n'
+        s += f'{",".join(map(f2s, self.pnt_a))},{",".join(map(f2s, self.pnt_b))}\n'
         if self.rot_axis != EOrientationRotAxis.NONE and self.system == EOrientationSystems.RECTANGULAR:
-            s += f'{self.rot_axis.value},{self.rot_angle}\n'
+            s += f'{self.rot_axis.value},{f2s(self.rot_angle)}\n'
 
         return s
 

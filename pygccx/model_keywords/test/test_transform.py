@@ -56,13 +56,13 @@ class TestTransform(TestCase):
     def test_rectangular(self): 
         t = Transform(self.nset, (0,0,1), (1,0,0))
         known = '*TRANSFORM,NSET=S1,TYPE=R\n'
-        known += '0,0,1,1,0,0\n'
+        known += '0.0000000e+00,0.0000000e+00,1.0000000e+00,1.0000000e+00,0.0000000e+00,0.0000000e+00\n'
         self.assertEqual(str(t), known)
 
     def test_cylindrical(self):
         o = Transform(self.nset, (0,0,1), (1,0,0), EOrientationSystems.CYLINDRICAL)
         known = '*TRANSFORM,NSET=S1,TYPE=C\n'
-        known += '0,0,1,1,0,0\n'
+        known += '0.0000000e+00,0.0000000e+00,1.0000000e+00,1.0000000e+00,0.0000000e+00,0.0000000e+00\n'
         self.assertEqual(str(o), known)
 
     def test_pnt_a_false_length(self):
@@ -79,12 +79,12 @@ class TestTransform(TestCase):
         cs = CoordinateSystemMock('C1', EOrientationSystems.RECTANGULAR)
         t = Transform.from_coordinate_system(self.nset, cs)
         known = '*TRANSFORM,NSET=S1,TYPE=R\n'
-        known += '0,0,1,0,-1,0\n'
+        known += '0.0000000e+00,0.0000000e+00,1.0000000e+00,0.0000000e+00,-1.0000000e+00,0.0000000e+00\n'
         self.assertEqual(str(t), known)
     
     def test_from_coordinate_system_cylindrical(self):
         cs = CoordinateSystemMock('C1', EOrientationSystems.CYLINDRICAL)
         t = Transform.from_coordinate_system(self.nset, cs)
         known = '*TRANSFORM,NSET=S1,TYPE=C\n'
-        known += '1,2,3,2,2,3\n'
+        known += '1.0000000e+00,2.0000000e+00,3.0000000e+00,2.0000000e+00,2.0000000e+00,3.0000000e+00\n'
         self.assertEqual(str(t), known)

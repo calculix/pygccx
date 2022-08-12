@@ -68,8 +68,8 @@ class Step:
         if self.nlgeom is not None:
             if self.nlgeom: s += ',NLGEOM'
             else:  s += ',NLGEOM=NO'
-        s += f',INC={self.inc}'
-        s += f',AMPLITUDE={self.amplitude.value}'
+        if self.inc != 100: s += f',INC={self.inc}'
+        if self.amplitude != EStepAmplitudes.RAMP: s += f',AMPLITUDE={self.amplitude.value}'
         s += '\n'
 
         return s

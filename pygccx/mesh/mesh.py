@@ -24,6 +24,7 @@ from . import surface
 from .element import Element
 from .set import Set
 import protocols
+from auxiliary import f2s
 
 @dataclass(repr=False)
 class Mesh:
@@ -322,7 +323,8 @@ class Mesh:
         if not self.nodes: return
         buffer += ['*NODE']
         for nid, coords in self.nodes.items():
-            buffer += ['{},{:15.7e},{:15.7e},{:15.7e}'.format(nid, *coords)]
+            buffer += [f'{nid},' + ','.join(map(f2s, coords))]
+            # buffer += ['{},{:15.7e},{:15.7e},{:15.7e}'.format(nid, *coords)]
 
     def _write_elements_ccx(self, buffer:list[str]):
         if not self.elements:return

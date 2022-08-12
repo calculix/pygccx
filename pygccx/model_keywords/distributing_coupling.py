@@ -21,6 +21,7 @@ from dataclasses import dataclass, InitVar, field
 from typing import Any
 from protocols import ISet, number
 from enums import ESetTypes
+from auxiliary import f2s
 
 @dataclass
 class DistribuitingCoupling:
@@ -90,8 +91,8 @@ class DistribuitingCoupling:
 
         for nid_or_set, weight in self.conditions:
             if isinstance(nid_or_set, ISet):
-                s += f'{nid_or_set.name},{weight:.7e}\n'
+                s += f'{nid_or_set.name},{f2s(weight)}\n'
             else:
-                s += f'{nid_or_set},{weight:.7e}\n'
+                s += f'{nid_or_set},{f2s(weight)}\n'
 
         return s

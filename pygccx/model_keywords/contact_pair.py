@@ -21,6 +21,7 @@ from dataclasses import dataclass, field
 from typing import Optional, Any
 from enums import EContactTypes, ESetTypes, ESurfTypes
 from protocols import IKeyword, ISet, ISurface, number
+from auxiliary import f2s
 
 @dataclass
 class ContactPair:
@@ -95,7 +96,7 @@ class ContactPair:
         if self.small_sliding: s += f',SMALL SLIDING'
         if self.adjust is not None:
             if isinstance(self.adjust, ISet): s += f',ADJUST={self.adjust.name}'
-            else: s += f',ADJUST={self.adjust}'
+            else: s += f',ADJUST={f2s(self.adjust)}'
         s += '\n'
 
         s += f'{self.dep_surf.name},{self.ind_surf.name}\n'

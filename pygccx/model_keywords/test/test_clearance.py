@@ -41,5 +41,5 @@ class TestClearance(TestCase):
 
     def test_default(self):
         c = Clearance(self.s1, self.s2, 0.1)
-        known = '*CLEARANCE,MASTER=S1,SLAVE=S2,VALUE=0.1\n'
+        known = '*CLEARANCE,MASTER=S1,SLAVE=S2,VALUE=1.0000000e-01\n'
         self.assertEqual(str(c), known)

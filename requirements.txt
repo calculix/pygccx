@@ -1,4 +1,8 @@
 gmsh==4.10.3
+Mako==1.2.1
+Markdown==3.4.1
+MarkupSafe==2.1.1
 numpy==1.22.4
+pdoc3==0.10.0
 scipy==1.9.0
 typing_extensions==4.2.0

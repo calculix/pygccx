@@ -21,6 +21,7 @@ from dataclasses import dataclass, field, InitVar
 from typing import Optional, Any
 from enums import ELoadOps
 from protocols import IKeyword, ISet, number
+from auxiliary import f2s
 
 @dataclass
 class Cload:
@@ -142,18 +143,18 @@ class Cload:
         s = '*CLOAD'
         if self.op != ELoadOps.MOD: s += f',OP={self.op.value}'
         if self.amplitude: s += f',AMPLITUDE={self.amplitude.name}'
-        if self.time_delay is not None: s += f',TIME DELAY={self.time_delay}'
+        if self.time_delay is not None: s += f',TIME DELAY={f2s(self.time_delay)}'
         if self.load_case != 1: s += f',LOAD CASE={self.load_case}'
         if self.sector is not None: s += f',SECTOR={self.sector}'
         if self.submodel: s += ',SUBMODEL'
         if self.step is not None: s += f',STEP={self.step}'
         if self.data_set is not None: s += f',DATA SET={self.data_set}'
-        if self.omega0 is not None: s += f',OMEGA0={self.omega0}'
+        if self.omega0 is not None: s += f',OMEGA0={f2s(self.omega0)}'
         s += '\n'
 
         for l in self.loads:
             if isinstance(l[0], int): s += f'{l[0]},'
             if isinstance(l[0], ISet): s += f'{l[0].name},'
-            s += f'{l[1]},{l[2]}\n'
+            s += f'{l[1]},{f2s(l[2])}\n'
 
         return s

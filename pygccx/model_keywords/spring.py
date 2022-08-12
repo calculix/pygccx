@@ -23,6 +23,7 @@ import numpy as np
 import numpy.typing as npt
 
 from protocols import ISet, IKeyword, number
+from auxiliary import f2s
 from enums import ESetTypes
 
 
@@ -108,7 +109,7 @@ class SpringLin:
 
         for p in self.stiffness_for_temps:
             temp, stiffness = p
-            s += f'{stiffness:.7e},,{temp:.7e}\n'
+            s += f'{f2s(stiffness)},,{f2s(temp)}\n'
         
         return s
 

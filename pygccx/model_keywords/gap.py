@@ -23,6 +23,7 @@ import numpy as np
 import numpy.typing as npt
 
 from protocols import ISet, number
+from auxiliary import f2s
 from enums import ESetTypes
 
 @dataclass
@@ -72,9 +73,10 @@ class Gap:
     def __str__(self):
         s = f'*GAP,ELSET={self.elset.name}\n'
         nx, ny, nz = self.direction
-        s += f'{self.clearance:.7e},{nx:.7e},{ny:.7e},{nz:.7e},'
+        s += f'{f2s(self.clearance)},{f2s(nx)},{f2s(ny)},{f2s(nz)},'
+        
 
-        s += f',{self.k:.7e}' if self.k is not None else ','
-        s += f',{self.f_inf:.7e}' if self.f_inf is not None else ','
+        s += f',{f2s(self.k)}' if self.k is not None else ','
+        s += f',{f2s(self.f_inf)}' if self.f_inf is not None else ','
         
         return s.rstrip(',') + '\n'

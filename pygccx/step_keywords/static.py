@@ -21,6 +21,7 @@ from dataclasses import dataclass
 from typing import Optional
 from enums import ESolvers
 from protocols import number
+from auxiliary import f2s
 
 @dataclass
 class Static:
@@ -73,12 +74,12 @@ class Static:
         if self.direct: s += ',DIRECT'
         if self.time_reset: s += ',TIME RESET'
         if self.total_time_at_start is not None:
-            s += f',TOTAL TIME AT START={self.total_time_at_start}'
+            s += f',TOTAL TIME AT START={f2s(self.total_time_at_start)}'
         s += '\n'
 
-        s += f'{self.init_time_inc},{self.time_period}'
-        s += f',{self.min_time_inc}' if self.min_time_inc is not None else ','      
-        s += f',{self.max_time_inc}' if self.max_time_inc is not None else ','
+        s += f'{f2s(self.init_time_inc)},{f2s(self.time_period)}'
+        s += f',{f2s(self.min_time_inc)}' if self.min_time_inc is not None else ','      
+        s += f',{f2s(self.max_time_inc)}' if self.max_time_inc is not None else ','
         s = s.rstrip(',') + '\n'
 
         return s

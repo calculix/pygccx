@@ -101,9 +101,13 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     )
 
     f_res = 500.
-    for t in np.linspace(0,1,12, endpoint=False):
-        fx, fy = f_res * np.cos(np.pi*t), f_res * np.sin(np.pi*t)
-        # Add step
+    # Apply the force f_res in 12 steps from 0° to 330°
+    n_steps = 12
+    for i in range(n_steps):
+        # calc force components
+        angle = i / n_steps * 2 * np.pi 
+        fx, fy = f_res * np.cos(angle), f_res * np.sin(angle)
+        # make new step
         step = sk.Step(nlgeom=True)  
         load = sk.Cload(ref_load_1 , 1, fx)
         load.add_load(ref_load_1, 2, fy)

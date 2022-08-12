@@ -23,6 +23,7 @@ import numpy as np
 import numpy.typing as npt
 
 from protocols import number
+from auxiliary import f2s
 
 @dataclass
 class Amplitude:
@@ -56,12 +57,12 @@ class Amplitude:
     def __str__(self):
         s = f'*AMPLITUDE,NAME={self.name},'
         if self.use_total_time: s += 'TIME=TOTAL TIME,'
-        if self.shift_x is not None: s += f'SHIFTX={self.shift_x},'
-        if self.shift_y is not None: s += f'SHIFTY={self.shift_y},'
-        s = f'{s[:-1]}\n' # delete last ','
+        if self.shift_x is not None: s += f'SHIFTX={f2s(self.shift_x)},'
+        if self.shift_y is not None: s += f'SHIFTY={f2s(self.shift_y)},'
+        s = s.rstrip(',') + '\n'
 
 
         for t, a in zip(self.times, self.amps):
-            s += f'{t:15.7e},{a:15.7e}\n'
+            s += f'{f2s(t)},{f2s(a)}\n'
 
         return s

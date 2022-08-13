@@ -21,10 +21,10 @@ If not, see <http://www.gnu.org/licenses/>.
 Static contact analysis example of a crowned roller pressed against a flat plate.
 The roller has the dimensions D = 20mm, L = 20mm.
 The crowning profile has the form:
-p = (e**(|x|) - 1) / (e**(L/2) - 1) * 0.015
+p(x) = (e**(|x|) - |x| - 1) / (e**(L/2) - L/2 - 1) * p_max
 Roller and plate are made out of steel. E = 210000N/mm², mue = 0.3
 
-The roller is modeled as a rigid body, so the Emodule of the plate must be halved.
+The roller is modeled as a rigid body, so the Emodule of the plate must be halfed.
 See https://elib.dlr.de/12219/1/diss_041005_duplex_rgb.pdf page 45, eq. 3.12
 
 The analysis consists of two load steps.
@@ -32,7 +32,7 @@ Step 1: Load of 40_000N is applied at center of roller (no tilting)
         Analytic solution:
         p_h = 271 * sqrt(F / (D * L)) 
             = 271 * sqrt(40_000N / (20mm * 20mm)) 
-            = 2710N/mm²
+            = 2_710N/mm²
         Due to the crowning, real pressure must be higher.
 Step 2: Load of 40_000N is applied 10% (2mm) out of center. So the pressure on one side 
         of the roller is higher.
@@ -70,6 +70,7 @@ def main():
     with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
         model.jobname = 'crowned_roller'
         gmsh = model.get_gmsh()
+        # build geometry and mesh in separate function
         build_mesh_in_gmsh(gmsh) # type: ignore
         # model.show_gmsh_gui()
         model.update_mesh_from_gmsh()
@@ -130,7 +131,7 @@ def main():
             sk.ContactFile([enums.EContactResults.CDIS])
         )
         model.add_steps(step_1, step_2)
-        # model.show_model_in_cgx()
+        model.show_model_in_cgx()
         model.solve()
         model.show_results_in_cgx()
 
@@ -140,10 +141,11 @@ def build_mesh_in_gmsh(gmsh:ccx_model._gmsh):  # type: ignore
     # make the roller
     #----------------------------------------------------------------------
     # x and y coordinates of the crowning profile
-    x_spl = np.linspace(-10,10,51)
-    y_spl = (np.exp(np.abs(x_spl)) -1) / (np.exp(10) -1) * 0.015
+    x_p = np.linspace(-10,10,51)
+    a_x_p = np.abs(x_p)
+    y_p = (np.exp(a_x_p) - a_x_p - 1) / (np.exp(10) - 10 - 1) * 0.015 # type: ignore
     # make points
-    spl_pnts = [gmsh.model.geo.addPoint(x,y,0) for x, y in zip(x_spl, y_spl)]
+    spl_pnts = [gmsh.model.geo.addPoint(x,y,0) for x, y in zip(x_p, y_p)]
     pr1 = gmsh.model.geo.addPoint(-10, .5, 0)
     pr2 = gmsh.model.geo.addPoint(10, .5, 0)
     # make lines
@@ -169,7 +171,7 @@ def build_mesh_in_gmsh(gmsh:ccx_model._gmsh):  # type: ignore
     heights = np.linspace(0,1,30)[1:]**1.6
     gmsh.model.geo.revolve([out[0]], -10,10,0, 1,0,0, angle=np.pi/6-0.05,heights=heights, numElements=np.ones_like(heights), recombine=True)
 
-    # make the halve-space
+    # make the plate
     #----------------------------------------------------------------------
     # make points
     ph1 = gmsh.model.geo.addPoint(-15, 0, 0)

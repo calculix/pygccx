@@ -4,7 +4,7 @@ made out of 3D solid elements using Gmsh and CalculiX.<br><br>
 After instantiating a pygccx model you can use the included Gmsh-Python-API
 to build your geometry, mesh it and define physical groups (sets). For the usage of the Gmsh API look at http://gmsh.info//doc/texinfo/gmsh.html#Gmsh-API<br><br>
 The gmsh mesh can then be converted to a pygccx mesh object, which
-is more closely related to CalculiX. All nodes and solid elements which are at least in one physical group will be converted and all physical groups to node or element sets.<br><br>
+is more closely related to CalculiX. All nodes and solid elements which are at least in one physical group will be converted and all physical groups to node- or element sets.<br><br>
 Finally you have to define the keywords for the ccx input file.<br>
 Each Keyword is represented by a class. Each class takes the parameters and data the keyword
 needs.<br>
@@ -15,6 +15,7 @@ in pygccx.
 Look in the examples folder for a quick start and to learn more about how to use pygccx.
 The best way to explore pygccx is by using an IDE like VS Code or PyCharm with auto completion,
 intellysense and static type checking switched on. So you can see all the members, parameters types and doc strings.
+In the folder doc/pygccx you can find an auto generated html documentation of all classes.
 
 ATM no postprocessing capabilities are implemented. This is one of the next mile stones.<br>
 

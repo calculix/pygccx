@@ -25,7 +25,7 @@ Up to now there is no pip package. To use pygccx do the following:
 - Download the whole Project.
 - Install requirements from requirements.txt with pip install -r requirements.txt
 - Append the path to pygccx to sys.path
-- Now import pygccx should work
+- Now "from pygccx import ..." should work
 
 # Capabilities of Pygccx:
 - Static analysis of 3D structures (only solid elements, no shells or beams)

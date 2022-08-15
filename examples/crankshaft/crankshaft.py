@@ -114,8 +114,8 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
         step.add_step_keywords(
             sk.Static(direct=True),
             load,
-            sk.NodeFile([enums.ENodeResults.U]),
-            sk.ElFile([enums.EElementResults.S])
+            sk.NodeFile([enums.ENodeFileResults.U]),
+            sk.ElFile([enums.EElFileResults.S])
         )
 
         model.add_steps(step)

@@ -108,8 +108,8 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     step.add_step_keywords(
         sk.Static(),                # step is a static one
         sk.Cload(pilot, 2, 950),  # force in Y at pilot node with magnitude 20000
-        sk.NodeFile([enums.ENodeResults.U]), # request deformations in frd file
-        sk.ElFile([enums.EElementResults.S]) # request stresses in frd file
+        sk.NodeFile([enums.ENodeFileResults.U]), # request deformations in frd file
+        sk.ElFile([enums.EElFileResults.S]) # request stresses in frd file
     )
     
     model.solve()

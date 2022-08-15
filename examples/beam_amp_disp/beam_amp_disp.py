@@ -91,8 +91,8 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     step.add_step_keywords(
         sk.Static(direct=True,init_time_inc=0.5),                # step is a static one
         sk.Boundary(load_set, 2, 2, amplitude=amp),  # displacement in Y at tip with magnitude 2
-        sk.NodeFile([enums.ENodeResults.U]), # request deformations in frd file
-        sk.ElFile([enums.EElementResults.S]) # request stresses in frd file
+        sk.NodeFile([enums.ENodeFileResults.U]), # request deformations in frd file
+        sk.ElFile([enums.EElFileResults.S]) # request stresses in frd file
     )
     
     model.solve()

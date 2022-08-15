@@ -118,17 +118,17 @@ def main():
         step_1.add_step_keywords(
             sk.Static(init_time_inc=0.01),
             sk.Cload(trans_pilot,2,-20000),
-            sk.NodeFile([enums.ENodeResults.U]),
-            sk.ElFile([enums.EElementResults.S]),
-            sk.ContactFile([enums.EContactResults.CDIS])
+            sk.NodeFile([enums.ENodeFileResults.U]),
+            sk.ElFile([enums.EElFileResults.S]),
+            sk.ContactFile([enums.EContactFileResults.CDIS])
         )
         step_2 = sk.Step()
         step_2.add_step_keywords(
             sk.Static(),
             sk.Cload(rot_pilot,3,-20000 * 2), # note cload of step 1 is still active
-            sk.NodeFile([enums.ENodeResults.U]),
-            sk.ElFile([enums.EElementResults.S]),
-            sk.ContactFile([enums.EContactResults.CDIS])
+            sk.NodeFile([enums.ENodeFileResults.U]),
+            sk.ElFile([enums.EElFileResults.S]),
+            sk.ContactFile([enums.EContactFileResults.CDIS])
         )
         model.add_steps(step_1, step_2)
         model.show_model_in_cgx()

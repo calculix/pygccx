@@ -30,6 +30,9 @@ import sys, os
 os.chdir(sys.path[0])
 sys.path += ['../../', '../../pygccx']
 
+import numpy as np
+from matplotlib import pyplot as plt
+
 from pygccx import model as ccx_model
 from pygccx import model_keywords as mk
 from pygccx import step_keywords as sk
@@ -51,7 +54,7 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     gmsh.option.setNumber('Mesh.ElementOrder', 2)
     gmsh.option.setNumber('Mesh.HighOrderOptimize', 1)
     gmsh.model.mesh.generate(3) # mesh with tet10 elements
-    # Makje physical groups (sets)
+    # Make physical groups (sets)
     gmsh.model.add_physical_group(2,[1],name='FIX') # fixed end
     gmsh.model.add_physical_group(2,[2],name='LOAD') # loaded end
     gmsh.model.add_physical_group(3,[1],name='BEAM') # whole volume
@@ -98,9 +101,37 @@ with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
     step.add_step_keywords(
         sk.Static(),                # step is a static one
         sk.Cload(pilot, 2, 20000),  # force in Y at pilot node with magnitude 20000
-        sk.NodeFile([enums.ENodeResults.U]), # request deformations in frd file
-        sk.ElFile([enums.EElementResults.S]) # request stresses in frd file
+        sk.NodeFile([enums.ENodeFileResults.U]), # request deformations in frd file
+        sk.ElFile([enums.EElFileResults.S]), # request stresses in frd file
+        sk.NodePrint(mesh.get_node_set_by_name('BEAM'),[enums.ENodePrintResults.U]),
+        sk.ElPrint(mesh.get_el_set_by_name('BEAM'),[enums.EElPrintResults.S])
     )
     
     model.solve()
-    model.show_results_in_cgx()
+    # model.show_results_in_cgx()
+
+    # post pro
+    # =================================================================================
+    # draw mises stress along the beam axis
+    # get all nodes with y and z == 0 (bottom edge)
+    nodes = [(id, coords) for id, coords in mesh.nodes.items() if coords[1:]==(0.,0.)]
+    # sort along X
+    nodes.sort(key=lambda x: x[1][0])
+    # sorted node ids
+    nids = [id for id, _ in nodes]
+    # sorted x coordinates
+    x = [coords[0] for _, coords in nodes]
+    # get results from frd
+    frd_result = model.get_frd_result()
+    # get stress result for time 1.0
+    stress_result = frd_result.get_result_set_by_entity_and_time(entity='STRESS', step_time=1)
+    if stress_result is not None:
+        # get stress tensors for sorted node ids
+        s = stress_result.get_values_by_ids(nids)
+        # calc mises stress
+        mises = np.sqrt(s[:,0]**2 + s[:,1]**2 + s[:,2]**2 - s[:,0]*s[:,1] - s[:,1]*s[:,2] - s[:,2]*s[:,0] + 3*(s[:,3]**2 + s[:,4]**2 + s[:,5]**2))
+
+        # plot mises stress along x-axis
+        plt.plot(x, mises)
+        plt.show()
+    

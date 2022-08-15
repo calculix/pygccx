@@ -17,7 +17,8 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from typing import Protocol, runtime_checkable
+from dataclasses import dataclass
+from typing import Protocol, runtime_checkable, Iterable
 import numpy as np
 import numpy.typing as npt
 import enums
@@ -114,3 +115,17 @@ class ICoordinateSystem(Protocol):
         row 2: vector of z axis in global system
         """
         ...
+
+class IResultSet(Protocol):
+    entity_name:str
+    type:enums.EReultTypes
+    step_time:float
+    component_names:tuple[str,...]
+    values:dict[int, npt.NDArray[np.float64]] #= field(repr=False)
+
+    def get_values_by_ids(self, ids:Iterable[int]) -> npt.NDArray[np.float64]:
+        ...
+
+class IResult(Protocol):
+    step_times:tuple[float]
+    result_sets:tuple[IResultSet, ...]

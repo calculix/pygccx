@@ -29,7 +29,8 @@ _gmsh.option.setNumber("Mesh.SecondOrderIncomplete", 1)
 
 import mesh as msh
 import enums
-from protocols import IKeyword, IStep
+from protocols import IKeyword, IStep, IResult
+from result_reader.result import FrdResult
 
 @dataclass
 class Model:
@@ -153,6 +154,9 @@ class Model:
         """Writes the ccx input file and shows it in cgx"""
 
         subprocess.run(f'{self.cgx_path} "{self.jobname}.frd" "{self.jobname}.inp"', cwd=self.working_dir)
+
+    def get_frd_result(self) -> FrdResult:
+        return FrdResult.from_file(f'{self.jobname}.frd')
 
     def __enter__(self):
         return self

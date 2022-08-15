@@ -18,69 +18,87 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
+from dataclasses import dataclass
 from step_keywords import NodeFile, TimePoints
-from enums import ENodeResults, EResultOutputs
+from enums import ENodeFileResults, EResultOutputs, ESetTypes
 from protocols import IKeyword
 
+@dataclass()
+class SetMock():
+    name:str
+    type:ESetTypes
+    dim:int
+    ids:set[int]
 class TestNodeFile(TestCase):
 
+    def setUp(self) -> None:
+        self.nset = SetMock('N1', ESetTypes.NODE, 2, set([1,2,3,4]))
+        self.eset = SetMock('E1', ESetTypes.ELEMENT, 2, set([1,2,3,4]))
+
     def test_is_IKeyword(self):
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF])
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF])
         self.assertTrue(isinstance(nf, IKeyword))
 
     def test_default(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF])
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF])
         known = '*NODE FILE\n'
         known +='U,RF\n'
         self.assertEqual(str(nf), known)
 
     def test_frequency(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], frequency=2)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], frequency=2)
         known = '*NODE FILE,FREQUENCY=2\n'
         known +='U,RF\n'
         self.assertEqual(str(nf), known)
 
     def test_time_points(self):
         tp = TimePoints('TP1', (1,2,3,4))
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], time_points=tp)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], time_points=tp)
         known = '*NODE FILE,TIME POINTS=TP1\n'
         known +='U,RF\n'
         self.assertEqual(str(nf), known)
 
     def test_last_iteration(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], last_Iterations=True)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], last_Iterations=True)
         known = '*NODE FILE,LAST ITERATIONS\n'
         known +='U,RF\n'
         self.assertEqual(str(nf), known)
 
     def test_contact_elements(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], contact_elements=True)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], contact_elements=True)
         known = '*NODE FILE,CONTACT ELEMENTS\n'
         known +='U,RF\n'
         self.assertEqual(str(nf), known)
 
     def test_global_no(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], global_=False)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], global_=False)
         known = '*NODE FILE,GLOBAL=NO\n'
         known +='U,RF\n'
         self.assertEqual(str(nf), known)
 
     def test_output_all(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], output_all=True)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], output_all=True)
         known = '*NODE FILE,OUTPUT ALL\n'
         known +='U,RF\n'
         self.assertEqual(str(nf), known)
 
     def test_output_2D(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], output=EResultOutputs._2D)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], output=EResultOutputs._2D)
         known = '*NODE FILE,OUTPUT=2D\n'
+        known +='U,RF\n'
+        self.assertEqual(str(nf), known)
+
+    def test_nset(self):
+
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], nset=self.nset)
+        known = '*NODE FILE,NSET=N1\n'
         known +='U,RF\n'
         self.assertEqual(str(nf), known)
 
@@ -89,4 +107,7 @@ class TestNodeFile(TestCase):
 
     def test_time_points_and_frequency(self):
         tp = TimePoints('TP1', (1,2,3,4))
-        self.assertRaises(ValueError, NodeFile, [ENodeResults.U], time_points=tp, frequency=2)
+        self.assertRaises(ValueError, NodeFile, [ENodeFileResults.U], time_points=tp, frequency=2)
+
+    def test_wrong_set_type(self):
+        self.assertRaises(ValueError, NodeFile, [ENodeFileResults.U], nset=self.eset)

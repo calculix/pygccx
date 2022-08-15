@@ -19,43 +19,43 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field
 from typing import Iterable, Optional, Any
-from protocols import IKeyword
-from enums import EContactFileResults
+from protocols import IKeyword, ISet
+from enums import ESetTypes, ENodePrintResults, EPrintTotals
 
 @dataclass
-class ContactFile:
+class NodePrint:
     """
-    Class to select contact result entities for printing in file jobname.frd for
-    subsequent viewing by CalculiX GraphiX.
+    Class to select nodal result entities for printing in file jobname.dat.
 
     Args:
-        entities:Iterable (i.e. a list) of contact result entities.
-        frequency: Optional. integer that indicates that the results of every Nth increment 
-            will be stored. frequency and time_points are mutually exclusive.
-        time_points: Optional. TimePoints object specifying the times for which results should 
-            be stored.frequency and time_points are mutually exclusive.
-        last_Iterations: Optional. If True, leads to the storage of the displacements in all 
-            iterations of the  last increment in a file with name ResultsForLastIterations.frd
-        contact_elements: Optional. If True, stores the contact elements which have been 
-            generated in each iteration in a file with the name jobname.cel.
+        nset: node set object for which results should be stored.
+        entities: Iterable (i.e. a list) of node result entities.
+        frequency: Optional. Integer that indicates that the results of every Nth increment will be stored.
+        frequency and time_points are mutually exclusive.
+        totals: Optional. Enum if the sum of the external forces for the whole node set is printed in addition to
+        their value for each node in the set separately
+        global_: Optional. Flag if results should be stored in the global or local nodal coordinate system.
+        time_points: Optional. TimePoints object specifying the times for which results should be stored.
+        frequency and time_points are mutually exclusive.
         name: Optional. Name of this instance
         desc: Optional. A short description of this instance. This is written to the ccx input file.
     """
 
-    entities:Iterable[EContactFileResults]
-    """Iterable (i.e. a list) of contact result entities."""
+    nset:ISet
+    """node set object for which results should be stored."""
+    entities:Iterable[ENodePrintResults]
+    """Iterable (i.e. a list) of node result entities."""
     frequency:int = 1
     """integer that indicates that the results of every Nth increment will be stored.
     frequency and time_points are mutually exclusive."""
+    totals:EPrintTotals = EPrintTotals.NO
+    """Enum if the sum of the external forces for the whole node set is printed in addition to
+    their value for each node in the set separately"""
+    global_:bool = True
+    """Flag if results should be stored in the global or local nodal coordinate system."""
     time_points:Optional[IKeyword] = None
     """TimePoints object specifying the times for which results should be stored.
     frequency and time_points are mutually exclusive."""
-    last_Iterations:bool = False
-    """If True, leads to the storage of the displacements in all iterations of the 
-    last increment in a file with name ResultsForLastIterations.frd"""
-    contact_elements:bool = False
-    """If True, stores the contact elements which have been generated in each iteration 
-    in a file with the name jobname.cel."""
     name:str = ''
     """Name of this instance"""
     desc:str = ''
@@ -71,18 +71,21 @@ class ContactFile:
         self._is_initialized = True
 
     def _validate(self):
-        if not self._is_initialized: return
+        if not self._is_initialized: return 
+        if self.nset.type != ESetTypes.NODE:
+            raise ValueError(f'Set type of nset must be NODE, got {self.nset.name}')
         if not self.entities:
             raise ValueError('entities must not be empty')
         if self.time_points and self.frequency != 1:
             raise ValueError("frequency and time_points are mutually exclusive.")
 
     def __str__(self):
-        s = '*CONTACT FILE'
+        s = f'*NODE PRINT,NSET={self.nset.name}'
         if self.frequency != 1: s += f',FREQUENCY={self.frequency}'
+        if self.totals != EPrintTotals.NO: s += f',TOTALS={self.totals.value}'
+        if not self.global_: s += ',GLOBAL=NO'
         if self.time_points: s += f',TIME POINTS={self.time_points.name}'
-        if self.last_Iterations: s += f',LAST ITERATIONS'
-        if self.contact_elements: s += f',CONTACT ELEMENTS'
+
         s += '\n'
 
         s += ','.join(e.value for e in self.entities) + '\n'

@@ -20,7 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass, field
 from typing import Iterable, Optional, Any
 from protocols import IKeyword, ISet
-from enums import EResultOutputs, ENodeResults
+from enums import EResultOutputs, ENodeFileResults, ESetTypes
 
 @dataclass
 class NodeFile:
@@ -53,7 +53,7 @@ class NodeFile:
 
 
 
-    entities:Iterable[ENodeResults]
+    entities:Iterable[ENodeFileResults]
     """Iterable (i.e. a list) of node result entities."""
     frequency:int = 1
     """integer that indicates that the results of every Nth increment will be stored.
@@ -98,6 +98,8 @@ class NodeFile:
             raise ValueError('entities must not be empty')
         if self.time_points and self.frequency != 1:
             raise ValueError("frequency and time_points are mutually exclusive.")
+        if self.nset and self.nset.type != ESetTypes.NODE:
+            raise ValueError(f'Set type of nset must be NODE, got {self.nset.name}')
 
     def __str__(self):
         s = '*NODE FILE'

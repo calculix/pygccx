@@ -24,8 +24,11 @@ from step_keywords.test.test_static import TestStatic
 from step_keywords.test.test_cload import TestCload
 from step_keywords.test.test_time_points import TestTimePoints
 from step_keywords.test.test_contact_file import TestContactFile
+from step_keywords.test.test_contact_print import TestContactPrint
 from step_keywords.test.test_node_file import TestNodeFile
+from step_keywords.test.test_node_print import TestNodePrint
 from step_keywords.test.test_el_file import TestElFile
+from step_keywords.test.test_el_print import TestElPrint
 
 
 if __name__ == '__main__':

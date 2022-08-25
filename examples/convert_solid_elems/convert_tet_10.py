@@ -31,46 +31,48 @@ from pygccx import model as ccx_model
 CCX_PATH = os.path.join('../../', 'executables', 'calculix_2.19_4win', 'ccx_static.exe')
 CGX_PATH = os.path.join('../../', 'executables', 'calculix_2.19_4win', 'cgx_GLUT.exe')
 
-with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
-    model.jobname = 'convert_tet_10'
+def main():
+    with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
+        model.jobname = 'convert_tet_10'
 
-    gmsh = model.get_gmsh()
-    gmsh.option.setNumber('Mesh.ElementOrder', 2)
+        gmsh = model.get_gmsh()
+        gmsh.option.setNumber('Mesh.ElementOrder', 2)
 
-    # make model of a wedge in gmsh
-    # make first surface
-    p1 = gmsh.model.geo.addPoint(0,0,0)
-    p2 = gmsh.model.geo.addPoint(1,0,0)
-    p3 = gmsh.model.geo.addPoint(0,1,0)
-    p4 = gmsh.model.geo.addPoint(0,0,1)
-    l1 = gmsh.model.geo.addLine(p1,p2)
-    l2 = gmsh.model.geo.addLine(p2,p3)
-    l3 = gmsh.model.geo.addLine(p3,p1)
-    l4 = gmsh.model.geo.addLine(p1,p4)
-    l5 = gmsh.model.geo.addLine(p2,p4)
-    l6 = gmsh.model.geo.addLine(p3,p4)
-    c1 = gmsh.model.geo.addCurveLoop([l1,l2,l3])
-    c2 = gmsh.model.geo.addCurveLoop([l1,l5,-l4])
-    c3 = gmsh.model.geo.addCurveLoop([l3,l4,-l6])
-    c4 = gmsh.model.geo.addCurveLoop([l2,l6,-l5])
-    s1 = gmsh.model.geo.addPlaneSurface([c1])
-    s2 = gmsh.model.geo.addPlaneSurface([c2])
-    s3 = gmsh.model.geo.addPlaneSurface([c3])
-    s4 = gmsh.model.geo.addPlaneSurface([c4])
-    sl1 = gmsh.model.geo.addSurfaceLoop([s1,-s2,-s3,-s4])
-    v1 = gmsh.model.geo.addVolume([sl1])
-    gmsh.model.geo.synchronize()
+        # make model of a wedge in gmsh
+        # make first surface
+        p1 = gmsh.model.geo.addPoint(0,0,0)
+        p2 = gmsh.model.geo.addPoint(1,0,0)
+        p3 = gmsh.model.geo.addPoint(0,1,0)
+        p4 = gmsh.model.geo.addPoint(0,0,1)
+        l1 = gmsh.model.geo.addLine(p1,p2)
+        l2 = gmsh.model.geo.addLine(p2,p3)
+        l3 = gmsh.model.geo.addLine(p3,p1)
+        l4 = gmsh.model.geo.addLine(p1,p4)
+        l5 = gmsh.model.geo.addLine(p2,p4)
+        l6 = gmsh.model.geo.addLine(p3,p4)
+        c1 = gmsh.model.geo.addCurveLoop([l1,l2,l3])
+        c2 = gmsh.model.geo.addCurveLoop([l1,l5,-l4])
+        c3 = gmsh.model.geo.addCurveLoop([l3,l4,-l6])
+        c4 = gmsh.model.geo.addCurveLoop([l2,l6,-l5])
+        s1 = gmsh.model.geo.addPlaneSurface([c1])
+        s2 = gmsh.model.geo.addPlaneSurface([c2])
+        s3 = gmsh.model.geo.addPlaneSurface([c3])
+        s4 = gmsh.model.geo.addPlaneSurface([c4])
+        sl1 = gmsh.model.geo.addSurfaceLoop([s1,-s2,-s3,-s4])
+        v1 = gmsh.model.geo.addVolume([sl1])
+        gmsh.model.geo.synchronize()
 
-    # set transfinite to get one tet 10
-    for l in [l1,l2,l3,l4,l5,l6]:
-        gmsh.model.geo.mesh.setTransfiniteCurve(l, 2)
+        # set transfinite to get one tet 10
+        for l in [l1,l2,l3,l4,l5,l6]:
+            gmsh.model.geo.mesh.setTransfiniteCurve(l, 2)
 
-    gmsh.model.add_physical_group(3, [1], name='TET')
-    gmsh.model.geo.synchronize()
-    gmsh.model.mesh.generate(3)
+        gmsh.model.add_physical_group(3, [1], name='TET')
+        gmsh.model.geo.synchronize()
+        gmsh.model.mesh.generate(3)
 
-    # # translate the mesh to ccx
-    model.update_mesh_from_gmsh()
-    model.show_model_in_cgx()
+        # # translate the mesh to ccx
+        model.update_mesh_from_gmsh()
+        model.show_model_in_cgx()
 
-   
+if __name__ == '__main__':
+    main()

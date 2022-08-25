@@ -88,6 +88,7 @@ class ElPrint:
 
         s += '\n'
 
-        s += ','.join(e.value for e in self.entities) + '\n'
+        ents = {e:None for e in self.entities} # unify with dict to preserve order
+        s += ','.join(e.value for e in ents) + '\n'
 
         return s

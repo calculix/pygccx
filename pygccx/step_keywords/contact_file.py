@@ -85,6 +85,7 @@ class ContactFile:
         if self.contact_elements: s += f',CONTACT ELEMENTS'
         s += '\n'
 
-        s += ','.join(e.value for e in self.entities) + '\n'
+        ents = {e:None for e in self.entities} # unify with dict to preserve order
+        s += ','.join(e.value for e in ents) + '\n'
 
         return s

@@ -116,16 +116,3 @@ class ICoordinateSystem(Protocol):
         """
         ...
 
-class IResultSet(Protocol):
-    entity_name:str
-    type:enums.EReultTypes
-    step_time:float
-    component_names:tuple[str,...]
-    values:dict[int, npt.NDArray[np.float64]] #= field(repr=False)
-
-    def get_values_by_ids(self, ids:Iterable[int]) -> npt.NDArray[np.float64]:
-        ...
-
-class IResult(Protocol):
-    step_times:tuple[float]
-    result_sets:tuple[IResultSet, ...]

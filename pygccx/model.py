@@ -29,8 +29,8 @@ _gmsh.option.setNumber("Mesh.SecondOrderIncomplete", 1)
 
 import mesh as msh
 import enums
-from protocols import IKeyword, IStep, IResult
-from result_reader.result import FrdResult
+from protocols import IKeyword, IStep
+from result_reader import FrdResult, DatResult
 
 @dataclass
 class Model:
@@ -53,6 +53,12 @@ class Model:
     def __post_init__(self):
         _gmsh.model.add(str(id(self)))
         self.mesh = msh.Mesh({},{},[],[])
+
+    def clear_gmsh_model(self):
+        """Clears the gmsh model associated with this instance"""
+        _gmsh.model.setCurrent(str(id(self)))
+        _gmsh.model.remove()
+        _gmsh.model.add(str(id(self)))
 
     def get_gmsh(self) -> _gmsh:  # type: ignore
         """Gets the Gmsh API with current model set to this instance"""
@@ -157,6 +163,9 @@ class Model:
 
     def get_frd_result(self) -> FrdResult:
         return FrdResult.from_file(f'{self.jobname}.frd')
+
+    def get_dat_result(self) -> DatResult:
+        return DatResult.from_file(f'{self.jobname}.dat')
 
     def __enter__(self):
         return self

@@ -140,8 +140,6 @@ class ENodeFileResults(str, Enum):
     """velocity of a structure"""
 
 class EElFileResults(str, Enum):
-    CEEQ = 'CEEQ'
-    """equivalent plastic creep strain"""
     E = 'E'
     """Lagrange strain"""
     ENER = 'ENER'
@@ -150,7 +148,7 @@ class EElFileResults(str, Enum):
     """error estimator for the worst principal stress"""
     HER = 'HER'
     """error estimator for the temperature"""
-    HFL = 'Heat flux in structures.'
+    HFL = 'HFL'
     """heat flux in a structure"""
     MAXE = 'MAXE'
     """worst principal strain in cyclic symmetric frequency calculations"""
@@ -227,10 +225,68 @@ class EContactPrintResults(str, Enum):
     CSTR = 'CSTR'
     """contact stress"""
     
+class EFrdEntities(str, Enum):
+    CT3D_MIS = 'CT3D-MIS'
+    MDISP = 'MDISP'
+    NDTEMP = 'NDTEMP'
+    PNDTEMP = 'PNDTEMP'
+    PFORC = 'PFORC'
+    PDISP = 'PDISP'
+    FORC = 'FORC'
+    FORCI = 'FORCI'
+    SEN = 'SEN'
+    DISP = 'DISP'
+    DISPI = 'DISPI'
+    VELO = 'VELO'
+
+    TOSTRAIN = 'TOSTRAIN'
+    TOSTRAII = 'TOSTRAII'
+    ENER = 'ENER'
+    ERROR = 'ERROR'
+    ERRORI = 'ERRORI'
+    HERROR = 'HERROR'
+    HERRORI = 'HERRORI'
+    FLUX = 'FLUX'
+    MSTRAIN = 'MSTRAIN'
+    MSTRESS = 'MSTRESS'
+    MESTRAIN = 'MESTRAIN'
+    MESTRAII = 'MESTRAII'
+    PE = 'PE'
+    STRESS = 'STRESS'
+    STRESSI = 'STRESSI'
+    THSTRAIN = 'THSTRAIN'
+    ZZSTR = 'ZZSTR'
+    ZZSTRI = 'ZZSTRI'
+
+    CONTACT = 'CONTACT'
+    CONTACTI = 'CONTACTI'
+    CELS = 'CELS'
+    PCONTAC = 'PCONTAC'
+
+class EDatEntities(str, Enum):
+    # Node Print entities
+    U = 'displacements' 
+    RF = 'forces' 
+    # El Print entities
+    S = 'stresses' 
+    E = 'strains' 
+    ME = 'mechanical strains' 
+    PEEQ = 'equivalent plastic strain' 
+    EVOL = 'volume' 
+    COORD = 'global coordinates' 
+    ENER = 'internal energy density' 
+    ELKE = 'kinetic energy' 
+    ELSE = 'internal energy' 
+    # Contact print entities
+    CELS = 'contact print energy' 
+    CSTR = 'contact stress' 
+    CDIS = 'relative contact displacement' 
+    
 class EPrintTotals(str, Enum):
     YES = 'YES'
     ONLY = 'ONLY'
     NO = 'NO'
+
 class ESolvers(str, Enum):
     DEFAULT = 'DEFAUL'
     ITERATIVE_SCALING = 'ITERATIVE SCALING'
@@ -266,7 +322,14 @@ class EContactTypes(str, Enum):
     LINMORTAR = 'LINMORTAR'
     PGLINMORTAR = 'PGLINMORTAR'
 
-class EReultTypes(str, Enum):
+class EReultEntityTypes(str, Enum):
     SCALAR = 'SCALAR'
     VECTOR = 'VECTOR'
     TENSOR = 'TENSOR'
+
+class EResultLocations(str, Enum):
+    NODAL = 'NODAL'
+    ELEMENT = 'ELEMENT'
+    INT_PNT = 'INT_PNT'
+
+

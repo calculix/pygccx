@@ -57,8 +57,14 @@ Up to now there is no pip package. To use pygccx do the following:
         - *BOUNDARY (inhomogeneous)
         - *CLOAD
         - *CONTACT FILE
+        - *CONTACT OUTPUT
+        - *CONTACT PRINT
+        - *ELEMENT OUTPUT
         - *EL FILE
+        - *EL PRINT
         - *NODE FILE
+        - *NODE OUTPUT
+        - *NODE PRINT
         - *STATIC
         - *STEP
         - *TIME POINTS
@@ -75,3 +81,19 @@ Up to now there is no pip package. To use pygccx do the following:
 # Prerequisites
 - Python 3.10
 - Packages from requirements.txt
+
+# Version history:
+0.0.1.0: <br>
+        NEW FEATURES:
+        - Added Keywords *NODE PRINT, *EL PRINT, *CONTACT PRINT
+        - Added result reader for frd.
+        With model.get_frd_results() a result object is returned for querying results from frd file
+        - Added result reader for dat.
+        With model.get_dat_results() a result object is returned for querying results from dat file
+        CHANGES:
+        - Changed name of enum ENodeResults to ENodeFileResults
+        - Changed name of enum EElementResult to EElFileResults
+        - Changed name of enum EContactResults to EContactFileResults
+
+
+0.0.0.1: First publish

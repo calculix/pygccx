@@ -14,3 +14,4 @@ executables/
 *.nam
 *.out
 *.fbd
+*.eig

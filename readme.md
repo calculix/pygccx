@@ -17,7 +17,6 @@ The best way to explore pygccx is by using an IDE like VS Code or PyCharm with a
 intellysense and static type checking switched on. So you can see all the members, parameters types and doc strings.
 In the folder doc/pygccx you can find an auto generated html documentation of all classes.
 
-ATM no postprocessing capabilities are implemented. This is one of the next mile stones.<br>
 
 # Install Pygccx
 Up to now there is no pip package. To use pygccx do the following:
@@ -74,8 +73,6 @@ Up to now there is no pip package. To use pygccx do the following:
 
 # Planned capabilities of Pygccx:
 - Support of all CCX keywords for static analysis
-- Read result files
-- Provide result object for querying results
 - Postpro in GMSH
 
 # Prerequisites
@@ -84,16 +81,18 @@ Up to now there is no pip package. To use pygccx do the following:
 
 # Version history:
 0.0.1.0: <br>
-        NEW FEATURES:
-        - Added Keywords *NODE PRINT, *EL PRINT, *CONTACT PRINT
-        - Added result reader for frd.
+- NEW FEATURES:
+    - Added Keywords *NODE PRINT, *EL PRINT, *CONTACT PRINT
+    - Added result reader for frd.<br>
         With model.get_frd_results() a result object is returned for querying results from frd file
-        - Added result reader for dat.
+    - Added result reader for dat.<br>
         With model.get_dat_results() a result object is returned for querying results from dat file
-        CHANGES:
-        - Changed name of enum ENodeResults to ENodeFileResults
-        - Changed name of enum EElementResult to EElFileResults
-        - Changed name of enum EContactResults to EContactFileResults
+    - Added example "specimen_weibull" as a Jupyter notebook to show
+          the use of model.get_dat_results()
+- CHANGES:
+    - Changed name of enum ENodeResults to ENodeFileResults
+    - Changed name of enum EElementResult to EElFileResults
+    - Changed name of enum EContactResults to EContactFileResults
 
 
 0.0.0.1: First publish

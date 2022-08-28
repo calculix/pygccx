@@ -1,6 +1,7 @@
 .vscode/
 __pycache__/
 venv/
+venv_setup/
 notes.txt
 
 # Calculix files
@@ -14,3 +15,4 @@ executables/
 *.nam
 *.out
 *.fbd
+*.eig

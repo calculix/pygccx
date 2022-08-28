@@ -19,12 +19,12 @@ In the folder doc/pygccx you can find an auto generated html documentation of al
 
 
 # Install Pygccx
-Up to now there is no pip package. To use pygccx do the following:
-- Install Python 3.10 or higher (or make a virtual env)
-- Download the whole Project.
-- Install requirements from requirements.txt with pip install -r requirements.txt
-- Append the path to pygccx to sys.path
-- Now "from pygccx import ..." should work
+- Install Python 3.10 or higher (or make a virtual env of Python 3.10)
+- Download pygccx and extract to any location you want.
+- install pygccx with pip
+    ```
+    pip install "path/to/pygccx"   (the folder where setup.py is located)
+    ```
 
 # Capabilities of Pygccx:
 - Static analysis of 3D structures (only solid elements, no shells or beams)

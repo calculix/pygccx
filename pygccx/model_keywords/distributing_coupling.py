@@ -19,9 +19,9 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, InitVar, field
 from typing import Any
-from protocols import ISet, number
-from enums import ESetTypes
-from auxiliary import f2s
+from pygccx.protocols import ISet, number
+from pygccx.enums import ESetTypes
+from pygccx.auxiliary import f2s
 
 @dataclass
 class DistribuitingCoupling:

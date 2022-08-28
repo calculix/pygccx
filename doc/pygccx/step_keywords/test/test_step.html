@@ -61,9 +61,10 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
 from unittest import TestCase
-from step_keywords import Step
-from enums import EStepAmplitudes
-from protocols import IStep
+
+from pygccx.step_keywords import Step
+from pygccx.enums import EStepAmplitudes
+from pygccx.protocols import IStep
 
 class TestStep(TestCase):
 
@@ -73,30 +74,30 @@ class TestStep(TestCase):
 
     def test_default(self):
         s = Step()
-        known = &#39;*STEP,INC=100,AMPLITUDE=RAMP\n&#39;
+        known = &#39;*STEP\n&#39;
         self.assertEqual(str(s), known)
 
     def test_perturbation(self):
         s = Step(perturbation=True)
-        known = &#39;*STEP,PERTURBATION,INC=100,AMPLITUDE=RAMP\n&#39;
+        known = &#39;*STEP,PERTURBATION\n&#39;
         self.assertEqual(str(s), known)
 
     def test_nlgeom(self):
         s = Step(nlgeom=True)
-        known = &#39;*STEP,NLGEOM,INC=100,AMPLITUDE=RAMP\n&#39;
+        known = &#39;*STEP,NLGEOM\n&#39;
         self.assertEqual(str(s), known)
         s = Step(nlgeom=False)
-        known = &#39;*STEP,NLGEOM=NO,INC=100,AMPLITUDE=RAMP\n&#39;
+        known = &#39;*STEP,NLGEOM=NO\n&#39;
         self.assertEqual(str(s), known)
 
     def test_inc(self):
         s = Step(inc=50)
-        known = &#39;*STEP,INC=50,AMPLITUDE=RAMP\n&#39;
+        known = &#39;*STEP,INC=50\n&#39;
         self.assertEqual(str(s), known)
 
     def test_amplitude(self):
         s = Step(amplitude=EStepAmplitudes.STEP)
-        known = &#39;*STEP,INC=100,AMPLITUDE=STEP\n&#39;
+        known = &#39;*STEP,AMPLITUDE=STEP\n&#39;
         self.assertEqual(str(s), known)
 
     def test_inc_to_low(self):
@@ -158,30 +159,30 @@ not have a method with the specified name.</p></div>
 
     def test_default(self):
         s = Step()
-        known = &#39;*STEP,INC=100,AMPLITUDE=RAMP\n&#39;
+        known = &#39;*STEP\n&#39;
         self.assertEqual(str(s), known)
 
     def test_perturbation(self):
         s = Step(perturbation=True)
-        known = &#39;*STEP,PERTURBATION,INC=100,AMPLITUDE=RAMP\n&#39;
+        known = &#39;*STEP,PERTURBATION\n&#39;
         self.assertEqual(str(s), known)
 
     def test_nlgeom(self):
         s = Step(nlgeom=True)
-        known = &#39;*STEP,NLGEOM,INC=100,AMPLITUDE=RAMP\n&#39;
+        known = &#39;*STEP,NLGEOM\n&#39;
         self.assertEqual(str(s), known)
         s = Step(nlgeom=False)
-        known = &#39;*STEP,NLGEOM=NO,INC=100,AMPLITUDE=RAMP\n&#39;
+        known = &#39;*STEP,NLGEOM=NO\n&#39;
         self.assertEqual(str(s), known)
 
     def test_inc(self):
         s = Step(inc=50)
-        known = &#39;*STEP,INC=50,AMPLITUDE=RAMP\n&#39;
+        known = &#39;*STEP,INC=50\n&#39;
         self.assertEqual(str(s), known)
 
     def test_amplitude(self):
         s = Step(amplitude=EStepAmplitudes.STEP)
-        known = &#39;*STEP,INC=100,AMPLITUDE=STEP\n&#39;
+        known = &#39;*STEP,AMPLITUDE=STEP\n&#39;
         self.assertEqual(str(s), known)
 
     def test_inc_to_low(self):
@@ -205,7 +206,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_amplitude(self):
     s = Step(amplitude=EStepAmplitudes.STEP)
-    known = &#39;*STEP,INC=100,AMPLITUDE=STEP\n&#39;
+    known = &#39;*STEP,AMPLITUDE=STEP\n&#39;
     self.assertEqual(str(s), known)</code></pre>
 </details>
 </dd>
@@ -220,7 +221,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_default(self):
     s = Step()
-    known = &#39;*STEP,INC=100,AMPLITUDE=RAMP\n&#39;
+    known = &#39;*STEP\n&#39;
     self.assertEqual(str(s), known)</code></pre>
 </details>
 </dd>
@@ -235,7 +236,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_inc(self):
     s = Step(inc=50)
-    known = &#39;*STEP,INC=50,AMPLITUDE=RAMP\n&#39;
+    known = &#39;*STEP,INC=50\n&#39;
     self.assertEqual(str(s), known)</code></pre>
 </details>
 </dd>
@@ -278,10 +279,10 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_nlgeom(self):
     s = Step(nlgeom=True)
-    known = &#39;*STEP,NLGEOM,INC=100,AMPLITUDE=RAMP\n&#39;
+    known = &#39;*STEP,NLGEOM\n&#39;
     self.assertEqual(str(s), known)
     s = Step(nlgeom=False)
-    known = &#39;*STEP,NLGEOM=NO,INC=100,AMPLITUDE=RAMP\n&#39;
+    known = &#39;*STEP,NLGEOM=NO\n&#39;
     self.assertEqual(str(s), known)</code></pre>
 </details>
 </dd>
@@ -296,7 +297,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_perturbation(self):
     s = Step(perturbation=True)
-    known = &#39;*STEP,PERTURBATION,INC=100,AMPLITUDE=RAMP\n&#39;
+    known = &#39;*STEP,PERTURBATION\n&#39;
     self.assertEqual(str(s), known)</code></pre>
 </details>
 </dd>

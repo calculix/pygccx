@@ -61,9 +61,10 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
 from unittest import TestCase
-from step_keywords import Static
-from enums import ESolvers
-from protocols import IKeyword
+
+from pygccx.step_keywords import Static
+from pygccx.enums import ESolvers
+from pygccx.protocols import IKeyword
 
 class TestStatic(TestCase):
 
@@ -74,70 +75,70 @@ class TestStatic(TestCase):
     def test_default(self):
         s = Static()
         known = &#39;*STATIC\n&#39;
-        known += &#39;1.0,1.0\n&#39;
+        known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
     def test_solver(self):
         s = Static(solver=ESolvers.SPOOLES)
         known = &#39;*STATIC,SOLVER=SPOOLES\n&#39;
-        known += &#39;1.0,1.0\n&#39;
+        known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
         s = Static(solver=ESolvers.ITERATIVE_SCALING)
         known = &#39;*STATIC,SOLVER=ITERATIVE SCALING\n&#39;
-        known += &#39;1.0,1.0\n&#39;
+        known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
         s = Static(solver=ESolvers.ITERATIVE_CHOLESKY)
         known = &#39;*STATIC,SOLVER=ITERATIVE CHOLESKY\n&#39;
-        known += &#39;1.0,1.0\n&#39;
+        known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
         s = Static(solver=ESolvers.PASTIX)
         known = &#39;*STATIC,SOLVER=PASTIX\n&#39;
-        known += &#39;1.0,1.0\n&#39;
+        known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
     def test_direct(self):
         s = Static(direct=True)
         known = &#39;*STATIC,DIRECT\n&#39;
-        known += &#39;1.0,1.0\n&#39;
+        known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
     def test_time_reset(self):
         s = Static(time_reset=True)
         known = &#39;*STATIC,TIME RESET\n&#39;
-        known += &#39;1.0,1.0\n&#39;
+        known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
     def test_time_at_start(self):
         s = Static(total_time_at_start=2.2)
-        known = &#39;*STATIC,TOTAL TIME AT START=2.2\n&#39;
-        known += &#39;1.0,1.0\n&#39;
+        known = &#39;*STATIC,TOTAL TIME AT START=2.2000000e+00\n&#39;
+        known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
     def test_time_period(self):
         s = Static(time_period=2.2)
         known = &#39;*STATIC\n&#39;
-        known += &#39;1.0,2.2\n&#39;
+        known += &#39;1.0000000e+00,2.2000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
     def test_time_inc(self):
         s = Static(init_time_inc=0.3, time_period=2.0, min_time_inc=0.02, max_time_inc=0.5)
         known = &#39;*STATIC\n&#39;
-        known += &#39;0.3,2.0,0.02,0.5\n&#39;
+        known += &#39;3.0000000e-01,2.0000000e+00,2.0000000e-02,5.0000000e-01\n&#39;
         self.assertEqual(str(s), known)
 
     def test_time_inc_wo_min_time_inc(self):
         s = Static(init_time_inc=0.3, time_period=2.0, max_time_inc=0.5)
         known = &#39;*STATIC\n&#39;
-        known += &#39;0.3,2.0,,0.5\n&#39;
+        known += &#39;3.0000000e-01,2.0000000e+00,,5.0000000e-01\n&#39;
         self.assertEqual(str(s), known)
 
     def test_time_inc_wo_max_time_inc(self):
         s = Static(init_time_inc=0.3, time_period=2.0, min_time_inc=0.02)
         known = &#39;*STATIC\n&#39;
-        known += &#39;0.3,2.0,0.02\n&#39;
+        known += &#39;3.0000000e-01,2.0000000e+00,2.0000000e-02\n&#39;
         self.assertEqual(str(s), known)</code></pre>
 </details>
 </section>
@@ -196,70 +197,70 @@ not have a method with the specified name.</p></div>
     def test_default(self):
         s = Static()
         known = &#39;*STATIC\n&#39;
-        known += &#39;1.0,1.0\n&#39;
+        known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
     def test_solver(self):
         s = Static(solver=ESolvers.SPOOLES)
         known = &#39;*STATIC,SOLVER=SPOOLES\n&#39;
-        known += &#39;1.0,1.0\n&#39;
+        known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
         s = Static(solver=ESolvers.ITERATIVE_SCALING)
         known = &#39;*STATIC,SOLVER=ITERATIVE SCALING\n&#39;
-        known += &#39;1.0,1.0\n&#39;
+        known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
         s = Static(solver=ESolvers.ITERATIVE_CHOLESKY)
         known = &#39;*STATIC,SOLVER=ITERATIVE CHOLESKY\n&#39;
-        known += &#39;1.0,1.0\n&#39;
+        known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
         s = Static(solver=ESolvers.PASTIX)
         known = &#39;*STATIC,SOLVER=PASTIX\n&#39;
-        known += &#39;1.0,1.0\n&#39;
+        known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
     def test_direct(self):
         s = Static(direct=True)
         known = &#39;*STATIC,DIRECT\n&#39;
-        known += &#39;1.0,1.0\n&#39;
+        known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
     def test_time_reset(self):
         s = Static(time_reset=True)
         known = &#39;*STATIC,TIME RESET\n&#39;
-        known += &#39;1.0,1.0\n&#39;
+        known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
     def test_time_at_start(self):
         s = Static(total_time_at_start=2.2)
-        known = &#39;*STATIC,TOTAL TIME AT START=2.2\n&#39;
-        known += &#39;1.0,1.0\n&#39;
+        known = &#39;*STATIC,TOTAL TIME AT START=2.2000000e+00\n&#39;
+        known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
     def test_time_period(self):
         s = Static(time_period=2.2)
         known = &#39;*STATIC\n&#39;
-        known += &#39;1.0,2.2\n&#39;
+        known += &#39;1.0000000e+00,2.2000000e+00\n&#39;
         self.assertEqual(str(s), known)
 
     def test_time_inc(self):
         s = Static(init_time_inc=0.3, time_period=2.0, min_time_inc=0.02, max_time_inc=0.5)
         known = &#39;*STATIC\n&#39;
-        known += &#39;0.3,2.0,0.02,0.5\n&#39;
+        known += &#39;3.0000000e-01,2.0000000e+00,2.0000000e-02,5.0000000e-01\n&#39;
         self.assertEqual(str(s), known)
 
     def test_time_inc_wo_min_time_inc(self):
         s = Static(init_time_inc=0.3, time_period=2.0, max_time_inc=0.5)
         known = &#39;*STATIC\n&#39;
-        known += &#39;0.3,2.0,,0.5\n&#39;
+        known += &#39;3.0000000e-01,2.0000000e+00,,5.0000000e-01\n&#39;
         self.assertEqual(str(s), known)
 
     def test_time_inc_wo_max_time_inc(self):
         s = Static(init_time_inc=0.3, time_period=2.0, min_time_inc=0.02)
         known = &#39;*STATIC\n&#39;
-        known += &#39;0.3,2.0,0.02\n&#39;
+        known += &#39;3.0000000e-01,2.0000000e+00,2.0000000e-02\n&#39;
         self.assertEqual(str(s), known)</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -280,7 +281,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_default(self):
     s = Static()
     known = &#39;*STATIC\n&#39;
-    known += &#39;1.0,1.0\n&#39;
+    known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
     self.assertEqual(str(s), known)</code></pre>
 </details>
 </dd>
@@ -296,7 +297,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_direct(self):
     s = Static(direct=True)
     known = &#39;*STATIC,DIRECT\n&#39;
-    known += &#39;1.0,1.0\n&#39;
+    known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
     self.assertEqual(str(s), known)</code></pre>
 </details>
 </dd>
@@ -326,22 +327,22 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_solver(self):
     s = Static(solver=ESolvers.SPOOLES)
     known = &#39;*STATIC,SOLVER=SPOOLES\n&#39;
-    known += &#39;1.0,1.0\n&#39;
+    known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
     self.assertEqual(str(s), known)
 
     s = Static(solver=ESolvers.ITERATIVE_SCALING)
     known = &#39;*STATIC,SOLVER=ITERATIVE SCALING\n&#39;
-    known += &#39;1.0,1.0\n&#39;
+    known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
     self.assertEqual(str(s), known)
 
     s = Static(solver=ESolvers.ITERATIVE_CHOLESKY)
     known = &#39;*STATIC,SOLVER=ITERATIVE CHOLESKY\n&#39;
-    known += &#39;1.0,1.0\n&#39;
+    known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
     self.assertEqual(str(s), known)
 
     s = Static(solver=ESolvers.PASTIX)
     known = &#39;*STATIC,SOLVER=PASTIX\n&#39;
-    known += &#39;1.0,1.0\n&#39;
+    known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
     self.assertEqual(str(s), known)</code></pre>
 </details>
 </dd>
@@ -356,8 +357,8 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_time_at_start(self):
     s = Static(total_time_at_start=2.2)
-    known = &#39;*STATIC,TOTAL TIME AT START=2.2\n&#39;
-    known += &#39;1.0,1.0\n&#39;
+    known = &#39;*STATIC,TOTAL TIME AT START=2.2000000e+00\n&#39;
+    known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
     self.assertEqual(str(s), known)</code></pre>
 </details>
 </dd>
@@ -373,7 +374,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_time_inc(self):
     s = Static(init_time_inc=0.3, time_period=2.0, min_time_inc=0.02, max_time_inc=0.5)
     known = &#39;*STATIC\n&#39;
-    known += &#39;0.3,2.0,0.02,0.5\n&#39;
+    known += &#39;3.0000000e-01,2.0000000e+00,2.0000000e-02,5.0000000e-01\n&#39;
     self.assertEqual(str(s), known)</code></pre>
 </details>
 </dd>
@@ -389,7 +390,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_time_inc_wo_max_time_inc(self):
     s = Static(init_time_inc=0.3, time_period=2.0, min_time_inc=0.02)
     known = &#39;*STATIC\n&#39;
-    known += &#39;0.3,2.0,0.02\n&#39;
+    known += &#39;3.0000000e-01,2.0000000e+00,2.0000000e-02\n&#39;
     self.assertEqual(str(s), known)</code></pre>
 </details>
 </dd>
@@ -405,7 +406,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_time_inc_wo_min_time_inc(self):
     s = Static(init_time_inc=0.3, time_period=2.0, max_time_inc=0.5)
     known = &#39;*STATIC\n&#39;
-    known += &#39;0.3,2.0,,0.5\n&#39;
+    known += &#39;3.0000000e-01,2.0000000e+00,,5.0000000e-01\n&#39;
     self.assertEqual(str(s), known)</code></pre>
 </details>
 </dd>
@@ -421,7 +422,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_time_period(self):
     s = Static(time_period=2.2)
     known = &#39;*STATIC\n&#39;
-    known += &#39;1.0,2.2\n&#39;
+    known += &#39;1.0000000e+00,2.2000000e+00\n&#39;
     self.assertEqual(str(s), known)</code></pre>
 </details>
 </dd>
@@ -437,7 +438,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_time_reset(self):
     s = Static(time_reset=True)
     known = &#39;*STATIC,TIME RESET\n&#39;
-    known += &#39;1.0,1.0\n&#39;
+    known += &#39;1.0000000e+00,1.0000000e+00\n&#39;
     self.assertEqual(str(s), known)</code></pre>
 </details>
 </dd>

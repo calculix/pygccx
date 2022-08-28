@@ -19,8 +19,8 @@ If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 from dataclasses import dataclass
-from mesh import Mesh
-from enums import ESetTypes, EEtypes
+from pygccx.mesh import Mesh
+from pygccx.enums import ESetTypes, EEtypes
 
 @dataclass()
 class SetMock():

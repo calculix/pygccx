@@ -18,8 +18,9 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 import unittest
-from mesh.test.test_mesh import TestMesh
+from pygccx.result_reader.test.test_frd_result import TestFrdResult
+from pygccx.result_reader.test.test_dat_result import TestDatResult
+
 
 if __name__ == '__main__':
     unittest.main()
-

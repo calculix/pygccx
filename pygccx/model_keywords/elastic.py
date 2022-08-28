@@ -18,9 +18,10 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from dataclasses import dataclass, field, InitVar
-from enums import EELasticTypes
-from protocols import number
-from auxiliary import f2s
+
+from pygccx.enums import EELasticTypes
+from pygccx.protocols import number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class Elastic:

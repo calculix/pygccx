@@ -62,7 +62,7 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from dataclasses import dataclass, field, InitVar
 from typing import Optional
-from protocols import ISet
+from pygccx.protocols import ISet
 
 @dataclass
 class Boundary():
@@ -146,7 +146,7 @@ class Boundary():
 <dl>
 <dt id="pygccx.model_keywords.boundary.Boundary"><code class="flex name class">
 <span>class <span class="ident">Boundary</span></span>
-<span>(</span><span>nid_or_set: dataclasses.InitVar[int | protocols.ISet], first_dof: dataclasses.InitVar[int], last_dof: dataclasses.InitVar[typing.Optional[int]] = None, name: str = '', desc: str = '')</span>
+<span>(</span><span>nid_or_set: dataclasses.InitVar[int | <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>], first_dof: dataclasses.InitVar[int], last_dof: dataclasses.InitVar[typing.Optional[int]] = None, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class representing a homogeneous boundary.</p>
@@ -263,7 +263,7 @@ class Boundary():
 <dd>
 <div class="desc"><p>The name of this Boundary. Not used</p></div>
 </dd>
-<dt id="pygccx.model_keywords.boundary.Boundary.nid_or_set"><code class="name">var <span class="ident">nid_or_set</span> : dataclasses.InitVar[int | protocols.ISet]</code></dt>
+<dt id="pygccx.model_keywords.boundary.Boundary.nid_or_set"><code class="name">var <span class="ident">nid_or_set</span> : dataclasses.InitVar[int | <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>]</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -271,7 +271,7 @@ class Boundary():
 <h3>Methods</h3>
 <dl>
 <dt id="pygccx.model_keywords.boundary.Boundary.add_condition"><code class="name flex">
-<span>def <span class="ident">add_condition</span></span>(<span>self, nid_or_set: int | protocols.ISet, first_dof: int, last_dof: Optional[int] = None)</span>
+<span>def <span class="ident">add_condition</span></span>(<span>self, nid_or_set: int | <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, first_dof: int, last_dof: Optional[int] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Adds a condition to this Boundary</p>

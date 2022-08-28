@@ -160,108 +160,227 @@ class EResultOutputs(str, Enum):
     _3D = &#39;3D&#39;
     &#34;&#34;&#34;Output of 1D and 2D Elements in their expanded form&#34;&#34;&#34;
 
-class ENodeResults(str, Enum):
+class ENodeFileResults(str, Enum):
     KEQ = &#39;KEQ&#39;
-    &#34;&#34;&#34;Equivalent stress intensity factor and related quantities in crack propagation 
-        calculations.&#34;&#34;&#34;
+    &#34;&#34;&#34;stress intensity factor&#34;&#34;&#34;
     MAXU = &#39;MAXU&#39;
-    &#34;&#34;&#34;Maximum displacements orthogonal to a given vector
-        at all times for *FREQUENCY calculations with cyclic symmetry. The
-        components of the vector are the coordinates of a node stored in a node
-        set with the name RAY. This node and node set must have been defined
-        by the user.&#34;&#34;&#34;
+    &#34;&#34;&#34;worst displacement orthogonal to a given vector in cyclic symmetric frequency calculations&#34;&#34;&#34;
     NT = &#39;NT&#39;
-    &#34;&#34;&#34;Temperatures. This includes both structural temperatures and total fluid 
-        temperatures in a network.&#34;&#34;&#34;
+    &#34;&#34;&#34;structural temperature&#34;&#34;&#34;
     PNT = &#39;PNT&#39;
-    &#34;&#34;&#34;Temperatures: magnitude and phase (only for *STEADY STATE DYNAMICS calculations).&#34;&#34;&#34;
+    &#34;&#34;&#34;magnitude and phase of temperature&#34;&#34;&#34;
     PRF = &#39;PRF&#39;
-    &#34;&#34;&#34;External forces: magnitude and phase (only for *FREQUENCY calculations with 
-        cyclic symmetry).&#34;&#34;&#34;
+    &#34;&#34;&#34;magnitude and phase of external forces&#34;&#34;&#34;
     PU = &#39;PU&#39;
-    &#34;&#34;&#34;Displacements: magnitude and phase (only for *STEADY STATE DYNAMICS
-        calculations and *FREQUENCY calculations with cyclic symmetry).&#34;&#34;&#34;
+    &#34;&#34;&#34;magnitude and phase of displacement&#34;&#34;&#34;
     RF = &#39;RF&#39;
-    &#34;&#34;&#34;External forces (only static forces;
-        dynamic forces, such as those caused by dashpots, are not included)&#34;&#34;&#34;
+    &#34;&#34;&#34;total force&#34;&#34;&#34;
     SEN = &#39;SEN&#39;
-    &#34;&#34;&#34;Sensitivities.&#34;&#34;&#34;
+    &#34;&#34;&#34;sensitivity&#34;&#34;&#34;
     U = &#39;U&#39;
-    &#34;&#34;&#34;Displacements.&#34;&#34;&#34;
+    &#34;&#34;&#34;displacement&#34;&#34;&#34;
     V = &#39;V&#39;
-    &#34;&#34;&#34;Velocities in dynamic calculations.&#34;&#34;&#34;
+    &#34;&#34;&#34;velocity of a structure&#34;&#34;&#34;
 
-class EElementResults(str, Enum):
-    CEEQ= &#39;CEEQ&#39;
-    &#34;&#34;&#34;equivalent creep strain (is converted internally into PEEQ
-        since the viscoplastic theory does not distinguish between the two; 
-        consequently, the user will find PEEQ in the frd file, not CEEQ.&#34;&#34;&#34;
+class EElFileResults(str, Enum):
     E = &#39;E&#39;
-    &#34;&#34;&#34;strain. This is the total
-        Lagrangian strain for (hyper)elastic materials and incremental plasticity
-        and the total Eulerian strain for deformation plasticity.&#34;&#34;&#34;
+    &#34;&#34;&#34;Lagrange strain&#34;&#34;&#34;
     ENER = &#39;ENER&#39;
-    &#34;&#34;&#34;the energy density.&#34;&#34;&#34;
+    &#34;&#34;&#34;internal energy density&#34;&#34;&#34;
     ERR = &#39;ERR&#39;
-    &#34;&#34;&#34;error estimator for structural calculations, Notice that ERR and ZZS are 
-        mutually exclusive.&#34;&#34;&#34;
+    &#34;&#34;&#34;error estimator for the worst principal stress&#34;&#34;&#34;
     HER = &#39;HER&#39;
-    &#34;&#34;&#34;error estimator for heat transfer calculations.&#34;&#34;&#34;
-    HFL = &#39;Heat flux in structures.&#39;
-    &#34;&#34;&#34;Displacements: magnitude and phase (only for *STEADY STATE DYNAMICS
-        calculations and *FREQUENCY calculations with cyclic symmetry).&#34;&#34;&#34;
+    &#34;&#34;&#34;error estimator for the temperature&#34;&#34;&#34;
+    HFL = &#39;HFL&#39;
+    &#34;&#34;&#34;heat flux in a structure&#34;&#34;&#34;
     MAXE = &#39;MAXE&#39;
-    &#34;&#34;&#34;Maximum of the absolute value of the worst principal
-        strain at all times for *FREQUENCY calculations with cyclic symmetry.
-        It is stored for nodes belonging to the node set with name STRAINDO-
-        MAIN. This node set must have been defined by the user with the *NSET
-        command. The worst principal strain is the maximum of the absolute
-        value of the principal strains times its original sign&#34;&#34;&#34;
+    &#34;&#34;&#34;worst principal strain in cyclic symmetric frequency calculations&#34;&#34;&#34;
     MAXS = &#39;MAXS&#39;
-    &#34;&#34;&#34;maximum of the absolute value of the worst principal
-        stress at all times for *FREQUENCY calculations with cyclic symmetry.
-        It is stored for nodes belonging to the node set with name STRESSDO-
-        MAIN. This node set must have been defined by the user with the *NSET
-        7.50 *EL FILE 439 command. The worst principal stress is the maximum 
-        of the absolute value of the principal stresses times its original sign.&#34;&#34;&#34;
+    &#34;&#34;&#34;worst principal stress in cyclic symmetric frequency calculations&#34;&#34;&#34;
     ME = &#39;ME&#39;
-    &#34;&#34;&#34;strain. This is the
-        mechanical Lagrangian strain for (hyper)elastic materials and incremental
-        plasticity and the mechanical Eulerian strain for deformation plasticity
-        (mechanical strain = total strain - thermal strain).&#34;&#34;&#34;
+    &#34;&#34;&#34;mechanical strain&#34;&#34;&#34;
     PEEQ = &#39;PEEQ&#39;
-    &#34;&#34;&#34;equivalent plastic strain.&#34;&#34;&#34;
-    PHS = &#39;PHS&#39;
-    &#34;&#34;&#34; stress: magnitude and phase (only for *STEADY STATE DYNAMICS
-        calculations and *FREQUENCY calculations with cyclic symmetry).&#34;&#34;&#34;
+    &#34;&#34;&#34;equivalent plastic strain&#34;&#34;&#34;
     S = &#39;S&#39;
-    &#34;&#34;&#34;true (Cauchy) stress in structures. For beam elements this tensor is 
-        replaced by the section forces
-        if SECTION FORCES is selected. Selection of S automatically triggers
-        output of the error estimator ERR, unless NOE is selected after S (either
-        immediately following S, or with some other output requests in between,
-        irrespective whether these output requests are on the same keyword card
-        or on different keyword cards)&#34;&#34;&#34;
+    &#34;&#34;&#34;Cauchy stress (structure)&#34;&#34;&#34;
     THE = &#39;THE&#39;
-    &#34;&#34;&#34;strain. This is the thermal strain calculated by subtracting the mechanical 
-       strain (extrapolated to the nodes) from the total strain (extrapolated to the nodes) 
-       at the nodes. Selection of THE triggers the selection of E and ME. This is needed 
-       to ensure that E (the total strain) and ME (the mechanical strain) are extrapolated 
-       to the nodes.&#34;&#34;&#34;
+    &#34;&#34;&#34;thermal strain&#34;&#34;&#34;
     ZZS = &#39;ZZS&#39;
-    &#34;&#34;&#34;Zienkiewicz-Zhu improved stress. Notice that ZZS and ERR are mutually exclusive.&#34;&#34;&#34;
+    &#34;&#34;&#34;Zienkiewicz-Zhu stress&#34;&#34;&#34;
 
-class EContactResults(str, Enum):
+class EContactFileResults(str, Enum):
     CDIS = &#39;CDIS&#39;
-    &#34;&#34;&#34;Relative contact displacements&#34;&#34;&#34;
+    &#34;&#34;&#34;relative contact displacements&#34;&#34;&#34;
     CSTR = &#39;CSTR&#39;
-    &#34;&#34;&#34;Contact stresses&#34;&#34;&#34;
+    &#34;&#34;&#34;contact stress&#34;&#34;&#34;
     CELS = &#39;CELS&#39;
-    &#34;&#34;&#34;Contact energy&#34;&#34;&#34;
+    &#34;&#34;&#34;contact energy&#34;&#34;&#34;
     PCON = &#39;PCON&#39;
-    &#34;&#34;&#34;Only for face-to-face penalty contact.\n 
-    Magnitude and phase of the relative contact displacements and
-    contact stresses in a frequency calculation with cyclic symmetry. &#34;&#34;&#34;
+    &#34;&#34;&#34;amplitude and phase of the relative contact&#34;&#34;&#34;
+
+class ENodePrintResults(str, Enum):
+    NT = &#39;NT&#39;
+    &#34;&#34;&#34;structural temperature&#34;&#34;&#34;
+    RF = &#39;RF&#39;
+    &#34;&#34;&#34;total force&#34;&#34;&#34;
+    U = &#39;U&#39;
+    &#34;&#34;&#34;displacement&#34;&#34;&#34;
+    V = &#39;V&#39;
+    &#34;&#34;&#34;velocity of a structure&#34;&#34;&#34;
+
+class EElPrintResults(str, Enum):
+    COORD = &#39;COORD&#39;
+    &#34;&#34;&#34;Coordinates&#34;&#34;&#34;
+    E = &#39;E&#39;
+    &#34;&#34;&#34;Lagrange strain&#34;&#34;&#34;
+    ENER = &#39;ENER&#39;
+    &#34;&#34;&#34;Internal energy density&#34;&#34;&#34;
+    HFL = &#39;HFL&#39;
+    &#34;&#34;&#34;Heat flux in a structure&#34;&#34;&#34;
+    ME = &#39;ME&#39;
+    &#34;&#34;&#34;Mechanical strain&#34;&#34;&#34;
+    PEEQ = &#39;PEEQ&#39;
+    &#34;&#34;&#34;Equivalent plastic strain&#34;&#34;&#34;
+    S = &#39;S&#39;
+    &#34;&#34;&#34;Cauchy stress (structure)&#34;&#34;&#34;
+    ELKE = &#39;ELKE&#39;
+    &#34;&#34;&#34;Kinetic energy&#34;&#34;&#34;
+    ELSE = &#39;ELSE&#39;
+    &#34;&#34;&#34;Internal energy&#34;&#34;&#34;
+    EMAS = &#39;EMAS&#39;  
+    &#34;&#34;&#34;Mass and mass moments of inertia&#34;&#34;&#34;
+    EVOL = &#39;EVOL&#39;
+    &#34;&#34;&#34;Volume&#34;&#34;&#34;
+
+class EContactPrintResults(str, Enum):
+    CDIS = &#39;CDIS&#39; 
+    &#34;&#34;&#34;relative contact displacements&#34;&#34;&#34;
+    CELS = &#39;CELS&#39;
+    &#34;&#34;&#34;contact energy&#34;&#34;&#34;
+    CF = &#39;CF&#39;
+    &#34;&#34;&#34;total contact force&#34;&#34;&#34;
+    CFN = &#39;CFN&#39;
+    &#34;&#34;&#34;total normal contact force&#34;&#34;&#34;
+    CFS = &#39;CFS&#39;
+    &#34;&#34;&#34;total shear contact force&#34;&#34;&#34;
+    CNUM = &#39;CNUM&#39;
+    &#34;&#34;&#34;total number of contact elements&#34;&#34;&#34;
+    CSTR = &#39;CSTR&#39;
+    &#34;&#34;&#34;contact stress&#34;&#34;&#34;
+    
+class EFrdEntities(str, Enum):
+    CT3D_MIS = &#39;CT3D-MIS&#39;
+    &#34;&#34;&#34;Stress intensity factor&#34;&#34;&#34;
+    MDISP = &#39;MDISP&#39;
+    &#34;&#34;&#34;Worst displacement orthogonal to a given vector
+     in cyclic symmetric frequency calculations&#34;&#34;&#34;
+    NDTEMP = &#39;NDTEMP&#39;
+    &#34;&#34;&#34;Structural temperature; total temperature in a network&#34;&#34;&#34;
+    PNDTEMP = &#39;PNDTEMP&#39;
+    &#34;&#34;&#34;magnitude and phase of temperature&#34;&#34;&#34;
+    PFORC = &#39;PFORC&#39;
+    &#34;&#34;&#34;Magnitude and phase of external forces&#34;&#34;&#34;
+    PDISP = &#39;PDISP&#39;
+    &#34;&#34;&#34;Magnitude and phase of displacement&#34;&#34;&#34;
+    FORC = &#39;FORC&#39;
+    &#34;&#34;&#34;Real part of total force&#34;&#34;&#34;
+    FORCI = &#39;FORCI&#39;
+    &#34;&#34;&#34;Imaginary part of total force&#34;&#34;&#34;
+    SEN = &#39;SEN&#39;
+    &#34;&#34;&#34;Sensitifity&#34;&#34;&#34;
+    DISP = &#39;DISP&#39;
+    &#34;&#34;&#34;Real part of displacement&#34;&#34;&#34;
+    DISPI = &#39;DISPI&#39;
+    &#34;&#34;&#34;Imaginary part of displacement&#34;&#34;&#34;
+    VELO = &#39;VELO&#39;
+    &#34;&#34;&#34;Velocity&#34;&#34;&#34;
+
+    TOSTRAIN = &#39;TOSTRAIN&#39;
+    &#34;&#34;&#34;Real part of lagrange strain&#34;&#34;&#34;
+    TOSTRAII = &#39;TOSTRAII&#39;
+    &#34;&#34;&#34;Imaginary part of lagrange strain&#34;&#34;&#34;
+    ENER = &#39;ENER&#39;
+    &#34;&#34;&#34;Internal energy density&#34;&#34;&#34;
+    ERROR = &#39;ERROR&#39;
+    &#34;&#34;&#34;Real part of error estimator for the worst principal stress&#34;&#34;&#34;
+    ERRORI = &#39;ERRORI&#39;
+    &#34;&#34;&#34;Imaginary part of error estimator for the worst principal stress&#34;&#34;&#34;
+    HERROR = &#39;HERROR&#39;
+    &#34;&#34;&#34;Real part of error estimator for the temperature&#34;&#34;&#34;
+    HERRORI = &#39;HERRORI&#39;
+    &#34;&#34;&#34;Imaginary part of error estimator for the temperature&#34;&#34;&#34;
+    FLUX = &#39;FLUX&#39;
+    &#34;&#34;&#34;Heat flux in a structure&#34;&#34;&#34;
+    MSTRAIN = &#39;MSTRAIN&#39;
+    &#34;&#34;&#34;worst principal strain in cyclic symmetric frequency calculations&#34;&#34;&#34;
+    MSTRESS = &#39;MSTRESS&#39;
+    &#34;&#34;&#34;worst principal stress in cyclic symmetric frequency calculations&#34;&#34;&#34;
+    MESTRAIN = &#39;MESTRAIN&#39;
+    &#34;&#34;&#34;Real part of mechanical strain&#34;&#34;&#34;
+    MESTRAII = &#39;MESTRAII&#39;
+    &#34;&#34;&#34;Imaginary part of mechanical strain&#34;&#34;&#34;
+    PE = &#39;PE&#39;
+    &#34;&#34;&#34;Equivalent plastic strain&#34;&#34;&#34;
+    STRESS = &#39;STRESS&#39;
+    &#34;&#34;&#34;Real part of Cauchy stress (structure)&#34;&#34;&#34;
+    STRESSI = &#39;STRESSI&#39;
+    &#34;&#34;&#34;Imaginary part of Cauchy stress (structure)&#34;&#34;&#34;
+    THSTRAIN = &#39;THSTRAIN&#39;
+    &#34;&#34;&#34;thermal strain&#34;&#34;&#34;
+    ZZSTR = &#39;ZZSTR&#39;
+    &#34;&#34;&#34;Real part of Zienkiewicz-Zhu stress&#34;&#34;&#34;
+    ZZSTRI = &#39;ZZSTRI&#39;
+    &#34;&#34;&#34;Imaginary part of Zienkiewicz-Zhu stress&#34;&#34;&#34;
+
+    CONTACT = &#39;CONTACT&#39;
+    &#34;&#34;&#34;Real part of relative contact displacements&#34;&#34;&#34;
+    CONTACTI = &#39;CONTACTI&#39;
+    &#34;&#34;&#34;Imaginary part of relative contact displacements&#34;&#34;&#34;
+    CELS = &#39;CELS&#39;
+    &#34;&#34;&#34;contact energy&#34;&#34;&#34;
+    PCONTAC = &#39;PCONTAC&#39;
+    &#34;&#34;&#34;amplitude and phase of the relative contact displacements and contact stresses&#34;&#34;&#34;
+
+class EDatEntities(str, Enum):
+    # Node Print entities
+    U = &#39;displacements&#39; 
+    &#34;&#34;&#34;Displacements&#34;&#34;&#34;
+    RF = &#39;forces&#39; 
+    &#34;&#34;&#34;Total force&#34;&#34;&#34;
+
+    # El Print entities
+    S = &#39;stresses&#39; 
+    &#34;&#34;&#34;Cauchy stress (structure)&#34;&#34;&#34;
+    E = &#39;strains&#39; 
+    &#34;&#34;&#34;Lagrange strain&#34;&#34;&#34;
+    ME = &#39;mechanical strains&#39; 
+    &#34;&#34;&#34;Mechanical strain&#34;&#34;&#34;
+    PEEQ = &#39;equivalent plastic strain&#39; 
+    &#34;&#34;&#34;Equivalent plastic strain&#34;&#34;&#34;
+    EVOL = &#39;volume&#39; 
+    &#34;&#34;&#34;Volume&#34;&#34;&#34;
+    COORD = &#39;global coordinates&#39; 
+    &#34;&#34;&#34;Global coordinates&#34;&#34;&#34;
+    ENER = &#39;internal energy density&#39; 
+    &#34;&#34;&#34;Internal energy density&#34;&#34;&#34;
+    ELKE = &#39;kinetic energy&#39; 
+    &#34;&#34;&#34;Kinetic energy&#34;&#34;&#34;
+    ELSE = &#39;internal energy&#39; 
+    &#34;&#34;&#34;Internal energy&#34;&#34;&#34;
+    EMAS = &#39;mass&#39;
+    &#34;&#34;&#34;Mass and mass moments of inertia&#34;&#34;&#34;
+    # Contact print entities
+    CELS = &#39;contact print energy&#39; 
+    &#34;&#34;&#34;Contact energy&#34;&#34;&#34;
+    CSTR = &#39;contact stress&#39; 
+    &#34;&#34;&#34;Contact stress&#34;&#34;&#34;
+    CDIS = &#39;relative contact displacement&#39; 
+    &#34;&#34;&#34;Relative contact displacement&#34;&#34;&#34;
+    
+class EPrintTotals(str, Enum):
+    YES = &#39;YES&#39;
+    ONLY = &#39;ONLY&#39;
+    NO = &#39;NO&#39;
 
 class ESolvers(str, Enum):
     DEFAULT = &#39;DEFAUL&#39;
@@ -296,7 +415,17 @@ class EContactTypes(str, Enum):
     SURFACE_TO_SURFACE = &#39;SURFACE TO SURFACE&#39;
     MORTAR = &#39;MORTAR&#39; 
     LINMORTAR = &#39;LINMORTAR&#39;
-    PGLINMORTAR = &#39;PGLINMORTAR&#39;</code></pre>
+    PGLINMORTAR = &#39;PGLINMORTAR&#39;
+
+class EReultEntityTypes(str, Enum):
+    SCALAR = &#39;SCALAR&#39;
+    VECTOR = &#39;VECTOR&#39;
+    TENSOR = &#39;TENSOR&#39;
+
+class EResultLocations(str, Enum):
+    NODAL = &#39;NODAL&#39;
+    ELEMENT = &#39;ELEMENT&#39;
+    INT_PNT = &#39;INT_PNT&#39;</code></pre>
 </details>
 </section>
 <section>
@@ -308,8 +437,8 @@ class EContactTypes(str, Enum):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="pygccx.enums.EContactResults"><code class="flex name class">
-<span>class <span class="ident">EContactResults</span></span>
+<dt id="pygccx.enums.EContactFileResults"><code class="flex name class">
+<span>class <span class="ident">EContactFileResults</span></span>
 <span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
 </code></dt>
 <dd>
@@ -318,17 +447,15 @@ class EContactTypes(str, Enum):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class EContactResults(str, Enum):
+<pre><code class="python">class EContactFileResults(str, Enum):
     CDIS = &#39;CDIS&#39;
-    &#34;&#34;&#34;Relative contact displacements&#34;&#34;&#34;
+    &#34;&#34;&#34;relative contact displacements&#34;&#34;&#34;
     CSTR = &#39;CSTR&#39;
-    &#34;&#34;&#34;Contact stresses&#34;&#34;&#34;
+    &#34;&#34;&#34;contact stress&#34;&#34;&#34;
     CELS = &#39;CELS&#39;
-    &#34;&#34;&#34;Contact energy&#34;&#34;&#34;
+    &#34;&#34;&#34;contact energy&#34;&#34;&#34;
     PCON = &#39;PCON&#39;
-    &#34;&#34;&#34;Only for face-to-face penalty contact.\n 
-    Magnitude and phase of the relative contact displacements and
-    contact stresses in a frequency calculation with cyclic symmetry. &#34;&#34;&#34;</code></pre>
+    &#34;&#34;&#34;amplitude and phase of the relative contact&#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -337,23 +464,84 @@ class EContactTypes(str, Enum):
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pygccx.enums.EContactResults.CDIS"><code class="name">var <span class="ident">CDIS</span></code></dt>
+<dt id="pygccx.enums.EContactFileResults.CDIS"><code class="name">var <span class="ident">CDIS</span></code></dt>
 <dd>
-<div class="desc"><p>Relative contact displacements</p></div>
+<div class="desc"><p>relative contact displacements</p></div>
 </dd>
-<dt id="pygccx.enums.EContactResults.CELS"><code class="name">var <span class="ident">CELS</span></code></dt>
+<dt id="pygccx.enums.EContactFileResults.CELS"><code class="name">var <span class="ident">CELS</span></code></dt>
 <dd>
-<div class="desc"><p>Contact energy</p></div>
+<div class="desc"><p>contact energy</p></div>
 </dd>
-<dt id="pygccx.enums.EContactResults.CSTR"><code class="name">var <span class="ident">CSTR</span></code></dt>
+<dt id="pygccx.enums.EContactFileResults.CSTR"><code class="name">var <span class="ident">CSTR</span></code></dt>
 <dd>
-<div class="desc"><p>Contact stresses</p></div>
+<div class="desc"><p>contact stress</p></div>
 </dd>
-<dt id="pygccx.enums.EContactResults.PCON"><code class="name">var <span class="ident">PCON</span></code></dt>
+<dt id="pygccx.enums.EContactFileResults.PCON"><code class="name">var <span class="ident">PCON</span></code></dt>
 <dd>
-<div class="desc"><p>Only for face-to-face penalty contact.</p>
-<p>Magnitude and phase of the relative contact displacements and
-contact stresses in a frequency calculation with cyclic symmetry.</p></div>
+<div class="desc"><p>amplitude and phase of the relative contact</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.EContactPrintResults"><code class="flex name class">
+<span>class <span class="ident">EContactPrintResults</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EContactPrintResults(str, Enum):
+    CDIS = &#39;CDIS&#39; 
+    &#34;&#34;&#34;relative contact displacements&#34;&#34;&#34;
+    CELS = &#39;CELS&#39;
+    &#34;&#34;&#34;contact energy&#34;&#34;&#34;
+    CF = &#39;CF&#39;
+    &#34;&#34;&#34;total contact force&#34;&#34;&#34;
+    CFN = &#39;CFN&#39;
+    &#34;&#34;&#34;total normal contact force&#34;&#34;&#34;
+    CFS = &#39;CFS&#39;
+    &#34;&#34;&#34;total shear contact force&#34;&#34;&#34;
+    CNUM = &#39;CNUM&#39;
+    &#34;&#34;&#34;total number of contact elements&#34;&#34;&#34;
+    CSTR = &#39;CSTR&#39;
+    &#34;&#34;&#34;contact stress&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EContactPrintResults.CDIS"><code class="name">var <span class="ident">CDIS</span></code></dt>
+<dd>
+<div class="desc"><p>relative contact displacements</p></div>
+</dd>
+<dt id="pygccx.enums.EContactPrintResults.CELS"><code class="name">var <span class="ident">CELS</span></code></dt>
+<dd>
+<div class="desc"><p>contact energy</p></div>
+</dd>
+<dt id="pygccx.enums.EContactPrintResults.CF"><code class="name">var <span class="ident">CF</span></code></dt>
+<dd>
+<div class="desc"><p>total contact force</p></div>
+</dd>
+<dt id="pygccx.enums.EContactPrintResults.CFN"><code class="name">var <span class="ident">CFN</span></code></dt>
+<dd>
+<div class="desc"><p>total normal contact force</p></div>
+</dd>
+<dt id="pygccx.enums.EContactPrintResults.CFS"><code class="name">var <span class="ident">CFS</span></code></dt>
+<dd>
+<div class="desc"><p>total shear contact force</p></div>
+</dd>
+<dt id="pygccx.enums.EContactPrintResults.CNUM"><code class="name">var <span class="ident">CNUM</span></code></dt>
+<dd>
+<div class="desc"><p>total number of contact elements</p></div>
+</dd>
+<dt id="pygccx.enums.EContactPrintResults.CSTR"><code class="name">var <span class="ident">CSTR</span></code></dt>
+<dd>
+<div class="desc"><p>contact stress</p></div>
 </dd>
 </dl>
 </dd>
@@ -446,6 +634,121 @@ Therefore, the location of the reference node is important.</p></div>
 </dd>
 </dl>
 </dd>
+<dt id="pygccx.enums.EDatEntities"><code class="flex name class">
+<span>class <span class="ident">EDatEntities</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EDatEntities(str, Enum):
+    # Node Print entities
+    U = &#39;displacements&#39; 
+    &#34;&#34;&#34;Displacements&#34;&#34;&#34;
+    RF = &#39;forces&#39; 
+    &#34;&#34;&#34;Total force&#34;&#34;&#34;
+
+    # El Print entities
+    S = &#39;stresses&#39; 
+    &#34;&#34;&#34;Cauchy stress (structure)&#34;&#34;&#34;
+    E = &#39;strains&#39; 
+    &#34;&#34;&#34;Lagrange strain&#34;&#34;&#34;
+    ME = &#39;mechanical strains&#39; 
+    &#34;&#34;&#34;Mechanical strain&#34;&#34;&#34;
+    PEEQ = &#39;equivalent plastic strain&#39; 
+    &#34;&#34;&#34;Equivalent plastic strain&#34;&#34;&#34;
+    EVOL = &#39;volume&#39; 
+    &#34;&#34;&#34;Volume&#34;&#34;&#34;
+    COORD = &#39;global coordinates&#39; 
+    &#34;&#34;&#34;Global coordinates&#34;&#34;&#34;
+    ENER = &#39;internal energy density&#39; 
+    &#34;&#34;&#34;Internal energy density&#34;&#34;&#34;
+    ELKE = &#39;kinetic energy&#39; 
+    &#34;&#34;&#34;Kinetic energy&#34;&#34;&#34;
+    ELSE = &#39;internal energy&#39; 
+    &#34;&#34;&#34;Internal energy&#34;&#34;&#34;
+    EMAS = &#39;mass&#39;
+    &#34;&#34;&#34;Mass and mass moments of inertia&#34;&#34;&#34;
+    # Contact print entities
+    CELS = &#39;contact print energy&#39; 
+    &#34;&#34;&#34;Contact energy&#34;&#34;&#34;
+    CSTR = &#39;contact stress&#39; 
+    &#34;&#34;&#34;Contact stress&#34;&#34;&#34;
+    CDIS = &#39;relative contact displacement&#39; 
+    &#34;&#34;&#34;Relative contact displacement&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EDatEntities.CDIS"><code class="name">var <span class="ident">CDIS</span></code></dt>
+<dd>
+<div class="desc"><p>Relative contact displacement</p></div>
+</dd>
+<dt id="pygccx.enums.EDatEntities.CELS"><code class="name">var <span class="ident">CELS</span></code></dt>
+<dd>
+<div class="desc"><p>Contact energy</p></div>
+</dd>
+<dt id="pygccx.enums.EDatEntities.COORD"><code class="name">var <span class="ident">COORD</span></code></dt>
+<dd>
+<div class="desc"><p>Global coordinates</p></div>
+</dd>
+<dt id="pygccx.enums.EDatEntities.CSTR"><code class="name">var <span class="ident">CSTR</span></code></dt>
+<dd>
+<div class="desc"><p>Contact stress</p></div>
+</dd>
+<dt id="pygccx.enums.EDatEntities.E"><code class="name">var <span class="ident">E</span></code></dt>
+<dd>
+<div class="desc"><p>Lagrange strain</p></div>
+</dd>
+<dt id="pygccx.enums.EDatEntities.ELKE"><code class="name">var <span class="ident">ELKE</span></code></dt>
+<dd>
+<div class="desc"><p>Kinetic energy</p></div>
+</dd>
+<dt id="pygccx.enums.EDatEntities.ELSE"><code class="name">var <span class="ident">ELSE</span></code></dt>
+<dd>
+<div class="desc"><p>Internal energy</p></div>
+</dd>
+<dt id="pygccx.enums.EDatEntities.EMAS"><code class="name">var <span class="ident">EMAS</span></code></dt>
+<dd>
+<div class="desc"><p>Mass and mass moments of inertia</p></div>
+</dd>
+<dt id="pygccx.enums.EDatEntities.ENER"><code class="name">var <span class="ident">ENER</span></code></dt>
+<dd>
+<div class="desc"><p>Internal energy density</p></div>
+</dd>
+<dt id="pygccx.enums.EDatEntities.EVOL"><code class="name">var <span class="ident">EVOL</span></code></dt>
+<dd>
+<div class="desc"><p>Volume</p></div>
+</dd>
+<dt id="pygccx.enums.EDatEntities.ME"><code class="name">var <span class="ident">ME</span></code></dt>
+<dd>
+<div class="desc"><p>Mechanical strain</p></div>
+</dd>
+<dt id="pygccx.enums.EDatEntities.PEEQ"><code class="name">var <span class="ident">PEEQ</span></code></dt>
+<dd>
+<div class="desc"><p>Equivalent plastic strain</p></div>
+</dd>
+<dt id="pygccx.enums.EDatEntities.RF"><code class="name">var <span class="ident">RF</span></code></dt>
+<dd>
+<div class="desc"><p>Total force</p></div>
+</dd>
+<dt id="pygccx.enums.EDatEntities.S"><code class="name">var <span class="ident">S</span></code></dt>
+<dd>
+<div class="desc"><p>Cauchy stress (structure)</p></div>
+</dd>
+<dt id="pygccx.enums.EDatEntities.U"><code class="name">var <span class="ident">U</span></code></dt>
+<dd>
+<div class="desc"><p>Displacements</p></div>
+</dd>
+</dl>
+</dd>
 <dt id="pygccx.enums.EELasticTypes"><code class="flex name class">
 <span>class <span class="ident">EELasticTypes</span></span>
 <span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
@@ -491,8 +794,8 @@ Therefore, the location of the reference node is important.</p></div>
 </dd>
 </dl>
 </dd>
-<dt id="pygccx.enums.EElementResults"><code class="flex name class">
-<span>class <span class="ident">EElementResults</span></span>
+<dt id="pygccx.enums.EElFileResults"><code class="flex name class">
+<span>class <span class="ident">EElFileResults</span></span>
 <span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
 </code></dt>
 <dd>
@@ -501,65 +804,31 @@ Therefore, the location of the reference node is important.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class EElementResults(str, Enum):
-    CEEQ= &#39;CEEQ&#39;
-    &#34;&#34;&#34;equivalent creep strain (is converted internally into PEEQ
-        since the viscoplastic theory does not distinguish between the two; 
-        consequently, the user will find PEEQ in the frd file, not CEEQ.&#34;&#34;&#34;
+<pre><code class="python">class EElFileResults(str, Enum):
     E = &#39;E&#39;
-    &#34;&#34;&#34;strain. This is the total
-        Lagrangian strain for (hyper)elastic materials and incremental plasticity
-        and the total Eulerian strain for deformation plasticity.&#34;&#34;&#34;
+    &#34;&#34;&#34;Lagrange strain&#34;&#34;&#34;
     ENER = &#39;ENER&#39;
-    &#34;&#34;&#34;the energy density.&#34;&#34;&#34;
+    &#34;&#34;&#34;internal energy density&#34;&#34;&#34;
     ERR = &#39;ERR&#39;
-    &#34;&#34;&#34;error estimator for structural calculations, Notice that ERR and ZZS are 
-        mutually exclusive.&#34;&#34;&#34;
+    &#34;&#34;&#34;error estimator for the worst principal stress&#34;&#34;&#34;
     HER = &#39;HER&#39;
-    &#34;&#34;&#34;error estimator for heat transfer calculations.&#34;&#34;&#34;
-    HFL = &#39;Heat flux in structures.&#39;
-    &#34;&#34;&#34;Displacements: magnitude and phase (only for *STEADY STATE DYNAMICS
-        calculations and *FREQUENCY calculations with cyclic symmetry).&#34;&#34;&#34;
+    &#34;&#34;&#34;error estimator for the temperature&#34;&#34;&#34;
+    HFL = &#39;HFL&#39;
+    &#34;&#34;&#34;heat flux in a structure&#34;&#34;&#34;
     MAXE = &#39;MAXE&#39;
-    &#34;&#34;&#34;Maximum of the absolute value of the worst principal
-        strain at all times for *FREQUENCY calculations with cyclic symmetry.
-        It is stored for nodes belonging to the node set with name STRAINDO-
-        MAIN. This node set must have been defined by the user with the *NSET
-        command. The worst principal strain is the maximum of the absolute
-        value of the principal strains times its original sign&#34;&#34;&#34;
+    &#34;&#34;&#34;worst principal strain in cyclic symmetric frequency calculations&#34;&#34;&#34;
     MAXS = &#39;MAXS&#39;
-    &#34;&#34;&#34;maximum of the absolute value of the worst principal
-        stress at all times for *FREQUENCY calculations with cyclic symmetry.
-        It is stored for nodes belonging to the node set with name STRESSDO-
-        MAIN. This node set must have been defined by the user with the *NSET
-        7.50 *EL FILE 439 command. The worst principal stress is the maximum 
-        of the absolute value of the principal stresses times its original sign.&#34;&#34;&#34;
+    &#34;&#34;&#34;worst principal stress in cyclic symmetric frequency calculations&#34;&#34;&#34;
     ME = &#39;ME&#39;
-    &#34;&#34;&#34;strain. This is the
-        mechanical Lagrangian strain for (hyper)elastic materials and incremental
-        plasticity and the mechanical Eulerian strain for deformation plasticity
-        (mechanical strain = total strain - thermal strain).&#34;&#34;&#34;
+    &#34;&#34;&#34;mechanical strain&#34;&#34;&#34;
     PEEQ = &#39;PEEQ&#39;
-    &#34;&#34;&#34;equivalent plastic strain.&#34;&#34;&#34;
-    PHS = &#39;PHS&#39;
-    &#34;&#34;&#34; stress: magnitude and phase (only for *STEADY STATE DYNAMICS
-        calculations and *FREQUENCY calculations with cyclic symmetry).&#34;&#34;&#34;
+    &#34;&#34;&#34;equivalent plastic strain&#34;&#34;&#34;
     S = &#39;S&#39;
-    &#34;&#34;&#34;true (Cauchy) stress in structures. For beam elements this tensor is 
-        replaced by the section forces
-        if SECTION FORCES is selected. Selection of S automatically triggers
-        output of the error estimator ERR, unless NOE is selected after S (either
-        immediately following S, or with some other output requests in between,
-        irrespective whether these output requests are on the same keyword card
-        or on different keyword cards)&#34;&#34;&#34;
+    &#34;&#34;&#34;Cauchy stress (structure)&#34;&#34;&#34;
     THE = &#39;THE&#39;
-    &#34;&#34;&#34;strain. This is the thermal strain calculated by subtracting the mechanical 
-       strain (extrapolated to the nodes) from the total strain (extrapolated to the nodes) 
-       at the nodes. Selection of THE triggers the selection of E and ME. This is needed 
-       to ensure that E (the total strain) and ME (the mechanical strain) are extrapolated 
-       to the nodes.&#34;&#34;&#34;
+    &#34;&#34;&#34;thermal strain&#34;&#34;&#34;
     ZZS = &#39;ZZS&#39;
-    &#34;&#34;&#34;Zienkiewicz-Zhu improved stress. Notice that ZZS and ERR are mutually exclusive.&#34;&#34;&#34;</code></pre>
+    &#34;&#34;&#34;Zienkiewicz-Zhu stress&#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -568,91 +837,140 @@ Therefore, the location of the reference node is important.</p></div>
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pygccx.enums.EElementResults.CEEQ"><code class="name">var <span class="ident">CEEQ</span></code></dt>
+<dt id="pygccx.enums.EElFileResults.E"><code class="name">var <span class="ident">E</span></code></dt>
 <dd>
-<div class="desc"><p>equivalent creep strain (is converted internally into PEEQ
-since the viscoplastic theory does not distinguish between the two;
-consequently, the user will find PEEQ in the frd file, not CEEQ.</p></div>
+<div class="desc"><p>Lagrange strain</p></div>
 </dd>
-<dt id="pygccx.enums.EElementResults.E"><code class="name">var <span class="ident">E</span></code></dt>
+<dt id="pygccx.enums.EElFileResults.ENER"><code class="name">var <span class="ident">ENER</span></code></dt>
 <dd>
-<div class="desc"><p>strain. This is the total
-Lagrangian strain for (hyper)elastic materials and incremental plasticity
-and the total Eulerian strain for deformation plasticity.</p></div>
+<div class="desc"><p>internal energy density</p></div>
 </dd>
-<dt id="pygccx.enums.EElementResults.ENER"><code class="name">var <span class="ident">ENER</span></code></dt>
+<dt id="pygccx.enums.EElFileResults.ERR"><code class="name">var <span class="ident">ERR</span></code></dt>
 <dd>
-<div class="desc"><p>the energy density.</p></div>
+<div class="desc"><p>error estimator for the worst principal stress</p></div>
 </dd>
-<dt id="pygccx.enums.EElementResults.ERR"><code class="name">var <span class="ident">ERR</span></code></dt>
+<dt id="pygccx.enums.EElFileResults.HER"><code class="name">var <span class="ident">HER</span></code></dt>
 <dd>
-<div class="desc"><p>error estimator for structural calculations, Notice that ERR and ZZS are
-mutually exclusive.</p></div>
+<div class="desc"><p>error estimator for the temperature</p></div>
 </dd>
-<dt id="pygccx.enums.EElementResults.HER"><code class="name">var <span class="ident">HER</span></code></dt>
+<dt id="pygccx.enums.EElFileResults.HFL"><code class="name">var <span class="ident">HFL</span></code></dt>
 <dd>
-<div class="desc"><p>error estimator for heat transfer calculations.</p></div>
+<div class="desc"><p>heat flux in a structure</p></div>
 </dd>
-<dt id="pygccx.enums.EElementResults.HFL"><code class="name">var <span class="ident">HFL</span></code></dt>
+<dt id="pygccx.enums.EElFileResults.MAXE"><code class="name">var <span class="ident">MAXE</span></code></dt>
 <dd>
-<div class="desc"><p>Displacements: magnitude and phase (only for <em>STEADY STATE DYNAMICS
-calculations and </em>FREQUENCY calculations with cyclic symmetry).</p></div>
+<div class="desc"><p>worst principal strain in cyclic symmetric frequency calculations</p></div>
 </dd>
-<dt id="pygccx.enums.EElementResults.MAXE"><code class="name">var <span class="ident">MAXE</span></code></dt>
+<dt id="pygccx.enums.EElFileResults.MAXS"><code class="name">var <span class="ident">MAXS</span></code></dt>
 <dd>
-<div class="desc"><p>Maximum of the absolute value of the worst principal
-strain at all times for <em>FREQUENCY calculations with cyclic symmetry.
-It is stored for nodes belonging to the node set with name STRAINDO-
-MAIN. This node set must have been defined by the user with the </em>NSET
-command. The worst principal strain is the maximum of the absolute
-value of the principal strains times its original sign</p></div>
+<div class="desc"><p>worst principal stress in cyclic symmetric frequency calculations</p></div>
 </dd>
-<dt id="pygccx.enums.EElementResults.MAXS"><code class="name">var <span class="ident">MAXS</span></code></dt>
+<dt id="pygccx.enums.EElFileResults.ME"><code class="name">var <span class="ident">ME</span></code></dt>
 <dd>
-<div class="desc"><p>maximum of the absolute value of the worst principal
-stress at all times for <em>FREQUENCY calculations with cyclic symmetry.
-It is stored for nodes belonging to the node set with name STRESSDO-
-MAIN. This node set must have been defined by the user with the </em>NSET
-7.50 *EL FILE 439 command. The worst principal stress is the maximum
-of the absolute value of the principal stresses times its original sign.</p></div>
+<div class="desc"><p>mechanical strain</p></div>
 </dd>
-<dt id="pygccx.enums.EElementResults.ME"><code class="name">var <span class="ident">ME</span></code></dt>
+<dt id="pygccx.enums.EElFileResults.PEEQ"><code class="name">var <span class="ident">PEEQ</span></code></dt>
 <dd>
-<div class="desc"><p>strain. This is the
-mechanical Lagrangian strain for (hyper)elastic materials and incremental
-plasticity and the mechanical Eulerian strain for deformation plasticity
-(mechanical strain = total strain - thermal strain).</p></div>
+<div class="desc"><p>equivalent plastic strain</p></div>
 </dd>
-<dt id="pygccx.enums.EElementResults.PEEQ"><code class="name">var <span class="ident">PEEQ</span></code></dt>
+<dt id="pygccx.enums.EElFileResults.S"><code class="name">var <span class="ident">S</span></code></dt>
 <dd>
-<div class="desc"><p>equivalent plastic strain.</p></div>
+<div class="desc"><p>Cauchy stress (structure)</p></div>
 </dd>
-<dt id="pygccx.enums.EElementResults.PHS"><code class="name">var <span class="ident">PHS</span></code></dt>
+<dt id="pygccx.enums.EElFileResults.THE"><code class="name">var <span class="ident">THE</span></code></dt>
 <dd>
-<div class="desc"><p>stress: magnitude and phase (only for <em>STEADY STATE DYNAMICS
-calculations and </em>FREQUENCY calculations with cyclic symmetry).</p></div>
+<div class="desc"><p>thermal strain</p></div>
 </dd>
-<dt id="pygccx.enums.EElementResults.S"><code class="name">var <span class="ident">S</span></code></dt>
+<dt id="pygccx.enums.EElFileResults.ZZS"><code class="name">var <span class="ident">ZZS</span></code></dt>
 <dd>
-<div class="desc"><p>true (Cauchy) stress in structures. For beam elements this tensor is
-replaced by the section forces
-if SECTION FORCES is selected. Selection of S automatically triggers
-output of the error estimator ERR, unless NOE is selected after S (either
-immediately following S, or with some other output requests in between,
-irrespective whether these output requests are on the same keyword card
-or on different keyword cards)</p></div>
+<div class="desc"><p>Zienkiewicz-Zhu stress</p></div>
 </dd>
-<dt id="pygccx.enums.EElementResults.THE"><code class="name">var <span class="ident">THE</span></code></dt>
-<dd>
-<div class="desc"><p>strain. This is the thermal strain calculated by subtracting the mechanical
-strain (extrapolated to the nodes) from the total strain (extrapolated to the nodes)
-at the nodes. Selection of THE triggers the selection of E and ME. This is needed
-to ensure that E (the total strain) and ME (the mechanical strain) are extrapolated
-to the nodes.</p></div>
+</dl>
 </dd>
-<dt id="pygccx.enums.EElementResults.ZZS"><code class="name">var <span class="ident">ZZS</span></code></dt>
+<dt id="pygccx.enums.EElPrintResults"><code class="flex name class">
+<span>class <span class="ident">EElPrintResults</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
 <dd>
-<div class="desc"><p>Zienkiewicz-Zhu improved stress. Notice that ZZS and ERR are mutually exclusive.</p></div>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EElPrintResults(str, Enum):
+    COORD = &#39;COORD&#39;
+    &#34;&#34;&#34;Coordinates&#34;&#34;&#34;
+    E = &#39;E&#39;
+    &#34;&#34;&#34;Lagrange strain&#34;&#34;&#34;
+    ENER = &#39;ENER&#39;
+    &#34;&#34;&#34;Internal energy density&#34;&#34;&#34;
+    HFL = &#39;HFL&#39;
+    &#34;&#34;&#34;Heat flux in a structure&#34;&#34;&#34;
+    ME = &#39;ME&#39;
+    &#34;&#34;&#34;Mechanical strain&#34;&#34;&#34;
+    PEEQ = &#39;PEEQ&#39;
+    &#34;&#34;&#34;Equivalent plastic strain&#34;&#34;&#34;
+    S = &#39;S&#39;
+    &#34;&#34;&#34;Cauchy stress (structure)&#34;&#34;&#34;
+    ELKE = &#39;ELKE&#39;
+    &#34;&#34;&#34;Kinetic energy&#34;&#34;&#34;
+    ELSE = &#39;ELSE&#39;
+    &#34;&#34;&#34;Internal energy&#34;&#34;&#34;
+    EMAS = &#39;EMAS&#39;  
+    &#34;&#34;&#34;Mass and mass moments of inertia&#34;&#34;&#34;
+    EVOL = &#39;EVOL&#39;
+    &#34;&#34;&#34;Volume&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EElPrintResults.COORD"><code class="name">var <span class="ident">COORD</span></code></dt>
+<dd>
+<div class="desc"><p>Coordinates</p></div>
+</dd>
+<dt id="pygccx.enums.EElPrintResults.E"><code class="name">var <span class="ident">E</span></code></dt>
+<dd>
+<div class="desc"><p>Lagrange strain</p></div>
+</dd>
+<dt id="pygccx.enums.EElPrintResults.ELKE"><code class="name">var <span class="ident">ELKE</span></code></dt>
+<dd>
+<div class="desc"><p>Kinetic energy</p></div>
+</dd>
+<dt id="pygccx.enums.EElPrintResults.ELSE"><code class="name">var <span class="ident">ELSE</span></code></dt>
+<dd>
+<div class="desc"><p>Internal energy</p></div>
+</dd>
+<dt id="pygccx.enums.EElPrintResults.EMAS"><code class="name">var <span class="ident">EMAS</span></code></dt>
+<dd>
+<div class="desc"><p>Mass and mass moments of inertia</p></div>
+</dd>
+<dt id="pygccx.enums.EElPrintResults.ENER"><code class="name">var <span class="ident">ENER</span></code></dt>
+<dd>
+<div class="desc"><p>Internal energy density</p></div>
+</dd>
+<dt id="pygccx.enums.EElPrintResults.EVOL"><code class="name">var <span class="ident">EVOL</span></code></dt>
+<dd>
+<div class="desc"><p>Volume</p></div>
+</dd>
+<dt id="pygccx.enums.EElPrintResults.HFL"><code class="name">var <span class="ident">HFL</span></code></dt>
+<dd>
+<div class="desc"><p>Heat flux in a structure</p></div>
+</dd>
+<dt id="pygccx.enums.EElPrintResults.ME"><code class="name">var <span class="ident">ME</span></code></dt>
+<dd>
+<div class="desc"><p>Mechanical strain</p></div>
+</dd>
+<dt id="pygccx.enums.EElPrintResults.PEEQ"><code class="name">var <span class="ident">PEEQ</span></code></dt>
+<dd>
+<div class="desc"><p>Equivalent plastic strain</p></div>
+</dd>
+<dt id="pygccx.enums.EElPrintResults.S"><code class="name">var <span class="ident">S</span></code></dt>
+<dd>
+<div class="desc"><p>Cauchy stress (structure)</p></div>
 </dd>
 </dl>
 </dd>
@@ -777,6 +1095,235 @@ to the nodes.</p></div>
 </dd>
 </dl>
 </dd>
+<dt id="pygccx.enums.EFrdEntities"><code class="flex name class">
+<span>class <span class="ident">EFrdEntities</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EFrdEntities(str, Enum):
+    CT3D_MIS = &#39;CT3D-MIS&#39;
+    &#34;&#34;&#34;Stress intensity factor&#34;&#34;&#34;
+    MDISP = &#39;MDISP&#39;
+    &#34;&#34;&#34;Worst displacement orthogonal to a given vector
+     in cyclic symmetric frequency calculations&#34;&#34;&#34;
+    NDTEMP = &#39;NDTEMP&#39;
+    &#34;&#34;&#34;Structural temperature; total temperature in a network&#34;&#34;&#34;
+    PNDTEMP = &#39;PNDTEMP&#39;
+    &#34;&#34;&#34;magnitude and phase of temperature&#34;&#34;&#34;
+    PFORC = &#39;PFORC&#39;
+    &#34;&#34;&#34;Magnitude and phase of external forces&#34;&#34;&#34;
+    PDISP = &#39;PDISP&#39;
+    &#34;&#34;&#34;Magnitude and phase of displacement&#34;&#34;&#34;
+    FORC = &#39;FORC&#39;
+    &#34;&#34;&#34;Real part of total force&#34;&#34;&#34;
+    FORCI = &#39;FORCI&#39;
+    &#34;&#34;&#34;Imaginary part of total force&#34;&#34;&#34;
+    SEN = &#39;SEN&#39;
+    &#34;&#34;&#34;Sensitifity&#34;&#34;&#34;
+    DISP = &#39;DISP&#39;
+    &#34;&#34;&#34;Real part of displacement&#34;&#34;&#34;
+    DISPI = &#39;DISPI&#39;
+    &#34;&#34;&#34;Imaginary part of displacement&#34;&#34;&#34;
+    VELO = &#39;VELO&#39;
+    &#34;&#34;&#34;Velocity&#34;&#34;&#34;
+
+    TOSTRAIN = &#39;TOSTRAIN&#39;
+    &#34;&#34;&#34;Real part of lagrange strain&#34;&#34;&#34;
+    TOSTRAII = &#39;TOSTRAII&#39;
+    &#34;&#34;&#34;Imaginary part of lagrange strain&#34;&#34;&#34;
+    ENER = &#39;ENER&#39;
+    &#34;&#34;&#34;Internal energy density&#34;&#34;&#34;
+    ERROR = &#39;ERROR&#39;
+    &#34;&#34;&#34;Real part of error estimator for the worst principal stress&#34;&#34;&#34;
+    ERRORI = &#39;ERRORI&#39;
+    &#34;&#34;&#34;Imaginary part of error estimator for the worst principal stress&#34;&#34;&#34;
+    HERROR = &#39;HERROR&#39;
+    &#34;&#34;&#34;Real part of error estimator for the temperature&#34;&#34;&#34;
+    HERRORI = &#39;HERRORI&#39;
+    &#34;&#34;&#34;Imaginary part of error estimator for the temperature&#34;&#34;&#34;
+    FLUX = &#39;FLUX&#39;
+    &#34;&#34;&#34;Heat flux in a structure&#34;&#34;&#34;
+    MSTRAIN = &#39;MSTRAIN&#39;
+    &#34;&#34;&#34;worst principal strain in cyclic symmetric frequency calculations&#34;&#34;&#34;
+    MSTRESS = &#39;MSTRESS&#39;
+    &#34;&#34;&#34;worst principal stress in cyclic symmetric frequency calculations&#34;&#34;&#34;
+    MESTRAIN = &#39;MESTRAIN&#39;
+    &#34;&#34;&#34;Real part of mechanical strain&#34;&#34;&#34;
+    MESTRAII = &#39;MESTRAII&#39;
+    &#34;&#34;&#34;Imaginary part of mechanical strain&#34;&#34;&#34;
+    PE = &#39;PE&#39;
+    &#34;&#34;&#34;Equivalent plastic strain&#34;&#34;&#34;
+    STRESS = &#39;STRESS&#39;
+    &#34;&#34;&#34;Real part of Cauchy stress (structure)&#34;&#34;&#34;
+    STRESSI = &#39;STRESSI&#39;
+    &#34;&#34;&#34;Imaginary part of Cauchy stress (structure)&#34;&#34;&#34;
+    THSTRAIN = &#39;THSTRAIN&#39;
+    &#34;&#34;&#34;thermal strain&#34;&#34;&#34;
+    ZZSTR = &#39;ZZSTR&#39;
+    &#34;&#34;&#34;Real part of Zienkiewicz-Zhu stress&#34;&#34;&#34;
+    ZZSTRI = &#39;ZZSTRI&#39;
+    &#34;&#34;&#34;Imaginary part of Zienkiewicz-Zhu stress&#34;&#34;&#34;
+
+    CONTACT = &#39;CONTACT&#39;
+    &#34;&#34;&#34;Real part of relative contact displacements&#34;&#34;&#34;
+    CONTACTI = &#39;CONTACTI&#39;
+    &#34;&#34;&#34;Imaginary part of relative contact displacements&#34;&#34;&#34;
+    CELS = &#39;CELS&#39;
+    &#34;&#34;&#34;contact energy&#34;&#34;&#34;
+    PCONTAC = &#39;PCONTAC&#39;
+    &#34;&#34;&#34;amplitude and phase of the relative contact displacements and contact stresses&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EFrdEntities.CELS"><code class="name">var <span class="ident">CELS</span></code></dt>
+<dd>
+<div class="desc"><p>contact energy</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.CONTACT"><code class="name">var <span class="ident">CONTACT</span></code></dt>
+<dd>
+<div class="desc"><p>Real part of relative contact displacements</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.CONTACTI"><code class="name">var <span class="ident">CONTACTI</span></code></dt>
+<dd>
+<div class="desc"><p>Imaginary part of relative contact displacements</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.CT3D_MIS"><code class="name">var <span class="ident">CT3D_MIS</span></code></dt>
+<dd>
+<div class="desc"><p>Stress intensity factor</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.DISP"><code class="name">var <span class="ident">DISP</span></code></dt>
+<dd>
+<div class="desc"><p>Real part of displacement</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.DISPI"><code class="name">var <span class="ident">DISPI</span></code></dt>
+<dd>
+<div class="desc"><p>Imaginary part of displacement</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.ENER"><code class="name">var <span class="ident">ENER</span></code></dt>
+<dd>
+<div class="desc"><p>Internal energy density</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.ERROR"><code class="name">var <span class="ident">ERROR</span></code></dt>
+<dd>
+<div class="desc"><p>Real part of error estimator for the worst principal stress</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.ERRORI"><code class="name">var <span class="ident">ERRORI</span></code></dt>
+<dd>
+<div class="desc"><p>Imaginary part of error estimator for the worst principal stress</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.FLUX"><code class="name">var <span class="ident">FLUX</span></code></dt>
+<dd>
+<div class="desc"><p>Heat flux in a structure</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.FORC"><code class="name">var <span class="ident">FORC</span></code></dt>
+<dd>
+<div class="desc"><p>Real part of total force</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.FORCI"><code class="name">var <span class="ident">FORCI</span></code></dt>
+<dd>
+<div class="desc"><p>Imaginary part of total force</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.HERROR"><code class="name">var <span class="ident">HERROR</span></code></dt>
+<dd>
+<div class="desc"><p>Real part of error estimator for the temperature</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.HERRORI"><code class="name">var <span class="ident">HERRORI</span></code></dt>
+<dd>
+<div class="desc"><p>Imaginary part of error estimator for the temperature</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.MDISP"><code class="name">var <span class="ident">MDISP</span></code></dt>
+<dd>
+<div class="desc"><p>Worst displacement orthogonal to a given vector
+in cyclic symmetric frequency calculations</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.MESTRAII"><code class="name">var <span class="ident">MESTRAII</span></code></dt>
+<dd>
+<div class="desc"><p>Imaginary part of mechanical strain</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.MESTRAIN"><code class="name">var <span class="ident">MESTRAIN</span></code></dt>
+<dd>
+<div class="desc"><p>Real part of mechanical strain</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.MSTRAIN"><code class="name">var <span class="ident">MSTRAIN</span></code></dt>
+<dd>
+<div class="desc"><p>worst principal strain in cyclic symmetric frequency calculations</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.MSTRESS"><code class="name">var <span class="ident">MSTRESS</span></code></dt>
+<dd>
+<div class="desc"><p>worst principal stress in cyclic symmetric frequency calculations</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.NDTEMP"><code class="name">var <span class="ident">NDTEMP</span></code></dt>
+<dd>
+<div class="desc"><p>Structural temperature; total temperature in a network</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.PCONTAC"><code class="name">var <span class="ident">PCONTAC</span></code></dt>
+<dd>
+<div class="desc"><p>amplitude and phase of the relative contact displacements and contact stresses</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.PDISP"><code class="name">var <span class="ident">PDISP</span></code></dt>
+<dd>
+<div class="desc"><p>Magnitude and phase of displacement</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.PE"><code class="name">var <span class="ident">PE</span></code></dt>
+<dd>
+<div class="desc"><p>Equivalent plastic strain</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.PFORC"><code class="name">var <span class="ident">PFORC</span></code></dt>
+<dd>
+<div class="desc"><p>Magnitude and phase of external forces</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.PNDTEMP"><code class="name">var <span class="ident">PNDTEMP</span></code></dt>
+<dd>
+<div class="desc"><p>magnitude and phase of temperature</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.SEN"><code class="name">var <span class="ident">SEN</span></code></dt>
+<dd>
+<div class="desc"><p>Sensitifity</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.STRESS"><code class="name">var <span class="ident">STRESS</span></code></dt>
+<dd>
+<div class="desc"><p>Real part of Cauchy stress (structure)</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.STRESSI"><code class="name">var <span class="ident">STRESSI</span></code></dt>
+<dd>
+<div class="desc"><p>Imaginary part of Cauchy stress (structure)</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.THSTRAIN"><code class="name">var <span class="ident">THSTRAIN</span></code></dt>
+<dd>
+<div class="desc"><p>thermal strain</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.TOSTRAII"><code class="name">var <span class="ident">TOSTRAII</span></code></dt>
+<dd>
+<div class="desc"><p>Imaginary part of lagrange strain</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.TOSTRAIN"><code class="name">var <span class="ident">TOSTRAIN</span></code></dt>
+<dd>
+<div class="desc"><p>Real part of lagrange strain</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.VELO"><code class="name">var <span class="ident">VELO</span></code></dt>
+<dd>
+<div class="desc"><p>Velocity</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.ZZSTR"><code class="name">var <span class="ident">ZZSTR</span></code></dt>
+<dd>
+<div class="desc"><p>Real part of Zienkiewicz-Zhu stress</p></div>
+</dd>
+<dt id="pygccx.enums.EFrdEntities.ZZSTRI"><code class="name">var <span class="ident">ZZSTRI</span></code></dt>
+<dd>
+<div class="desc"><p>Imaginary part of Zienkiewicz-Zhu stress</p></div>
+</dd>
+</dl>
+</dd>
 <dt id="pygccx.enums.EHardeningRules"><code class="flex name class">
 <span>class <span class="ident">EHardeningRules</span></span>
 <span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
@@ -847,8 +1394,8 @@ to the nodes.</p></div>
 </dd>
 </dl>
 </dd>
-<dt id="pygccx.enums.ENodeResults"><code class="flex name class">
-<span>class <span class="ident">ENodeResults</span></span>
+<dt id="pygccx.enums.ENodeFileResults"><code class="flex name class">
+<span>class <span class="ident">ENodeFileResults</span></span>
 <span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
 </code></dt>
 <dd>
@@ -857,36 +1404,27 @@ to the nodes.</p></div>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class ENodeResults(str, Enum):
+<pre><code class="python">class ENodeFileResults(str, Enum):
     KEQ = &#39;KEQ&#39;
-    &#34;&#34;&#34;Equivalent stress intensity factor and related quantities in crack propagation 
-        calculations.&#34;&#34;&#34;
+    &#34;&#34;&#34;stress intensity factor&#34;&#34;&#34;
     MAXU = &#39;MAXU&#39;
-    &#34;&#34;&#34;Maximum displacements orthogonal to a given vector
-        at all times for *FREQUENCY calculations with cyclic symmetry. The
-        components of the vector are the coordinates of a node stored in a node
-        set with the name RAY. This node and node set must have been defined
-        by the user.&#34;&#34;&#34;
+    &#34;&#34;&#34;worst displacement orthogonal to a given vector in cyclic symmetric frequency calculations&#34;&#34;&#34;
     NT = &#39;NT&#39;
-    &#34;&#34;&#34;Temperatures. This includes both structural temperatures and total fluid 
-        temperatures in a network.&#34;&#34;&#34;
+    &#34;&#34;&#34;structural temperature&#34;&#34;&#34;
     PNT = &#39;PNT&#39;
-    &#34;&#34;&#34;Temperatures: magnitude and phase (only for *STEADY STATE DYNAMICS calculations).&#34;&#34;&#34;
+    &#34;&#34;&#34;magnitude and phase of temperature&#34;&#34;&#34;
     PRF = &#39;PRF&#39;
-    &#34;&#34;&#34;External forces: magnitude and phase (only for *FREQUENCY calculations with 
-        cyclic symmetry).&#34;&#34;&#34;
+    &#34;&#34;&#34;magnitude and phase of external forces&#34;&#34;&#34;
     PU = &#39;PU&#39;
-    &#34;&#34;&#34;Displacements: magnitude and phase (only for *STEADY STATE DYNAMICS
-        calculations and *FREQUENCY calculations with cyclic symmetry).&#34;&#34;&#34;
+    &#34;&#34;&#34;magnitude and phase of displacement&#34;&#34;&#34;
     RF = &#39;RF&#39;
-    &#34;&#34;&#34;External forces (only static forces;
-        dynamic forces, such as those caused by dashpots, are not included)&#34;&#34;&#34;
+    &#34;&#34;&#34;total force&#34;&#34;&#34;
     SEN = &#39;SEN&#39;
-    &#34;&#34;&#34;Sensitivities.&#34;&#34;&#34;
+    &#34;&#34;&#34;sensitivity&#34;&#34;&#34;
     U = &#39;U&#39;
-    &#34;&#34;&#34;Displacements.&#34;&#34;&#34;
+    &#34;&#34;&#34;displacement&#34;&#34;&#34;
     V = &#39;V&#39;
-    &#34;&#34;&#34;Velocities in dynamic calculations.&#34;&#34;&#34;</code></pre>
+    &#34;&#34;&#34;velocity of a structure&#34;&#34;&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -895,54 +1433,90 @@ to the nodes.</p></div>
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pygccx.enums.ENodeResults.KEQ"><code class="name">var <span class="ident">KEQ</span></code></dt>
+<dt id="pygccx.enums.ENodeFileResults.KEQ"><code class="name">var <span class="ident">KEQ</span></code></dt>
 <dd>
-<div class="desc"><p>Equivalent stress intensity factor and related quantities in crack propagation
-calculations.</p></div>
+<div class="desc"><p>stress intensity factor</p></div>
 </dd>
-<dt id="pygccx.enums.ENodeResults.MAXU"><code class="name">var <span class="ident">MAXU</span></code></dt>
+<dt id="pygccx.enums.ENodeFileResults.MAXU"><code class="name">var <span class="ident">MAXU</span></code></dt>
 <dd>
-<div class="desc"><p>Maximum displacements orthogonal to a given vector
-at all times for *FREQUENCY calculations with cyclic symmetry. The
-components of the vector are the coordinates of a node stored in a node
-set with the name RAY. This node and node set must have been defined
-by the user.</p></div>
+<div class="desc"><p>worst displacement orthogonal to a given vector in cyclic symmetric frequency calculations</p></div>
 </dd>
-<dt id="pygccx.enums.ENodeResults.NT"><code class="name">var <span class="ident">NT</span></code></dt>
+<dt id="pygccx.enums.ENodeFileResults.NT"><code class="name">var <span class="ident">NT</span></code></dt>
 <dd>
-<div class="desc"><p>Temperatures. This includes both structural temperatures and total fluid
-temperatures in a network.</p></div>
+<div class="desc"><p>structural temperature</p></div>
 </dd>
-<dt id="pygccx.enums.ENodeResults.PNT"><code class="name">var <span class="ident">PNT</span></code></dt>
+<dt id="pygccx.enums.ENodeFileResults.PNT"><code class="name">var <span class="ident">PNT</span></code></dt>
 <dd>
-<div class="desc"><p>Temperatures: magnitude and phase (only for *STEADY STATE DYNAMICS calculations).</p></div>
+<div class="desc"><p>magnitude and phase of temperature</p></div>
 </dd>
-<dt id="pygccx.enums.ENodeResults.PRF"><code class="name">var <span class="ident">PRF</span></code></dt>
+<dt id="pygccx.enums.ENodeFileResults.PRF"><code class="name">var <span class="ident">PRF</span></code></dt>
 <dd>
-<div class="desc"><p>External forces: magnitude and phase (only for *FREQUENCY calculations with
-cyclic symmetry).</p></div>
+<div class="desc"><p>magnitude and phase of external forces</p></div>
 </dd>
-<dt id="pygccx.enums.ENodeResults.PU"><code class="name">var <span class="ident">PU</span></code></dt>
+<dt id="pygccx.enums.ENodeFileResults.PU"><code class="name">var <span class="ident">PU</span></code></dt>
 <dd>
-<div class="desc"><p>Displacements: magnitude and phase (only for <em>STEADY STATE DYNAMICS
-calculations and </em>FREQUENCY calculations with cyclic symmetry).</p></div>
+<div class="desc"><p>magnitude and phase of displacement</p></div>
 </dd>
-<dt id="pygccx.enums.ENodeResults.RF"><code class="name">var <span class="ident">RF</span></code></dt>
+<dt id="pygccx.enums.ENodeFileResults.RF"><code class="name">var <span class="ident">RF</span></code></dt>
 <dd>
-<div class="desc"><p>External forces (only static forces;
-dynamic forces, such as those caused by dashpots, are not included)</p></div>
+<div class="desc"><p>total force</p></div>
 </dd>
-<dt id="pygccx.enums.ENodeResults.SEN"><code class="name">var <span class="ident">SEN</span></code></dt>
+<dt id="pygccx.enums.ENodeFileResults.SEN"><code class="name">var <span class="ident">SEN</span></code></dt>
 <dd>
-<div class="desc"><p>Sensitivities.</p></div>
+<div class="desc"><p>sensitivity</p></div>
 </dd>
-<dt id="pygccx.enums.ENodeResults.U"><code class="name">var <span class="ident">U</span></code></dt>
+<dt id="pygccx.enums.ENodeFileResults.U"><code class="name">var <span class="ident">U</span></code></dt>
 <dd>
-<div class="desc"><p>Displacements.</p></div>
+<div class="desc"><p>displacement</p></div>
 </dd>
-<dt id="pygccx.enums.ENodeResults.V"><code class="name">var <span class="ident">V</span></code></dt>
+<dt id="pygccx.enums.ENodeFileResults.V"><code class="name">var <span class="ident">V</span></code></dt>
 <dd>
-<div class="desc"><p>Velocities in dynamic calculations.</p></div>
+<div class="desc"><p>velocity of a structure</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.ENodePrintResults"><code class="flex name class">
+<span>class <span class="ident">ENodePrintResults</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ENodePrintResults(str, Enum):
+    NT = &#39;NT&#39;
+    &#34;&#34;&#34;structural temperature&#34;&#34;&#34;
+    RF = &#39;RF&#39;
+    &#34;&#34;&#34;total force&#34;&#34;&#34;
+    U = &#39;U&#39;
+    &#34;&#34;&#34;displacement&#34;&#34;&#34;
+    V = &#39;V&#39;
+    &#34;&#34;&#34;velocity of a structure&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.ENodePrintResults.NT"><code class="name">var <span class="ident">NT</span></code></dt>
+<dd>
+<div class="desc"><p>structural temperature</p></div>
+</dd>
+<dt id="pygccx.enums.ENodePrintResults.RF"><code class="name">var <span class="ident">RF</span></code></dt>
+<dd>
+<div class="desc"><p>total force</p></div>
+</dd>
+<dt id="pygccx.enums.ENodePrintResults.U"><code class="name">var <span class="ident">U</span></code></dt>
+<dd>
+<div class="desc"><p>displacement</p></div>
+</dd>
+<dt id="pygccx.enums.ENodePrintResults.V"><code class="name">var <span class="ident">V</span></code></dt>
+<dd>
+<div class="desc"><p>velocity of a structure</p></div>
 </dd>
 </dl>
 </dd>
@@ -1071,6 +1645,78 @@ dynamic forces, such as those caused by dashpots, are not included)</p></div>
 </dd>
 </dl>
 </dd>
+<dt id="pygccx.enums.EPrintTotals"><code class="flex name class">
+<span>class <span class="ident">EPrintTotals</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EPrintTotals(str, Enum):
+    YES = &#39;YES&#39;
+    ONLY = &#39;ONLY&#39;
+    NO = &#39;NO&#39;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EPrintTotals.NO"><code class="name">var <span class="ident">NO</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EPrintTotals.ONLY"><code class="name">var <span class="ident">ONLY</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EPrintTotals.YES"><code class="name">var <span class="ident">YES</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.EResultLocations"><code class="flex name class">
+<span>class <span class="ident">EResultLocations</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EResultLocations(str, Enum):
+    NODAL = &#39;NODAL&#39;
+    ELEMENT = &#39;ELEMENT&#39;
+    INT_PNT = &#39;INT_PNT&#39;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EResultLocations.ELEMENT"><code class="name">var <span class="ident">ELEMENT</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EResultLocations.INT_PNT"><code class="name">var <span class="ident">INT_PNT</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EResultLocations.NODAL"><code class="name">var <span class="ident">NODAL</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
 <dt id="pygccx.enums.EResultOutputs"><code class="flex name class">
 <span>class <span class="ident">EResultOutputs</span></span>
 <span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
@@ -1099,6 +1745,42 @@ dynamic forces, such as those caused by dashpots, are not included)</p></div>
 <dt id="pygccx.enums.EResultOutputs.DEFAULT"><code class="name">var <span class="ident">DEFAULT</span></code></dt>
 <dd>
 <div class="desc"><p>Default output for 1D and 2D Elements</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.EReultEntityTypes"><code class="flex name class">
+<span>class <span class="ident">EReultEntityTypes</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EReultEntityTypes(str, Enum):
+    SCALAR = &#39;SCALAR&#39;
+    VECTOR = &#39;VECTOR&#39;
+    TENSOR = &#39;TENSOR&#39;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EReultEntityTypes.SCALAR"><code class="name">var <span class="ident">SCALAR</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EReultEntityTypes.TENSOR"><code class="name">var <span class="ident">TENSOR</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EReultEntityTypes.VECTOR"><code class="name">var <span class="ident">VECTOR</span></code></dt>
+<dd>
+<div class="desc"></div>
 </dd>
 </dl>
 </dd>
@@ -1265,12 +1947,24 @@ dynamic forces, such as those caused by dashpots, are not included)</p></div>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="pygccx.enums.EContactResults" href="#pygccx.enums.EContactResults">EContactResults</a></code></h4>
+<h4><code><a title="pygccx.enums.EContactFileResults" href="#pygccx.enums.EContactFileResults">EContactFileResults</a></code></h4>
 <ul class="">
-<li><code><a title="pygccx.enums.EContactResults.CDIS" href="#pygccx.enums.EContactResults.CDIS">CDIS</a></code></li>
-<li><code><a title="pygccx.enums.EContactResults.CELS" href="#pygccx.enums.EContactResults.CELS">CELS</a></code></li>
-<li><code><a title="pygccx.enums.EContactResults.CSTR" href="#pygccx.enums.EContactResults.CSTR">CSTR</a></code></li>
-<li><code><a title="pygccx.enums.EContactResults.PCON" href="#pygccx.enums.EContactResults.PCON">PCON</a></code></li>
+<li><code><a title="pygccx.enums.EContactFileResults.CDIS" href="#pygccx.enums.EContactFileResults.CDIS">CDIS</a></code></li>
+<li><code><a title="pygccx.enums.EContactFileResults.CELS" href="#pygccx.enums.EContactFileResults.CELS">CELS</a></code></li>
+<li><code><a title="pygccx.enums.EContactFileResults.CSTR" href="#pygccx.enums.EContactFileResults.CSTR">CSTR</a></code></li>
+<li><code><a title="pygccx.enums.EContactFileResults.PCON" href="#pygccx.enums.EContactFileResults.PCON">PCON</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.EContactPrintResults" href="#pygccx.enums.EContactPrintResults">EContactPrintResults</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pygccx.enums.EContactPrintResults.CDIS" href="#pygccx.enums.EContactPrintResults.CDIS">CDIS</a></code></li>
+<li><code><a title="pygccx.enums.EContactPrintResults.CELS" href="#pygccx.enums.EContactPrintResults.CELS">CELS</a></code></li>
+<li><code><a title="pygccx.enums.EContactPrintResults.CF" href="#pygccx.enums.EContactPrintResults.CF">CF</a></code></li>
+<li><code><a title="pygccx.enums.EContactPrintResults.CFN" href="#pygccx.enums.EContactPrintResults.CFN">CFN</a></code></li>
+<li><code><a title="pygccx.enums.EContactPrintResults.CFS" href="#pygccx.enums.EContactPrintResults.CFS">CFS</a></code></li>
+<li><code><a title="pygccx.enums.EContactPrintResults.CNUM" href="#pygccx.enums.EContactPrintResults.CNUM">CNUM</a></code></li>
+<li><code><a title="pygccx.enums.EContactPrintResults.CSTR" href="#pygccx.enums.EContactPrintResults.CSTR">CSTR</a></code></li>
 </ul>
 </li>
 <li>
@@ -1291,6 +1985,26 @@ dynamic forces, such as those caused by dashpots, are not included)</p></div>
 </ul>
 </li>
 <li>
+<h4><code><a title="pygccx.enums.EDatEntities" href="#pygccx.enums.EDatEntities">EDatEntities</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pygccx.enums.EDatEntities.CDIS" href="#pygccx.enums.EDatEntities.CDIS">CDIS</a></code></li>
+<li><code><a title="pygccx.enums.EDatEntities.CELS" href="#pygccx.enums.EDatEntities.CELS">CELS</a></code></li>
+<li><code><a title="pygccx.enums.EDatEntities.COORD" href="#pygccx.enums.EDatEntities.COORD">COORD</a></code></li>
+<li><code><a title="pygccx.enums.EDatEntities.CSTR" href="#pygccx.enums.EDatEntities.CSTR">CSTR</a></code></li>
+<li><code><a title="pygccx.enums.EDatEntities.E" href="#pygccx.enums.EDatEntities.E">E</a></code></li>
+<li><code><a title="pygccx.enums.EDatEntities.ELKE" href="#pygccx.enums.EDatEntities.ELKE">ELKE</a></code></li>
+<li><code><a title="pygccx.enums.EDatEntities.ELSE" href="#pygccx.enums.EDatEntities.ELSE">ELSE</a></code></li>
+<li><code><a title="pygccx.enums.EDatEntities.EMAS" href="#pygccx.enums.EDatEntities.EMAS">EMAS</a></code></li>
+<li><code><a title="pygccx.enums.EDatEntities.ENER" href="#pygccx.enums.EDatEntities.ENER">ENER</a></code></li>
+<li><code><a title="pygccx.enums.EDatEntities.EVOL" href="#pygccx.enums.EDatEntities.EVOL">EVOL</a></code></li>
+<li><code><a title="pygccx.enums.EDatEntities.ME" href="#pygccx.enums.EDatEntities.ME">ME</a></code></li>
+<li><code><a title="pygccx.enums.EDatEntities.PEEQ" href="#pygccx.enums.EDatEntities.PEEQ">PEEQ</a></code></li>
+<li><code><a title="pygccx.enums.EDatEntities.RF" href="#pygccx.enums.EDatEntities.RF">RF</a></code></li>
+<li><code><a title="pygccx.enums.EDatEntities.S" href="#pygccx.enums.EDatEntities.S">S</a></code></li>
+<li><code><a title="pygccx.enums.EDatEntities.U" href="#pygccx.enums.EDatEntities.U">U</a></code></li>
+</ul>
+</li>
+<li>
 <h4><code><a title="pygccx.enums.EELasticTypes" href="#pygccx.enums.EELasticTypes">EELasticTypes</a></code></h4>
 <ul class="">
 <li><code><a title="pygccx.enums.EELasticTypes.ANISO" href="#pygccx.enums.EELasticTypes.ANISO">ANISO</a></code></li>
@@ -1300,22 +2014,36 @@ dynamic forces, such as those caused by dashpots, are not included)</p></div>
 </ul>
 </li>
 <li>
-<h4><code><a title="pygccx.enums.EElementResults" href="#pygccx.enums.EElementResults">EElementResults</a></code></h4>
+<h4><code><a title="pygccx.enums.EElFileResults" href="#pygccx.enums.EElFileResults">EElFileResults</a></code></h4>
 <ul class="two-column">
-<li><code><a title="pygccx.enums.EElementResults.CEEQ" href="#pygccx.enums.EElementResults.CEEQ">CEEQ</a></code></li>
-<li><code><a title="pygccx.enums.EElementResults.E" href="#pygccx.enums.EElementResults.E">E</a></code></li>
-<li><code><a title="pygccx.enums.EElementResults.ENER" href="#pygccx.enums.EElementResults.ENER">ENER</a></code></li>
-<li><code><a title="pygccx.enums.EElementResults.ERR" href="#pygccx.enums.EElementResults.ERR">ERR</a></code></li>
-<li><code><a title="pygccx.enums.EElementResults.HER" href="#pygccx.enums.EElementResults.HER">HER</a></code></li>
-<li><code><a title="pygccx.enums.EElementResults.HFL" href="#pygccx.enums.EElementResults.HFL">HFL</a></code></li>
-<li><code><a title="pygccx.enums.EElementResults.MAXE" href="#pygccx.enums.EElementResults.MAXE">MAXE</a></code></li>
-<li><code><a title="pygccx.enums.EElementResults.MAXS" href="#pygccx.enums.EElementResults.MAXS">MAXS</a></code></li>
-<li><code><a title="pygccx.enums.EElementResults.ME" href="#pygccx.enums.EElementResults.ME">ME</a></code></li>
-<li><code><a title="pygccx.enums.EElementResults.PEEQ" href="#pygccx.enums.EElementResults.PEEQ">PEEQ</a></code></li>
-<li><code><a title="pygccx.enums.EElementResults.PHS" href="#pygccx.enums.EElementResults.PHS">PHS</a></code></li>
-<li><code><a title="pygccx.enums.EElementResults.S" href="#pygccx.enums.EElementResults.S">S</a></code></li>
-<li><code><a title="pygccx.enums.EElementResults.THE" href="#pygccx.enums.EElementResults.THE">THE</a></code></li>
-<li><code><a title="pygccx.enums.EElementResults.ZZS" href="#pygccx.enums.EElementResults.ZZS">ZZS</a></code></li>
+<li><code><a title="pygccx.enums.EElFileResults.E" href="#pygccx.enums.EElFileResults.E">E</a></code></li>
+<li><code><a title="pygccx.enums.EElFileResults.ENER" href="#pygccx.enums.EElFileResults.ENER">ENER</a></code></li>
+<li><code><a title="pygccx.enums.EElFileResults.ERR" href="#pygccx.enums.EElFileResults.ERR">ERR</a></code></li>
+<li><code><a title="pygccx.enums.EElFileResults.HER" href="#pygccx.enums.EElFileResults.HER">HER</a></code></li>
+<li><code><a title="pygccx.enums.EElFileResults.HFL" href="#pygccx.enums.EElFileResults.HFL">HFL</a></code></li>
+<li><code><a title="pygccx.enums.EElFileResults.MAXE" href="#pygccx.enums.EElFileResults.MAXE">MAXE</a></code></li>
+<li><code><a title="pygccx.enums.EElFileResults.MAXS" href="#pygccx.enums.EElFileResults.MAXS">MAXS</a></code></li>
+<li><code><a title="pygccx.enums.EElFileResults.ME" href="#pygccx.enums.EElFileResults.ME">ME</a></code></li>
+<li><code><a title="pygccx.enums.EElFileResults.PEEQ" href="#pygccx.enums.EElFileResults.PEEQ">PEEQ</a></code></li>
+<li><code><a title="pygccx.enums.EElFileResults.S" href="#pygccx.enums.EElFileResults.S">S</a></code></li>
+<li><code><a title="pygccx.enums.EElFileResults.THE" href="#pygccx.enums.EElFileResults.THE">THE</a></code></li>
+<li><code><a title="pygccx.enums.EElFileResults.ZZS" href="#pygccx.enums.EElFileResults.ZZS">ZZS</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.EElPrintResults" href="#pygccx.enums.EElPrintResults">EElPrintResults</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pygccx.enums.EElPrintResults.COORD" href="#pygccx.enums.EElPrintResults.COORD">COORD</a></code></li>
+<li><code><a title="pygccx.enums.EElPrintResults.E" href="#pygccx.enums.EElPrintResults.E">E</a></code></li>
+<li><code><a title="pygccx.enums.EElPrintResults.ELKE" href="#pygccx.enums.EElPrintResults.ELKE">ELKE</a></code></li>
+<li><code><a title="pygccx.enums.EElPrintResults.ELSE" href="#pygccx.enums.EElPrintResults.ELSE">ELSE</a></code></li>
+<li><code><a title="pygccx.enums.EElPrintResults.EMAS" href="#pygccx.enums.EElPrintResults.EMAS">EMAS</a></code></li>
+<li><code><a title="pygccx.enums.EElPrintResults.ENER" href="#pygccx.enums.EElPrintResults.ENER">ENER</a></code></li>
+<li><code><a title="pygccx.enums.EElPrintResults.EVOL" href="#pygccx.enums.EElPrintResults.EVOL">EVOL</a></code></li>
+<li><code><a title="pygccx.enums.EElPrintResults.HFL" href="#pygccx.enums.EElPrintResults.HFL">HFL</a></code></li>
+<li><code><a title="pygccx.enums.EElPrintResults.ME" href="#pygccx.enums.EElPrintResults.ME">ME</a></code></li>
+<li><code><a title="pygccx.enums.EElPrintResults.PEEQ" href="#pygccx.enums.EElPrintResults.PEEQ">PEEQ</a></code></li>
+<li><code><a title="pygccx.enums.EElPrintResults.S" href="#pygccx.enums.EElPrintResults.S">S</a></code></li>
 </ul>
 </li>
 <li>
@@ -1340,6 +2068,45 @@ dynamic forces, such as those caused by dashpots, are not included)</p></div>
 </ul>
 </li>
 <li>
+<h4><code><a title="pygccx.enums.EFrdEntities" href="#pygccx.enums.EFrdEntities">EFrdEntities</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pygccx.enums.EFrdEntities.CELS" href="#pygccx.enums.EFrdEntities.CELS">CELS</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.CONTACT" href="#pygccx.enums.EFrdEntities.CONTACT">CONTACT</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.CONTACTI" href="#pygccx.enums.EFrdEntities.CONTACTI">CONTACTI</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.CT3D_MIS" href="#pygccx.enums.EFrdEntities.CT3D_MIS">CT3D_MIS</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.DISP" href="#pygccx.enums.EFrdEntities.DISP">DISP</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.DISPI" href="#pygccx.enums.EFrdEntities.DISPI">DISPI</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.ENER" href="#pygccx.enums.EFrdEntities.ENER">ENER</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.ERROR" href="#pygccx.enums.EFrdEntities.ERROR">ERROR</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.ERRORI" href="#pygccx.enums.EFrdEntities.ERRORI">ERRORI</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.FLUX" href="#pygccx.enums.EFrdEntities.FLUX">FLUX</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.FORC" href="#pygccx.enums.EFrdEntities.FORC">FORC</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.FORCI" href="#pygccx.enums.EFrdEntities.FORCI">FORCI</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.HERROR" href="#pygccx.enums.EFrdEntities.HERROR">HERROR</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.HERRORI" href="#pygccx.enums.EFrdEntities.HERRORI">HERRORI</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.MDISP" href="#pygccx.enums.EFrdEntities.MDISP">MDISP</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.MESTRAII" href="#pygccx.enums.EFrdEntities.MESTRAII">MESTRAII</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.MESTRAIN" href="#pygccx.enums.EFrdEntities.MESTRAIN">MESTRAIN</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.MSTRAIN" href="#pygccx.enums.EFrdEntities.MSTRAIN">MSTRAIN</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.MSTRESS" href="#pygccx.enums.EFrdEntities.MSTRESS">MSTRESS</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.NDTEMP" href="#pygccx.enums.EFrdEntities.NDTEMP">NDTEMP</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.PCONTAC" href="#pygccx.enums.EFrdEntities.PCONTAC">PCONTAC</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.PDISP" href="#pygccx.enums.EFrdEntities.PDISP">PDISP</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.PE" href="#pygccx.enums.EFrdEntities.PE">PE</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.PFORC" href="#pygccx.enums.EFrdEntities.PFORC">PFORC</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.PNDTEMP" href="#pygccx.enums.EFrdEntities.PNDTEMP">PNDTEMP</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.SEN" href="#pygccx.enums.EFrdEntities.SEN">SEN</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.STRESS" href="#pygccx.enums.EFrdEntities.STRESS">STRESS</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.STRESSI" href="#pygccx.enums.EFrdEntities.STRESSI">STRESSI</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.THSTRAIN" href="#pygccx.enums.EFrdEntities.THSTRAIN">THSTRAIN</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.TOSTRAII" href="#pygccx.enums.EFrdEntities.TOSTRAII">TOSTRAII</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.TOSTRAIN" href="#pygccx.enums.EFrdEntities.TOSTRAIN">TOSTRAIN</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.VELO" href="#pygccx.enums.EFrdEntities.VELO">VELO</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.ZZSTR" href="#pygccx.enums.EFrdEntities.ZZSTR">ZZSTR</a></code></li>
+<li><code><a title="pygccx.enums.EFrdEntities.ZZSTRI" href="#pygccx.enums.EFrdEntities.ZZSTRI">ZZSTRI</a></code></li>
+</ul>
+</li>
+<li>
 <h4><code><a title="pygccx.enums.EHardeningRules" href="#pygccx.enums.EHardeningRules">EHardeningRules</a></code></h4>
 <ul class="">
 <li><code><a title="pygccx.enums.EHardeningRules.COMBINED" href="#pygccx.enums.EHardeningRules.COMBINED">COMBINED</a></code></li>
@@ -1355,18 +2122,27 @@ dynamic forces, such as those caused by dashpots, are not included)</p></div>
 </ul>
 </li>
 <li>
-<h4><code><a title="pygccx.enums.ENodeResults" href="#pygccx.enums.ENodeResults">ENodeResults</a></code></h4>
+<h4><code><a title="pygccx.enums.ENodeFileResults" href="#pygccx.enums.ENodeFileResults">ENodeFileResults</a></code></h4>
 <ul class="two-column">
-<li><code><a title="pygccx.enums.ENodeResults.KEQ" href="#pygccx.enums.ENodeResults.KEQ">KEQ</a></code></li>
-<li><code><a title="pygccx.enums.ENodeResults.MAXU" href="#pygccx.enums.ENodeResults.MAXU">MAXU</a></code></li>
-<li><code><a title="pygccx.enums.ENodeResults.NT" href="#pygccx.enums.ENodeResults.NT">NT</a></code></li>
-<li><code><a title="pygccx.enums.ENodeResults.PNT" href="#pygccx.enums.ENodeResults.PNT">PNT</a></code></li>
-<li><code><a title="pygccx.enums.ENodeResults.PRF" href="#pygccx.enums.ENodeResults.PRF">PRF</a></code></li>
-<li><code><a title="pygccx.enums.ENodeResults.PU" href="#pygccx.enums.ENodeResults.PU">PU</a></code></li>
-<li><code><a title="pygccx.enums.ENodeResults.RF" href="#pygccx.enums.ENodeResults.RF">RF</a></code></li>
-<li><code><a title="pygccx.enums.ENodeResults.SEN" href="#pygccx.enums.ENodeResults.SEN">SEN</a></code></li>
-<li><code><a title="pygccx.enums.ENodeResults.U" href="#pygccx.enums.ENodeResults.U">U</a></code></li>
-<li><code><a title="pygccx.enums.ENodeResults.V" href="#pygccx.enums.ENodeResults.V">V</a></code></li>
+<li><code><a title="pygccx.enums.ENodeFileResults.KEQ" href="#pygccx.enums.ENodeFileResults.KEQ">KEQ</a></code></li>
+<li><code><a title="pygccx.enums.ENodeFileResults.MAXU" href="#pygccx.enums.ENodeFileResults.MAXU">MAXU</a></code></li>
+<li><code><a title="pygccx.enums.ENodeFileResults.NT" href="#pygccx.enums.ENodeFileResults.NT">NT</a></code></li>
+<li><code><a title="pygccx.enums.ENodeFileResults.PNT" href="#pygccx.enums.ENodeFileResults.PNT">PNT</a></code></li>
+<li><code><a title="pygccx.enums.ENodeFileResults.PRF" href="#pygccx.enums.ENodeFileResults.PRF">PRF</a></code></li>
+<li><code><a title="pygccx.enums.ENodeFileResults.PU" href="#pygccx.enums.ENodeFileResults.PU">PU</a></code></li>
+<li><code><a title="pygccx.enums.ENodeFileResults.RF" href="#pygccx.enums.ENodeFileResults.RF">RF</a></code></li>
+<li><code><a title="pygccx.enums.ENodeFileResults.SEN" href="#pygccx.enums.ENodeFileResults.SEN">SEN</a></code></li>
+<li><code><a title="pygccx.enums.ENodeFileResults.U" href="#pygccx.enums.ENodeFileResults.U">U</a></code></li>
+<li><code><a title="pygccx.enums.ENodeFileResults.V" href="#pygccx.enums.ENodeFileResults.V">V</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.ENodePrintResults" href="#pygccx.enums.ENodePrintResults">ENodePrintResults</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.ENodePrintResults.NT" href="#pygccx.enums.ENodePrintResults.NT">NT</a></code></li>
+<li><code><a title="pygccx.enums.ENodePrintResults.RF" href="#pygccx.enums.ENodePrintResults.RF">RF</a></code></li>
+<li><code><a title="pygccx.enums.ENodePrintResults.U" href="#pygccx.enums.ENodePrintResults.U">U</a></code></li>
+<li><code><a title="pygccx.enums.ENodePrintResults.V" href="#pygccx.enums.ENodePrintResults.V">V</a></code></li>
 </ul>
 </li>
 <li>
@@ -1396,9 +2172,33 @@ dynamic forces, such as those caused by dashpots, are not included)</p></div>
 </ul>
 </li>
 <li>
+<h4><code><a title="pygccx.enums.EPrintTotals" href="#pygccx.enums.EPrintTotals">EPrintTotals</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.EPrintTotals.NO" href="#pygccx.enums.EPrintTotals.NO">NO</a></code></li>
+<li><code><a title="pygccx.enums.EPrintTotals.ONLY" href="#pygccx.enums.EPrintTotals.ONLY">ONLY</a></code></li>
+<li><code><a title="pygccx.enums.EPrintTotals.YES" href="#pygccx.enums.EPrintTotals.YES">YES</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.EResultLocations" href="#pygccx.enums.EResultLocations">EResultLocations</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.EResultLocations.ELEMENT" href="#pygccx.enums.EResultLocations.ELEMENT">ELEMENT</a></code></li>
+<li><code><a title="pygccx.enums.EResultLocations.INT_PNT" href="#pygccx.enums.EResultLocations.INT_PNT">INT_PNT</a></code></li>
+<li><code><a title="pygccx.enums.EResultLocations.NODAL" href="#pygccx.enums.EResultLocations.NODAL">NODAL</a></code></li>
+</ul>
+</li>
+<li>
 <h4><code><a title="pygccx.enums.EResultOutputs" href="#pygccx.enums.EResultOutputs">EResultOutputs</a></code></h4>
 <ul class="">
 <li><code><a title="pygccx.enums.EResultOutputs.DEFAULT" href="#pygccx.enums.EResultOutputs.DEFAULT">DEFAULT</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.EReultEntityTypes" href="#pygccx.enums.EReultEntityTypes">EReultEntityTypes</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.EReultEntityTypes.SCALAR" href="#pygccx.enums.EReultEntityTypes.SCALAR">SCALAR</a></code></li>
+<li><code><a title="pygccx.enums.EReultEntityTypes.TENSOR" href="#pygccx.enums.EReultEntityTypes.TENSOR">TENSOR</a></code></li>
+<li><code><a title="pygccx.enums.EReultEntityTypes.VECTOR" href="#pygccx.enums.EReultEntityTypes.VECTOR">VECTOR</a></code></li>
 </ul>
 </li>
 <li>

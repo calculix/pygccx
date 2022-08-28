@@ -22,9 +22,9 @@ from typing import Sequence
 import numpy as np
 import numpy.typing as npt
 
-from enums import EHardeningRules
-from protocols import number
-from auxiliary import f2s
+from pygccx.enums import EHardeningRules
+from pygccx.protocols import number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class CyclicHardening:

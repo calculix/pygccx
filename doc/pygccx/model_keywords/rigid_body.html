@@ -62,8 +62,9 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from dataclasses import dataclass
 from typing import Optional, Any
-from protocols import ISet
-from enums import ESetTypes
+
+from pygccx.protocols import ISet
+from pygccx.enums import ESetTypes
 
 @dataclass
 class RigidBody:
@@ -123,7 +124,7 @@ class RigidBody:
 <dl>
 <dt id="pygccx.model_keywords.rigid_body.RigidBody"><code class="flex name class">
 <span>class <span class="ident">RigidBody</span></span>
-<span>(</span><span>set: protocols.ISet, ref_node: int, rot_node: Optional[int] = None, name: str = '', desc: str = '')</span>
+<span>(</span><span>set: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, ref_node: int, rot_node: Optional[int] = None, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to define a rigid body consisting of nodes or elements.</p>
@@ -208,7 +209,7 @@ class RigidBody:
 <dd>
 <div class="desc"><p>Id of rotational node</p></div>
 </dd>
-<dt id="pygccx.model_keywords.rigid_body.RigidBody.set"><code class="name">var <span class="ident">set</span> : protocols.ISet</code></dt>
+<dt id="pygccx.model_keywords.rigid_body.RigidBody.set"><code class="name">var <span class="ident">set</span> : <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a></code></dt>
 <dd>
 <div class="desc"><p>Node- or element set</p></div>
 </dd>

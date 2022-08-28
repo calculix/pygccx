@@ -19,8 +19,9 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass
 from typing import Optional, Any
-from enums import ESetTypes
-from protocols import IKeyword, ISet
+
+from pygccx.enums import ESetTypes
+from pygccx.protocols import IKeyword, ISet
 
 @dataclass
 class SolidSection:

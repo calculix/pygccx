@@ -19,8 +19,8 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field
 from typing import Any
-from enums import EEtypes
-from protocols import IElementFace
+from pygccx.enums import EEtypes
+from pygccx.protocols import IElementFace
 
 FACE_INDEX_TABLE = {
     EEtypes.C3D4:  ((0,1,2),   (0,3,1),   (1,3,2),   (2,3,0)),

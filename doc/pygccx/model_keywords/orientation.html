@@ -63,8 +63,10 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 from dataclasses import dataclass
 from typing import Sequence, Any
 import numpy as np
-from enums import EOrientationSystems, EOrientationRotAxis
-from protocols import ICoordinateSystem, number
+
+from pygccx.enums import EOrientationSystems, EOrientationRotAxis
+from pygccx.protocols import ICoordinateSystem, number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class Orientation:
@@ -93,7 +95,7 @@ class Orientation:
     &#34;&#34;&#34;Type of the orientation system&#34;&#34;&#34;
     rot_axis:EOrientationRotAxis = EOrientationRotAxis.NONE
     &#34;&#34;&#34;Axis for additional rotation (only if system == RECTANGULAR)&#34;&#34;&#34;
-    rot_angle:float = 0.
+    rot_angle:number = 0.
     &#34;&#34;&#34;Additional rotation angle about rot_axis (only if system == RECTANGULAR and rot_axis != NONE&#34;&#34;&#34;
     desc:str = &#39;&#39;
     &#34;&#34;&#34;A short description of this Instance. This is written to the ccx input file.&#34;&#34;&#34;
@@ -106,9 +108,9 @@ class Orientation:
 
     def __str__(self):
         s = f&#39;*ORIENTATION,NAME={self.name},SYSTEM={self.system.value}\n&#39;
-        s += f&#39;{&#34;,&#34;.join(map(str, self.pnt_a))},{&#34;,&#34;.join(map(str, self.pnt_b))}\n&#39;
+        s += f&#39;{&#34;,&#34;.join(map(f2s, self.pnt_a))},{&#34;,&#34;.join(map(f2s, self.pnt_b))}\n&#39;
         if self.rot_axis != EOrientationRotAxis.NONE and self.system == EOrientationSystems.RECTANGULAR:
-            s += f&#39;{self.rot_axis.value},{self.rot_angle}\n&#39;
+            s += f&#39;{self.rot_axis.value},{f2s(self.rot_angle)}\n&#39;
 
         return s
 
@@ -144,7 +146,7 @@ class Orientation:
 <dl>
 <dt id="pygccx.model_keywords.orientation.Orientation"><code class="flex name class">
 <span>class <span class="ident">Orientation</span></span>
-<span>(</span><span>name: str, pnt_a: Union[Sequence[int | float | numpy.number], numpy.ndarray], pnt_b: Union[Sequence[int | float | numpy.number], numpy.ndarray], system: enums.EOrientationSystems = EOrientationSystems.RECTANGULAR, rot_axis: enums.EOrientationRotAxis = EOrientationRotAxis.NONE, rot_angle: float = 0.0, desc: str = '')</span>
+<span>(</span><span>name: str, pnt_a: Union[Sequence[int | float | numpy.number], numpy.ndarray], pnt_b: Union[Sequence[int | float | numpy.number], numpy.ndarray], system: <a title="pygccx.enums.EOrientationSystems" href="../enums.html#pygccx.enums.EOrientationSystems">EOrientationSystems</a> = EOrientationSystems.RECTANGULAR, rot_axis: <a title="pygccx.enums.EOrientationRotAxis" href="../enums.html#pygccx.enums.EOrientationRotAxis">EOrientationRotAxis</a> = EOrientationRotAxis.NONE, rot_angle: int | float | numpy.number = 0.0, desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to specify a local axis system X'-Y'-Z' to be used for
@@ -197,7 +199,7 @@ class Orientation:
     &#34;&#34;&#34;Type of the orientation system&#34;&#34;&#34;
     rot_axis:EOrientationRotAxis = EOrientationRotAxis.NONE
     &#34;&#34;&#34;Axis for additional rotation (only if system == RECTANGULAR)&#34;&#34;&#34;
-    rot_angle:float = 0.
+    rot_angle:number = 0.
     &#34;&#34;&#34;Additional rotation angle about rot_axis (only if system == RECTANGULAR and rot_axis != NONE&#34;&#34;&#34;
     desc:str = &#39;&#39;
     &#34;&#34;&#34;A short description of this Instance. This is written to the ccx input file.&#34;&#34;&#34;
@@ -210,9 +212,9 @@ class Orientation:
 
     def __str__(self):
         s = f&#39;*ORIENTATION,NAME={self.name},SYSTEM={self.system.value}\n&#39;
-        s += f&#39;{&#34;,&#34;.join(map(str, self.pnt_a))},{&#34;,&#34;.join(map(str, self.pnt_b))}\n&#39;
+        s += f&#39;{&#34;,&#34;.join(map(f2s, self.pnt_a))},{&#34;,&#34;.join(map(f2s, self.pnt_b))}\n&#39;
         if self.rot_axis != EOrientationRotAxis.NONE and self.system == EOrientationSystems.RECTANGULAR:
-            s += f&#39;{self.rot_axis.value},{self.rot_angle}\n&#39;
+            s += f&#39;{self.rot_axis.value},{f2s(self.rot_angle)}\n&#39;
 
         return s
 
@@ -251,15 +253,15 @@ class Orientation:
 <dd>
 <div class="desc"><p>Second point to define the orientation in the form [x, y, z]</p></div>
 </dd>
-<dt id="pygccx.model_keywords.orientation.Orientation.rot_angle"><code class="name">var <span class="ident">rot_angle</span> : float</code></dt>
+<dt id="pygccx.model_keywords.orientation.Orientation.rot_angle"><code class="name">var <span class="ident">rot_angle</span> : int | float | numpy.number</code></dt>
 <dd>
 <div class="desc"><p>Additional rotation angle about rot_axis (only if system == RECTANGULAR and rot_axis != NONE</p></div>
 </dd>
-<dt id="pygccx.model_keywords.orientation.Orientation.rot_axis"><code class="name">var <span class="ident">rot_axis</span> : enums.EOrientationRotAxis</code></dt>
+<dt id="pygccx.model_keywords.orientation.Orientation.rot_axis"><code class="name">var <span class="ident">rot_axis</span> : <a title="pygccx.enums.EOrientationRotAxis" href="../enums.html#pygccx.enums.EOrientationRotAxis">EOrientationRotAxis</a></code></dt>
 <dd>
 <div class="desc"><p>Axis for additional rotation (only if system == RECTANGULAR)</p></div>
 </dd>
-<dt id="pygccx.model_keywords.orientation.Orientation.system"><code class="name">var <span class="ident">system</span> : enums.EOrientationSystems</code></dt>
+<dt id="pygccx.model_keywords.orientation.Orientation.system"><code class="name">var <span class="ident">system</span> : <a title="pygccx.enums.EOrientationSystems" href="../enums.html#pygccx.enums.EOrientationSystems">EOrientationSystems</a></code></dt>
 <dd>
 <div class="desc"><p>Type of the orientation system</p></div>
 </dd>
@@ -267,7 +269,7 @@ class Orientation:
 <h3>Static methods</h3>
 <dl>
 <dt id="pygccx.model_keywords.orientation.Orientation.from_coordinate_system"><code class="name flex">
-<span>def <span class="ident">from_coordinate_system</span></span>(<span>cs: protocols.ICoordinateSystem)</span>
+<span>def <span class="ident">from_coordinate_system</span></span>(<span>cs: <a title="pygccx.protocols.ICoordinateSystem" href="../protocols.html#pygccx.protocols.ICoordinateSystem">ICoordinateSystem</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns an Orientation object made from the given coordinate system.

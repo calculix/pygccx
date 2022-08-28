@@ -62,8 +62,10 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from dataclasses import dataclass
 from typing import Optional
-from enums import ESolvers
-from protocols import number
+
+from pygccx.enums import ESolvers
+from pygccx.protocols import number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class Static:
@@ -116,12 +118,12 @@ class Static:
         if self.direct: s += &#39;,DIRECT&#39;
         if self.time_reset: s += &#39;,TIME RESET&#39;
         if self.total_time_at_start is not None:
-            s += f&#39;,TOTAL TIME AT START={self.total_time_at_start}&#39;
+            s += f&#39;,TOTAL TIME AT START={f2s(self.total_time_at_start)}&#39;
         s += &#39;\n&#39;
 
-        s += f&#39;{self.init_time_inc},{self.time_period}&#39;
-        s += f&#39;,{self.min_time_inc}&#39; if self.min_time_inc is not None else &#39;,&#39;      
-        s += f&#39;,{self.max_time_inc}&#39; if self.max_time_inc is not None else &#39;,&#39;
+        s += f&#39;{f2s(self.init_time_inc)},{f2s(self.time_period)}&#39;
+        s += f&#39;,{f2s(self.min_time_inc)}&#39; if self.min_time_inc is not None else &#39;,&#39;      
+        s += f&#39;,{f2s(self.max_time_inc)}&#39; if self.max_time_inc is not None else &#39;,&#39;
         s = s.rstrip(&#39;,&#39;) + &#39;\n&#39;
 
         return s</code></pre>
@@ -138,7 +140,7 @@ class Static:
 <dl>
 <dt id="pygccx.step_keywords.static.Static"><code class="flex name class">
 <span>class <span class="ident">Static</span></span>
-<span>(</span><span>solver: enums.ESolvers = ESolvers.DEFAULT, direct: bool = False, init_time_inc: int | float | numpy.number = 1.0, time_period: int | float | numpy.number = 1.0, min_time_inc: Union[int, float, numpy.number, ForwardRef(None)] = None, max_time_inc: Union[int, float, numpy.number, ForwardRef(None)] = None, time_reset: bool = False, total_time_at_start: Union[int, float, numpy.number, ForwardRef(None)] = None, name: str = '', desc: str = '')</span>
+<span>(</span><span>solver: <a title="pygccx.enums.ESolvers" href="../enums.html#pygccx.enums.ESolvers">ESolvers</a> = ESolvers.DEFAULT, direct: bool = False, init_time_inc: int | float | numpy.number = 1.0, time_period: int | float | numpy.number = 1.0, min_time_inc: Union[int, float, numpy.number, ForwardRef(None)] = None, max_time_inc: Union[int, float, numpy.number, ForwardRef(None)] = None, time_reset: bool = False, total_time_at_start: Union[int, float, numpy.number, ForwardRef(None)] = None, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to define a static analysis</p>
@@ -222,12 +224,12 @@ class Static:
         if self.direct: s += &#39;,DIRECT&#39;
         if self.time_reset: s += &#39;,TIME RESET&#39;
         if self.total_time_at_start is not None:
-            s += f&#39;,TOTAL TIME AT START={self.total_time_at_start}&#39;
+            s += f&#39;,TOTAL TIME AT START={f2s(self.total_time_at_start)}&#39;
         s += &#39;\n&#39;
 
-        s += f&#39;{self.init_time_inc},{self.time_period}&#39;
-        s += f&#39;,{self.min_time_inc}&#39; if self.min_time_inc is not None else &#39;,&#39;      
-        s += f&#39;,{self.max_time_inc}&#39; if self.max_time_inc is not None else &#39;,&#39;
+        s += f&#39;{f2s(self.init_time_inc)},{f2s(self.time_period)}&#39;
+        s += f&#39;,{f2s(self.min_time_inc)}&#39; if self.min_time_inc is not None else &#39;,&#39;      
+        s += f&#39;,{f2s(self.max_time_inc)}&#39; if self.max_time_inc is not None else &#39;,&#39;
         s = s.rstrip(&#39;,&#39;) + &#39;\n&#39;
 
         return s</code></pre>
@@ -259,7 +261,7 @@ True switches off auto time stepping</p></div>
 <dd>
 <div class="desc"><p>Name of this instance</p></div>
 </dd>
-<dt id="pygccx.step_keywords.static.Static.solver"><code class="name">var <span class="ident">solver</span> : enums.ESolvers</code></dt>
+<dt id="pygccx.step_keywords.static.Static.solver"><code class="name">var <span class="ident">solver</span> : <a title="pygccx.enums.ESolvers" href="../enums.html#pygccx.enums.ESolvers">ESolvers</a></code></dt>
 <dd>
 <div class="desc"><p>Solver which should be used for the step</p></div>
 </dd>

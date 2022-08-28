@@ -22,9 +22,9 @@ from typing import Sequence, Optional, Any
 import numpy as np
 import numpy.typing as npt
 
-from protocols import ISet, number
-from auxiliary import f2s
-from enums import ESetTypes
+from pygccx.protocols import ISet, number
+from pygccx.auxiliary import f2s
+from pygccx.enums import ESetTypes
 
 @dataclass
 class Gap:

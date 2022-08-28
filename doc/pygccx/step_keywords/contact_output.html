@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>pygccx.test_helper_features API documentation</title>
+<title>pygccx.step_keywords.contact_output API documentation</title>
 <meta name="description" content="Copyright Matthias Sedlmaier 2022
 This file is part of pygccx …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -20,7 +20,7 @@ This file is part of pygccx …" />
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>pygccx.test_helper_features</code></h1>
+<h1 class="title">Module <code>pygccx.step_keywords.contact_output</code></h1>
 </header>
 <section id="section-intro">
 <p>Copyright Matthias Sedlmaier 2022
@@ -60,12 +60,13 @@ along with pygccx.
 If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
-import unittest
-from helper_features.test.test_coordinate_system import TestCoordinateSystem
+from .contact_file import ContactFile
 
+class ContactOutput(ContactFile):
 
-if __name__ == &#39;__main__&#39;:
-    unittest.main()</code></pre>
+    def __str__(self):
+        s = super().__str__()
+        return s.replace(&#39;CONTACT FILE&#39;, &#39;CONTACT OUTPUT&#39;)</code></pre>
 </details>
 </section>
 <section>
@@ -75,6 +76,66 @@ if __name__ == &#39;__main__&#39;:
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pygccx.step_keywords.contact_output.ContactOutput"><code class="flex name class">
+<span>class <span class="ident">ContactOutput</span></span>
+<span>(</span><span>entities: Iterable[<a title="pygccx.enums.EContactFileResults" href="../enums.html#pygccx.enums.EContactFileResults">EContactFileResults</a>], frequency: int = 1, time_points: Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>] = None, last_Iterations: bool = False, contact_elements: bool = False, name: str = '', desc: str = '')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class to select contact result entities for printing in file jobname.frd for
+subsequent viewing by CalculiX GraphiX.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt>entities:Iterable (i.e. a list) of contact result entities.</dt>
+<dt><strong><code>frequency</code></strong></dt>
+<dd>Optional. integer that indicates that the results of every Nth increment
+will be stored. frequency and time_points are mutually exclusive.</dd>
+<dt><strong><code>time_points</code></strong></dt>
+<dd>Optional. TimePoints object specifying the times for which results should
+be stored.frequency and time_points are mutually exclusive.</dd>
+<dt><strong><code>last_Iterations</code></strong></dt>
+<dd>Optional. If True, leads to the storage of the displacements in all
+iterations of the
+last increment in a file with name ResultsForLastIterations.frd</dd>
+<dt><strong><code>contact_elements</code></strong></dt>
+<dd>Optional. If True, stores the contact elements which have been
+generated in each iteration in a file with the name jobname.cel.</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>Optional. Name of this instance</dd>
+<dt><strong><code>desc</code></strong></dt>
+<dd>Optional. A short description of this instance. This is written to the ccx input file.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ContactOutput(ContactFile):
+
+    def __str__(self):
+        s = super().__str__()
+        return s.replace(&#39;CONTACT FILE&#39;, &#39;CONTACT OUTPUT&#39;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pygccx.step_keywords.contact_file.ContactFile" href="contact_file.html#pygccx.step_keywords.contact_file.ContactFile">ContactFile</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="pygccx.step_keywords.contact_file.ContactFile" href="contact_file.html#pygccx.step_keywords.contact_file.ContactFile">ContactFile</a></b></code>:
+<ul class="hlist">
+<li><code><a title="pygccx.step_keywords.contact_file.ContactFile.contact_elements" href="contact_file.html#pygccx.step_keywords.contact_file.ContactFile.contact_elements">contact_elements</a></code></li>
+<li><code><a title="pygccx.step_keywords.contact_file.ContactFile.desc" href="contact_file.html#pygccx.step_keywords.contact_file.ContactFile.desc">desc</a></code></li>
+<li><code><a title="pygccx.step_keywords.contact_file.ContactFile.entities" href="contact_file.html#pygccx.step_keywords.contact_file.ContactFile.entities">entities</a></code></li>
+<li><code><a title="pygccx.step_keywords.contact_file.ContactFile.frequency" href="contact_file.html#pygccx.step_keywords.contact_file.ContactFile.frequency">frequency</a></code></li>
+<li><code><a title="pygccx.step_keywords.contact_file.ContactFile.last_Iterations" href="contact_file.html#pygccx.step_keywords.contact_file.ContactFile.last_Iterations">last_Iterations</a></code></li>
+<li><code><a title="pygccx.step_keywords.contact_file.ContactFile.name" href="contact_file.html#pygccx.step_keywords.contact_file.ContactFile.name">name</a></code></li>
+<li><code><a title="pygccx.step_keywords.contact_file.ContactFile.time_points" href="contact_file.html#pygccx.step_keywords.contact_file.ContactFile.time_points">time_points</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -85,7 +146,14 @@ if __name__ == &#39;__main__&#39;:
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="pygccx" href="index.html">pygccx</a></code></li>
+<li><code><a title="pygccx.step_keywords" href="index.html">pygccx.step_keywords</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pygccx.step_keywords.contact_output.ContactOutput" href="#pygccx.step_keywords.contact_output.ContactOutput">ContactOutput</a></code></h4>
+</li>
 </ul>
 </li>
 </ul>

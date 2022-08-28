@@ -61,9 +61,10 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
 from dataclasses import dataclass, field
-import enums
 from typing import Iterable
-import protocols
+
+from pygccx import enums, protocols
+
 
 @dataclass(frozen=True, slots=True)
 class ElementSurface():
@@ -168,7 +169,7 @@ def _get_node_surface_from_set(name:str, node_set:protocols.ISet) -&gt; NodeSurf
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="pygccx.mesh.surface.get_surface_from_node_set"><code class="name flex">
-<span>def <span class="ident">get_surface_from_node_set</span></span>(<span>name: str, elements: Iterable[protocols.IElement], node_set: protocols.ISet, stype: enums.ESurfTypes) ‑> protocols.ISurface</span>
+<span>def <span class="ident">get_surface_from_node_set</span></span>(<span>name: str, elements: Iterable[<a title="pygccx.protocols.IElement" href="../protocols.html#pygccx.protocols.IElement">IElement</a>], node_set: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, stype: <a title="pygccx.enums.ESurfTypes" href="../enums.html#pygccx.enums.ESurfTypes">ESurfTypes</a>) ‑> <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets a surface from a given node set.</p>
@@ -233,7 +234,7 @@ Type of node_set must be NODE and dim must be 2.</dd>
 <dl>
 <dt id="pygccx.mesh.surface.ElementSurface"><code class="flex name class">
 <span>class <span class="ident">ElementSurface</span></span>
-<span>(</span><span>name: str, element_faces: set[protocols.IElementFace])</span>
+<span>(</span><span>name: str, element_faces: set[<a title="pygccx.protocols.IElementFace" href="../protocols.html#pygccx.protocols.IElementFace">IElementFace</a>])</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class representing an element face based surface.</p>
@@ -267,7 +268,7 @@ class ElementSurface():
 </details>
 <h3>Instance variables</h3>
 <dl>
-<dt id="pygccx.mesh.surface.ElementSurface.element_faces"><code class="name">var <span class="ident">element_faces</span> : set[protocols.IElementFace]</code></dt>
+<dt id="pygccx.mesh.surface.ElementSurface.element_faces"><code class="name">var <span class="ident">element_faces</span> : set[<a title="pygccx.protocols.IElementFace" href="../protocols.html#pygccx.protocols.IElementFace">IElementFace</a>]</code></dt>
 <dd>
 <div class="desc"><p>Set with element faces</p></div>
 </dd>
@@ -275,7 +276,7 @@ class ElementSurface():
 <dd>
 <div class="desc"><p>Name of this surface</p></div>
 </dd>
-<dt id="pygccx.mesh.surface.ElementSurface.type"><code class="name">var <span class="ident">type</span> : enums.ESurfTypes</code></dt>
+<dt id="pygccx.mesh.surface.ElementSurface.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.ESurfTypes" href="../enums.html#pygccx.enums.ESurfTypes">ESurfTypes</a></code></dt>
 <dd>
 <div class="desc"><p>Enum type of this surface.</p></div>
 </dd>
@@ -349,7 +350,7 @@ class NodeSurface():
 <dd>
 <div class="desc"><p>Set with node set names belonging to this surface</p></div>
 </dd>
-<dt id="pygccx.mesh.surface.NodeSurface.type"><code class="name">var <span class="ident">type</span> : enums.ESurfTypes</code></dt>
+<dt id="pygccx.mesh.surface.NodeSurface.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.ESurfTypes" href="../enums.html#pygccx.enums.ESurfTypes">ESurfTypes</a></code></dt>
 <dd>
 <div class="desc"><p>Enum type of this surface.</p></div>
 </dd>

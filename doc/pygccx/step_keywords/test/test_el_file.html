@@ -61,88 +61,111 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
 from unittest import TestCase
-from step_keywords import ElFile, TimePoints
-from enums import EElementResults, EResultOutputs
-from protocols import IKeyword
+from dataclasses import dataclass
+
+from pygccx.step_keywords import ElFile, TimePoints
+from pygccx.enums import EElFileResults, EResultOutputs, ESetTypes
+from pygccx.protocols import IKeyword
+
+@dataclass()
+class SetMock():
+    name:str
+    type:ESetTypes
+    dim:int
+    ids:set[int]
 
 class TestElFile(TestCase):
 
+    def setUp(self) -&gt; None:
+        self.nset = SetMock(&#39;N1&#39;, ESetTypes.NODE, 2, set([1,2,3,4]))
+        self.eset = SetMock(&#39;E1&#39;, ESetTypes.ELEMENT, 2, set([1,2,3,4]))
+
     def test_is_IKeyword(self):
-        ef = ElFile([EElementResults.S, EElementResults.E])
+        ef = ElFile([EElFileResults.S, EElFileResults.E])
         self.assertTrue(isinstance(ef, IKeyword))
 
     def test_default(self):
 
-        ef = ElFile([EElementResults.S, EElementResults.E])
+        ef = ElFile([EElFileResults.S, EElFileResults.E])
         known = &#39;*EL FILE\n&#39;
         known +=&#39;S,E\n&#39;
         self.assertEqual(str(ef), known)
 
     def test_frequency(self):
 
-        ef = ElFile([EElementResults.S], frequency=2)
+        ef = ElFile([EElFileResults.S], frequency=2)
         known = &#39;*EL FILE,FREQUENCY=2\n&#39;
         known +=&#39;S\n&#39;
         self.assertEqual(str(ef), known)
 
     def test_time_points(self):
         tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-        ef = ElFile([EElementResults.S], time_points=tp)
+        ef = ElFile([EElFileResults.S], time_points=tp)
         known = &#39;*EL FILE,TIME POINTS=TP1\n&#39;
         known +=&#39;S\n&#39;
         self.assertEqual(str(ef), known)
 
     def test_last_iteration(self):
 
-        ef = ElFile([EElementResults.S], last_Iterations=True)
+        ef = ElFile([EElFileResults.S], last_Iterations=True)
         known = &#39;*EL FILE,LAST ITERATIONS\n&#39;
         known +=&#39;S\n&#39;
         self.assertEqual(str(ef), known)
 
     def test_contact_elements(self):
 
-        ef = ElFile([EElementResults.S], contact_elements=True)
+        ef = ElFile([EElFileResults.S], contact_elements=True)
         known = &#39;*EL FILE,CONTACT ELEMENTS\n&#39;
         known +=&#39;S\n&#39;
         self.assertEqual(str(ef), known)
 
     def test_global_no(self):
 
-        ef = ElFile([EElementResults.S], global_=False)
+        ef = ElFile([EElFileResults.S], global_=False)
         known = &#39;*EL FILE,GLOBAL=NO\n&#39;
         known +=&#39;S\n&#39;
         self.assertEqual(str(ef), known)
 
     def test_output_all(self):
 
-        ef = ElFile([EElementResults.S], output_all=True)
+        ef = ElFile([EElFileResults.S], output_all=True)
         known = &#39;*EL FILE,OUTPUT ALL\n&#39;
         known +=&#39;S\n&#39;
         self.assertEqual(str(ef), known)
 
     def test_output_2D(self):
 
-        ef = ElFile([EElementResults.S], output=EResultOutputs._2D)
+        ef = ElFile([EElFileResults.S], output=EResultOutputs._2D)
         known = &#39;*EL FILE,OUTPUT=2D\n&#39;
         known +=&#39;S\n&#39;
         self.assertEqual(str(ef), known)
 
     def test_section_forces(self):
 
-        ef = ElFile([EElementResults.S], section_forces=True)
+        ef = ElFile([EElFileResults.S], section_forces=True)
         known = &#39;*EL FILE,SECTION FORCES\n&#39;
         known +=&#39;S\n&#39;
         self.assertEqual(str(ef), known)
+
+    def test_nset(self):
+
+        nf = ElFile([EElFileResults.S], nset=self.nset)
+        known = &#39;*EL FILE,NSET=N1\n&#39;
+        known +=&#39;S\n&#39;
+        self.assertEqual(str(nf), known)
 
     def test_empty_entities(self):
         self.assertRaises(ValueError, ElFile, [])
 
     def test_time_points_and_frequency(self):
         tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-        self.assertRaises(ValueError, ElFile, [EElementResults.S], time_points=tp, frequency=2)
+        self.assertRaises(ValueError, ElFile, [EElFileResults.S], time_points=tp, frequency=2)
 
     def test_section_forces_and_output_3D(self):
-        self.assertRaises(ValueError, ElFile, [EElementResults.S], section_forces=True, output=EResultOutputs._3D)</code></pre>
+        self.assertRaises(ValueError, ElFile, [EElFileResults.S], section_forces=True, output=EResultOutputs._3D)
+
+    def test_wrong_set_type(self):
+        self.assertRaises(ValueError, ElFile, [EElFileResults.S], nset=self.eset)</code></pre>
 </details>
 </section>
 <section>
@@ -154,6 +177,43 @@ class TestElFile(TestCase):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
+<dt id="pygccx.step_keywords.test.test_el_file.SetMock"><code class="flex name class">
+<span>class <span class="ident">SetMock</span></span>
+<span>(</span><span>name: str, type: <a title="pygccx.enums.ESetTypes" href="../../enums.html#pygccx.enums.ESetTypes">ESetTypes</a>, dim: int, ids: set[int])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>SetMock(name: str, type: pygccx.enums.ESetTypes, dim: int, ids: set[int])</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass()
+class SetMock():
+    name:str
+    type:ESetTypes
+    dim:int
+    ids:set[int]</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.step_keywords.test.test_el_file.SetMock.dim"><code class="name">var <span class="ident">dim</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.step_keywords.test.test_el_file.SetMock.ids"><code class="name">var <span class="ident">ids</span> : set[int]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.step_keywords.test.test_el_file.SetMock.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.step_keywords.test.test_el_file.SetMock.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.ESetTypes" href="../../enums.html#pygccx.enums.ESetTypes">ESetTypes</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
 <dt id="pygccx.step_keywords.test.test_el_file.TestElFile"><code class="flex name class">
 <span>class <span class="ident">TestElFile</span></span>
 <span>(</span><span>methodName='runTest')</span>
@@ -193,82 +253,96 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">class TestElFile(TestCase):
 
+    def setUp(self) -&gt; None:
+        self.nset = SetMock(&#39;N1&#39;, ESetTypes.NODE, 2, set([1,2,3,4]))
+        self.eset = SetMock(&#39;E1&#39;, ESetTypes.ELEMENT, 2, set([1,2,3,4]))
+
     def test_is_IKeyword(self):
-        ef = ElFile([EElementResults.S, EElementResults.E])
+        ef = ElFile([EElFileResults.S, EElFileResults.E])
         self.assertTrue(isinstance(ef, IKeyword))
 
     def test_default(self):
 
-        ef = ElFile([EElementResults.S, EElementResults.E])
+        ef = ElFile([EElFileResults.S, EElFileResults.E])
         known = &#39;*EL FILE\n&#39;
         known +=&#39;S,E\n&#39;
         self.assertEqual(str(ef), known)
 
     def test_frequency(self):
 
-        ef = ElFile([EElementResults.S], frequency=2)
+        ef = ElFile([EElFileResults.S], frequency=2)
         known = &#39;*EL FILE,FREQUENCY=2\n&#39;
         known +=&#39;S\n&#39;
         self.assertEqual(str(ef), known)
 
     def test_time_points(self):
         tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-        ef = ElFile([EElementResults.S], time_points=tp)
+        ef = ElFile([EElFileResults.S], time_points=tp)
         known = &#39;*EL FILE,TIME POINTS=TP1\n&#39;
         known +=&#39;S\n&#39;
         self.assertEqual(str(ef), known)
 
     def test_last_iteration(self):
 
-        ef = ElFile([EElementResults.S], last_Iterations=True)
+        ef = ElFile([EElFileResults.S], last_Iterations=True)
         known = &#39;*EL FILE,LAST ITERATIONS\n&#39;
         known +=&#39;S\n&#39;
         self.assertEqual(str(ef), known)
 
     def test_contact_elements(self):
 
-        ef = ElFile([EElementResults.S], contact_elements=True)
+        ef = ElFile([EElFileResults.S], contact_elements=True)
         known = &#39;*EL FILE,CONTACT ELEMENTS\n&#39;
         known +=&#39;S\n&#39;
         self.assertEqual(str(ef), known)
 
     def test_global_no(self):
 
-        ef = ElFile([EElementResults.S], global_=False)
+        ef = ElFile([EElFileResults.S], global_=False)
         known = &#39;*EL FILE,GLOBAL=NO\n&#39;
         known +=&#39;S\n&#39;
         self.assertEqual(str(ef), known)
 
     def test_output_all(self):
 
-        ef = ElFile([EElementResults.S], output_all=True)
+        ef = ElFile([EElFileResults.S], output_all=True)
         known = &#39;*EL FILE,OUTPUT ALL\n&#39;
         known +=&#39;S\n&#39;
         self.assertEqual(str(ef), known)
 
     def test_output_2D(self):
 
-        ef = ElFile([EElementResults.S], output=EResultOutputs._2D)
+        ef = ElFile([EElFileResults.S], output=EResultOutputs._2D)
         known = &#39;*EL FILE,OUTPUT=2D\n&#39;
         known +=&#39;S\n&#39;
         self.assertEqual(str(ef), known)
 
     def test_section_forces(self):
 
-        ef = ElFile([EElementResults.S], section_forces=True)
+        ef = ElFile([EElFileResults.S], section_forces=True)
         known = &#39;*EL FILE,SECTION FORCES\n&#39;
         known +=&#39;S\n&#39;
         self.assertEqual(str(ef), known)
+
+    def test_nset(self):
+
+        nf = ElFile([EElFileResults.S], nset=self.nset)
+        known = &#39;*EL FILE,NSET=N1\n&#39;
+        known +=&#39;S\n&#39;
+        self.assertEqual(str(nf), known)
 
     def test_empty_entities(self):
         self.assertRaises(ValueError, ElFile, [])
 
     def test_time_points_and_frequency(self):
         tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-        self.assertRaises(ValueError, ElFile, [EElementResults.S], time_points=tp, frequency=2)
+        self.assertRaises(ValueError, ElFile, [EElFileResults.S], time_points=tp, frequency=2)
 
     def test_section_forces_and_output_3D(self):
-        self.assertRaises(ValueError, ElFile, [EElementResults.S], section_forces=True, output=EResultOutputs._3D)</code></pre>
+        self.assertRaises(ValueError, ElFile, [EElFileResults.S], section_forces=True, output=EResultOutputs._3D)
+
+    def test_wrong_set_type(self):
+        self.assertRaises(ValueError, ElFile, [EElFileResults.S], nset=self.eset)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -276,6 +350,20 @@ not have a method with the specified name.</p></div>
 </ul>
 <h3>Methods</h3>
 <dl>
+<dt id="pygccx.step_keywords.test.test_el_file.TestElFile.setUp"><code class="name flex">
+<span>def <span class="ident">setUp</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Hook method for setting up the test fixture before exercising it.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def setUp(self) -&gt; None:
+    self.nset = SetMock(&#39;N1&#39;, ESetTypes.NODE, 2, set([1,2,3,4]))
+    self.eset = SetMock(&#39;E1&#39;, ESetTypes.ELEMENT, 2, set([1,2,3,4]))</code></pre>
+</details>
+</dd>
 <dt id="pygccx.step_keywords.test.test_el_file.TestElFile.test_contact_elements"><code class="name flex">
 <span>def <span class="ident">test_contact_elements</span></span>(<span>self)</span>
 </code></dt>
@@ -287,7 +375,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_contact_elements(self):
 
-    ef = ElFile([EElementResults.S], contact_elements=True)
+    ef = ElFile([EElFileResults.S], contact_elements=True)
     known = &#39;*EL FILE,CONTACT ELEMENTS\n&#39;
     known +=&#39;S\n&#39;
     self.assertEqual(str(ef), known)</code></pre>
@@ -304,7 +392,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_default(self):
 
-    ef = ElFile([EElementResults.S, EElementResults.E])
+    ef = ElFile([EElFileResults.S, EElFileResults.E])
     known = &#39;*EL FILE\n&#39;
     known +=&#39;S,E\n&#39;
     self.assertEqual(str(ef), known)</code></pre>
@@ -334,7 +422,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_frequency(self):
 
-    ef = ElFile([EElementResults.S], frequency=2)
+    ef = ElFile([EElFileResults.S], frequency=2)
     known = &#39;*EL FILE,FREQUENCY=2\n&#39;
     known +=&#39;S\n&#39;
     self.assertEqual(str(ef), known)</code></pre>
@@ -351,7 +439,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_global_no(self):
 
-    ef = ElFile([EElementResults.S], global_=False)
+    ef = ElFile([EElFileResults.S], global_=False)
     known = &#39;*EL FILE,GLOBAL=NO\n&#39;
     known +=&#39;S\n&#39;
     self.assertEqual(str(ef), known)</code></pre>
@@ -367,7 +455,7 @@ not have a method with the specified name.</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def test_is_IKeyword(self):
-    ef = ElFile([EElementResults.S, EElementResults.E])
+    ef = ElFile([EElFileResults.S, EElFileResults.E])
     self.assertTrue(isinstance(ef, IKeyword))</code></pre>
 </details>
 </dd>
@@ -382,10 +470,27 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_last_iteration(self):
 
-    ef = ElFile([EElementResults.S], last_Iterations=True)
+    ef = ElFile([EElFileResults.S], last_Iterations=True)
     known = &#39;*EL FILE,LAST ITERATIONS\n&#39;
     known +=&#39;S\n&#39;
     self.assertEqual(str(ef), known)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.step_keywords.test.test_el_file.TestElFile.test_nset"><code class="name flex">
+<span>def <span class="ident">test_nset</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_nset(self):
+
+    nf = ElFile([EElFileResults.S], nset=self.nset)
+    known = &#39;*EL FILE,NSET=N1\n&#39;
+    known +=&#39;S\n&#39;
+    self.assertEqual(str(nf), known)</code></pre>
 </details>
 </dd>
 <dt id="pygccx.step_keywords.test.test_el_file.TestElFile.test_output_2D"><code class="name flex">
@@ -399,7 +504,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_output_2D(self):
 
-    ef = ElFile([EElementResults.S], output=EResultOutputs._2D)
+    ef = ElFile([EElFileResults.S], output=EResultOutputs._2D)
     known = &#39;*EL FILE,OUTPUT=2D\n&#39;
     known +=&#39;S\n&#39;
     self.assertEqual(str(ef), known)</code></pre>
@@ -416,7 +521,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_output_all(self):
 
-    ef = ElFile([EElementResults.S], output_all=True)
+    ef = ElFile([EElFileResults.S], output_all=True)
     known = &#39;*EL FILE,OUTPUT ALL\n&#39;
     known +=&#39;S\n&#39;
     self.assertEqual(str(ef), known)</code></pre>
@@ -433,7 +538,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_section_forces(self):
 
-    ef = ElFile([EElementResults.S], section_forces=True)
+    ef = ElFile([EElFileResults.S], section_forces=True)
     known = &#39;*EL FILE,SECTION FORCES\n&#39;
     known +=&#39;S\n&#39;
     self.assertEqual(str(ef), known)</code></pre>
@@ -449,7 +554,7 @@ not have a method with the specified name.</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def test_section_forces_and_output_3D(self):
-    self.assertRaises(ValueError, ElFile, [EElementResults.S], section_forces=True, output=EResultOutputs._3D)</code></pre>
+    self.assertRaises(ValueError, ElFile, [EElFileResults.S], section_forces=True, output=EResultOutputs._3D)</code></pre>
 </details>
 </dd>
 <dt id="pygccx.step_keywords.test.test_el_file.TestElFile.test_time_points"><code class="name flex">
@@ -463,7 +568,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_time_points(self):
     tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-    ef = ElFile([EElementResults.S], time_points=tp)
+    ef = ElFile([EElFileResults.S], time_points=tp)
     known = &#39;*EL FILE,TIME POINTS=TP1\n&#39;
     known +=&#39;S\n&#39;
     self.assertEqual(str(ef), known)</code></pre>
@@ -480,7 +585,20 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_time_points_and_frequency(self):
     tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-    self.assertRaises(ValueError, ElFile, [EElementResults.S], time_points=tp, frequency=2)</code></pre>
+    self.assertRaises(ValueError, ElFile, [EElFileResults.S], time_points=tp, frequency=2)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.step_keywords.test.test_el_file.TestElFile.test_wrong_set_type"><code class="name flex">
+<span>def <span class="ident">test_wrong_set_type</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_wrong_set_type(self):
+    self.assertRaises(ValueError, ElFile, [EElFileResults.S], nset=self.eset)</code></pre>
 </details>
 </dd>
 </dl>
@@ -502,8 +620,18 @@ not have a method with the specified name.</p></div>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
+<h4><code><a title="pygccx.step_keywords.test.test_el_file.SetMock" href="#pygccx.step_keywords.test.test_el_file.SetMock">SetMock</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.step_keywords.test.test_el_file.SetMock.dim" href="#pygccx.step_keywords.test.test_el_file.SetMock.dim">dim</a></code></li>
+<li><code><a title="pygccx.step_keywords.test.test_el_file.SetMock.ids" href="#pygccx.step_keywords.test.test_el_file.SetMock.ids">ids</a></code></li>
+<li><code><a title="pygccx.step_keywords.test.test_el_file.SetMock.name" href="#pygccx.step_keywords.test.test_el_file.SetMock.name">name</a></code></li>
+<li><code><a title="pygccx.step_keywords.test.test_el_file.SetMock.type" href="#pygccx.step_keywords.test.test_el_file.SetMock.type">type</a></code></li>
+</ul>
+</li>
+<li>
 <h4><code><a title="pygccx.step_keywords.test.test_el_file.TestElFile" href="#pygccx.step_keywords.test.test_el_file.TestElFile">TestElFile</a></code></h4>
 <ul class="">
+<li><code><a title="pygccx.step_keywords.test.test_el_file.TestElFile.setUp" href="#pygccx.step_keywords.test.test_el_file.TestElFile.setUp">setUp</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_el_file.TestElFile.test_contact_elements" href="#pygccx.step_keywords.test.test_el_file.TestElFile.test_contact_elements">test_contact_elements</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_el_file.TestElFile.test_default" href="#pygccx.step_keywords.test.test_el_file.TestElFile.test_default">test_default</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_el_file.TestElFile.test_empty_entities" href="#pygccx.step_keywords.test.test_el_file.TestElFile.test_empty_entities">test_empty_entities</a></code></li>
@@ -511,12 +639,14 @@ not have a method with the specified name.</p></div>
 <li><code><a title="pygccx.step_keywords.test.test_el_file.TestElFile.test_global_no" href="#pygccx.step_keywords.test.test_el_file.TestElFile.test_global_no">test_global_no</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_el_file.TestElFile.test_is_IKeyword" href="#pygccx.step_keywords.test.test_el_file.TestElFile.test_is_IKeyword">test_is_IKeyword</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_el_file.TestElFile.test_last_iteration" href="#pygccx.step_keywords.test.test_el_file.TestElFile.test_last_iteration">test_last_iteration</a></code></li>
+<li><code><a title="pygccx.step_keywords.test.test_el_file.TestElFile.test_nset" href="#pygccx.step_keywords.test.test_el_file.TestElFile.test_nset">test_nset</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_el_file.TestElFile.test_output_2D" href="#pygccx.step_keywords.test.test_el_file.TestElFile.test_output_2D">test_output_2D</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_el_file.TestElFile.test_output_all" href="#pygccx.step_keywords.test.test_el_file.TestElFile.test_output_all">test_output_all</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_el_file.TestElFile.test_section_forces" href="#pygccx.step_keywords.test.test_el_file.TestElFile.test_section_forces">test_section_forces</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_el_file.TestElFile.test_section_forces_and_output_3D" href="#pygccx.step_keywords.test.test_el_file.TestElFile.test_section_forces_and_output_3D">test_section_forces_and_output_3D</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_el_file.TestElFile.test_time_points" href="#pygccx.step_keywords.test.test_el_file.TestElFile.test_time_points">test_time_points</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_el_file.TestElFile.test_time_points_and_frequency" href="#pygccx.step_keywords.test.test_el_file.TestElFile.test_time_points_and_frequency">test_time_points_and_frequency</a></code></li>
+<li><code><a title="pygccx.step_keywords.test.test_el_file.TestElFile.test_wrong_set_type" href="#pygccx.step_keywords.test.test_el_file.TestElFile.test_wrong_set_type">test_wrong_set_type</a></code></li>
 </ul>
 </li>
 </ul>

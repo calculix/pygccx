@@ -62,8 +62,9 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from dataclasses import dataclass
 from typing import Optional, Any
-from enums import ESetTypes
-from protocols import IKeyword, ISet
+
+from pygccx.enums import ESetTypes
+from pygccx.protocols import IKeyword, ISet
 
 @dataclass
 class SolidSection:
@@ -113,7 +114,7 @@ class SolidSection:
 <dl>
 <dt id="pygccx.model_keywords.solid_section.SolidSection"><code class="flex name class">
 <span>class <span class="ident">SolidSection</span></span>
-<span>(</span><span>elset: protocols.ISet, material: protocols.IKeyword, orientation: Optional[protocols.IKeyword] = None, name: str = '', desc: str = '')</span>
+<span>(</span><span>elset: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, material: <a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>, orientation: Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>] = None, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to assign material properties to 3D, plane stress, plane
@@ -177,11 +178,11 @@ class SolidSection:
 <dd>
 <div class="desc"><p>A short description of this Instance. This is written to the ccx input file.</p></div>
 </dd>
-<dt id="pygccx.model_keywords.solid_section.SolidSection.elset"><code class="name">var <span class="ident">elset</span> : protocols.ISet</code></dt>
+<dt id="pygccx.model_keywords.solid_section.SolidSection.elset"><code class="name">var <span class="ident">elset</span> : <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a></code></dt>
 <dd>
 <div class="desc"><p>Element set where this solid section should be applied to.</p></div>
 </dd>
-<dt id="pygccx.model_keywords.solid_section.SolidSection.material"><code class="name">var <span class="ident">material</span> : protocols.IKeyword</code></dt>
+<dt id="pygccx.model_keywords.solid_section.SolidSection.material"><code class="name">var <span class="ident">material</span> : <a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a></code></dt>
 <dd>
 <div class="desc"><p>Material object which should be applies to elset</p></div>
 </dd>
@@ -189,7 +190,7 @@ class SolidSection:
 <dd>
 <div class="desc"><p>The name of this Instance. Not used</p></div>
 </dd>
-<dt id="pygccx.model_keywords.solid_section.SolidSection.orientation"><code class="name">var <span class="ident">orientation</span> : Optional[protocols.IKeyword]</code></dt>
+<dt id="pygccx.model_keywords.solid_section.SolidSection.orientation"><code class="name">var <span class="ident">orientation</span> : Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>]</code></dt>
 <dd>
 <div class="desc"><p>Orientation system for material</p></div>
 </dd>

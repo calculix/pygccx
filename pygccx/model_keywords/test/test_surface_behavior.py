@@ -18,9 +18,10 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from model_keywords import SurfaceBehavior
-from enums import EPressureOverclosures
-from protocols import IKeyword
+
+from pygccx.model_keywords import SurfaceBehavior
+from pygccx.enums import EPressureOverclosures
+from pygccx.protocols import IKeyword
 
 class TestSurfaceBehavior(TestCase):
 

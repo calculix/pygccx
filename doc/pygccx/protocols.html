@@ -60,10 +60,11 @@ along with pygccx.
 If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
-from typing import Protocol, runtime_checkable
+from dataclasses import dataclass
+from typing import Protocol, runtime_checkable, Iterable
 import numpy as np
 import numpy.typing as npt
-import enums
+from . import enums
 
 number = int|float|np.number
 
@@ -210,7 +211,7 @@ class ICoordinateSystem(Protocol):
 <div class="desc"><p>Name of this coordinate system. Used if an Orientation or Transform is
 instantiated using this coordinate system.</p></div>
 </dd>
-<dt id="pygccx.protocols.ICoordinateSystem.type"><code class="name">var <span class="ident">type</span> : enums.EOrientationSystems</code></dt>
+<dt id="pygccx.protocols.ICoordinateSystem.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.EOrientationSystems" href="enums.html#pygccx.enums.EOrientationSystems">EOrientationSystems</a></code></dt>
 <dd>
 <div class="desc"><p>Type of this coordinate system</p></div>
 </dd>
@@ -301,7 +302,7 @@ row 2: vector of z axis in global system</p></div>
 <dd>
 <div class="desc"><p>Gets the node ids of this element</p></div>
 </dd>
-<dt id="pygccx.protocols.IElement.type"><code class="name">var <span class="ident">type</span> : enums.EEtypes</code></dt>
+<dt id="pygccx.protocols.IElement.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.EEtypes" href="enums.html#pygccx.enums.EEtypes">EEtypes</a></code></dt>
 <dd>
 <div class="desc"><p>Gets the GMSH type of this element</p></div>
 </dd>
@@ -488,7 +489,7 @@ class ISet(Protocol):
 <dd>
 <div class="desc"><p>Gets the name of this set</p></div>
 </dd>
-<dt id="pygccx.protocols.ISet.type"><code class="name">var <span class="ident">type</span> : enums.ESetTypes</code></dt>
+<dt id="pygccx.protocols.ISet.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.ESetTypes" href="enums.html#pygccx.enums.ESetTypes">ESetTypes</a></code></dt>
 <dd>
 <div class="desc"><p>Gets the type of this set</p></div>
 </dd>
@@ -575,7 +576,7 @@ class IStep(Protocol):
 <dd>
 <div class="desc"><p>Gets the name of this surface</p></div>
 </dd>
-<dt id="pygccx.protocols.ISurface.type"><code class="name">var <span class="ident">type</span> : enums.ESurfTypes</code></dt>
+<dt id="pygccx.protocols.ISurface.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.ESurfTypes" href="enums.html#pygccx.enums.ESurfTypes">ESurfTypes</a></code></dt>
 <dd>
 <div class="desc"><p>Gets the type of this surface</p></div>
 </dd>

@@ -19,8 +19,8 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from typing import TYPE_CHECKING, Optional
 from . import Mesh, Element, Set
-from enums import EEtypes, ESetTypes
-from protocols import IElement, ISet
+from pygccx.enums import EEtypes, ESetTypes
+from pygccx.protocols import IElement, ISet
 
 if TYPE_CHECKING:
     import gmsh as _gmsh

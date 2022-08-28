@@ -63,8 +63,8 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 from typing import Optional
 
 from . import ContactPair, SurfaceInteraction, SurfaceBehavior, Friction, Clearance
-from enums import EContactTypes, EPressureOverclosures
-from protocols import ISet, ISurface, IKeyword, number
+from pygccx.enums import EContactTypes, EPressureOverclosures
+from pygccx.protocols import ISet, ISurface, IKeyword, number
 
 def make_contact(name:str, contact_type:EContactTypes, dep_surf:ISurface, ind_surf:ISurface,
                 pressure_overclosure:EPressureOverclosures, small_sliding:bool=False,              
@@ -163,7 +163,7 @@ def make_contact(name:str, contact_type:EContactTypes, dep_surf:ISurface, ind_su
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="pygccx.model_keywords.group_funcs.make_contact"><code class="name flex">
-<span>def <span class="ident">make_contact</span></span>(<span>name: str, contact_type: enums.EContactTypes, dep_surf: protocols.ISurface, ind_surf: protocols.ISurface, pressure_overclosure: enums.EPressureOverclosures, small_sliding: bool = False, adjust: Union[int, float, numpy.number, protocols.ISet, ForwardRef(None)] = None, clearance: Union[int, float, numpy.number, ForwardRef(None)] = None, mue: Union[int, float, numpy.number, ForwardRef(None)] = None, lam: Union[int, float, numpy.number, ForwardRef(None)] = None, desc: str = '', **kwargs) ‑> tuple[protocols.IKeyword]</span>
+<span>def <span class="ident">make_contact</span></span>(<span>name: str, contact_type: <a title="pygccx.enums.EContactTypes" href="../enums.html#pygccx.enums.EContactTypes">EContactTypes</a>, dep_surf: <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a>, ind_surf: <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a>, pressure_overclosure: <a title="pygccx.enums.EPressureOverclosures" href="../enums.html#pygccx.enums.EPressureOverclosures">EPressureOverclosures</a>, small_sliding: bool = False, adjust: Union[int, float, numpy.number, <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, ForwardRef(None)] = None, clearance: Union[int, float, numpy.number, ForwardRef(None)] = None, mue: Union[int, float, numpy.number, ForwardRef(None)] = None, lam: Union[int, float, numpy.number, ForwardRef(None)] = None, desc: str = '', **kwargs) ‑> tuple[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Function to set up a contact.</p>

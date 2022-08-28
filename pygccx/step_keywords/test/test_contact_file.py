@@ -18,47 +18,48 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from step_keywords import ContactFile, TimePoints
-from enums import EContactResults
-from protocols import IKeyword
+
+from pygccx.step_keywords import ContactFile, TimePoints
+from pygccx.enums import EContactFileResults
+from pygccx.protocols import IKeyword
 
 class TestContactFile(TestCase):
 
     def test_is_IKeyword(self):
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS])
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS])
         self.assertTrue(isinstance(cf, IKeyword))
 
     def test_default(self):
 
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS])
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS])
         known = '*CONTACT FILE\n'
         known +='CDIS,CELS\n'
         self.assertEqual(str(cf), known)
 
     def test_frequency(self):
 
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], frequency=2)
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS], frequency=2)
         known = '*CONTACT FILE,FREQUENCY=2\n'
         known +='CDIS,CELS\n'
         self.assertEqual(str(cf), known)
 
     def test_time_points(self):
         tp = TimePoints('TP1', (1,2,3,4))
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], time_points=tp)
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS], time_points=tp)
         known = '*CONTACT FILE,TIME POINTS=TP1\n'
         known +='CDIS,CELS\n'
         self.assertEqual(str(cf), known)
 
     def test_last_iteration(self):
 
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], last_Iterations=True)
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS], last_Iterations=True)
         known = '*CONTACT FILE,LAST ITERATIONS\n'
         known +='CDIS,CELS\n'
         self.assertEqual(str(cf), known)
 
     def test_contact_elements(self):
 
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], contact_elements=True)
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS], contact_elements=True)
         known = '*CONTACT FILE,CONTACT ELEMENTS\n'
         known +='CDIS,CELS\n'
         self.assertEqual(str(cf), known)
@@ -68,4 +69,4 @@ class TestContactFile(TestCase):
 
     def test_time_points_and_frequency(self):
         tp = TimePoints('TP1', (1,2,3,4))
-        self.assertRaises(ValueError, ContactFile, [EContactResults.CDIS], time_points=tp, frequency=2)
+        self.assertRaises(ValueError, ContactFile, [EContactFileResults.CDIS], time_points=tp, frequency=2)

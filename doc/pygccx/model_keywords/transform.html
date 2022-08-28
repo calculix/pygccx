@@ -63,9 +63,10 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 from dataclasses import dataclass
 from typing import Sequence, Any
 import numpy as np
-from protocols import ISet
-from enums import EOrientationSystems, ESetTypes
-from protocols import ICoordinateSystem, number
+
+from pygccx.protocols import ISet, ICoordinateSystem, number
+from pygccx.enums import EOrientationSystems, ESetTypes
+from pygccx.auxiliary import f2s
 
 @dataclass
 class Transform:
@@ -105,7 +106,7 @@ class Transform:
 
     def __str__(self):
         s = f&#39;*TRANSFORM,NSET={self.nset.name},TYPE={self.system.value[0]}\n&#39;
-        s += f&#39;{&#34;,&#34;.join(map(str,self.pnt_a))},{&#34;,&#34;.join(map(str,self.pnt_b))}\n&#39;
+        s += f&#39;{&#34;,&#34;.join(map(f2s,self.pnt_a))},{&#34;,&#34;.join(map(f2s,self.pnt_b))}\n&#39;
 
 
         return s
@@ -137,7 +138,7 @@ class Transform:
 <dl>
 <dt id="pygccx.model_keywords.transform.Transform"><code class="flex name class">
 <span>class <span class="ident">Transform</span></span>
-<span>(</span><span>nset: protocols.ISet, pnt_a: Union[Sequence[int | float | numpy.number], numpy.ndarray], pnt_b: Union[Sequence[int | float | numpy.number], numpy.ndarray], system: enums.EOrientationSystems = EOrientationSystems.RECTANGULAR, name: str = '', desc: str = '')</span>
+<span>(</span><span>nset: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, pnt_a: Union[Sequence[int | float | numpy.number], numpy.ndarray], pnt_b: Union[Sequence[int | float | numpy.number], numpy.ndarray], system: <a title="pygccx.enums.EOrientationSystems" href="../enums.html#pygccx.enums.EOrientationSystems">EOrientationSystems</a> = EOrientationSystems.RECTANGULAR, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to specify a local axis system X'-Y'-Z' to be used for
@@ -199,7 +200,7 @@ class Transform:
 
     def __str__(self):
         s = f&#39;*TRANSFORM,NSET={self.nset.name},TYPE={self.system.value[0]}\n&#39;
-        s += f&#39;{&#34;,&#34;.join(map(str,self.pnt_a))},{&#34;,&#34;.join(map(str,self.pnt_b))}\n&#39;
+        s += f&#39;{&#34;,&#34;.join(map(f2s,self.pnt_a))},{&#34;,&#34;.join(map(f2s,self.pnt_b))}\n&#39;
 
 
         return s
@@ -229,7 +230,7 @@ class Transform:
 <dd>
 <div class="desc"><p>Name of this instance</p></div>
 </dd>
-<dt id="pygccx.model_keywords.transform.Transform.nset"><code class="name">var <span class="ident">nset</span> : protocols.ISet</code></dt>
+<dt id="pygccx.model_keywords.transform.Transform.nset"><code class="name">var <span class="ident">nset</span> : <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a></code></dt>
 <dd>
 <div class="desc"><p>Node set for which the transformation applies.</p></div>
 </dd>
@@ -241,7 +242,7 @@ class Transform:
 <dd>
 <div class="desc"><p>Second point to define the orientation in the form [x, y, z]</p></div>
 </dd>
-<dt id="pygccx.model_keywords.transform.Transform.system"><code class="name">var <span class="ident">system</span> : enums.EOrientationSystems</code></dt>
+<dt id="pygccx.model_keywords.transform.Transform.system"><code class="name">var <span class="ident">system</span> : <a title="pygccx.enums.EOrientationSystems" href="../enums.html#pygccx.enums.EOrientationSystems">EOrientationSystems</a></code></dt>
 <dd>
 <div class="desc"><p>Type of the transformation system</p></div>
 </dd>
@@ -249,7 +250,7 @@ class Transform:
 <h3>Static methods</h3>
 <dl>
 <dt id="pygccx.model_keywords.transform.Transform.from_coordinate_system"><code class="name flex">
-<span>def <span class="ident">from_coordinate_system</span></span>(<span>nset: protocols.ISet, cs: protocols.ICoordinateSystem)</span>
+<span>def <span class="ident">from_coordinate_system</span></span>(<span>nset: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, cs: <a title="pygccx.protocols.ICoordinateSystem" href="../protocols.html#pygccx.protocols.ICoordinateSystem">ICoordinateSystem</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Returns a Transform object made from the given node set and coordinate system.</p></div>

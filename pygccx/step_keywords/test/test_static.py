@@ -18,9 +18,10 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from step_keywords import Static
-from enums import ESolvers
-from protocols import IKeyword
+
+from pygccx.step_keywords import Static
+from pygccx.enums import ESolvers
+from pygccx.protocols import IKeyword
 
 class TestStatic(TestCase):
 

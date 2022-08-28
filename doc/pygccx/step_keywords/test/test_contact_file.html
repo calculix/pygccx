@@ -61,47 +61,48 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
 from unittest import TestCase
-from step_keywords import ContactFile, TimePoints
-from enums import EContactResults
-from protocols import IKeyword
+
+from pygccx.step_keywords import ContactFile, TimePoints
+from pygccx.enums import EContactFileResults
+from pygccx.protocols import IKeyword
 
 class TestContactFile(TestCase):
 
     def test_is_IKeyword(self):
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS])
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS])
         self.assertTrue(isinstance(cf, IKeyword))
 
     def test_default(self):
 
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS])
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS])
         known = &#39;*CONTACT FILE\n&#39;
         known +=&#39;CDIS,CELS\n&#39;
         self.assertEqual(str(cf), known)
 
     def test_frequency(self):
 
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], frequency=2)
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS], frequency=2)
         known = &#39;*CONTACT FILE,FREQUENCY=2\n&#39;
         known +=&#39;CDIS,CELS\n&#39;
         self.assertEqual(str(cf), known)
 
     def test_time_points(self):
         tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], time_points=tp)
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS], time_points=tp)
         known = &#39;*CONTACT FILE,TIME POINTS=TP1\n&#39;
         known +=&#39;CDIS,CELS\n&#39;
         self.assertEqual(str(cf), known)
 
     def test_last_iteration(self):
 
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], last_Iterations=True)
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS], last_Iterations=True)
         known = &#39;*CONTACT FILE,LAST ITERATIONS\n&#39;
         known +=&#39;CDIS,CELS\n&#39;
         self.assertEqual(str(cf), known)
 
     def test_contact_elements(self):
 
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], contact_elements=True)
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS], contact_elements=True)
         known = &#39;*CONTACT FILE,CONTACT ELEMENTS\n&#39;
         known +=&#39;CDIS,CELS\n&#39;
         self.assertEqual(str(cf), known)
@@ -111,7 +112,7 @@ class TestContactFile(TestCase):
 
     def test_time_points_and_frequency(self):
         tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-        self.assertRaises(ValueError, ContactFile, [EContactResults.CDIS], time_points=tp, frequency=2)</code></pre>
+        self.assertRaises(ValueError, ContactFile, [EContactFileResults.CDIS], time_points=tp, frequency=2)</code></pre>
 </details>
 </section>
 <section>
@@ -163,40 +164,40 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">class TestContactFile(TestCase):
 
     def test_is_IKeyword(self):
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS])
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS])
         self.assertTrue(isinstance(cf, IKeyword))
 
     def test_default(self):
 
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS])
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS])
         known = &#39;*CONTACT FILE\n&#39;
         known +=&#39;CDIS,CELS\n&#39;
         self.assertEqual(str(cf), known)
 
     def test_frequency(self):
 
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], frequency=2)
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS], frequency=2)
         known = &#39;*CONTACT FILE,FREQUENCY=2\n&#39;
         known +=&#39;CDIS,CELS\n&#39;
         self.assertEqual(str(cf), known)
 
     def test_time_points(self):
         tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], time_points=tp)
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS], time_points=tp)
         known = &#39;*CONTACT FILE,TIME POINTS=TP1\n&#39;
         known +=&#39;CDIS,CELS\n&#39;
         self.assertEqual(str(cf), known)
 
     def test_last_iteration(self):
 
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], last_Iterations=True)
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS], last_Iterations=True)
         known = &#39;*CONTACT FILE,LAST ITERATIONS\n&#39;
         known +=&#39;CDIS,CELS\n&#39;
         self.assertEqual(str(cf), known)
 
     def test_contact_elements(self):
 
-        cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], contact_elements=True)
+        cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS], contact_elements=True)
         known = &#39;*CONTACT FILE,CONTACT ELEMENTS\n&#39;
         known +=&#39;CDIS,CELS\n&#39;
         self.assertEqual(str(cf), known)
@@ -206,7 +207,7 @@ not have a method with the specified name.</p></div>
 
     def test_time_points_and_frequency(self):
         tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-        self.assertRaises(ValueError, ContactFile, [EContactResults.CDIS], time_points=tp, frequency=2)</code></pre>
+        self.assertRaises(ValueError, ContactFile, [EContactFileResults.CDIS], time_points=tp, frequency=2)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -225,7 +226,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_contact_elements(self):
 
-    cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], contact_elements=True)
+    cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS], contact_elements=True)
     known = &#39;*CONTACT FILE,CONTACT ELEMENTS\n&#39;
     known +=&#39;CDIS,CELS\n&#39;
     self.assertEqual(str(cf), known)</code></pre>
@@ -242,7 +243,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_default(self):
 
-    cf = ContactFile([EContactResults.CDIS, EContactResults.CELS])
+    cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS])
     known = &#39;*CONTACT FILE\n&#39;
     known +=&#39;CDIS,CELS\n&#39;
     self.assertEqual(str(cf), known)</code></pre>
@@ -272,7 +273,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_frequency(self):
 
-    cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], frequency=2)
+    cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS], frequency=2)
     known = &#39;*CONTACT FILE,FREQUENCY=2\n&#39;
     known +=&#39;CDIS,CELS\n&#39;
     self.assertEqual(str(cf), known)</code></pre>
@@ -288,7 +289,7 @@ not have a method with the specified name.</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def test_is_IKeyword(self):
-    cf = ContactFile([EContactResults.CDIS, EContactResults.CELS])
+    cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS])
     self.assertTrue(isinstance(cf, IKeyword))</code></pre>
 </details>
 </dd>
@@ -303,7 +304,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_last_iteration(self):
 
-    cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], last_Iterations=True)
+    cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS], last_Iterations=True)
     known = &#39;*CONTACT FILE,LAST ITERATIONS\n&#39;
     known +=&#39;CDIS,CELS\n&#39;
     self.assertEqual(str(cf), known)</code></pre>
@@ -320,7 +321,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_time_points(self):
     tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-    cf = ContactFile([EContactResults.CDIS, EContactResults.CELS], time_points=tp)
+    cf = ContactFile([EContactFileResults.CDIS, EContactFileResults.CELS], time_points=tp)
     known = &#39;*CONTACT FILE,TIME POINTS=TP1\n&#39;
     known +=&#39;CDIS,CELS\n&#39;
     self.assertEqual(str(cf), known)</code></pre>
@@ -337,7 +338,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_time_points_and_frequency(self):
     tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-    self.assertRaises(ValueError, ContactFile, [EContactResults.CDIS], time_points=tp, frequency=2)</code></pre>
+    self.assertRaises(ValueError, ContactFile, [EContactFileResults.CDIS], time_points=tp, frequency=2)</code></pre>
 </details>
 </dd>
 </dl>

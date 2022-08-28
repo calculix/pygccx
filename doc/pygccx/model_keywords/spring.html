@@ -65,8 +65,9 @@ from typing import Sequence, Optional, Any
 import numpy as np
 import numpy.typing as npt
 
-from protocols import ISet, IKeyword, number
-from enums import ESetTypes
+from pygccx.protocols import ISet, IKeyword, number
+from pygccx.auxiliary import f2s
+from pygccx.enums import ESetTypes
 
 
 @dataclass
@@ -151,7 +152,7 @@ class SpringLin:
 
         for p in self.stiffness_for_temps:
             temp, stiffness = p
-            s += f&#39;{stiffness:.7e},,{temp:.7e}\n&#39;
+            s += f&#39;{f2s(stiffness)},,{f2s(temp)}\n&#39;
         
         return s
 
@@ -261,7 +262,7 @@ class SpringNonlin:
 <dl>
 <dt id="pygccx.model_keywords.spring.SpringLin"><code class="flex name class">
 <span>class <span class="ident">SpringLin</span></span>
-<span>(</span><span>elset: protocols.ISet, stiffness: dataclasses.InitVar[int | float | numpy.number], temp: dataclasses.InitVar[int | float | numpy.number] = 294.0, first_dof: Optional[int] = None, second_dof: Optional[int] = None, orientation: Optional[protocols.IKeyword] = None, name: str = '', desc: str = '')</span>
+<span>(</span><span>elset: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, stiffness: dataclasses.InitVar[int | float | numpy.number], temp: dataclasses.InitVar[int | float | numpy.number] = 294.0, first_dof: Optional[int] = None, second_dof: Optional[int] = None, orientation: Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>] = None, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to define the linear stiffness for SPRING1, SPRING2 or SPRINGA elements</p>
@@ -373,7 +374,7 @@ class SpringLin:
 
         for p in self.stiffness_for_temps:
             temp, stiffness = p
-            s += f&#39;{stiffness:.7e},,{temp:.7e}\n&#39;
+            s += f&#39;{f2s(stiffness)},,{f2s(temp)}\n&#39;
         
         return s</code></pre>
 </details>
@@ -383,7 +384,7 @@ class SpringLin:
 <dd>
 <div class="desc"><p>A short description of this instance. This is written to the ccx input file.</p></div>
 </dd>
-<dt id="pygccx.model_keywords.spring.SpringLin.elset"><code class="name">var <span class="ident">elset</span> : protocols.ISet</code></dt>
+<dt id="pygccx.model_keywords.spring.SpringLin.elset"><code class="name">var <span class="ident">elset</span> : <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a></code></dt>
 <dd>
 <div class="desc"><p>Element set for which the spring behavior is defined</p></div>
 </dd>
@@ -395,7 +396,7 @@ class SpringLin:
 <dd>
 <div class="desc"><p>Name of this instance</p></div>
 </dd>
-<dt id="pygccx.model_keywords.spring.SpringLin.orientation"><code class="name">var <span class="ident">orientation</span> : Optional[protocols.IKeyword]</code></dt>
+<dt id="pygccx.model_keywords.spring.SpringLin.orientation"><code class="name">var <span class="ident">orientation</span> : Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>]</code></dt>
 <dd>
 <div class="desc"><p>Orientation object. Can be used to define a local orientation of the spring for SPRING1 and
 SPRING2 elements</p></div>
@@ -451,7 +452,7 @@ SPRING2 elements</p></div>
 </dd>
 <dt id="pygccx.model_keywords.spring.SpringNonlin"><code class="flex name class">
 <span>class <span class="ident">SpringNonlin</span></span>
-<span>(</span><span>elset: protocols.ISet, force: dataclasses.InitVar[typing.Union[typing.Sequence[int | float | numpy.number], numpy.ndarray[typing.Any, numpy.dtype[numpy.float64]]]], elong: dataclasses.InitVar[typing.Union[typing.Sequence[int | float | numpy.number], numpy.ndarray[typing.Any, numpy.dtype[numpy.float64]]]], temp: dataclasses.InitVar[int | float | numpy.number] = 294.0, orientation: Optional[protocols.IKeyword] = None, first_dof: Optional[int] = None, second_dof: Optional[int] = None, name: str = '', desc: str = '')</span>
+<span>(</span><span>elset: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, force: dataclasses.InitVar[typing.Union[typing.Sequence[int | float | numpy.number], numpy.ndarray[typing.Any, numpy.dtype[numpy.float64]]]], elong: dataclasses.InitVar[typing.Union[typing.Sequence[int | float | numpy.number], numpy.ndarray[typing.Any, numpy.dtype[numpy.float64]]]], temp: dataclasses.InitVar[int | float | numpy.number] = 294.0, orientation: Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>] = None, first_dof: Optional[int] = None, second_dof: Optional[int] = None, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to define the nonlinear stiffness for SPRING1, SPRING2 or SPRINGA elements</p>
@@ -588,7 +589,7 @@ class SpringNonlin:
 <dd>
 <div class="desc"><p>Sequence of elongations for first temperature. Must be same length as force</p></div>
 </dd>
-<dt id="pygccx.model_keywords.spring.SpringNonlin.elset"><code class="name">var <span class="ident">elset</span> : protocols.ISet</code></dt>
+<dt id="pygccx.model_keywords.spring.SpringNonlin.elset"><code class="name">var <span class="ident">elset</span> : <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a></code></dt>
 <dd>
 <div class="desc"><p>Element set for which the spring behavior is defined</p></div>
 </dd>
@@ -608,7 +609,7 @@ class SpringNonlin:
 <dd>
 <div class="desc"><p>Name of this instance</p></div>
 </dd>
-<dt id="pygccx.model_keywords.spring.SpringNonlin.orientation"><code class="name">var <span class="ident">orientation</span> : Optional[protocols.IKeyword]</code></dt>
+<dt id="pygccx.model_keywords.spring.SpringNonlin.orientation"><code class="name">var <span class="ident">orientation</span> : Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>]</code></dt>
 <dd>
 <div class="desc"><p>Orientation object. Can be used to define a local orientation of the spring for SPRING1 and
 SPRING2 elements</p></div>

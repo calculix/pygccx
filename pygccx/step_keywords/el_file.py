@@ -19,8 +19,9 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field
 from typing import Iterable, Optional, Any
-from protocols import IKeyword, ISet
-from enums import EResultOutputs, EElementResults
+
+from pygccx.protocols import IKeyword, ISet
+from pygccx.enums import EResultOutputs, EElFileResults, ESetTypes
 
 @dataclass
 class ElFile:
@@ -55,7 +56,7 @@ class ElFile:
         desc: Optional. A short description of this instance. This is written to the ccx input file.
     """
 
-    entities:Iterable[EElementResults]
+    entities:Iterable[EElFileResults]
     """Iterable (i.e. a list) of element result entities."""
     frequency:int = 1
     """integer that indicates that the results of every Nth increment will be stored.
@@ -107,6 +108,8 @@ class ElFile:
             raise ValueError("frequency and time_points are mutually exclusive.")
         if self.section_forces and self.output == EResultOutputs._3D:
             raise ValueError("section_forces == True and output == 3D are mutually exclusive.")
+        if self.nset and self.nset.type != ESetTypes.NODE:
+            raise ValueError(f'Set type of nset must be NODE, got {self.nset.name}')
 
     def __str__(self):
         s = '*EL FILE'
@@ -121,6 +124,7 @@ class ElFile:
         if self.contact_elements: s += f',CONTACT ELEMENTS'
         s += '\n'
 
-        s += ','.join(e.value for e in self.entities) + '\n'
+        ents = {e:None for e in self.entities} # unify with dict to preserve order
+        s += ','.join(e.value for e in ents) + '\n'
 
         return s

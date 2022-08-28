@@ -62,7 +62,9 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from dataclasses import dataclass
 from typing import Iterable
-from protocols import number
+
+from pygccx.protocols import number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class TimePoints:
@@ -90,7 +92,7 @@ class TimePoints:
         s += &#39;\n&#39;
 
         for t in self.times:
-            s += f&#39;{t},\n&#39;
+            s += f&#39;{f2s(t)},\n&#39;
 
         s = s.rstrip(&#39;,\n&#39;) + &#39;\n&#39;
         return s
@@ -153,7 +155,7 @@ class TimePoints:
         s += &#39;\n&#39;
 
         for t in self.times:
-            s += f&#39;{t},\n&#39;
+            s += f&#39;{f2s(t)},\n&#39;
 
         s = s.rstrip(&#39;,\n&#39;) + &#39;\n&#39;
         return s</code></pre>

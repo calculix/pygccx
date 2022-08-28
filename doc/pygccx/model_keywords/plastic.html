@@ -65,8 +65,9 @@ from typing import Sequence
 import numpy as np
 import numpy.typing as npt
 
-from enums import EHardeningRules
-from protocols import number
+from pygccx.enums import EHardeningRules
+from pygccx.protocols import number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class CyclicHardening:
@@ -132,7 +133,7 @@ class CyclicHardening:
         for p in self.plastic_params_for_temps:
             temp, stress, strain = p
             for s_, e_ in zip(stress, strain):
-                s += f&#39;{s_:15.7e},{e_:15.7e},{temp:15.7e}\n&#39; 
+                s += f&#39;{f2s(s_)},{f2s(e_)},{f2s(temp)}\n&#39; 
         
         return s
 
@@ -173,7 +174,7 @@ class Plastic(CyclicHardening):
         for p in self.plastic_params_for_temps:
             temp, stress, strain = p
             for s_, e_ in zip(stress, strain):
-                s += f&#39;{s_:15.7e},{e_:15.7e},{temp:15.7e}\n&#39; 
+                s += f&#39;{f2s(s_)},{f2s(e_)},{f2s(temp)}\n&#39; 
         
         return s</code></pre>
 </details>
@@ -281,7 +282,7 @@ class CyclicHardening:
         for p in self.plastic_params_for_temps:
             temp, stress, strain = p
             for s_, e_ in zip(stress, strain):
-                s += f&#39;{s_:15.7e},{e_:15.7e},{temp:15.7e}\n&#39; 
+                s += f&#39;{f2s(s_)},{f2s(e_)},{f2s(temp)}\n&#39; 
         
         return s</code></pre>
 </details>
@@ -361,7 +362,7 @@ strain (Sequence[number]|npt.NDArray[np.float64]): Sequence of equ. plastic stra
 </dd>
 <dt id="pygccx.model_keywords.plastic.Plastic"><code class="flex name class">
 <span>class <span class="ident">Plastic</span></span>
-<span>(</span><span>stress: dataclasses.InitVar[typing.Union[typing.Sequence[int | float | numpy.number], numpy.ndarray[typing.Any, numpy.dtype[numpy.float64]]]], strain: dataclasses.InitVar[typing.Union[typing.Sequence[int | float | numpy.number], numpy.ndarray[typing.Any, numpy.dtype[numpy.float64]]]], temp: dataclasses.InitVar[int | float | numpy.number] = 294.0, name: str = '', desc: str = '', hardening: enums.EHardeningRules = EHardeningRules.ISOTROPIC)</span>
+<span>(</span><span>stress: dataclasses.InitVar[typing.Union[typing.Sequence[int | float | numpy.number], numpy.ndarray[typing.Any, numpy.dtype[numpy.float64]]]], strain: dataclasses.InitVar[typing.Union[typing.Sequence[int | float | numpy.number], numpy.ndarray[typing.Any, numpy.dtype[numpy.float64]]]], temp: dataclasses.InitVar[int | float | numpy.number] = 294.0, name: str = '', desc: str = '', hardening: <a title="pygccx.enums.EHardeningRules" href="../enums.html#pygccx.enums.EHardeningRules">EHardeningRules</a> = EHardeningRules.ISOTROPIC)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to define the plastic properties of a material</p>
@@ -426,7 +427,7 @@ class Plastic(CyclicHardening):
         for p in self.plastic_params_for_temps:
             temp, stress, strain = p
             for s_, e_ in zip(stress, strain):
-                s += f&#39;{s_:15.7e},{e_:15.7e},{temp:15.7e}\n&#39; 
+                s += f&#39;{f2s(s_)},{f2s(e_)},{f2s(temp)}\n&#39; 
         
         return s</code></pre>
 </details>
@@ -436,7 +437,7 @@ class Plastic(CyclicHardening):
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pygccx.model_keywords.plastic.Plastic.hardening"><code class="name">var <span class="ident">hardening</span> : enums.EHardeningRules</code></dt>
+<dt id="pygccx.model_keywords.plastic.Plastic.hardening"><code class="name">var <span class="ident">hardening</span> : <a title="pygccx.enums.EHardeningRules" href="../enums.html#pygccx.enums.EHardeningRules">EHardeningRules</a></code></dt>
 <dd>
 <div class="desc"><p>Hardening rule</p></div>
 </dd>

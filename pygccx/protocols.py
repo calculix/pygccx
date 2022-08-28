@@ -17,10 +17,11 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from typing import Protocol, runtime_checkable
+from dataclasses import dataclass
+from typing import Protocol, runtime_checkable, Iterable
 import numpy as np
 import numpy.typing as npt
-import enums
+from . import enums
 
 number = int|float|np.number
 
@@ -114,3 +115,4 @@ class ICoordinateSystem(Protocol):
         row 2: vector of z axis in global system
         """
         ...
+

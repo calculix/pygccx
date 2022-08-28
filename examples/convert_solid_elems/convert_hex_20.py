@@ -21,53 +21,54 @@ This is a test, if a hex 20 element is converted correctly from gmsh to CCX.
 The node numbering in gmsh is different than in ccx
 '''
 
-import sys, os
-os.chdir(sys.path[0])
-sys.path += ['../../', '../../pygccx']
+import os
 
 from pygccx import model as ccx_model
 
+WKD = os.path.dirname(os.path.abspath(__file__))
 # change this paths to your location of ccx and cgx
-CCX_PATH = os.path.join('../../', 'executables', 'calculix_2.19_4win', 'ccx_static.exe')
-CGX_PATH = os.path.join('../../', 'executables', 'calculix_2.19_4win', 'cgx_GLUT.exe')
+CCX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.19_4win', 'ccx_static.exe')
+CGX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.19_4win', 'cgx_GLUT.exe')
 
-with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
-    model.jobname = 'convert_hex_20'
- 
-    gmsh = model.get_gmsh()
-    gmsh.option.setNumber('Mesh.ElementOrder', 2)
+def main():
+    with ccx_model.Model(CCX_PATH, CGX_PATH, jobname='convert_hex_20', working_dir=WKD) as model:
+    
+        gmsh = model.get_gmsh()
+        gmsh.option.setNumber('Mesh.ElementOrder', 2)
 
-    # make model of a cube in gmsh
-    # make first surface
-    p1 = gmsh.model.geo.addPoint(0,0,0)
-    p2 = gmsh.model.geo.addPoint(1,0,0)
-    p3 = gmsh.model.geo.addPoint(1,1,0)
-    p4 = gmsh.model.geo.addPoint(0,1,0)
-    l1 = gmsh.model.geo.addLine(p1,p2)
-    l2 = gmsh.model.geo.addLine(p2,p3)
-    l3 = gmsh.model.geo.addLine(p3,p4)
-    l4 = gmsh.model.geo.addLine(p4,p1)
-    c1 = gmsh.model.geo.addCurveLoop([l1,l2,l3,l4])
-    s1 = gmsh.model.geo.addPlaneSurface([c1])
-    gmsh.model.geo.synchronize()
+        # make model of a cube in gmsh
+        # make first surface
+        p1 = gmsh.model.geo.addPoint(0,0,0)
+        p2 = gmsh.model.geo.addPoint(1,0,0)
+        p3 = gmsh.model.geo.addPoint(1,1,0)
+        p4 = gmsh.model.geo.addPoint(0,1,0)
+        l1 = gmsh.model.geo.addLine(p1,p2)
+        l2 = gmsh.model.geo.addLine(p2,p3)
+        l3 = gmsh.model.geo.addLine(p3,p4)
+        l4 = gmsh.model.geo.addLine(p4,p1)
+        c1 = gmsh.model.geo.addCurveLoop([l1,l2,l3,l4])
+        s1 = gmsh.model.geo.addPlaneSurface([c1])
+        gmsh.model.geo.synchronize()
 
-    # set transfinite and recombine to get one quad 8 element
-    for l in [l1,l2,l3,l4]:
-        gmsh.model.geo.mesh.setTransfiniteCurve(l, 2)
-    gmsh.model.geo.mesh.setTransfiniteSurface(s1)
-    gmsh.model.geo.mesh.setRecombine(2, s1)
+        # set transfinite and recombine to get one quad 8 element
+        for l in [l1,l2,l3,l4]:
+            gmsh.model.geo.mesh.setTransfiniteCurve(l, 2)
+        gmsh.model.geo.mesh.setTransfiniteSurface(s1)
+        gmsh.model.geo.mesh.setRecombine(2, s1)
 
-    # extrude surface and mesh to cube and recombine to get one hex 20
-    gmsh.model.geo.extrude([(2,s1)],0,0,1, 
-                            numElements=([1]), 
-                            recombine=True)
+        # extrude surface and mesh to cube and recombine to get one hex 20
+        gmsh.model.geo.extrude([(2,s1)],0,0,1, 
+                                numElements=([1]), 
+                                recombine=True)
 
-    gmsh.model.add_physical_group(3, [1], name='CUBE')
-    gmsh.model.geo.synchronize()
-    gmsh.model.mesh.generate(3)
+        gmsh.model.add_physical_group(3, [1], name='CUBE')
+        gmsh.model.geo.synchronize()
+        gmsh.model.mesh.generate(3)
 
-    # translate the mesh to ccx
-    model.update_mesh_from_gmsh()
-    model.show_model_in_cgx()
+        # translate the mesh to ccx
+        model.update_mesh_from_gmsh()
+        model.show_model_in_cgx()
 
+if __name__ == '__main__':
+    main()
    

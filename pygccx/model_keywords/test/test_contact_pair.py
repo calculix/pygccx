@@ -19,9 +19,10 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from model_keywords import ContactPair
-from enums import EContactTypes, ESetTypes, ESurfTypes
-from protocols import IKeyword
+
+from pygccx.model_keywords import ContactPair
+from pygccx.enums import EContactTypes, ESetTypes, ESurfTypes
+from pygccx.protocols import IKeyword
 
 @dataclass
 class InteractionMock:

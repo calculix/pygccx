@@ -19,8 +19,9 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field
 from typing import Optional, Any
-from enums import EStepAmplitudes
-from protocols import IKeyword
+
+from pygccx.enums import EStepAmplitudes
+from pygccx.protocols import IKeyword
 
 @dataclass
 class Step:

@@ -62,8 +62,9 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from dataclasses import dataclass, field
 from typing import Optional, Any
-from enums import EContactTypes, ESetTypes, ESurfTypes
-from protocols import IKeyword, ISet, ISurface, number
+from pygccx.enums import EContactTypes, ESetTypes, ESurfTypes
+from pygccx.protocols import IKeyword, ISet, ISurface, number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class ContactPair:
@@ -138,7 +139,7 @@ class ContactPair:
         if self.small_sliding: s += f&#39;,SMALL SLIDING&#39;
         if self.adjust is not None:
             if isinstance(self.adjust, ISet): s += f&#39;,ADJUST={self.adjust.name}&#39;
-            else: s += f&#39;,ADJUST={self.adjust}&#39;
+            else: s += f&#39;,ADJUST={f2s(self.adjust)}&#39;
         s += &#39;\n&#39;
 
         s += f&#39;{self.dep_surf.name},{self.ind_surf.name}\n&#39;
@@ -157,7 +158,7 @@ class ContactPair:
 <dl>
 <dt id="pygccx.model_keywords.contact_pair.ContactPair"><code class="flex name class">
 <span>class <span class="ident">ContactPair</span></span>
-<span>(</span><span>interaction: protocols.IKeyword, type: enums.EContactTypes, dep_surf: protocols.ISurface, ind_surf: protocols.ISurface, small_sliding: bool = False, adjust: Union[int, float, numpy.number, protocols.ISet, ForwardRef(None)] = None, name: str = '', desc: str = '')</span>
+<span>(</span><span>interaction: <a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>, type: <a title="pygccx.enums.EContactTypes" href="../enums.html#pygccx.enums.EContactTypes">EContactTypes</a>, dep_surf: <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a>, ind_surf: <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a>, small_sliding: bool = False, adjust: Union[int, float, numpy.number, <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, ForwardRef(None)] = None, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to express that two surfaces can make contact</p>
@@ -263,7 +264,7 @@ class ContactPair:
         if self.small_sliding: s += f&#39;,SMALL SLIDING&#39;
         if self.adjust is not None:
             if isinstance(self.adjust, ISet): s += f&#39;,ADJUST={self.adjust.name}&#39;
-            else: s += f&#39;,ADJUST={self.adjust}&#39;
+            else: s += f&#39;,ADJUST={f2s(self.adjust)}&#39;
         s += &#39;\n&#39;
 
         s += f&#39;{self.dep_surf.name},{self.ind_surf.name}\n&#39;
@@ -272,13 +273,13 @@ class ContactPair:
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="pygccx.model_keywords.contact_pair.ContactPair.adjust"><code class="name">var <span class="ident">adjust</span> : Union[int, float, numpy.number, protocols.ISet, ForwardRef(None)]</code></dt>
+<dt id="pygccx.model_keywords.contact_pair.ContactPair.adjust"><code class="name">var <span class="ident">adjust</span> : Union[int, float, numpy.number, <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, ForwardRef(None)]</code></dt>
 <dd>
 <div class="desc"><p>If a node set is passed, all nodes in the set are adjusted at the start of the calculation.
 If a real number is passed, all nodes for which the clearance is smaller or equal to this number
 are adjusted.</p></div>
 </dd>
-<dt id="pygccx.model_keywords.contact_pair.ContactPair.dep_surf"><code class="name">var <span class="ident">dep_surf</span> : protocols.ISurface</code></dt>
+<dt id="pygccx.model_keywords.contact_pair.ContactPair.dep_surf"><code class="name">var <span class="ident">dep_surf</span> : <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a></code></dt>
 <dd>
 <div class="desc"><p>Dependent Surface of type NODE or EL_FACE. If type==SURFACE_TO_SURFACE is selected,
 the dependent surface must be of type EL_FACE</p></div>
@@ -287,11 +288,11 @@ the dependent surface must be of type EL_FACE</p></div>
 <dd>
 <div class="desc"><p>A short description of this Instance. This is written to the ccx input file.</p></div>
 </dd>
-<dt id="pygccx.model_keywords.contact_pair.ContactPair.ind_surf"><code class="name">var <span class="ident">ind_surf</span> : protocols.ISurface</code></dt>
+<dt id="pygccx.model_keywords.contact_pair.ContactPair.ind_surf"><code class="name">var <span class="ident">ind_surf</span> : <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a></code></dt>
 <dd>
 <div class="desc"><p>Independent Surface of type EL_FACE</p></div>
 </dd>
-<dt id="pygccx.model_keywords.contact_pair.ContactPair.interaction"><code class="name">var <span class="ident">interaction</span> : protocols.IKeyword</code></dt>
+<dt id="pygccx.model_keywords.contact_pair.ContactPair.interaction"><code class="name">var <span class="ident">interaction</span> : <a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a></code></dt>
 <dd>
 <div class="desc"><p>Interaction instance</p></div>
 </dd>
@@ -304,7 +305,7 @@ the dependent surface must be of type EL_FACE</p></div>
 <div class="desc"><p>Flag if small sliding should be active. If None:
 Default for node-to-surface: small_sliding==False. For all other contact types it is True</p></div>
 </dd>
-<dt id="pygccx.model_keywords.contact_pair.ContactPair.type"><code class="name">var <span class="ident">type</span> : enums.EContactTypes</code></dt>
+<dt id="pygccx.model_keywords.contact_pair.ContactPair.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.EContactTypes" href="../enums.html#pygccx.enums.EContactTypes">EContactTypes</a></code></dt>
 <dd>
 <div class="desc"><p>Contact type</p></div>
 </dd>

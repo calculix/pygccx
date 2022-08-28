@@ -18,8 +18,9 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from model_keywords import CyclicHardening
-from protocols import IKeyword
+
+from pygccx.model_keywords import CyclicHardening
+from pygccx.protocols import IKeyword
 
 class TestCyclicHardening(TestCase):
 

@@ -62,8 +62,9 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from dataclasses import dataclass, field
 from typing import Optional, Any
-from enums import EStepAmplitudes
-from protocols import IKeyword
+
+from pygccx.enums import EStepAmplitudes
+from pygccx.protocols import IKeyword
 
 @dataclass
 class Step:
@@ -111,8 +112,8 @@ class Step:
         if self.nlgeom is not None:
             if self.nlgeom: s += &#39;,NLGEOM&#39;
             else:  s += &#39;,NLGEOM=NO&#39;
-        s += f&#39;,INC={self.inc}&#39;
-        s += f&#39;,AMPLITUDE={self.amplitude.value}&#39;
+        if self.inc != 100: s += f&#39;,INC={self.inc}&#39;
+        if self.amplitude != EStepAmplitudes.RAMP: s += f&#39;,AMPLITUDE={self.amplitude.value}&#39;
         s += &#39;\n&#39;
 
         return s</code></pre>
@@ -129,7 +130,7 @@ class Step:
 <dl>
 <dt id="pygccx.step_keywords.step.Step"><code class="flex name class">
 <span>class <span class="ident">Step</span></span>
-<span>(</span><span>nlgeom: Optional[bool] = None, inc: int = 100, amplitude: enums.EStepAmplitudes = EStepAmplitudes.RAMP, perturbation: bool = False, desc: str = '')</span>
+<span>(</span><span>nlgeom: Optional[bool] = None, inc: int = 100, amplitude: <a title="pygccx.enums.EStepAmplitudes" href="../enums.html#pygccx.enums.EStepAmplitudes">EStepAmplitudes</a> = EStepAmplitudes.RAMP, perturbation: bool = False, desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to define a step</p>
@@ -199,15 +200,15 @@ class Step:
         if self.nlgeom is not None:
             if self.nlgeom: s += &#39;,NLGEOM&#39;
             else:  s += &#39;,NLGEOM=NO&#39;
-        s += f&#39;,INC={self.inc}&#39;
-        s += f&#39;,AMPLITUDE={self.amplitude.value}&#39;
+        if self.inc != 100: s += f&#39;,INC={self.inc}&#39;
+        if self.amplitude != EStepAmplitudes.RAMP: s += f&#39;,AMPLITUDE={self.amplitude.value}&#39;
         s += &#39;\n&#39;
 
         return s</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="pygccx.step_keywords.step.Step.amplitude"><code class="name">var <span class="ident">amplitude</span> : enums.EStepAmplitudes</code></dt>
+<dt id="pygccx.step_keywords.step.Step.amplitude"><code class="name">var <span class="ident">amplitude</span> : <a title="pygccx.enums.EStepAmplitudes" href="../enums.html#pygccx.enums.EStepAmplitudes">EStepAmplitudes</a></code></dt>
 <dd>
 <div class="desc"><p>Enum if load should be ramped or stepped within this step</p></div>
 </dd>
@@ -227,7 +228,7 @@ class Step:
 <dd>
 <div class="desc"><p>Flag if the last non-perturbative step should be used as a preload</p></div>
 </dd>
-<dt id="pygccx.step_keywords.step.Step.step_keywords"><code class="name">var <span class="ident">step_keywords</span> : list[protocols.IKeyword]</code></dt>
+<dt id="pygccx.step_keywords.step.Step.step_keywords"><code class="name">var <span class="ident">step_keywords</span> : list[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>]</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -235,7 +236,7 @@ class Step:
 <h3>Methods</h3>
 <dl>
 <dt id="pygccx.step_keywords.step.Step.add_step_keywords"><code class="name flex">
-<span>def <span class="ident">add_step_keywords</span></span>(<span>self, *step_keywords: protocols.IKeyword)</span>
+<span>def <span class="ident">add_step_keywords</span></span>(<span>self, *step_keywords: <a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Adds the given step keywords to this step</p></div>

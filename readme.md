@@ -17,15 +17,14 @@ The best way to explore pygccx is by using an IDE like VS Code or PyCharm with a
 intellysense and static type checking switched on. So you can see all the members, parameters types and doc strings.
 In the folder doc/pygccx you can find an auto generated html documentation of all classes.
 
-ATM no postprocessing capabilities are implemented. This is one of the next mile stones.<br>
 
 # Install Pygccx
-Up to now there is no pip package. To use pygccx do the following:
-- Install Python 3.10 or higher (or make a virtual env)
-- Download the whole Project.
-- Install requirements from requirements.txt with pip install -r requirements.txt
-- Append the path to pygccx to sys.path
-- Now "from pygccx import ..." should work
+- Install Python 3.10 or higher (or make a virtual env of Python 3.10)
+- Download pygccx and extract to any location you want.
+- install pygccx with pip
+    ```
+    pip install "path/to/pygccx"   (the folder where setup.py is located)
+    ```
 
 # Capabilities of Pygccx:
 - Static analysis of 3D structures (only solid elements, no shells or beams)
@@ -57,8 +56,14 @@ Up to now there is no pip package. To use pygccx do the following:
         - *BOUNDARY (inhomogeneous)
         - *CLOAD
         - *CONTACT FILE
+        - *CONTACT OUTPUT
+        - *CONTACT PRINT
+        - *ELEMENT OUTPUT
         - *EL FILE
+        - *EL PRINT
         - *NODE FILE
+        - *NODE OUTPUT
+        - *NODE PRINT
         - *STATIC
         - *STEP
         - *TIME POINTS
@@ -68,10 +73,9 @@ Up to now there is no pip package. To use pygccx do the following:
 
 # Planned capabilities of Pygccx:
 - Support of all CCX keywords for static analysis
-- Read result files
-- Provide result object for querying results
 - Postpro in GMSH
+- Read mesh and sets from *.inp file
+- Read mesh from *.frd file
 
 # Prerequisites
 - Python 3.10
-- Packages from requirements.txt

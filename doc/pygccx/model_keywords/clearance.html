@@ -61,7 +61,8 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
 from dataclasses import dataclass
-from protocols import ISurface, number
+from pygccx.protocols import ISurface, number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class Clearance:
@@ -88,7 +89,7 @@ class Clearance:
     &#34;&#34;&#34;A short description of this Instance. This is written to the ccx input file.&#34;&#34;&#34;
 
     def __str__(self):
-        return f&#39;*CLEARANCE,MASTER={self.master.name},SLAVE={self.slave.name},VALUE={self.value}\n&#39; </code></pre>
+        return f&#39;*CLEARANCE,MASTER={self.master.name},SLAVE={self.slave.name},VALUE={f2s(self.value)}\n&#39; </code></pre>
 </details>
 </section>
 <section>
@@ -102,7 +103,7 @@ class Clearance:
 <dl>
 <dt id="pygccx.model_keywords.clearance.Clearance"><code class="flex name class">
 <span>class <span class="ident">Clearance</span></span>
-<span>(</span><span>master: protocols.ISurface, slave: protocols.ISurface, value: int | float | numpy.number, name: str = '', desc: str = '')</span>
+<span>(</span><span>master: <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a>, slave: <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a>, value: int | float | numpy.number, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to define a clearance between the slave and master surface of a contact pair</p>
@@ -148,7 +149,7 @@ class Clearance:
     &#34;&#34;&#34;A short description of this Instance. This is written to the ccx input file.&#34;&#34;&#34;
 
     def __str__(self):
-        return f&#39;*CLEARANCE,MASTER={self.master.name},SLAVE={self.slave.name},VALUE={self.value}\n&#39; </code></pre>
+        return f&#39;*CLEARANCE,MASTER={self.master.name},SLAVE={self.slave.name},VALUE={f2s(self.value)}\n&#39; </code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -156,7 +157,7 @@ class Clearance:
 <dd>
 <div class="desc"><p>A short description of this Instance. This is written to the ccx input file.</p></div>
 </dd>
-<dt id="pygccx.model_keywords.clearance.Clearance.master"><code class="name">var <span class="ident">master</span> : protocols.ISurface</code></dt>
+<dt id="pygccx.model_keywords.clearance.Clearance.master"><code class="name">var <span class="ident">master</span> : <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a></code></dt>
 <dd>
 <div class="desc"><p>Independent surface</p></div>
 </dd>
@@ -164,7 +165,7 @@ class Clearance:
 <dd>
 <div class="desc"><p>The name of this Instance. Not used</p></div>
 </dd>
-<dt id="pygccx.model_keywords.clearance.Clearance.slave"><code class="name">var <span class="ident">slave</span> : protocols.ISurface</code></dt>
+<dt id="pygccx.model_keywords.clearance.Clearance.slave"><code class="name">var <span class="ident">slave</span> : <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a></code></dt>
 <dd>
 <div class="desc"><p>Dependent surface</p></div>
 </dd>

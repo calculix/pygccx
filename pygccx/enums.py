@@ -117,108 +117,227 @@ class EResultOutputs(str, Enum):
     _3D = '3D'
     """Output of 1D and 2D Elements in their expanded form"""
 
-class ENodeResults(str, Enum):
+class ENodeFileResults(str, Enum):
     KEQ = 'KEQ'
-    """Equivalent stress intensity factor and related quantities in crack propagation 
-        calculations."""
+    """stress intensity factor"""
     MAXU = 'MAXU'
-    """Maximum displacements orthogonal to a given vector
-        at all times for *FREQUENCY calculations with cyclic symmetry. The
-        components of the vector are the coordinates of a node stored in a node
-        set with the name RAY. This node and node set must have been defined
-        by the user."""
+    """worst displacement orthogonal to a given vector in cyclic symmetric frequency calculations"""
     NT = 'NT'
-    """Temperatures. This includes both structural temperatures and total fluid 
-        temperatures in a network."""
+    """structural temperature"""
     PNT = 'PNT'
-    """Temperatures: magnitude and phase (only for *STEADY STATE DYNAMICS calculations)."""
+    """magnitude and phase of temperature"""
     PRF = 'PRF'
-    """External forces: magnitude and phase (only for *FREQUENCY calculations with 
-        cyclic symmetry)."""
+    """magnitude and phase of external forces"""
     PU = 'PU'
-    """Displacements: magnitude and phase (only for *STEADY STATE DYNAMICS
-        calculations and *FREQUENCY calculations with cyclic symmetry)."""
+    """magnitude and phase of displacement"""
     RF = 'RF'
-    """External forces (only static forces;
-        dynamic forces, such as those caused by dashpots, are not included)"""
+    """total force"""
     SEN = 'SEN'
-    """Sensitivities."""
+    """sensitivity"""
     U = 'U'
-    """Displacements."""
+    """displacement"""
     V = 'V'
-    """Velocities in dynamic calculations."""
+    """velocity of a structure"""
 
-class EElementResults(str, Enum):
-    CEEQ= 'CEEQ'
-    """equivalent creep strain (is converted internally into PEEQ
-        since the viscoplastic theory does not distinguish between the two; 
-        consequently, the user will find PEEQ in the frd file, not CEEQ."""
+class EElFileResults(str, Enum):
     E = 'E'
-    """strain. This is the total
-        Lagrangian strain for (hyper)elastic materials and incremental plasticity
-        and the total Eulerian strain for deformation plasticity."""
+    """Lagrange strain"""
     ENER = 'ENER'
-    """the energy density."""
+    """internal energy density"""
     ERR = 'ERR'
-    """error estimator for structural calculations, Notice that ERR and ZZS are 
-        mutually exclusive."""
+    """error estimator for the worst principal stress"""
     HER = 'HER'
-    """error estimator for heat transfer calculations."""
-    HFL = 'Heat flux in structures.'
-    """Displacements: magnitude and phase (only for *STEADY STATE DYNAMICS
-        calculations and *FREQUENCY calculations with cyclic symmetry)."""
+    """error estimator for the temperature"""
+    HFL = 'HFL'
+    """heat flux in a structure"""
     MAXE = 'MAXE'
-    """Maximum of the absolute value of the worst principal
-        strain at all times for *FREQUENCY calculations with cyclic symmetry.
-        It is stored for nodes belonging to the node set with name STRAINDO-
-        MAIN. This node set must have been defined by the user with the *NSET
-        command. The worst principal strain is the maximum of the absolute
-        value of the principal strains times its original sign"""
+    """worst principal strain in cyclic symmetric frequency calculations"""
     MAXS = 'MAXS'
-    """maximum of the absolute value of the worst principal
-        stress at all times for *FREQUENCY calculations with cyclic symmetry.
-        It is stored for nodes belonging to the node set with name STRESSDO-
-        MAIN. This node set must have been defined by the user with the *NSET
-        7.50 *EL FILE 439 command. The worst principal stress is the maximum 
-        of the absolute value of the principal stresses times its original sign."""
+    """worst principal stress in cyclic symmetric frequency calculations"""
     ME = 'ME'
-    """strain. This is the
-        mechanical Lagrangian strain for (hyper)elastic materials and incremental
-        plasticity and the mechanical Eulerian strain for deformation plasticity
-        (mechanical strain = total strain - thermal strain)."""
+    """mechanical strain"""
     PEEQ = 'PEEQ'
-    """equivalent plastic strain."""
-    PHS = 'PHS'
-    """ stress: magnitude and phase (only for *STEADY STATE DYNAMICS
-        calculations and *FREQUENCY calculations with cyclic symmetry)."""
+    """equivalent plastic strain"""
     S = 'S'
-    """true (Cauchy) stress in structures. For beam elements this tensor is 
-        replaced by the section forces
-        if SECTION FORCES is selected. Selection of S automatically triggers
-        output of the error estimator ERR, unless NOE is selected after S (either
-        immediately following S, or with some other output requests in between,
-        irrespective whether these output requests are on the same keyword card
-        or on different keyword cards)"""
+    """Cauchy stress (structure)"""
     THE = 'THE'
-    """strain. This is the thermal strain calculated by subtracting the mechanical 
-       strain (extrapolated to the nodes) from the total strain (extrapolated to the nodes) 
-       at the nodes. Selection of THE triggers the selection of E and ME. This is needed 
-       to ensure that E (the total strain) and ME (the mechanical strain) are extrapolated 
-       to the nodes."""
+    """thermal strain"""
     ZZS = 'ZZS'
-    """Zienkiewicz-Zhu improved stress. Notice that ZZS and ERR are mutually exclusive."""
+    """Zienkiewicz-Zhu stress"""
 
-class EContactResults(str, Enum):
+class EContactFileResults(str, Enum):
     CDIS = 'CDIS'
-    """Relative contact displacements"""
+    """relative contact displacements"""
     CSTR = 'CSTR'
-    """Contact stresses"""
+    """contact stress"""
     CELS = 'CELS'
-    """Contact energy"""
+    """contact energy"""
     PCON = 'PCON'
-    """Only for face-to-face penalty contact.\n 
-    Magnitude and phase of the relative contact displacements and
-    contact stresses in a frequency calculation with cyclic symmetry. """
+    """amplitude and phase of the relative contact"""
+
+class ENodePrintResults(str, Enum):
+    NT = 'NT'
+    """structural temperature"""
+    RF = 'RF'
+    """total force"""
+    U = 'U'
+    """displacement"""
+    V = 'V'
+    """velocity of a structure"""
+
+class EElPrintResults(str, Enum):
+    COORD = 'COORD'
+    """Coordinates"""
+    E = 'E'
+    """Lagrange strain"""
+    ENER = 'ENER'
+    """Internal energy density"""
+    HFL = 'HFL'
+    """Heat flux in a structure"""
+    ME = 'ME'
+    """Mechanical strain"""
+    PEEQ = 'PEEQ'
+    """Equivalent plastic strain"""
+    S = 'S'
+    """Cauchy stress (structure)"""
+    ELKE = 'ELKE'
+    """Kinetic energy"""
+    ELSE = 'ELSE'
+    """Internal energy"""
+    EMAS = 'EMAS'  
+    """Mass and mass moments of inertia"""
+    EVOL = 'EVOL'
+    """Volume"""
+
+class EContactPrintResults(str, Enum):
+    CDIS = 'CDIS' 
+    """relative contact displacements"""
+    CELS = 'CELS'
+    """contact energy"""
+    CF = 'CF'
+    """total contact force"""
+    CFN = 'CFN'
+    """total normal contact force"""
+    CFS = 'CFS'
+    """total shear contact force"""
+    CNUM = 'CNUM'
+    """total number of contact elements"""
+    CSTR = 'CSTR'
+    """contact stress"""
+    
+class EFrdEntities(str, Enum):
+    CT3D_MIS = 'CT3D-MIS'
+    """Stress intensity factor"""
+    MDISP = 'MDISP'
+    """Worst displacement orthogonal to a given vector
+     in cyclic symmetric frequency calculations"""
+    NDTEMP = 'NDTEMP'
+    """Structural temperature; total temperature in a network"""
+    PNDTEMP = 'PNDTEMP'
+    """magnitude and phase of temperature"""
+    PFORC = 'PFORC'
+    """Magnitude and phase of external forces"""
+    PDISP = 'PDISP'
+    """Magnitude and phase of displacement"""
+    FORC = 'FORC'
+    """Real part of total force"""
+    FORCI = 'FORCI'
+    """Imaginary part of total force"""
+    SEN = 'SEN'
+    """Sensitifity"""
+    DISP = 'DISP'
+    """Real part of displacement"""
+    DISPI = 'DISPI'
+    """Imaginary part of displacement"""
+    VELO = 'VELO'
+    """Velocity"""
+
+    TOSTRAIN = 'TOSTRAIN'
+    """Real part of lagrange strain"""
+    TOSTRAII = 'TOSTRAII'
+    """Imaginary part of lagrange strain"""
+    ENER = 'ENER'
+    """Internal energy density"""
+    ERROR = 'ERROR'
+    """Real part of error estimator for the worst principal stress"""
+    ERRORI = 'ERRORI'
+    """Imaginary part of error estimator for the worst principal stress"""
+    HERROR = 'HERROR'
+    """Real part of error estimator for the temperature"""
+    HERRORI = 'HERRORI'
+    """Imaginary part of error estimator for the temperature"""
+    FLUX = 'FLUX'
+    """Heat flux in a structure"""
+    MSTRAIN = 'MSTRAIN'
+    """worst principal strain in cyclic symmetric frequency calculations"""
+    MSTRESS = 'MSTRESS'
+    """worst principal stress in cyclic symmetric frequency calculations"""
+    MESTRAIN = 'MESTRAIN'
+    """Real part of mechanical strain"""
+    MESTRAII = 'MESTRAII'
+    """Imaginary part of mechanical strain"""
+    PE = 'PE'
+    """Equivalent plastic strain"""
+    STRESS = 'STRESS'
+    """Real part of Cauchy stress (structure)"""
+    STRESSI = 'STRESSI'
+    """Imaginary part of Cauchy stress (structure)"""
+    THSTRAIN = 'THSTRAIN'
+    """thermal strain"""
+    ZZSTR = 'ZZSTR'
+    """Real part of Zienkiewicz-Zhu stress"""
+    ZZSTRI = 'ZZSTRI'
+    """Imaginary part of Zienkiewicz-Zhu stress"""
+
+    CONTACT = 'CONTACT'
+    """Real part of relative contact displacements"""
+    CONTACTI = 'CONTACTI'
+    """Imaginary part of relative contact displacements"""
+    CELS = 'CELS'
+    """contact energy"""
+    PCONTAC = 'PCONTAC'
+    """amplitude and phase of the relative contact displacements and contact stresses"""
+
+class EDatEntities(str, Enum):
+    # Node Print entities
+    U = 'displacements' 
+    """Displacements"""
+    RF = 'forces' 
+    """Total force"""
+
+    # El Print entities
+    S = 'stresses' 
+    """Cauchy stress (structure)"""
+    E = 'strains' 
+    """Lagrange strain"""
+    ME = 'mechanical strains' 
+    """Mechanical strain"""
+    PEEQ = 'equivalent plastic strain' 
+    """Equivalent plastic strain"""
+    EVOL = 'volume' 
+    """Volume"""
+    COORD = 'global coordinates' 
+    """Global coordinates"""
+    ENER = 'internal energy density' 
+    """Internal energy density"""
+    ELKE = 'kinetic energy' 
+    """Kinetic energy"""
+    ELSE = 'internal energy' 
+    """Internal energy"""
+    EMAS = 'mass'
+    """Mass and mass moments of inertia"""
+    # Contact print entities
+    CELS = 'contact print energy' 
+    """Contact energy"""
+    CSTR = 'contact stress' 
+    """Contact stress"""
+    CDIS = 'relative contact displacement' 
+    """Relative contact displacement"""
+    
+class EPrintTotals(str, Enum):
+    YES = 'YES'
+    ONLY = 'ONLY'
+    NO = 'NO'
 
 class ESolvers(str, Enum):
     DEFAULT = 'DEFAUL'
@@ -254,3 +373,15 @@ class EContactTypes(str, Enum):
     MORTAR = 'MORTAR' 
     LINMORTAR = 'LINMORTAR'
     PGLINMORTAR = 'PGLINMORTAR'
+
+class EReultEntityTypes(str, Enum):
+    SCALAR = 'SCALAR'
+    VECTOR = 'VECTOR'
+    TENSOR = 'TENSOR'
+
+class EResultLocations(str, Enum):
+    NODAL = 'NODAL'
+    ELEMENT = 'ELEMENT'
+    INT_PNT = 'INT_PNT'
+
+

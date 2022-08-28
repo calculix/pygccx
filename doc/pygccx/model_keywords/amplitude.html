@@ -65,7 +65,8 @@ from typing import Sequence, Optional
 import numpy as np
 import numpy.typing as npt
 
-from protocols import number
+from pygccx.protocols import number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class Amplitude:
@@ -99,13 +100,13 @@ class Amplitude:
     def __str__(self):
         s = f&#39;*AMPLITUDE,NAME={self.name},&#39;
         if self.use_total_time: s += &#39;TIME=TOTAL TIME,&#39;
-        if self.shift_x is not None: s += f&#39;SHIFTX={self.shift_x},&#39;
-        if self.shift_y is not None: s += f&#39;SHIFTY={self.shift_y},&#39;
-        s = f&#39;{s[:-1]}\n&#39; # delete last &#39;,&#39;
+        if self.shift_x is not None: s += f&#39;SHIFTX={f2s(self.shift_x)},&#39;
+        if self.shift_y is not None: s += f&#39;SHIFTY={f2s(self.shift_y)},&#39;
+        s = s.rstrip(&#39;,&#39;) + &#39;\n&#39;
 
 
         for t, a in zip(self.times, self.amps):
-            s += f&#39;{t:15.7e},{a:15.7e}\n&#39;
+            s += f&#39;{f2s(t)},{f2s(a)}\n&#39;
 
         return s</code></pre>
 </details>
@@ -178,13 +179,13 @@ class Amplitude:
     def __str__(self):
         s = f&#39;*AMPLITUDE,NAME={self.name},&#39;
         if self.use_total_time: s += &#39;TIME=TOTAL TIME,&#39;
-        if self.shift_x is not None: s += f&#39;SHIFTX={self.shift_x},&#39;
-        if self.shift_y is not None: s += f&#39;SHIFTY={self.shift_y},&#39;
-        s = f&#39;{s[:-1]}\n&#39; # delete last &#39;,&#39;
+        if self.shift_x is not None: s += f&#39;SHIFTX={f2s(self.shift_x)},&#39;
+        if self.shift_y is not None: s += f&#39;SHIFTY={f2s(self.shift_y)},&#39;
+        s = s.rstrip(&#39;,&#39;) + &#39;\n&#39;
 
 
         for t, a in zip(self.times, self.amps):
-            s += f&#39;{t:15.7e},{a:15.7e}\n&#39;
+            s += f&#39;{f2s(t)},{f2s(a)}\n&#39;
 
         return s</code></pre>
 </details>

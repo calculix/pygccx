@@ -65,8 +65,9 @@ from typing import Optional, Iterable, Any
 import numpy as np
 import numpy.typing as npt
 
-from enums import EPressureOverclosures
-from protocols import number
+from pygccx.enums import EPressureOverclosures
+from pygccx.protocols import number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class SurfaceBehavior:
@@ -187,22 +188,22 @@ class SurfaceBehavior:
         s = f&#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE={self.pressure_overclosure.value}\n&#39;
 
         if self.pressure_overclosure == EPressureOverclosures.EXPONENTIAL:
-            s += f&#39;{self.c0:15.7e},{self.p0:15.7e}\n&#39;
+            s += f&#39;{f2s(self.c0)},{f2s(self.p0)}\n&#39;  # type: ignore , values can&#39;t be None because of validation
 
         if self.pressure_overclosure == EPressureOverclosures.LINEAR:
-            s += f&#39;{self.k:15.7e}&#39;
+            s += f&#39;{f2s(self.k)}&#39;  # type: ignore
             if self.sig_inf is not None:
-                s += f&#39;,{self.sig_inf:15.7e}&#39;
+                s += f&#39;,{f2s(self.sig_inf)}&#39;
             if self.c0 is not None:
-                s += f&#39;,{self.c0:15.7e}&#39;
+                s += f&#39;,{f2s(self.c0)}&#39;
             s += &#39;\n&#39;
 
         if self.pressure_overclosure == EPressureOverclosures.TABULAR and self.table:
             for row in self.table:
-                s += &#39;,&#39;.join(f&#39;{x:15.7e}&#39; for x in row) + &#39;\n&#39;
+                s += &#39;,&#39;.join(f&#39;{f2s(x)}&#39; for x in row) + &#39;\n&#39;
 
         if self.pressure_overclosure == EPressureOverclosures.TIED:
-            s += f&#39;{self.k:15.7e}\n&#39;
+            s += f&#39;{f2s(self.k)}\n&#39;  # type: ignore
 
         return s</code></pre>
 </details>
@@ -218,7 +219,7 @@ class SurfaceBehavior:
 <dl>
 <dt id="pygccx.model_keywords.surface_behavior.SurfaceBehavior"><code class="flex name class">
 <span>class <span class="ident">SurfaceBehavior</span></span>
-<span>(</span><span>pressure_overclosure: enums.EPressureOverclosures, name: str = '', desc: str = '', *, c0: Union[int, float, numpy.number, ForwardRef(None)] = None, p0: Union[int, float, numpy.number, ForwardRef(None)] = None, k: Union[int, float, numpy.number, ForwardRef(None)] = None, sig_inf: Union[int, float, numpy.number, ForwardRef(None)] = None, table: Union[Iterable[Iterable[int | float | numpy.number]], numpy.ndarray[Any, numpy.dtype[numpy.float64]], ForwardRef(None)] = None)</span>
+<span>(</span><span>pressure_overclosure: <a title="pygccx.enums.EPressureOverclosures" href="../enums.html#pygccx.enums.EPressureOverclosures">EPressureOverclosures</a>, name: str = '', desc: str = '', *, c0: Union[int, float, numpy.number, ForwardRef(None)] = None, p0: Union[int, float, numpy.number, ForwardRef(None)] = None, k: Union[int, float, numpy.number, ForwardRef(None)] = None, sig_inf: Union[int, float, numpy.number, ForwardRef(None)] = None, table: Union[Iterable[Iterable[int | float | numpy.number]], numpy.ndarray[Any, numpy.dtype[numpy.float64]], ForwardRef(None)] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to define the surface behavior of a surface interaction.
@@ -387,22 +388,22 @@ class SurfaceBehavior:
         s = f&#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE={self.pressure_overclosure.value}\n&#39;
 
         if self.pressure_overclosure == EPressureOverclosures.EXPONENTIAL:
-            s += f&#39;{self.c0:15.7e},{self.p0:15.7e}\n&#39;
+            s += f&#39;{f2s(self.c0)},{f2s(self.p0)}\n&#39;  # type: ignore , values can&#39;t be None because of validation
 
         if self.pressure_overclosure == EPressureOverclosures.LINEAR:
-            s += f&#39;{self.k:15.7e}&#39;
+            s += f&#39;{f2s(self.k)}&#39;  # type: ignore
             if self.sig_inf is not None:
-                s += f&#39;,{self.sig_inf:15.7e}&#39;
+                s += f&#39;,{f2s(self.sig_inf)}&#39;
             if self.c0 is not None:
-                s += f&#39;,{self.c0:15.7e}&#39;
+                s += f&#39;,{f2s(self.c0)}&#39;
             s += &#39;\n&#39;
 
         if self.pressure_overclosure == EPressureOverclosures.TABULAR and self.table:
             for row in self.table:
-                s += &#39;,&#39;.join(f&#39;{x:15.7e}&#39; for x in row) + &#39;\n&#39;
+                s += &#39;,&#39;.join(f&#39;{f2s(x)}&#39; for x in row) + &#39;\n&#39;
 
         if self.pressure_overclosure == EPressureOverclosures.TIED:
-            s += f&#39;{self.k:15.7e}\n&#39;
+            s += f&#39;{f2s(self.k)}\n&#39;  # type: ignore
 
         return s</code></pre>
 </details>
@@ -437,7 +438,7 @@ area). Default value 10−3.</p></div>
 <div class="desc"><p>Mandatory for pressure_overclosure == EXPONENTIAL</p>
 <p>Contact pressure at zero distance</p></div>
 </dd>
-<dt id="pygccx.model_keywords.surface_behavior.SurfaceBehavior.pressure_overclosure"><code class="name">var <span class="ident">pressure_overclosure</span> : enums.EPressureOverclosures</code></dt>
+<dt id="pygccx.model_keywords.surface_behavior.SurfaceBehavior.pressure_overclosure"><code class="name">var <span class="ident">pressure_overclosure</span> : <a title="pygccx.enums.EPressureOverclosures" href="../enums.html#pygccx.enums.EPressureOverclosures">EPressureOverclosures</a></code></dt>
 <dd>
 <div class="desc"><p>Option for pressure-overclosure</p></div>
 </dd>

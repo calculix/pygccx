@@ -70,9 +70,10 @@ import gmsh as _gmsh
 _gmsh.initialize()
 _gmsh.option.setNumber(&#34;Mesh.SecondOrderIncomplete&#34;, 1)
 
-import mesh as msh
-import enums
-from protocols import IKeyword, IStep
+from . import mesh as msh
+from . import enums
+from .protocols import IKeyword, IStep
+from .result_reader import FrdResult, DatResult
 
 @dataclass
 class Model:
@@ -95,6 +96,12 @@ class Model:
     def __post_init__(self):
         _gmsh.model.add(str(id(self)))
         self.mesh = msh.Mesh({},{},[],[])
+
+    def clear_gmsh_model(self):
+        &#34;&#34;&#34;Clears the gmsh model associated with this instance&#34;&#34;&#34;
+        _gmsh.model.setCurrent(str(id(self)))
+        _gmsh.model.remove()
+        _gmsh.model.add(str(id(self)))
 
     def get_gmsh(self) -&gt; _gmsh:  # type: ignore
         &#34;&#34;&#34;Gets the Gmsh API with current model set to this instance&#34;&#34;&#34;
@@ -196,6 +203,14 @@ class Model:
         &#34;&#34;&#34;Writes the ccx input file and shows it in cgx&#34;&#34;&#34;
 
         subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34; &#34;{self.jobname}.inp&#34;&#39;, cwd=self.working_dir)
+
+    def get_frd_result(self) -&gt; FrdResult:
+        filename = os.path.join(self.working_dir, f&#39;{self.jobname}.frd&#39;)
+        return FrdResult.from_file(filename)
+
+    def get_dat_result(self) -&gt; DatResult:
+        filename = os.path.join(self.working_dir, f&#39;{self.jobname}.dat&#39;)
+        return DatResult.from_file(filename)
 
     def __enter__(self):
         return self
@@ -244,6 +259,12 @@ class Model:
         _gmsh.model.add(str(id(self)))
         self.mesh = msh.Mesh({},{},[],[])
 
+    def clear_gmsh_model(self):
+        &#34;&#34;&#34;Clears the gmsh model associated with this instance&#34;&#34;&#34;
+        _gmsh.model.setCurrent(str(id(self)))
+        _gmsh.model.remove()
+        _gmsh.model.add(str(id(self)))
+
     def get_gmsh(self) -&gt; _gmsh:  # type: ignore
         &#34;&#34;&#34;Gets the Gmsh API with current model set to this instance&#34;&#34;&#34;
         _gmsh.model.setCurrent(str(id(self)))
@@ -345,6 +366,14 @@ class Model:
 
         subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34; &#34;{self.jobname}.inp&#34;&#39;, cwd=self.working_dir)
 
+    def get_frd_result(self) -&gt; FrdResult:
+        filename = os.path.join(self.working_dir, f&#39;{self.jobname}.frd&#39;)
+        return FrdResult.from_file(filename)
+
+    def get_dat_result(self) -&gt; DatResult:
+        filename = os.path.join(self.working_dir, f&#39;{self.jobname}.dat&#39;)
+        return DatResult.from_file(filename)
+
     def __enter__(self):
         return self
     def __exit__(self, type, value, traceback):
@@ -364,15 +393,15 @@ class Model:
 <dd>
 <div class="desc"><p>Name of the job. All generated files will have this name.</p></div>
 </dd>
-<dt id="pygccx.model.Model.mesh"><code class="name">var <span class="ident">mesh</span> : mesh.mesh.Mesh</code></dt>
+<dt id="pygccx.model.Model.mesh"><code class="name">var <span class="ident">mesh</span> : <a title="pygccx.mesh.mesh.Mesh" href="mesh/mesh.html#pygccx.mesh.mesh.Mesh">Mesh</a></code></dt>
 <dd>
 <div class="desc"><p>Mesh object of this model</p></div>
 </dd>
-<dt id="pygccx.model.Model.model_keywords"><code class="name">var <span class="ident">model_keywords</span> : list[protocols.IKeyword]</code></dt>
+<dt id="pygccx.model.Model.model_keywords"><code class="name">var <span class="ident">model_keywords</span> : list[<a title="pygccx.protocols.IKeyword" href="protocols.html#pygccx.protocols.IKeyword">IKeyword</a>]</code></dt>
 <dd>
 <div class="desc"><p>List of model keywords (aka model keywords)</p></div>
 </dd>
-<dt id="pygccx.model.Model.steps"><code class="name">var <span class="ident">steps</span> : list[protocols.IStep]</code></dt>
+<dt id="pygccx.model.Model.steps"><code class="name">var <span class="ident">steps</span> : list[<a title="pygccx.protocols.IStep" href="protocols.html#pygccx.protocols.IStep">IStep</a>]</code></dt>
 <dd>
 <div class="desc"><p>List of all analysis steps</p></div>
 </dd>
@@ -384,7 +413,7 @@ class Model:
 <h3>Methods</h3>
 <dl>
 <dt id="pygccx.model.Model.add_model_keywords"><code class="name flex">
-<span>def <span class="ident">add_model_keywords</span></span>(<span>self, *model_keywords: protocols.IKeyword)</span>
+<span>def <span class="ident">add_model_keywords</span></span>(<span>self, *model_keywords: <a title="pygccx.protocols.IKeyword" href="protocols.html#pygccx.protocols.IKeyword">IKeyword</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Adds the given model keywords to this model</p></div>
@@ -398,7 +427,7 @@ class Model:
 </details>
 </dd>
 <dt id="pygccx.model.Model.add_steps"><code class="name flex">
-<span>def <span class="ident">add_steps</span></span>(<span>self, *steps: protocols.IStep)</span>
+<span>def <span class="ident">add_steps</span></span>(<span>self, *steps: <a title="pygccx.protocols.IStep" href="protocols.html#pygccx.protocols.IStep">IStep</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Adds the given steps to this model</p></div>
@@ -411,8 +440,52 @@ class Model:
     self.steps.extend(steps)</code></pre>
 </details>
 </dd>
+<dt id="pygccx.model.Model.clear_gmsh_model"><code class="name flex">
+<span>def <span class="ident">clear_gmsh_model</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Clears the gmsh model associated with this instance</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def clear_gmsh_model(self):
+    &#34;&#34;&#34;Clears the gmsh model associated with this instance&#34;&#34;&#34;
+    _gmsh.model.setCurrent(str(id(self)))
+    _gmsh.model.remove()
+    _gmsh.model.add(str(id(self)))</code></pre>
+</details>
+</dd>
+<dt id="pygccx.model.Model.get_dat_result"><code class="name flex">
+<span>def <span class="ident">get_dat_result</span></span>(<span>self) ‑> <a title="pygccx.result_reader.dat_result.DatResult" href="result_reader/dat_result.html#pygccx.result_reader.dat_result.DatResult">DatResult</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_dat_result(self) -&gt; DatResult:
+    filename = os.path.join(self.working_dir, f&#39;{self.jobname}.dat&#39;)
+    return DatResult.from_file(filename)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.model.Model.get_frd_result"><code class="name flex">
+<span>def <span class="ident">get_frd_result</span></span>(<span>self) ‑> <a title="pygccx.result_reader.frd_result.FrdResult" href="result_reader/frd_result.html#pygccx.result_reader.frd_result.FrdResult">FrdResult</a></span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_frd_result(self) -&gt; FrdResult:
+    filename = os.path.join(self.working_dir, f&#39;{self.jobname}.frd&#39;)
+    return FrdResult.from_file(filename)</code></pre>
+</details>
+</dd>
 <dt id="pygccx.model.Model.get_gmsh"><code class="name flex">
-<span>def <span class="ident">get_gmsh</span></span>(<span>self) ‑> <module 'gmsh' from 'C:\\Users\\Engineering\\Documents\\GitHub\\pygccx_project\\venv\\lib\\site-packages\\gmsh.py'></span>
+<span>def <span class="ident">get_gmsh</span></span>(<span>self) ‑> <module 'gmsh' from 'E:\\GitHub\\pygccx_project\\venv\\lib\\site-packages\\gmsh.py'></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets the Gmsh API with current model set to this instance</p></div>
@@ -513,7 +586,7 @@ Per default, the input file is written before.</p>
 </details>
 </dd>
 <dt id="pygccx.model.Model.update_mesh_from_gmsh"><code class="name flex">
-<span>def <span class="ident">update_mesh_from_gmsh</span></span>(<span>self, type_mapping: Optional[dict[int, enums.EEtypes]] = None)</span>
+<span>def <span class="ident">update_mesh_from_gmsh</span></span>(<span>self, type_mapping: Optional[dict[int, <a title="pygccx.enums.EEtypes" href="enums.html#pygccx.enums.EEtypes">EEtypes</a>]] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Updates the mesh of this model from gmsh model.
@@ -626,6 +699,9 @@ All changes since the last update (added nodes, surfaces etc.) will be lost.</p>
 <li><code><a title="pygccx.model.Model.add_steps" href="#pygccx.model.Model.add_steps">add_steps</a></code></li>
 <li><code><a title="pygccx.model.Model.ccx_path" href="#pygccx.model.Model.ccx_path">ccx_path</a></code></li>
 <li><code><a title="pygccx.model.Model.cgx_path" href="#pygccx.model.Model.cgx_path">cgx_path</a></code></li>
+<li><code><a title="pygccx.model.Model.clear_gmsh_model" href="#pygccx.model.Model.clear_gmsh_model">clear_gmsh_model</a></code></li>
+<li><code><a title="pygccx.model.Model.get_dat_result" href="#pygccx.model.Model.get_dat_result">get_dat_result</a></code></li>
+<li><code><a title="pygccx.model.Model.get_frd_result" href="#pygccx.model.Model.get_frd_result">get_frd_result</a></code></li>
 <li><code><a title="pygccx.model.Model.get_gmsh" href="#pygccx.model.Model.get_gmsh">get_gmsh</a></code></li>
 <li><code><a title="pygccx.model.Model.jobname" href="#pygccx.model.Model.jobname">jobname</a></code></li>
 <li><code><a title="pygccx.model.Model.mesh" href="#pygccx.model.Model.mesh">mesh</a></code></li>

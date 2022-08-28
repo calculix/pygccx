@@ -62,9 +62,10 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from model_keywords import ContactPair
-from enums import EContactTypes, ESetTypes, ESurfTypes
-from protocols import IKeyword
+
+from pygccx.model_keywords import ContactPair
+from pygccx.enums import EContactTypes, ESetTypes, ESurfTypes
+from pygccx.protocols import IKeyword
 
 @dataclass
 class InteractionMock:
@@ -128,7 +129,7 @@ class TestContactPair(TestCase):
     def test_adjust_number(self):
         cp = ContactPair(self.ia, EContactTypes.NODE_TO_SURFACE, self.dep_surf, self.ind_surf, 
                             adjust=0.1)
-        known = &#39;*CONTACT PAIR,INTERACTION=IA1,TYPE=NODE TO SURFACE,ADJUST=0.1\n&#39;
+        known = &#39;*CONTACT PAIR,INTERACTION=IA1,TYPE=NODE TO SURFACE,ADJUST=1.0000000e-01\n&#39;
         known += &#39;dep_surf,ind_surf\n&#39;
         self.assertEqual(str(cp), known)
 
@@ -196,10 +197,10 @@ class InteractionMock:
 </dd>
 <dt id="pygccx.model_keywords.test.test_contact_pair.SetMock"><code class="flex name class">
 <span>class <span class="ident">SetMock</span></span>
-<span>(</span><span>name: str, type: enums.ESetTypes, dim: int, ids: set[int])</span>
+<span>(</span><span>name: str, type: <a title="pygccx.enums.ESetTypes" href="../../enums.html#pygccx.enums.ESetTypes">ESetTypes</a>, dim: int, ids: set[int])</span>
 </code></dt>
 <dd>
-<div class="desc"><p>SetMock(name: str, type: enums.ESetTypes, dim: int, ids: set[int])</p></div>
+<div class="desc"><p>SetMock(name: str, type: pygccx.enums.ESetTypes, dim: int, ids: set[int])</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -225,7 +226,7 @@ class SetMock():
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pygccx.model_keywords.test.test_contact_pair.SetMock.type"><code class="name">var <span class="ident">type</span> : enums.ESetTypes</code></dt>
+<dt id="pygccx.model_keywords.test.test_contact_pair.SetMock.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.ESetTypes" href="../../enums.html#pygccx.enums.ESetTypes">ESetTypes</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -233,10 +234,10 @@ class SetMock():
 </dd>
 <dt id="pygccx.model_keywords.test.test_contact_pair.SurfaceMock"><code class="flex name class">
 <span>class <span class="ident">SurfaceMock</span></span>
-<span>(</span><span>name: str, type: enums.ESurfTypes)</span>
+<span>(</span><span>name: str, type: <a title="pygccx.enums.ESurfTypes" href="../../enums.html#pygccx.enums.ESurfTypes">ESurfTypes</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>SurfaceMock(name: str, type: enums.ESurfTypes)</p></div>
+<div class="desc"><p>SurfaceMock(name: str, type: pygccx.enums.ESurfTypes)</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -253,7 +254,7 @@ class SurfaceMock:
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pygccx.model_keywords.test.test_contact_pair.SurfaceMock.type"><code class="name">var <span class="ident">type</span> : enums.ESurfTypes</code></dt>
+<dt id="pygccx.model_keywords.test.test_contact_pair.SurfaceMock.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.ESurfTypes" href="../../enums.html#pygccx.enums.ESurfTypes">ESurfTypes</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -355,7 +356,7 @@ not have a method with the specified name.</p></div>
     def test_adjust_number(self):
         cp = ContactPair(self.ia, EContactTypes.NODE_TO_SURFACE, self.dep_surf, self.ind_surf, 
                             adjust=0.1)
-        known = &#39;*CONTACT PAIR,INTERACTION=IA1,TYPE=NODE TO SURFACE,ADJUST=0.1\n&#39;
+        known = &#39;*CONTACT PAIR,INTERACTION=IA1,TYPE=NODE TO SURFACE,ADJUST=1.0000000e-01\n&#39;
         known += &#39;dep_surf,ind_surf\n&#39;
         self.assertEqual(str(cp), known)
 
@@ -421,7 +422,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_adjust_number(self):
     cp = ContactPair(self.ia, EContactTypes.NODE_TO_SURFACE, self.dep_surf, self.ind_surf, 
                         adjust=0.1)
-    known = &#39;*CONTACT PAIR,INTERACTION=IA1,TYPE=NODE TO SURFACE,ADJUST=0.1\n&#39;
+    known = &#39;*CONTACT PAIR,INTERACTION=IA1,TYPE=NODE TO SURFACE,ADJUST=1.0000000e-01\n&#39;
     known += &#39;dep_surf,ind_surf\n&#39;
     self.assertEqual(str(cp), known)</code></pre>
 </details>

@@ -19,9 +19,10 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from model_keywords import Gap
-from protocols import IKeyword
-from enums import ESetTypes
+
+from pygccx.model_keywords import Gap
+from pygccx.protocols import IKeyword
+from pygccx.enums import ESetTypes
 
 @dataclass()
 class SetMock():

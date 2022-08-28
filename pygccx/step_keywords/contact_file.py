@@ -19,8 +19,9 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field
 from typing import Iterable, Optional, Any
-from protocols import IKeyword
-from enums import EContactResults
+
+from pygccx.protocols import IKeyword
+from pygccx.enums import EContactFileResults
 
 @dataclass
 class ContactFile:
@@ -42,7 +43,7 @@ class ContactFile:
         desc: Optional. A short description of this instance. This is written to the ccx input file.
     """
 
-    entities:Iterable[EContactResults]
+    entities:Iterable[EContactFileResults]
     """Iterable (i.e. a list) of contact result entities."""
     frequency:int = 1
     """integer that indicates that the results of every Nth increment will be stored.
@@ -85,6 +86,7 @@ class ContactFile:
         if self.contact_elements: s += f',CONTACT ELEMENTS'
         s += '\n'
 
-        s += ','.join(e.value for e in self.entities) + '\n'
+        ents = {e:None for e in self.entities} # unify with dict to preserve order
+        s += ','.join(e.value for e in ents) + '\n'
 
         return s

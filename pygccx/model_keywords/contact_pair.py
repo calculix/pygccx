@@ -19,9 +19,9 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field
 from typing import Optional, Any
-from enums import EContactTypes, ESetTypes, ESurfTypes
-from protocols import IKeyword, ISet, ISurface, number
-from auxiliary import f2s
+from pygccx.enums import EContactTypes, ESetTypes, ESurfTypes
+from pygccx.protocols import IKeyword, ISet, ISurface, number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class ContactPair:

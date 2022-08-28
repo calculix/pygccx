@@ -19,9 +19,10 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from step_keywords import Boundary
-from enums import ESetTypes, ELoadOps
-from protocols import IKeyword
+
+from pygccx.step_keywords import Boundary
+from pygccx.enums import ESetTypes, ELoadOps
+from pygccx.protocols import IKeyword
 
 @dataclass
 class AmplitudeMock:

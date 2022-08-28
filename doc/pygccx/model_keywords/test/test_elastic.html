@@ -61,9 +61,10 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
 from unittest import TestCase
-from model_keywords import Elastic
-from enums import EELasticTypes
-from protocols import IKeyword
+
+from pygccx.model_keywords import Elastic
+from pygccx.enums import EELasticTypes
+from pygccx.protocols import IKeyword
 
 class TestElastic(TestCase):
 
@@ -73,7 +74,8 @@ class TestElastic(TestCase):
 
     def test_iso(self):
         e = Elastic((210000., 0.3))
-        known = &#39;*ELASTIC,TYPE=ISO\n210000.0,0.3,294.0\n&#39;
+        known = &#39;*ELASTIC,TYPE=ISO\n&#39;
+        known += &#39;2.1000000e+05,3.0000000e-01,2.9400000e+02\n&#39;
         self.assertEqual(str(e), known)
 
     def test_ortho(self):
@@ -81,8 +83,8 @@ class TestElastic(TestCase):
                      157200.,300000.,126200.,126200.,
                      126200.), EELasticTypes.ORTHO)
         known = &#39;*ELASTIC,TYPE=ORTHO\n&#39;
-        known += &#39;500000.0,157200.0,400000.0,157200.0,157200.0,300000.0,126200.0,126200.0,\n&#39;
-        known += &#39;126200.0,294.0\n&#39;
+        known += &#39;5.0000000e+05,1.5720000e+05,4.0000000e+05,1.5720000e+05,1.5720000e+05,3.0000000e+05,1.2620000e+05,1.2620000e+05,\n&#39;
+        known += &#39;1.2620000e+05,2.9400000e+02\n&#39;
         self.assertEqual(str(e), known)
 
     def test_aniso(self):
@@ -90,9 +92,9 @@ class TestElastic(TestCase):
                      11,12,13,14,15,16,17,18,19,20,21),
                      EELasticTypes.ANISO, )
         known = &#39;*ELASTIC,TYPE=ANISO\n&#39;
-        known += &#39;1,2,3,4,5,6,7,8,\n&#39;
-        known += &#39;9,10,11,12,13,14,15,16,\n&#39;
-        known += &#39;17,18,19,20,21,294.0\n&#39;
+        known += &#39;1.0000000e+00,2.0000000e+00,3.0000000e+00,4.0000000e+00,5.0000000e+00,6.0000000e+00,7.0000000e+00,8.0000000e+00,\n&#39;
+        known += &#39;9.0000000e+00,1.0000000e+01,1.1000000e+01,1.2000000e+01,1.3000000e+01,1.4000000e+01,1.5000000e+01,1.6000000e+01,\n&#39;
+        known += &#39;1.7000000e+01,1.8000000e+01,1.9000000e+01,2.0000000e+01,2.1000000e+01,2.9400000e+02\n&#39;
         self.assertEqual(str(e), known)
 
     def test_ortho_two_temps(self):
@@ -105,10 +107,10 @@ class TestElastic(TestCase):
             126200.
         )
         known = &#39;*ELASTIC,TYPE=ORTHO\n&#39;
-        known += &#39;500000.0,157200.0,400000.0,157200.0,157200.0,300000.0,126200.0,126200.0,\n&#39;
-        known += &#39;126200.0,294.0\n&#39;
-        known += &#39;500000.0,157200.0,400000.0,157200.0,157200.0,300000.0,126200.0,126200.0,\n&#39;
-        known += &#39;126200.0,300.0\n&#39;
+        known += &#39;5.0000000e+05,1.5720000e+05,4.0000000e+05,1.5720000e+05,1.5720000e+05,3.0000000e+05,1.2620000e+05,1.2620000e+05,\n&#39;
+        known += &#39;1.2620000e+05,2.9400000e+02\n&#39;
+        known += &#39;5.0000000e+05,1.5720000e+05,4.0000000e+05,1.5720000e+05,1.5720000e+05,3.0000000e+05,1.2620000e+05,1.2620000e+05,\n&#39;
+        known += &#39;1.2620000e+05,3.0000000e+02\n&#39;
         self.assertEqual(str(e), known)
 
     def test_params_false_length(self):
@@ -171,7 +173,8 @@ not have a method with the specified name.</p></div>
 
     def test_iso(self):
         e = Elastic((210000., 0.3))
-        known = &#39;*ELASTIC,TYPE=ISO\n210000.0,0.3,294.0\n&#39;
+        known = &#39;*ELASTIC,TYPE=ISO\n&#39;
+        known += &#39;2.1000000e+05,3.0000000e-01,2.9400000e+02\n&#39;
         self.assertEqual(str(e), known)
 
     def test_ortho(self):
@@ -179,8 +182,8 @@ not have a method with the specified name.</p></div>
                      157200.,300000.,126200.,126200.,
                      126200.), EELasticTypes.ORTHO)
         known = &#39;*ELASTIC,TYPE=ORTHO\n&#39;
-        known += &#39;500000.0,157200.0,400000.0,157200.0,157200.0,300000.0,126200.0,126200.0,\n&#39;
-        known += &#39;126200.0,294.0\n&#39;
+        known += &#39;5.0000000e+05,1.5720000e+05,4.0000000e+05,1.5720000e+05,1.5720000e+05,3.0000000e+05,1.2620000e+05,1.2620000e+05,\n&#39;
+        known += &#39;1.2620000e+05,2.9400000e+02\n&#39;
         self.assertEqual(str(e), known)
 
     def test_aniso(self):
@@ -188,9 +191,9 @@ not have a method with the specified name.</p></div>
                      11,12,13,14,15,16,17,18,19,20,21),
                      EELasticTypes.ANISO, )
         known = &#39;*ELASTIC,TYPE=ANISO\n&#39;
-        known += &#39;1,2,3,4,5,6,7,8,\n&#39;
-        known += &#39;9,10,11,12,13,14,15,16,\n&#39;
-        known += &#39;17,18,19,20,21,294.0\n&#39;
+        known += &#39;1.0000000e+00,2.0000000e+00,3.0000000e+00,4.0000000e+00,5.0000000e+00,6.0000000e+00,7.0000000e+00,8.0000000e+00,\n&#39;
+        known += &#39;9.0000000e+00,1.0000000e+01,1.1000000e+01,1.2000000e+01,1.3000000e+01,1.4000000e+01,1.5000000e+01,1.6000000e+01,\n&#39;
+        known += &#39;1.7000000e+01,1.8000000e+01,1.9000000e+01,2.0000000e+01,2.1000000e+01,2.9400000e+02\n&#39;
         self.assertEqual(str(e), known)
 
     def test_ortho_two_temps(self):
@@ -203,10 +206,10 @@ not have a method with the specified name.</p></div>
             126200.
         )
         known = &#39;*ELASTIC,TYPE=ORTHO\n&#39;
-        known += &#39;500000.0,157200.0,400000.0,157200.0,157200.0,300000.0,126200.0,126200.0,\n&#39;
-        known += &#39;126200.0,294.0\n&#39;
-        known += &#39;500000.0,157200.0,400000.0,157200.0,157200.0,300000.0,126200.0,126200.0,\n&#39;
-        known += &#39;126200.0,300.0\n&#39;
+        known += &#39;5.0000000e+05,1.5720000e+05,4.0000000e+05,1.5720000e+05,1.5720000e+05,3.0000000e+05,1.2620000e+05,1.2620000e+05,\n&#39;
+        known += &#39;1.2620000e+05,2.9400000e+02\n&#39;
+        known += &#39;5.0000000e+05,1.5720000e+05,4.0000000e+05,1.5720000e+05,1.5720000e+05,3.0000000e+05,1.2620000e+05,1.2620000e+05,\n&#39;
+        known += &#39;1.2620000e+05,3.0000000e+02\n&#39;
         self.assertEqual(str(e), known)
 
     def test_params_false_length(self):
@@ -234,9 +237,9 @@ not have a method with the specified name.</p></div>
                  11,12,13,14,15,16,17,18,19,20,21),
                  EELasticTypes.ANISO, )
     known = &#39;*ELASTIC,TYPE=ANISO\n&#39;
-    known += &#39;1,2,3,4,5,6,7,8,\n&#39;
-    known += &#39;9,10,11,12,13,14,15,16,\n&#39;
-    known += &#39;17,18,19,20,21,294.0\n&#39;
+    known += &#39;1.0000000e+00,2.0000000e+00,3.0000000e+00,4.0000000e+00,5.0000000e+00,6.0000000e+00,7.0000000e+00,8.0000000e+00,\n&#39;
+    known += &#39;9.0000000e+00,1.0000000e+01,1.1000000e+01,1.2000000e+01,1.3000000e+01,1.4000000e+01,1.5000000e+01,1.6000000e+01,\n&#39;
+    known += &#39;1.7000000e+01,1.8000000e+01,1.9000000e+01,2.0000000e+01,2.1000000e+01,2.9400000e+02\n&#39;
     self.assertEqual(str(e), known)</code></pre>
 </details>
 </dd>
@@ -265,7 +268,8 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_iso(self):
     e = Elastic((210000., 0.3))
-    known = &#39;*ELASTIC,TYPE=ISO\n210000.0,0.3,294.0\n&#39;
+    known = &#39;*ELASTIC,TYPE=ISO\n&#39;
+    known += &#39;2.1000000e+05,3.0000000e-01,2.9400000e+02\n&#39;
     self.assertEqual(str(e), known)</code></pre>
 </details>
 </dd>
@@ -283,8 +287,8 @@ not have a method with the specified name.</p></div>
                  157200.,300000.,126200.,126200.,
                  126200.), EELasticTypes.ORTHO)
     known = &#39;*ELASTIC,TYPE=ORTHO\n&#39;
-    known += &#39;500000.0,157200.0,400000.0,157200.0,157200.0,300000.0,126200.0,126200.0,\n&#39;
-    known += &#39;126200.0,294.0\n&#39;
+    known += &#39;5.0000000e+05,1.5720000e+05,4.0000000e+05,1.5720000e+05,1.5720000e+05,3.0000000e+05,1.2620000e+05,1.2620000e+05,\n&#39;
+    known += &#39;1.2620000e+05,2.9400000e+02\n&#39;
     self.assertEqual(str(e), known)</code></pre>
 </details>
 </dd>
@@ -307,10 +311,10 @@ not have a method with the specified name.</p></div>
         126200.
     )
     known = &#39;*ELASTIC,TYPE=ORTHO\n&#39;
-    known += &#39;500000.0,157200.0,400000.0,157200.0,157200.0,300000.0,126200.0,126200.0,\n&#39;
-    known += &#39;126200.0,294.0\n&#39;
-    known += &#39;500000.0,157200.0,400000.0,157200.0,157200.0,300000.0,126200.0,126200.0,\n&#39;
-    known += &#39;126200.0,300.0\n&#39;
+    known += &#39;5.0000000e+05,1.5720000e+05,4.0000000e+05,1.5720000e+05,1.5720000e+05,3.0000000e+05,1.2620000e+05,1.2620000e+05,\n&#39;
+    known += &#39;1.2620000e+05,2.9400000e+02\n&#39;
+    known += &#39;5.0000000e+05,1.5720000e+05,4.0000000e+05,1.5720000e+05,1.5720000e+05,3.0000000e+05,1.2620000e+05,1.2620000e+05,\n&#39;
+    known += &#39;1.2620000e+05,3.0000000e+02\n&#39;
     self.assertEqual(str(e), known)</code></pre>
 </details>
 </dd>

@@ -27,9 +27,10 @@ import gmsh as _gmsh
 _gmsh.initialize()
 _gmsh.option.setNumber("Mesh.SecondOrderIncomplete", 1)
 
-import mesh as msh
-import enums
-from protocols import IKeyword, IStep
+from . import mesh as msh
+from . import enums
+from .protocols import IKeyword, IStep
+from .result_reader import FrdResult, DatResult
 
 @dataclass
 class Model:
@@ -52,6 +53,12 @@ class Model:
     def __post_init__(self):
         _gmsh.model.add(str(id(self)))
         self.mesh = msh.Mesh({},{},[],[])
+
+    def clear_gmsh_model(self):
+        """Clears the gmsh model associated with this instance"""
+        _gmsh.model.setCurrent(str(id(self)))
+        _gmsh.model.remove()
+        _gmsh.model.add(str(id(self)))
 
     def get_gmsh(self) -> _gmsh:  # type: ignore
         """Gets the Gmsh API with current model set to this instance"""
@@ -153,6 +160,14 @@ class Model:
         """Writes the ccx input file and shows it in cgx"""
 
         subprocess.run(f'{self.cgx_path} "{self.jobname}.frd" "{self.jobname}.inp"', cwd=self.working_dir)
+
+    def get_frd_result(self) -> FrdResult:
+        filename = os.path.join(self.working_dir, f'{self.jobname}.frd')
+        return FrdResult.from_file(filename)
+
+    def get_dat_result(self) -> DatResult:
+        filename = os.path.join(self.working_dir, f'{self.jobname}.dat')
+        return DatResult.from_file(filename)
 
     def __enter__(self):
         return self

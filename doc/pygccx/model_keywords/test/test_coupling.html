@@ -62,9 +62,10 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from model_keywords import Coupling
-from enums import ESurfTypes, ECouplingTypes
-from protocols import IKeyword
+
+from pygccx.model_keywords import Coupling
+from pygccx.enums import ESurfTypes, ECouplingTypes
+from pygccx.protocols import IKeyword
 
 @dataclass
 class SurfaceMock:
@@ -195,10 +196,10 @@ class OrientationMock:
 </dd>
 <dt id="pygccx.model_keywords.test.test_coupling.SurfaceMock"><code class="flex name class">
 <span>class <span class="ident">SurfaceMock</span></span>
-<span>(</span><span>name: str, type: enums.ESurfTypes)</span>
+<span>(</span><span>name: str, type: <a title="pygccx.enums.ESurfTypes" href="../../enums.html#pygccx.enums.ESurfTypes">ESurfTypes</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>SurfaceMock(name: str, type: enums.ESurfTypes)</p></div>
+<div class="desc"><p>SurfaceMock(name: str, type: pygccx.enums.ESurfTypes)</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -215,7 +216,7 @@ class SurfaceMock:
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pygccx.model_keywords.test.test_coupling.SurfaceMock.type"><code class="name">var <span class="ident">type</span> : enums.ESurfTypes</code></dt>
+<dt id="pygccx.model_keywords.test.test_coupling.SurfaceMock.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.ESurfTypes" href="../../enums.html#pygccx.enums.ESurfTypes">ESurfTypes</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>

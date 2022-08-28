@@ -62,8 +62,8 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from typing import TYPE_CHECKING, Optional
 from . import Mesh, Element, Set
-from enums import EEtypes, ESetTypes
-from protocols import IElement, ISet
+from pygccx.enums import EEtypes, ESetTypes
+from pygccx.protocols import IElement, ISet
 
 if TYPE_CHECKING:
     import gmsh as _gmsh
@@ -189,7 +189,7 @@ def _get_physical_groups_from_gmsh(gmsh:&#39;_gmsh&#39;) -&gt; tuple[list[ISet],
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="pygccx.mesh.mesh_factory.mesh_from_gmsh"><code class="name flex">
-<span>def <span class="ident">mesh_from_gmsh</span></span>(<span>gmsh: _gmsh, type_mapping: Optional[dict[int, enums.EEtypes]] = None) ‑> <a title="pygccx.mesh.mesh.Mesh" href="mesh.html#pygccx.mesh.mesh.Mesh">Mesh</a></span>
+<span>def <span class="ident">mesh_from_gmsh</span></span>(<span>gmsh: _gmsh, type_mapping: Optional[dict[int, <a title="pygccx.enums.EEtypes" href="../enums.html#pygccx.enums.EEtypes">EEtypes</a>]] = None) ‑> <a title="pygccx.mesh.mesh.Mesh" href="mesh.html#pygccx.mesh.mesh.Mesh">Mesh</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Builds a pygccx mesh object from the given gmsh api and returns it</p>
@@ -227,7 +227,7 @@ def _get_physical_groups_from_gmsh(gmsh:&#39;_gmsh&#39;) -&gt; tuple[list[ISet],
 </details>
 </dd>
 <dt id="pygccx.mesh.mesh_factory.set_gmsh_2_ccx_etype_map"><code class="name flex">
-<span>def <span class="ident">set_gmsh_2_ccx_etype_map</span></span>(<span>gmsh_etype: int, ccx_etype: enums.EEtypes)</span>
+<span>def <span class="ident">set_gmsh_2_ccx_etype_map</span></span>(<span>gmsh_etype: int, ccx_etype: <a title="pygccx.enums.EEtypes" href="../enums.html#pygccx.enums.EEtypes">EEtypes</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>

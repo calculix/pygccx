@@ -62,8 +62,8 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 import unittest
 from dataclasses import dataclass
-from mesh import Mesh
-from enums import ESetTypes, EEtypes
+from pygccx.mesh import Mesh
+from pygccx.enums import ESetTypes, EEtypes
 
 @dataclass()
 class SetMock():
@@ -282,10 +282,10 @@ class TestMesh(unittest.TestCase):
 <dl>
 <dt id="pygccx.mesh.test.test_mesh.SetMock"><code class="flex name class">
 <span>class <span class="ident">SetMock</span></span>
-<span>(</span><span>name: str, type: enums.ESetTypes, dim: int, ids: set[int])</span>
+<span>(</span><span>name: str, type: <a title="pygccx.enums.ESetTypes" href="../../enums.html#pygccx.enums.ESetTypes">ESetTypes</a>, dim: int, ids: set[int])</span>
 </code></dt>
 <dd>
-<div class="desc"><p>SetMock(name: str, type: enums.ESetTypes, dim: int, ids: set[int])</p></div>
+<div class="desc"><p>SetMock(name: str, type: pygccx.enums.ESetTypes, dim: int, ids: set[int])</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -311,7 +311,7 @@ class SetMock():
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pygccx.mesh.test.test_mesh.SetMock.type"><code class="name">var <span class="ident">type</span> : enums.ESetTypes</code></dt>
+<dt id="pygccx.mesh.test.test_mesh.SetMock.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.ESetTypes" href="../../enums.html#pygccx.enums.ESetTypes">ESetTypes</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>

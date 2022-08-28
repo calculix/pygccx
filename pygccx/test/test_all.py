@@ -18,15 +18,11 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 import unittest
-from step_keywords.test.test_boundary import TestBoundary
-from step_keywords.test.test_step import TestStep
-from step_keywords.test.test_static import TestStatic
-from step_keywords.test.test_cload import TestCload
-from step_keywords.test.test_time_points import TestTimePoints
-from step_keywords.test.test_contact_file import TestContactFile
-from step_keywords.test.test_node_file import TestNodeFile
-from step_keywords.test.test_el_file import TestElFile
-
+from pygccx.test.test_helper_features import *
+from pygccx.test.test_mesh import *
+from pygccx.test.test_model_keywords import *
+from pygccx.test.test_result_reader import *
+from pygccx.test.test_step_keywords import *
 
 if __name__ == '__main__':
     unittest.main()

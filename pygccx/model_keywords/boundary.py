@@ -19,7 +19,7 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field, InitVar
 from typing import Optional
-from protocols import ISet
+from pygccx.protocols import ISet
 
 @dataclass
 class Boundary():

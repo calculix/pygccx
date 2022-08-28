@@ -80,7 +80,7 @@ In the folder doc/pygccx you can find an auto generated html documentation of al
 - Packages from requirements.txt
 
 # Version history:
-0.0.1.0: <br>
+0.1.0: <br>
 - NEW FEATURES:
     - Added Keywords *NODE PRINT, *EL PRINT, *CONTACT PRINT
     - Added result reader for frd.<br>
@@ -95,4 +95,4 @@ In the folder doc/pygccx you can find an auto generated html documentation of al
     - Changed name of enum EContactResults to EContactFileResults
 
 
-0.0.0.1: First publish
+0.0.1: First publish

@@ -74,10 +74,11 @@ In the folder doc/pygccx you can find an auto generated html documentation of al
 # Planned capabilities of Pygccx:
 - Support of all CCX keywords for static analysis
 - Postpro in GMSH
+- Read mesh and sets from *.inp file
+- Read mesh from *.frd file
 
 # Prerequisites
 - Python 3.10
-- Packages from requirements.txt
 
 # Version history:
 0.1.0: <br>

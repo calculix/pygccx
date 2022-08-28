@@ -19,8 +19,9 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass
 from typing import Iterable
-from protocols import number
-from auxiliary import f2s
+
+from pygccx.protocols import number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class TimePoints:

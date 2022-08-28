@@ -27,10 +27,10 @@ import gmsh as _gmsh
 _gmsh.initialize()
 _gmsh.option.setNumber("Mesh.SecondOrderIncomplete", 1)
 
-import mesh as msh
-import enums
-from protocols import IKeyword, IStep
-from result_reader import FrdResult, DatResult
+from . import mesh as msh
+from . import enums
+from .protocols import IKeyword, IStep
+from .result_reader import FrdResult, DatResult
 
 @dataclass
 class Model:
@@ -162,10 +162,12 @@ class Model:
         subprocess.run(f'{self.cgx_path} "{self.jobname}.frd" "{self.jobname}.inp"', cwd=self.working_dir)
 
     def get_frd_result(self) -> FrdResult:
-        return FrdResult.from_file(f'{self.jobname}.frd')
+        filename = os.path.join(self.working_dir, f'{self.jobname}.frd')
+        return FrdResult.from_file(filename)
 
     def get_dat_result(self) -> DatResult:
-        return DatResult.from_file(f'{self.jobname}.dat')
+        filename = os.path.join(self.working_dir, f'{self.jobname}.dat')
+        return DatResult.from_file(filename)
 
     def __enter__(self):
         return self

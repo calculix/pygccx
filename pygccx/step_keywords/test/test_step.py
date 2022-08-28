@@ -18,9 +18,10 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from step_keywords import Step
-from enums import EStepAmplitudes
-from protocols import IStep
+
+from pygccx.step_keywords import Step
+from pygccx.enums import EStepAmplitudes
+from pygccx.protocols import IStep
 
 class TestStep(TestCase):
 

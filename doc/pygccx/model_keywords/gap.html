@@ -65,8 +65,9 @@ from typing import Sequence, Optional, Any
 import numpy as np
 import numpy.typing as npt
 
-from protocols import ISet, number
-from enums import ESetTypes
+from pygccx.protocols import ISet, number
+from pygccx.auxiliary import f2s
+from pygccx.enums import ESetTypes
 
 @dataclass
 class Gap:
@@ -115,10 +116,11 @@ class Gap:
     def __str__(self):
         s = f&#39;*GAP,ELSET={self.elset.name}\n&#39;
         nx, ny, nz = self.direction
-        s += f&#39;{self.clearance:.7e},{nx:.7e},{ny:.7e},{nz:.7e},&#39;
+        s += f&#39;{f2s(self.clearance)},{f2s(nx)},{f2s(ny)},{f2s(nz)},&#39;
+        
 
-        s += f&#39;,{self.k:.7e}&#39; if self.k is not None else &#39;,&#39;
-        s += f&#39;,{self.f_inf:.7e}&#39; if self.f_inf is not None else &#39;,&#39;
+        s += f&#39;,{f2s(self.k)}&#39; if self.k is not None else &#39;,&#39;
+        s += f&#39;,{f2s(self.f_inf)}&#39; if self.f_inf is not None else &#39;,&#39;
         
         return s.rstrip(&#39;,&#39;) + &#39;\n&#39;</code></pre>
 </details>
@@ -134,7 +136,7 @@ class Gap:
 <dl>
 <dt id="pygccx.model_keywords.gap.Gap"><code class="flex name class">
 <span>class <span class="ident">Gap</span></span>
-<span>(</span><span>elset: protocols.ISet, clearance: int | float | numpy.number, direction: Union[Sequence[int | float | numpy.number], numpy.ndarray[Any, numpy.dtype[numpy.float64]]], k: Union[int, float, numpy.number, ForwardRef(None)] = None, f_inf: Union[int, float, numpy.number, ForwardRef(None)] = None, name: str = '', desc: str = '')</span>
+<span>(</span><span>elset: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, clearance: int | float | numpy.number, direction: Union[Sequence[int | float | numpy.number], numpy.ndarray[Any, numpy.dtype[numpy.float64]]], k: Union[int, float, numpy.number, ForwardRef(None)] = None, f_inf: Union[int, float, numpy.number, ForwardRef(None)] = None, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to define a gap geometry.</p>
@@ -206,10 +208,11 @@ class Gap:
     def __str__(self):
         s = f&#39;*GAP,ELSET={self.elset.name}\n&#39;
         nx, ny, nz = self.direction
-        s += f&#39;{self.clearance:.7e},{nx:.7e},{ny:.7e},{nz:.7e},&#39;
+        s += f&#39;{f2s(self.clearance)},{f2s(nx)},{f2s(ny)},{f2s(nz)},&#39;
+        
 
-        s += f&#39;,{self.k:.7e}&#39; if self.k is not None else &#39;,&#39;
-        s += f&#39;,{self.f_inf:.7e}&#39; if self.f_inf is not None else &#39;,&#39;
+        s += f&#39;,{f2s(self.k)}&#39; if self.k is not None else &#39;,&#39;
+        s += f&#39;,{f2s(self.f_inf)}&#39; if self.f_inf is not None else &#39;,&#39;
         
         return s.rstrip(&#39;,&#39;) + &#39;\n&#39;</code></pre>
 </details>
@@ -227,7 +230,7 @@ class Gap:
 <dd>
 <div class="desc"><p>Normalized direction vector of gap</p></div>
 </dd>
-<dt id="pygccx.model_keywords.gap.Gap.elset"><code class="name">var <span class="ident">elset</span> : protocols.ISet</code></dt>
+<dt id="pygccx.model_keywords.gap.Gap.elset"><code class="name">var <span class="ident">elset</span> : <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a></code></dt>
 <dd>
 <div class="desc"><p>Set of gap elements to which the geometry definition applies</p></div>
 </dd>

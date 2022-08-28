@@ -18,8 +18,9 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from model_keywords import Amplitude
-from protocols import IKeyword
+
+from pygccx.model_keywords import Amplitude
+from pygccx.protocols import IKeyword
 
 class TestAmplitude(TestCase):
 

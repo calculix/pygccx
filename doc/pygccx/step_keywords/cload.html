@@ -62,8 +62,10 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from dataclasses import dataclass, field, InitVar
 from typing import Optional, Any
-from enums import ELoadOps
-from protocols import IKeyword, ISet, number
+
+from pygccx.enums import ELoadOps
+from pygccx.protocols import IKeyword, ISet, number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class Cload:
@@ -185,19 +187,19 @@ class Cload:
         s = &#39;*CLOAD&#39;
         if self.op != ELoadOps.MOD: s += f&#39;,OP={self.op.value}&#39;
         if self.amplitude: s += f&#39;,AMPLITUDE={self.amplitude.name}&#39;
-        if self.time_delay is not None: s += f&#39;,TIME DELAY={self.time_delay}&#39;
+        if self.time_delay is not None: s += f&#39;,TIME DELAY={f2s(self.time_delay)}&#39;
         if self.load_case != 1: s += f&#39;,LOAD CASE={self.load_case}&#39;
         if self.sector is not None: s += f&#39;,SECTOR={self.sector}&#39;
         if self.submodel: s += &#39;,SUBMODEL&#39;
         if self.step is not None: s += f&#39;,STEP={self.step}&#39;
         if self.data_set is not None: s += f&#39;,DATA SET={self.data_set}&#39;
-        if self.omega0 is not None: s += f&#39;,OMEGA0={self.omega0}&#39;
+        if self.omega0 is not None: s += f&#39;,OMEGA0={f2s(self.omega0)}&#39;
         s += &#39;\n&#39;
 
         for l in self.loads:
             if isinstance(l[0], int): s += f&#39;{l[0]},&#39;
             if isinstance(l[0], ISet): s += f&#39;{l[0].name},&#39;
-            s += f&#39;{l[1]},{l[2]}\n&#39;
+            s += f&#39;{l[1]},{f2s(l[2])}\n&#39;
 
         return s</code></pre>
 </details>
@@ -213,7 +215,7 @@ class Cload:
 <dl>
 <dt id="pygccx.step_keywords.cload.Cload"><code class="flex name class">
 <span>class <span class="ident">Cload</span></span>
-<span>(</span><span>nid_or_set: dataclasses.InitVar[int | protocols.ISet], dof: dataclasses.InitVar[int], mag: dataclasses.InitVar[int | float | numpy.number], op: enums.ELoadOps = ELoadOps.MOD, amplitude: Optional[protocols.IKeyword] = None, time_delay: Union[int, float, numpy.number, ForwardRef(None)] = None, load_case: int = 1, sector: Optional[int] = None, submodel: bool = False, step: Optional[int] = None, data_set: Optional[int] = None, omega0: Union[int, float, numpy.number, ForwardRef(None)] = None, name: str = '', desc: str = '')</span>
+<span>(</span><span>nid_or_set: dataclasses.InitVar[int | <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>], dof: dataclasses.InitVar[int], mag: dataclasses.InitVar[int | float | numpy.number], op: <a title="pygccx.enums.ELoadOps" href="../enums.html#pygccx.enums.ELoadOps">ELoadOps</a> = ELoadOps.MOD, amplitude: Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>] = None, time_delay: Union[int, float, numpy.number, ForwardRef(None)] = None, load_case: int = 1, sector: Optional[int] = None, submodel: bool = False, step: Optional[int] = None, data_set: Optional[int] = None, omega0: Union[int, float, numpy.number, ForwardRef(None)] = None, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class for defining concentrated forces to be applied to any node in the model
@@ -385,25 +387,25 @@ class Cload:
         s = &#39;*CLOAD&#39;
         if self.op != ELoadOps.MOD: s += f&#39;,OP={self.op.value}&#39;
         if self.amplitude: s += f&#39;,AMPLITUDE={self.amplitude.name}&#39;
-        if self.time_delay is not None: s += f&#39;,TIME DELAY={self.time_delay}&#39;
+        if self.time_delay is not None: s += f&#39;,TIME DELAY={f2s(self.time_delay)}&#39;
         if self.load_case != 1: s += f&#39;,LOAD CASE={self.load_case}&#39;
         if self.sector is not None: s += f&#39;,SECTOR={self.sector}&#39;
         if self.submodel: s += &#39;,SUBMODEL&#39;
         if self.step is not None: s += f&#39;,STEP={self.step}&#39;
         if self.data_set is not None: s += f&#39;,DATA SET={self.data_set}&#39;
-        if self.omega0 is not None: s += f&#39;,OMEGA0={self.omega0}&#39;
+        if self.omega0 is not None: s += f&#39;,OMEGA0={f2s(self.omega0)}&#39;
         s += &#39;\n&#39;
 
         for l in self.loads:
             if isinstance(l[0], int): s += f&#39;{l[0]},&#39;
             if isinstance(l[0], ISet): s += f&#39;{l[0].name},&#39;
-            s += f&#39;{l[1]},{l[2]}\n&#39;
+            s += f&#39;{l[1]},{f2s(l[2])}\n&#39;
 
         return s</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="pygccx.step_keywords.cload.Cload.amplitude"><code class="name">var <span class="ident">amplitude</span> : Optional[protocols.IKeyword]</code></dt>
+<dt id="pygccx.step_keywords.cload.Cload.amplitude"><code class="name">var <span class="ident">amplitude</span> : Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>]</code></dt>
 <dd>
 <div class="desc"><p>Amplitude object</p></div>
 </dd>
@@ -437,7 +439,7 @@ class Cload:
 <dd>
 <div class="desc"><p>Name of this Cload instance</p></div>
 </dd>
-<dt id="pygccx.step_keywords.cload.Cload.nid_or_set"><code class="name">var <span class="ident">nid_or_set</span> : dataclasses.InitVar[int | protocols.ISet]</code></dt>
+<dt id="pygccx.step_keywords.cload.Cload.nid_or_set"><code class="name">var <span class="ident">nid_or_set</span> : dataclasses.InitVar[int | <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>]</code></dt>
 <dd>
 <div class="desc"><p>Node id or node set on which the first force (first line under *CLOAD) should be applied</p></div>
 </dd>
@@ -445,7 +447,7 @@ class Cload:
 <dd>
 <div class="desc"><p>specifies the value of ω0 in a *GREEN step</p></div>
 </dd>
-<dt id="pygccx.step_keywords.cload.Cload.op"><code class="name">var <span class="ident">op</span> : enums.ELoadOps</code></dt>
+<dt id="pygccx.step_keywords.cload.Cload.op"><code class="name">var <span class="ident">op</span> : <a title="pygccx.enums.ELoadOps" href="../enums.html#pygccx.enums.ELoadOps">ELoadOps</a></code></dt>
 <dd>
 <div class="desc"><p>Option if forces should be modified or defined new</p></div>
 </dd>
@@ -471,7 +473,7 @@ obtained by interpolation from a global model.</p></div>
 <h3>Methods</h3>
 <dl>
 <dt id="pygccx.step_keywords.cload.Cload.add_load"><code class="name flex">
-<span>def <span class="ident">add_load</span></span>(<span>self, nid_or_set: int | protocols.ISet, dof: int, mag: int | float | numpy.number)</span>
+<span>def <span class="ident">add_load</span></span>(<span>self, nid_or_set: int | <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, dof: int, mag: int | float | numpy.number)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>

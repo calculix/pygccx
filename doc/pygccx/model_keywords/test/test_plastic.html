@@ -61,9 +61,10 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
 from unittest import TestCase
-from model_keywords import Plastic
-from enums import EHardeningRules
-from protocols import IKeyword
+
+from pygccx.model_keywords import Plastic
+from pygccx.enums import EHardeningRules
+from pygccx.protocols import IKeyword
 
 class TestPlastic(TestCase):
 
@@ -74,32 +75,32 @@ class TestPlastic(TestCase):
     def test_default(self):
         p = Plastic([210., 235.], [0., 0.002])
         known = &#39;*PLASTIC\n&#39;
-        known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-        known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
+        known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+        known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
 
         self.assertEqual(str(p), known)
 
     def test_hardening_options(self):
         p = Plastic([210., 235.], [0., 0.002], hardening=EHardeningRules.KINEMATIC)
         known = &#39;*PLASTIC,HARDENING=KINEMATIC\n&#39;
-        known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-        known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
+        known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+        known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
         self.assertEqual(str(p), known)
 
         p = Plastic([210., 235.], [0., 0.002], hardening=EHardeningRules.COMBINED)
         known = &#39;*PLASTIC,HARDENING=COMBINED\n&#39;
-        known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-        known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
+        known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+        known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
         self.assertEqual(str(p), known)
 
     def test_add_plastic_params_for_temp(self):
         p = Plastic([210., 235.], [0., 0.002])
         p.add_plastic_stress_strain_for_temp(310., [190., 230.],[0., 0.002])
         known = &#39;*PLASTIC\n&#39;
-        known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-        known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
-        known += &#39;  1.9000000e+02,  0.0000000e+00,  3.1000000e+02\n&#39;
-        known += &#39;  2.3000000e+02,  2.0000000e-03,  3.1000000e+02\n&#39;
+        known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+        known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
+        known += &#39;1.9000000e+02,0.0000000e+00,3.1000000e+02\n&#39;
+        known += &#39;2.3000000e+02,2.0000000e-03,3.1000000e+02\n&#39;
         self.assertEqual(str(p), known)
 
     def test_sress_strain_different_length(self):
@@ -161,32 +162,32 @@ not have a method with the specified name.</p></div>
     def test_default(self):
         p = Plastic([210., 235.], [0., 0.002])
         known = &#39;*PLASTIC\n&#39;
-        known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-        known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
+        known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+        known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
 
         self.assertEqual(str(p), known)
 
     def test_hardening_options(self):
         p = Plastic([210., 235.], [0., 0.002], hardening=EHardeningRules.KINEMATIC)
         known = &#39;*PLASTIC,HARDENING=KINEMATIC\n&#39;
-        known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-        known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
+        known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+        known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
         self.assertEqual(str(p), known)
 
         p = Plastic([210., 235.], [0., 0.002], hardening=EHardeningRules.COMBINED)
         known = &#39;*PLASTIC,HARDENING=COMBINED\n&#39;
-        known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-        known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
+        known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+        known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
         self.assertEqual(str(p), known)
 
     def test_add_plastic_params_for_temp(self):
         p = Plastic([210., 235.], [0., 0.002])
         p.add_plastic_stress_strain_for_temp(310., [190., 230.],[0., 0.002])
         known = &#39;*PLASTIC\n&#39;
-        known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-        known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
-        known += &#39;  1.9000000e+02,  0.0000000e+00,  3.1000000e+02\n&#39;
-        known += &#39;  2.3000000e+02,  2.0000000e-03,  3.1000000e+02\n&#39;
+        known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+        known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
+        known += &#39;1.9000000e+02,0.0000000e+00,3.1000000e+02\n&#39;
+        known += &#39;2.3000000e+02,2.0000000e-03,3.1000000e+02\n&#39;
         self.assertEqual(str(p), known)
 
     def test_sress_strain_different_length(self):
@@ -211,10 +212,10 @@ not have a method with the specified name.</p></div>
     p = Plastic([210., 235.], [0., 0.002])
     p.add_plastic_stress_strain_for_temp(310., [190., 230.],[0., 0.002])
     known = &#39;*PLASTIC\n&#39;
-    known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-    known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
-    known += &#39;  1.9000000e+02,  0.0000000e+00,  3.1000000e+02\n&#39;
-    known += &#39;  2.3000000e+02,  2.0000000e-03,  3.1000000e+02\n&#39;
+    known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+    known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
+    known += &#39;1.9000000e+02,0.0000000e+00,3.1000000e+02\n&#39;
+    known += &#39;2.3000000e+02,2.0000000e-03,3.1000000e+02\n&#39;
     self.assertEqual(str(p), known)</code></pre>
 </details>
 </dd>
@@ -230,8 +231,8 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_default(self):
     p = Plastic([210., 235.], [0., 0.002])
     known = &#39;*PLASTIC\n&#39;
-    known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-    known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
+    known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+    known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
 
     self.assertEqual(str(p), known)</code></pre>
 </details>
@@ -248,14 +249,14 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_hardening_options(self):
     p = Plastic([210., 235.], [0., 0.002], hardening=EHardeningRules.KINEMATIC)
     known = &#39;*PLASTIC,HARDENING=KINEMATIC\n&#39;
-    known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-    known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
+    known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+    known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
     self.assertEqual(str(p), known)
 
     p = Plastic([210., 235.], [0., 0.002], hardening=EHardeningRules.COMBINED)
     known = &#39;*PLASTIC,HARDENING=COMBINED\n&#39;
-    known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-    known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
+    known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+    known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
     self.assertEqual(str(p), known)</code></pre>
 </details>
 </dd>

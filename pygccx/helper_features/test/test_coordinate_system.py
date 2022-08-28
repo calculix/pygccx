@@ -18,7 +18,8 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from helper_features import CoordinateSystem
+
+from pygccx.helper_features import CoordinateSystem
 
 import numpy as np
 

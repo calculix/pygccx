@@ -61,8 +61,9 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
 from unittest import TestCase
-from model_keywords import Friction
-from protocols import IKeyword
+
+from pygccx.model_keywords import Friction
+from pygccx.protocols import IKeyword
 
 class TestFriction(TestCase):
 
@@ -73,7 +74,7 @@ class TestFriction(TestCase):
     def test_happy_case(self):
         f = Friction(0.3, 50000.)
         known = &#39;*FRICTION\n&#39;
-        known += &#39;0.3,50000.0\n&#39;
+        known += &#39;3.0000000e-01,5.0000000e+04\n&#39;
         self.assertEqual(str(f), known)
 
     def test_mue_lower_zero(self):
@@ -140,7 +141,7 @@ not have a method with the specified name.</p></div>
     def test_happy_case(self):
         f = Friction(0.3, 50000.)
         known = &#39;*FRICTION\n&#39;
-        known += &#39;0.3,50000.0\n&#39;
+        known += &#39;3.0000000e-01,5.0000000e+04\n&#39;
         self.assertEqual(str(f), known)
 
     def test_mue_lower_zero(self):
@@ -169,7 +170,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_happy_case(self):
     f = Friction(0.3, 50000.)
     known = &#39;*FRICTION\n&#39;
-    known += &#39;0.3,50000.0\n&#39;
+    known += &#39;3.0000000e-01,5.0000000e+04\n&#39;
     self.assertEqual(str(f), known)</code></pre>
 </details>
 </dd>

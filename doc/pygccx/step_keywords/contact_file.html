@@ -62,8 +62,9 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from dataclasses import dataclass, field
 from typing import Iterable, Optional, Any
-from protocols import IKeyword
-from enums import EContactResults
+
+from pygccx.protocols import IKeyword
+from pygccx.enums import EContactFileResults
 
 @dataclass
 class ContactFile:
@@ -85,7 +86,7 @@ class ContactFile:
         desc: Optional. A short description of this instance. This is written to the ccx input file.
     &#34;&#34;&#34;
 
-    entities:Iterable[EContactResults]
+    entities:Iterable[EContactFileResults]
     &#34;&#34;&#34;Iterable (i.e. a list) of contact result entities.&#34;&#34;&#34;
     frequency:int = 1
     &#34;&#34;&#34;integer that indicates that the results of every Nth increment will be stored.
@@ -128,7 +129,8 @@ class ContactFile:
         if self.contact_elements: s += f&#39;,CONTACT ELEMENTS&#39;
         s += &#39;\n&#39;
 
-        s += &#39;,&#39;.join(e.value for e in self.entities) + &#39;\n&#39;
+        ents = {e:None for e in self.entities} # unify with dict to preserve order
+        s += &#39;,&#39;.join(e.value for e in ents) + &#39;\n&#39;
 
         return s</code></pre>
 </details>
@@ -144,7 +146,7 @@ class ContactFile:
 <dl>
 <dt id="pygccx.step_keywords.contact_file.ContactFile"><code class="flex name class">
 <span>class <span class="ident">ContactFile</span></span>
-<span>(</span><span>entities: Iterable[enums.EContactResults], frequency: int = 1, time_points: Optional[protocols.IKeyword] = None, last_Iterations: bool = False, contact_elements: bool = False, name: str = '', desc: str = '')</span>
+<span>(</span><span>entities: Iterable[<a title="pygccx.enums.EContactFileResults" href="../enums.html#pygccx.enums.EContactFileResults">EContactFileResults</a>], frequency: int = 1, time_points: Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>] = None, last_Iterations: bool = False, contact_elements: bool = False, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to select contact result entities for printing in file jobname.frd for
@@ -194,7 +196,7 @@ class ContactFile:
         desc: Optional. A short description of this instance. This is written to the ccx input file.
     &#34;&#34;&#34;
 
-    entities:Iterable[EContactResults]
+    entities:Iterable[EContactFileResults]
     &#34;&#34;&#34;Iterable (i.e. a list) of contact result entities.&#34;&#34;&#34;
     frequency:int = 1
     &#34;&#34;&#34;integer that indicates that the results of every Nth increment will be stored.
@@ -237,10 +239,15 @@ class ContactFile:
         if self.contact_elements: s += f&#39;,CONTACT ELEMENTS&#39;
         s += &#39;\n&#39;
 
-        s += &#39;,&#39;.join(e.value for e in self.entities) + &#39;\n&#39;
+        ents = {e:None for e in self.entities} # unify with dict to preserve order
+        s += &#39;,&#39;.join(e.value for e in ents) + &#39;\n&#39;
 
         return s</code></pre>
 </details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="pygccx.step_keywords.contact_output.ContactOutput" href="contact_output.html#pygccx.step_keywords.contact_output.ContactOutput">ContactOutput</a></li>
+</ul>
 <h3>Class variables</h3>
 <dl>
 <dt id="pygccx.step_keywords.contact_file.ContactFile.contact_elements"><code class="name">var <span class="ident">contact_elements</span> : bool</code></dt>
@@ -252,7 +259,7 @@ in a file with the name jobname.cel.</p></div>
 <dd>
 <div class="desc"><p>A short description of this instance. This is written to the ccx input file.</p></div>
 </dd>
-<dt id="pygccx.step_keywords.contact_file.ContactFile.entities"><code class="name">var <span class="ident">entities</span> : Iterable[enums.EContactResults]</code></dt>
+<dt id="pygccx.step_keywords.contact_file.ContactFile.entities"><code class="name">var <span class="ident">entities</span> : Iterable[<a title="pygccx.enums.EContactFileResults" href="../enums.html#pygccx.enums.EContactFileResults">EContactFileResults</a>]</code></dt>
 <dd>
 <div class="desc"><p>Iterable (i.e. a list) of contact result entities.</p></div>
 </dd>
@@ -270,7 +277,7 @@ last increment in a file with name ResultsForLastIterations.frd</p></div>
 <dd>
 <div class="desc"><p>Name of this instance</p></div>
 </dd>
-<dt id="pygccx.step_keywords.contact_file.ContactFile.time_points"><code class="name">var <span class="ident">time_points</span> : Optional[protocols.IKeyword]</code></dt>
+<dt id="pygccx.step_keywords.contact_file.ContactFile.time_points"><code class="name">var <span class="ident">time_points</span> : Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>]</code></dt>
 <dd>
 <div class="desc"><p>TimePoints object specifying the times for which results should be stored.
 frequency and time_points are mutually exclusive.</p></div>

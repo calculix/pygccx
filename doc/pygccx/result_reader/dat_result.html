@@ -1,0 +1,945 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pygccx.result_reader.dat_result API documentation</title>
+<meta name="description" content="Copyright Matthias Sedlmaier 2022
+This file is part of pygccx …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pygccx.result_reader.dat_result</code></h1>
+</header>
+<section id="section-intro">
+<p>Copyright Matthias Sedlmaier 2022
+This file is part of pygccx.</p>
+<p>pygccx is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.</p>
+<p>pygccx is distributed in the hope that it will
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with pygccx.<br>
+If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#39;&#39;&#39;
+Copyright Matthias Sedlmaier 2022
+This file is part of pygccx.
+
+pygccx is free software: you can redistribute it 
+and/or modify it under the terms of the GNU General Public License as 
+published by the Free Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+pygccx is distributed in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with pygccx.  
+If not, see &lt;http://www.gnu.org/licenses/&gt;.
+&#39;&#39;&#39;
+
+from dataclasses import dataclass, field
+import csv, re
+from collections import defaultdict
+from typing import Iterable
+
+import numpy as np
+import numpy.typing as npt
+
+from pygccx.enums import EResultLocations, EDatEntities
+
+
+
+ENTITY_2_LOCATION_MAP = {
+    # Node Print entities
+    EDatEntities.U : EResultLocations.NODAL,
+    EDatEntities.RF : EResultLocations.NODAL,
+    # El Print entities
+    EDatEntities.S : EResultLocations.INT_PNT,
+    EDatEntities.E : EResultLocations.INT_PNT,
+    EDatEntities.ME : EResultLocations.INT_PNT,
+    EDatEntities.PEEQ : EResultLocations.INT_PNT,
+    EDatEntities.EVOL : EResultLocations.ELEMENT,
+    EDatEntities.COORD : EResultLocations.INT_PNT,
+    EDatEntities.ENER : EResultLocations.INT_PNT,
+    EDatEntities.ELKE : EResultLocations.ELEMENT,
+    EDatEntities.ELSE : EResultLocations.ELEMENT,
+    EDatEntities.EMAS : EResultLocations.ELEMENT,
+    # Contact print entities
+    EDatEntities.CELS : EResultLocations.NODAL,
+    EDatEntities.CSTR : EResultLocations.NODAL,
+    EDatEntities.CDIS : EResultLocations.NODAL
+}
+
+@dataclass(frozen=True, slots=True)
+class DatResultSet:
+    &#34;&#34;&#34;
+    Class representing a result set from a *.dat file.
+
+    A result set contains the nodal, element or integration point result 
+    values of an entity (i.e. U, S) for a single step time.
+    &#34;&#34;&#34;
+    entity:EDatEntities
+    &#34;&#34;&#34;Enum of the result set entity&#34;&#34;&#34;
+    no_components:int
+    &#34;&#34;&#34;number of components per value. I.e. for a U result set no_components == 3&#34;&#34;&#34;
+    step_time:float
+    &#34;&#34;&#34;Step time of this result set&#34;&#34;&#34;
+    set_name:str
+    &#34;&#34;&#34;Name of the node- or element set.&#34;&#34;&#34;
+    component_names:tuple[str,...]
+    &#34;&#34;&#34;Names of the value components. I.e. for a U result set (&#39;vx&#39;, &#39;vy&#39;, &#39;vz&#39;)&#34;&#34;&#34;
+    values:dict[int, npt.NDArray] = field(repr=False)
+    &#34;&#34;&#34;
+    Dictionary with values.\n
+    key = node id, 
+    if entity_location==NODAL or ELEMENT: value = vector with entity components\n 
+    if entity_location==INT_PNT: value = m x n array with m = number of int.pnts. and n = number of components.
+    &#34;&#34;&#34;
+    entity_location:EResultLocations
+    &#34;&#34;&#34;Location of the result entity. i.e. NODAL, ELEMENT, ...&#34;&#34;&#34;
+
+    def get_values_by_ids(self, ids:Iterable[int]) -&gt; npt.NDArray[np.float64]:
+        &#34;&#34;&#34;
+        Returns the result values for the given node or element ids as a numpy array.
+
+        if entity_location==NODAL or ELEMENT: 
+            2D Array is returned.
+            len axis 0: number of given ids
+            len axis 1: number of components.
+        if entity_location==INT_PNT:
+            3D Array is returned
+            len axis 0: number of given ids
+            len axis 1: number of int. pnts
+            len axis 2: number of components
+
+        The order of axis 0 is the same as ids.
+        If ids is a non ordered iterable (i.e. a set) the ordering is arbitrary.
+
+        If a node id is not in values an exception is raised. 
+        &#34;&#34;&#34;
+        return np.array([self.values[id] for id in ids])
+    
+
+@dataclass(frozen=True, slots=True)
+class DatResult:
+    step_times:tuple[float, ...]
+    &#34;&#34;&#34;Sorted tuple with all step times&#34;&#34;&#34;
+    result_sets:tuple[DatResultSet, ...]
+    &#34;&#34;&#34;Tuple with all result sets&#34;&#34;&#34;
+
+    def get_result_sets_by_entity(self, entity:EDatEntities) -&gt; tuple[DatResultSet, ...]:
+        &#34;&#34;&#34;
+        Returns all result sets with the given entity
+        If no such result set exists an empty tuple is returned.
+
+        Args:
+            entity (ENodeFileResults|EElFileResults|EContactFileResults): Entity name of result sets to be returned
+            imag (bool): Flag if real or imaginary results should be returned. Defaults to False (real)
+        Returns:
+            tuple[IResultSet, ...]: Tuple of all result sets with the given entity
+        &#34;&#34;&#34;
+
+        return tuple(rs for rs in self.result_sets if rs.entity==entity)   
+
+    def get_result_set_by_entity_and_time(self, entity:EDatEntities,
+                                            step_time:float, imag:bool=False) -&gt; DatResultSet|None:
+        &#34;&#34;&#34;
+        Returns the result set with the given entity and closest step time to the given step_time.
+        If no such result set exists, None is returned.
+
+        Args:
+            entity (EDatEntities): Entity name of result set to be returned
+            step_time (float): Step time of result set to be returned
+            imag (bool): Flag if real or imaginary results should be returned. Defaults to False (real)
+
+        Returns:
+            IResultSet|None: Matched result set or None
+        &#34;&#34;&#34;
+        # filter by name
+        result_sets = self.get_result_sets_by_entity(entity)
+
+        # filter by step times    
+        nearest_time = min(self.step_times, key=lambda x:abs(x - step_time)) 
+        result_sets = [rs for rs in result_sets if rs.step_time == nearest_time]
+        # if the requested entity has an imaginary part, result_sets has 2 items,
+        # 1 otherwise
+
+        if not result_sets: return None # no matching result sets found
+        if not imag: return result_sets[0] # usual case
+        if imag and len(result_sets) == 1: return None # imag requested, but only real present
+        return result_sets[1] # return imag
+        
+    def get_result_set_by_entity_and_index(self, entity:EDatEntities,
+                                            step_index:int, imag:bool=False) -&gt; DatResultSet|None:
+        &#34;&#34;&#34;
+        Returns the result set with the given entity and step index (index of step time in step_times).
+        If no such result set exists, None is returned.
+
+        Args:
+            entity (EDatEntities): Entity name of result set to be returned
+            step_index (int): Step index of result set to be returned
+            imag (bool): Flag if real or imaginary results should be returned. Defaults to False (real)
+
+        Returns:
+            IResultSet|None: Matched result set or None
+        &#34;&#34;&#34;
+        # filter by name
+        result_sets = self.get_result_sets_by_entity(entity)
+
+        # filter by step indices
+        step_time = self.step_times[step_index] 
+        result_sets = [rs for rs in result_sets if rs.step_time == step_time]
+        # if the requested entity has an imaginary part, result_sets has 2 items,
+        # 1 otherwise
+        
+        if not result_sets: return None # no matching result sets found
+        if not imag: return result_sets[0] # usual case
+        if imag and len(result_sets) == 1: return None # imag requested, but only real present
+        return result_sets[1] # return imag
+
+    @classmethod
+    def from_file(cls, filename:str) -&gt; &#39;DatResult&#39;:
+        &#34;&#34;&#34;
+        Totals are not processed.
+
+        _extended_summary_
+
+        Args:
+            filename (str): _description_
+
+        Returns:
+            DatResult: _description_
+        &#34;&#34;&#34;
+
+        # define variables to get the IDE happy
+        result_set_open = False     # Flag indicates that a result set is starting
+        step_times = set()
+        result_sets:list[DatResultSet] = []
+        entity_name, step_time, set_name = &#39;&#39;, 0., &#39;&#39;
+        entity_type, entity_loc = EDatEntities.U, EResultLocations.NODAL
+        component_names:tuple[str,...] = ()
+        value_dict = defaultdict(list)  
+
+
+        with open(filename) as f:
+            csv_reader = csv.reader(f, delimiter=&#39; &#39;, skipinitialspace=True)
+            for line in csv_reader:
+                if not line: continue # blank line
+                if not _isnumeric(line[0]):
+                    # finish last result set
+                    if result_set_open:
+                        values_arr = _value_dict_to_value(value_dict, entity_loc)
+                        no_comp = _get_no_comp(values_arr)
+                        result_sets.append(DatResultSet(entity_type, no_comp, step_time, 
+                                            set_name, component_names[-no_comp:],values_arr, 
+                                            entity_loc))
+                        result_set_open = False
+                    # prepare new result set
+                    try:
+                        entity_name, set_name, step_time = _parse_header_line(line)
+                        component_names = _parse_header_components(line)
+                        entity_type = EDatEntities(entity_name)
+                        entity_loc = ENTITY_2_LOCATION_MAP[entity_type]     
+                        step_times.add(step_time)
+                        result_set_open = True    
+                        value_dict = defaultdict(list)            
+                    except: pass
+  
+                                     
+                else: 
+                    if not result_set_open: continue
+                    id, data = _parse_data_line(line, entity_loc)
+                    value_dict[id].append(data)
+
+        # append last result set
+        if result_set_open:
+            values_arr = _value_dict_to_value(value_dict, entity_loc)
+            no_comp = _get_no_comp(values_arr)
+            result_sets.append(DatResultSet(entity_type, no_comp, step_time, 
+                                set_name, component_names[-no_comp:],values_arr, 
+                                entity_loc))
+
+        step_times = tuple(sorted(step_times))
+        return DatResult(step_times, tuple(result_sets))
+
+                    
+def _parse_header_line(line:list[str]) -&gt; tuple[str, str, float]:
+
+    if line[0] == &#39;total&#39;: raise ValueError()
+    
+    # step time
+    step_time = float(line[-1])
+
+    i_and = line.index(&#39;and&#39;) # raises exception if &#39;and&#39; is not present in header
+
+    try:
+        i_set = line.index(&#39;set&#39;) # raises exception if &#39;set&#39; is not present in header
+        # if a set is defined, its name is located between the words &#39;set&#39; and &#39;and&#39;
+        set_name = &#39; &#39;.join(line[i_set + 1 : i_and])
+    except:
+        set_name = &#39;&#39;
+
+    # result name
+    # result name ends at the first occurence of &#39;(&#39; or the word &#39;for&#39;
+    entity_name = &#39;&#39;
+    for i, col in enumerate(line):
+        if col.startswith(&#39;(&#39;) or col == &#39;for&#39;:
+            entity_name = &#39; &#39;.join(line[:i])
+            break
+
+    return entity_name, set_name, step_time
+    
+def _parse_header_components(line:list[str]) -&gt; tuple[str,...]:
+
+    lin = &#39; &#39;.join(line)
+    comp = re.findall(r&#39;\((.*?)\)&#39;, lin)
+    comp = &#39;,&#39;.join(comp)
+    comp = [c.strip() for c in comp.split(&#39;,&#39;)]
+    # comp = [c for c in comp if c not in {&#39;elem&#39;, &#39;integ.pnt.&#39;, &#39;element&#39;}]
+
+    return tuple(comp)
+
+def _parse_data_line(line:list[str], entity_loc:EResultLocations):
+
+    id = int(line[0])
+    if entity_loc == EResultLocations.INT_PNT:
+        return id, np.array(line[2:], dtype=float)
+    return id, np.array(line[1:], dtype=float)
+    
+def _value_dict_to_value(value_dict:dict[int, list[npt.NDArray]], entity_loc:EResultLocations) -&gt; dict[int, npt.NDArray]:
+
+    if entity_loc == EResultLocations.INT_PNT:
+        return {id : np.array(l) for id, l in value_dict.items()}
+    return {id : l[0] for id, l in value_dict.items()}
+
+def _get_no_comp(value_dict:dict[int, npt.NDArray]) -&gt; int:
+
+    # get arbitrary array:
+    a = next(iter(value_dict.values()))
+    if len(a.shape) == 1: return a.shape[0] 
+    return a.shape[1]
+
+def _isnumeric(x) -&gt; bool:
+    try:
+        float(x)
+        return True
+    except:
+        return False</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pygccx.result_reader.dat_result.DatResult"><code class="flex name class">
+<span>class <span class="ident">DatResult</span></span>
+<span>(</span><span>step_times: tuple[float, ...], result_sets: tuple[<a title="pygccx.result_reader.dat_result.DatResultSet" href="#pygccx.result_reader.dat_result.DatResultSet">DatResultSet</a>, ...])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>DatResult(step_times: tuple[float, &hellip;], result_sets: tuple[pygccx.result_reader.dat_result.DatResultSet, &hellip;])</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass(frozen=True, slots=True)
+class DatResult:
+    step_times:tuple[float, ...]
+    &#34;&#34;&#34;Sorted tuple with all step times&#34;&#34;&#34;
+    result_sets:tuple[DatResultSet, ...]
+    &#34;&#34;&#34;Tuple with all result sets&#34;&#34;&#34;
+
+    def get_result_sets_by_entity(self, entity:EDatEntities) -&gt; tuple[DatResultSet, ...]:
+        &#34;&#34;&#34;
+        Returns all result sets with the given entity
+        If no such result set exists an empty tuple is returned.
+
+        Args:
+            entity (ENodeFileResults|EElFileResults|EContactFileResults): Entity name of result sets to be returned
+            imag (bool): Flag if real or imaginary results should be returned. Defaults to False (real)
+        Returns:
+            tuple[IResultSet, ...]: Tuple of all result sets with the given entity
+        &#34;&#34;&#34;
+
+        return tuple(rs for rs in self.result_sets if rs.entity==entity)   
+
+    def get_result_set_by_entity_and_time(self, entity:EDatEntities,
+                                            step_time:float, imag:bool=False) -&gt; DatResultSet|None:
+        &#34;&#34;&#34;
+        Returns the result set with the given entity and closest step time to the given step_time.
+        If no such result set exists, None is returned.
+
+        Args:
+            entity (EDatEntities): Entity name of result set to be returned
+            step_time (float): Step time of result set to be returned
+            imag (bool): Flag if real or imaginary results should be returned. Defaults to False (real)
+
+        Returns:
+            IResultSet|None: Matched result set or None
+        &#34;&#34;&#34;
+        # filter by name
+        result_sets = self.get_result_sets_by_entity(entity)
+
+        # filter by step times    
+        nearest_time = min(self.step_times, key=lambda x:abs(x - step_time)) 
+        result_sets = [rs for rs in result_sets if rs.step_time == nearest_time]
+        # if the requested entity has an imaginary part, result_sets has 2 items,
+        # 1 otherwise
+
+        if not result_sets: return None # no matching result sets found
+        if not imag: return result_sets[0] # usual case
+        if imag and len(result_sets) == 1: return None # imag requested, but only real present
+        return result_sets[1] # return imag
+        
+    def get_result_set_by_entity_and_index(self, entity:EDatEntities,
+                                            step_index:int, imag:bool=False) -&gt; DatResultSet|None:
+        &#34;&#34;&#34;
+        Returns the result set with the given entity and step index (index of step time in step_times).
+        If no such result set exists, None is returned.
+
+        Args:
+            entity (EDatEntities): Entity name of result set to be returned
+            step_index (int): Step index of result set to be returned
+            imag (bool): Flag if real or imaginary results should be returned. Defaults to False (real)
+
+        Returns:
+            IResultSet|None: Matched result set or None
+        &#34;&#34;&#34;
+        # filter by name
+        result_sets = self.get_result_sets_by_entity(entity)
+
+        # filter by step indices
+        step_time = self.step_times[step_index] 
+        result_sets = [rs for rs in result_sets if rs.step_time == step_time]
+        # if the requested entity has an imaginary part, result_sets has 2 items,
+        # 1 otherwise
+        
+        if not result_sets: return None # no matching result sets found
+        if not imag: return result_sets[0] # usual case
+        if imag and len(result_sets) == 1: return None # imag requested, but only real present
+        return result_sets[1] # return imag
+
+    @classmethod
+    def from_file(cls, filename:str) -&gt; &#39;DatResult&#39;:
+        &#34;&#34;&#34;
+        Totals are not processed.
+
+        _extended_summary_
+
+        Args:
+            filename (str): _description_
+
+        Returns:
+            DatResult: _description_
+        &#34;&#34;&#34;
+
+        # define variables to get the IDE happy
+        result_set_open = False     # Flag indicates that a result set is starting
+        step_times = set()
+        result_sets:list[DatResultSet] = []
+        entity_name, step_time, set_name = &#39;&#39;, 0., &#39;&#39;
+        entity_type, entity_loc = EDatEntities.U, EResultLocations.NODAL
+        component_names:tuple[str,...] = ()
+        value_dict = defaultdict(list)  
+
+
+        with open(filename) as f:
+            csv_reader = csv.reader(f, delimiter=&#39; &#39;, skipinitialspace=True)
+            for line in csv_reader:
+                if not line: continue # blank line
+                if not _isnumeric(line[0]):
+                    # finish last result set
+                    if result_set_open:
+                        values_arr = _value_dict_to_value(value_dict, entity_loc)
+                        no_comp = _get_no_comp(values_arr)
+                        result_sets.append(DatResultSet(entity_type, no_comp, step_time, 
+                                            set_name, component_names[-no_comp:],values_arr, 
+                                            entity_loc))
+                        result_set_open = False
+                    # prepare new result set
+                    try:
+                        entity_name, set_name, step_time = _parse_header_line(line)
+                        component_names = _parse_header_components(line)
+                        entity_type = EDatEntities(entity_name)
+                        entity_loc = ENTITY_2_LOCATION_MAP[entity_type]     
+                        step_times.add(step_time)
+                        result_set_open = True    
+                        value_dict = defaultdict(list)            
+                    except: pass
+  
+                                     
+                else: 
+                    if not result_set_open: continue
+                    id, data = _parse_data_line(line, entity_loc)
+                    value_dict[id].append(data)
+
+        # append last result set
+        if result_set_open:
+            values_arr = _value_dict_to_value(value_dict, entity_loc)
+            no_comp = _get_no_comp(values_arr)
+            result_sets.append(DatResultSet(entity_type, no_comp, step_time, 
+                                set_name, component_names[-no_comp:],values_arr, 
+                                entity_loc))
+
+        step_times = tuple(sorted(step_times))
+        return DatResult(step_times, tuple(result_sets))</code></pre>
+</details>
+<h3>Static methods</h3>
+<dl>
+<dt id="pygccx.result_reader.dat_result.DatResult.from_file"><code class="name flex">
+<span>def <span class="ident">from_file</span></span>(<span>filename: str) ‑> <a title="pygccx.result_reader.dat_result.DatResult" href="#pygccx.result_reader.dat_result.DatResult">DatResult</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Totals are not processed.</p>
+<p><em>extended_summary</em></p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
+<dd><em>description</em></dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="pygccx.result_reader.dat_result.DatResult" href="#pygccx.result_reader.dat_result.DatResult">DatResult</a></code></dt>
+<dd><em>description</em></dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def from_file(cls, filename:str) -&gt; &#39;DatResult&#39;:
+    &#34;&#34;&#34;
+    Totals are not processed.
+
+    _extended_summary_
+
+    Args:
+        filename (str): _description_
+
+    Returns:
+        DatResult: _description_
+    &#34;&#34;&#34;
+
+    # define variables to get the IDE happy
+    result_set_open = False     # Flag indicates that a result set is starting
+    step_times = set()
+    result_sets:list[DatResultSet] = []
+    entity_name, step_time, set_name = &#39;&#39;, 0., &#39;&#39;
+    entity_type, entity_loc = EDatEntities.U, EResultLocations.NODAL
+    component_names:tuple[str,...] = ()
+    value_dict = defaultdict(list)  
+
+
+    with open(filename) as f:
+        csv_reader = csv.reader(f, delimiter=&#39; &#39;, skipinitialspace=True)
+        for line in csv_reader:
+            if not line: continue # blank line
+            if not _isnumeric(line[0]):
+                # finish last result set
+                if result_set_open:
+                    values_arr = _value_dict_to_value(value_dict, entity_loc)
+                    no_comp = _get_no_comp(values_arr)
+                    result_sets.append(DatResultSet(entity_type, no_comp, step_time, 
+                                        set_name, component_names[-no_comp:],values_arr, 
+                                        entity_loc))
+                    result_set_open = False
+                # prepare new result set
+                try:
+                    entity_name, set_name, step_time = _parse_header_line(line)
+                    component_names = _parse_header_components(line)
+                    entity_type = EDatEntities(entity_name)
+                    entity_loc = ENTITY_2_LOCATION_MAP[entity_type]     
+                    step_times.add(step_time)
+                    result_set_open = True    
+                    value_dict = defaultdict(list)            
+                except: pass
+
+                                 
+            else: 
+                if not result_set_open: continue
+                id, data = _parse_data_line(line, entity_loc)
+                value_dict[id].append(data)
+
+    # append last result set
+    if result_set_open:
+        values_arr = _value_dict_to_value(value_dict, entity_loc)
+        no_comp = _get_no_comp(values_arr)
+        result_sets.append(DatResultSet(entity_type, no_comp, step_time, 
+                            set_name, component_names[-no_comp:],values_arr, 
+                            entity_loc))
+
+    step_times = tuple(sorted(step_times))
+    return DatResult(step_times, tuple(result_sets))</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="pygccx.result_reader.dat_result.DatResult.result_sets"><code class="name">var <span class="ident">result_sets</span> : tuple[<a title="pygccx.result_reader.dat_result.DatResultSet" href="#pygccx.result_reader.dat_result.DatResultSet">DatResultSet</a>, ...]</code></dt>
+<dd>
+<div class="desc"><p>Tuple with all result sets</p></div>
+</dd>
+<dt id="pygccx.result_reader.dat_result.DatResult.step_times"><code class="name">var <span class="ident">step_times</span> : tuple[float, ...]</code></dt>
+<dd>
+<div class="desc"><p>Sorted tuple with all step times</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pygccx.result_reader.dat_result.DatResult.get_result_set_by_entity_and_index"><code class="name flex">
+<span>def <span class="ident">get_result_set_by_entity_and_index</span></span>(<span>self, entity: <a title="pygccx.enums.EDatEntities" href="../enums.html#pygccx.enums.EDatEntities">EDatEntities</a>, step_index: int, imag: bool = False) ‑> <a title="pygccx.result_reader.dat_result.DatResultSet" href="#pygccx.result_reader.dat_result.DatResultSet">DatResultSet</a> | None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the result set with the given entity and step index (index of step time in step_times).
+If no such result set exists, None is returned.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>entity</code></strong> :&ensp;<code>EDatEntities</code></dt>
+<dd>Entity name of result set to be returned</dd>
+<dt><strong><code>step_index</code></strong> :&ensp;<code>int</code></dt>
+<dd>Step index of result set to be returned</dd>
+<dt><strong><code>imag</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Flag if real or imaginary results should be returned. Defaults to False (real)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>IResultSet|None: Matched result set or None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_result_set_by_entity_and_index(self, entity:EDatEntities,
+                                        step_index:int, imag:bool=False) -&gt; DatResultSet|None:
+    &#34;&#34;&#34;
+    Returns the result set with the given entity and step index (index of step time in step_times).
+    If no such result set exists, None is returned.
+
+    Args:
+        entity (EDatEntities): Entity name of result set to be returned
+        step_index (int): Step index of result set to be returned
+        imag (bool): Flag if real or imaginary results should be returned. Defaults to False (real)
+
+    Returns:
+        IResultSet|None: Matched result set or None
+    &#34;&#34;&#34;
+    # filter by name
+    result_sets = self.get_result_sets_by_entity(entity)
+
+    # filter by step indices
+    step_time = self.step_times[step_index] 
+    result_sets = [rs for rs in result_sets if rs.step_time == step_time]
+    # if the requested entity has an imaginary part, result_sets has 2 items,
+    # 1 otherwise
+    
+    if not result_sets: return None # no matching result sets found
+    if not imag: return result_sets[0] # usual case
+    if imag and len(result_sets) == 1: return None # imag requested, but only real present
+    return result_sets[1] # return imag</code></pre>
+</details>
+</dd>
+<dt id="pygccx.result_reader.dat_result.DatResult.get_result_set_by_entity_and_time"><code class="name flex">
+<span>def <span class="ident">get_result_set_by_entity_and_time</span></span>(<span>self, entity: <a title="pygccx.enums.EDatEntities" href="../enums.html#pygccx.enums.EDatEntities">EDatEntities</a>, step_time: float, imag: bool = False) ‑> <a title="pygccx.result_reader.dat_result.DatResultSet" href="#pygccx.result_reader.dat_result.DatResultSet">DatResultSet</a> | None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the result set with the given entity and closest step time to the given step_time.
+If no such result set exists, None is returned.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>entity</code></strong> :&ensp;<code>EDatEntities</code></dt>
+<dd>Entity name of result set to be returned</dd>
+<dt><strong><code>step_time</code></strong> :&ensp;<code>float</code></dt>
+<dd>Step time of result set to be returned</dd>
+<dt><strong><code>imag</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Flag if real or imaginary results should be returned. Defaults to False (real)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>IResultSet|None: Matched result set or None</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_result_set_by_entity_and_time(self, entity:EDatEntities,
+                                        step_time:float, imag:bool=False) -&gt; DatResultSet|None:
+    &#34;&#34;&#34;
+    Returns the result set with the given entity and closest step time to the given step_time.
+    If no such result set exists, None is returned.
+
+    Args:
+        entity (EDatEntities): Entity name of result set to be returned
+        step_time (float): Step time of result set to be returned
+        imag (bool): Flag if real or imaginary results should be returned. Defaults to False (real)
+
+    Returns:
+        IResultSet|None: Matched result set or None
+    &#34;&#34;&#34;
+    # filter by name
+    result_sets = self.get_result_sets_by_entity(entity)
+
+    # filter by step times    
+    nearest_time = min(self.step_times, key=lambda x:abs(x - step_time)) 
+    result_sets = [rs for rs in result_sets if rs.step_time == nearest_time]
+    # if the requested entity has an imaginary part, result_sets has 2 items,
+    # 1 otherwise
+
+    if not result_sets: return None # no matching result sets found
+    if not imag: return result_sets[0] # usual case
+    if imag and len(result_sets) == 1: return None # imag requested, but only real present
+    return result_sets[1] # return imag</code></pre>
+</details>
+</dd>
+<dt id="pygccx.result_reader.dat_result.DatResult.get_result_sets_by_entity"><code class="name flex">
+<span>def <span class="ident">get_result_sets_by_entity</span></span>(<span>self, entity: <a title="pygccx.enums.EDatEntities" href="../enums.html#pygccx.enums.EDatEntities">EDatEntities</a>) ‑> tuple[<a title="pygccx.result_reader.dat_result.DatResultSet" href="#pygccx.result_reader.dat_result.DatResultSet">DatResultSet</a>, ...]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns all result sets with the given entity
+If no such result set exists an empty tuple is returned.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt>entity (ENodeFileResults|EElFileResults|EContactFileResults): Entity name of result sets to be returned</dt>
+<dt><strong><code>imag</code></strong> :&ensp;<code>bool</code></dt>
+<dd>Flag if real or imaginary results should be returned. Defaults to False (real)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple[IResultSet, &hellip;]</code></dt>
+<dd>Tuple of all result sets with the given entity</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_result_sets_by_entity(self, entity:EDatEntities) -&gt; tuple[DatResultSet, ...]:
+    &#34;&#34;&#34;
+    Returns all result sets with the given entity
+    If no such result set exists an empty tuple is returned.
+
+    Args:
+        entity (ENodeFileResults|EElFileResults|EContactFileResults): Entity name of result sets to be returned
+        imag (bool): Flag if real or imaginary results should be returned. Defaults to False (real)
+    Returns:
+        tuple[IResultSet, ...]: Tuple of all result sets with the given entity
+    &#34;&#34;&#34;
+
+    return tuple(rs for rs in self.result_sets if rs.entity==entity)   </code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.result_reader.dat_result.DatResultSet"><code class="flex name class">
+<span>class <span class="ident">DatResultSet</span></span>
+<span>(</span><span>entity: <a title="pygccx.enums.EDatEntities" href="../enums.html#pygccx.enums.EDatEntities">EDatEntities</a>, no_components: int, step_time: float, set_name: str, component_names: tuple[str, ...], values: dict[int, numpy.ndarray[typing.Any, numpy.dtype[+ScalarType]]], entity_location: <a title="pygccx.enums.EResultLocations" href="../enums.html#pygccx.enums.EResultLocations">EResultLocations</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class representing a result set from a *.dat file.</p>
+<p>A result set contains the nodal, element or integration point result
+values of an entity (i.e. U, S) for a single step time.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass(frozen=True, slots=True)
+class DatResultSet:
+    &#34;&#34;&#34;
+    Class representing a result set from a *.dat file.
+
+    A result set contains the nodal, element or integration point result 
+    values of an entity (i.e. U, S) for a single step time.
+    &#34;&#34;&#34;
+    entity:EDatEntities
+    &#34;&#34;&#34;Enum of the result set entity&#34;&#34;&#34;
+    no_components:int
+    &#34;&#34;&#34;number of components per value. I.e. for a U result set no_components == 3&#34;&#34;&#34;
+    step_time:float
+    &#34;&#34;&#34;Step time of this result set&#34;&#34;&#34;
+    set_name:str
+    &#34;&#34;&#34;Name of the node- or element set.&#34;&#34;&#34;
+    component_names:tuple[str,...]
+    &#34;&#34;&#34;Names of the value components. I.e. for a U result set (&#39;vx&#39;, &#39;vy&#39;, &#39;vz&#39;)&#34;&#34;&#34;
+    values:dict[int, npt.NDArray] = field(repr=False)
+    &#34;&#34;&#34;
+    Dictionary with values.\n
+    key = node id, 
+    if entity_location==NODAL or ELEMENT: value = vector with entity components\n 
+    if entity_location==INT_PNT: value = m x n array with m = number of int.pnts. and n = number of components.
+    &#34;&#34;&#34;
+    entity_location:EResultLocations
+    &#34;&#34;&#34;Location of the result entity. i.e. NODAL, ELEMENT, ...&#34;&#34;&#34;
+
+    def get_values_by_ids(self, ids:Iterable[int]) -&gt; npt.NDArray[np.float64]:
+        &#34;&#34;&#34;
+        Returns the result values for the given node or element ids as a numpy array.
+
+        if entity_location==NODAL or ELEMENT: 
+            2D Array is returned.
+            len axis 0: number of given ids
+            len axis 1: number of components.
+        if entity_location==INT_PNT:
+            3D Array is returned
+            len axis 0: number of given ids
+            len axis 1: number of int. pnts
+            len axis 2: number of components
+
+        The order of axis 0 is the same as ids.
+        If ids is a non ordered iterable (i.e. a set) the ordering is arbitrary.
+
+        If a node id is not in values an exception is raised. 
+        &#34;&#34;&#34;
+        return np.array([self.values[id] for id in ids])</code></pre>
+</details>
+<h3>Instance variables</h3>
+<dl>
+<dt id="pygccx.result_reader.dat_result.DatResultSet.component_names"><code class="name">var <span class="ident">component_names</span> : tuple[str, ...]</code></dt>
+<dd>
+<div class="desc"><p>Names of the value components. I.e. for a U result set ('vx', 'vy', 'vz')</p></div>
+</dd>
+<dt id="pygccx.result_reader.dat_result.DatResultSet.entity"><code class="name">var <span class="ident">entity</span> : <a title="pygccx.enums.EDatEntities" href="../enums.html#pygccx.enums.EDatEntities">EDatEntities</a></code></dt>
+<dd>
+<div class="desc"><p>Enum of the result set entity</p></div>
+</dd>
+<dt id="pygccx.result_reader.dat_result.DatResultSet.entity_location"><code class="name">var <span class="ident">entity_location</span> : <a title="pygccx.enums.EResultLocations" href="../enums.html#pygccx.enums.EResultLocations">EResultLocations</a></code></dt>
+<dd>
+<div class="desc"><p>Location of the result entity. i.e. NODAL, ELEMENT, &hellip;</p></div>
+</dd>
+<dt id="pygccx.result_reader.dat_result.DatResultSet.no_components"><code class="name">var <span class="ident">no_components</span> : int</code></dt>
+<dd>
+<div class="desc"><p>number of components per value. I.e. for a U result set no_components == 3</p></div>
+</dd>
+<dt id="pygccx.result_reader.dat_result.DatResultSet.set_name"><code class="name">var <span class="ident">set_name</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Name of the node- or element set.</p></div>
+</dd>
+<dt id="pygccx.result_reader.dat_result.DatResultSet.step_time"><code class="name">var <span class="ident">step_time</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Step time of this result set</p></div>
+</dd>
+<dt id="pygccx.result_reader.dat_result.DatResultSet.values"><code class="name">var <span class="ident">values</span> : dict[int, numpy.ndarray[typing.Any, numpy.dtype[+ScalarType]]]</code></dt>
+<dd>
+<div class="desc"><p>Dictionary with values.</p>
+<p>key = node id,
+if entity_location==NODAL or ELEMENT: value = vector with entity components</p>
+<p>if entity_location==INT_PNT: value = m x n array with m = number of int.pnts. and n = number of components.</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pygccx.result_reader.dat_result.DatResultSet.get_values_by_ids"><code class="name flex">
+<span>def <span class="ident">get_values_by_ids</span></span>(<span>self, ids: Iterable[int]) ‑> numpy.ndarray[typing.Any, numpy.dtype[numpy.float64]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns the result values for the given node or element ids as a numpy array.</p>
+<p>if entity_location==NODAL or ELEMENT:
+2D Array is returned.
+len axis 0: number of given ids
+len axis 1: number of components.
+if entity_location==INT_PNT:
+3D Array is returned
+len axis 0: number of given ids
+len axis 1: number of int. pnts
+len axis 2: number of components</p>
+<p>The order of axis 0 is the same as ids.
+If ids is a non ordered iterable (i.e. a set) the ordering is arbitrary.</p>
+<p>If a node id is not in values an exception is raised.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_values_by_ids(self, ids:Iterable[int]) -&gt; npt.NDArray[np.float64]:
+    &#34;&#34;&#34;
+    Returns the result values for the given node or element ids as a numpy array.
+
+    if entity_location==NODAL or ELEMENT: 
+        2D Array is returned.
+        len axis 0: number of given ids
+        len axis 1: number of components.
+    if entity_location==INT_PNT:
+        3D Array is returned
+        len axis 0: number of given ids
+        len axis 1: number of int. pnts
+        len axis 2: number of components
+
+    The order of axis 0 is the same as ids.
+    If ids is a non ordered iterable (i.e. a set) the ordering is arbitrary.
+
+    If a node id is not in values an exception is raised. 
+    &#34;&#34;&#34;
+    return np.array([self.values[id] for id in ids])</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pygccx.result_reader" href="index.html">pygccx.result_reader</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pygccx.result_reader.dat_result.DatResult" href="#pygccx.result_reader.dat_result.DatResult">DatResult</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.result_reader.dat_result.DatResult.from_file" href="#pygccx.result_reader.dat_result.DatResult.from_file">from_file</a></code></li>
+<li><code><a title="pygccx.result_reader.dat_result.DatResult.get_result_set_by_entity_and_index" href="#pygccx.result_reader.dat_result.DatResult.get_result_set_by_entity_and_index">get_result_set_by_entity_and_index</a></code></li>
+<li><code><a title="pygccx.result_reader.dat_result.DatResult.get_result_set_by_entity_and_time" href="#pygccx.result_reader.dat_result.DatResult.get_result_set_by_entity_and_time">get_result_set_by_entity_and_time</a></code></li>
+<li><code><a title="pygccx.result_reader.dat_result.DatResult.get_result_sets_by_entity" href="#pygccx.result_reader.dat_result.DatResult.get_result_sets_by_entity">get_result_sets_by_entity</a></code></li>
+<li><code><a title="pygccx.result_reader.dat_result.DatResult.result_sets" href="#pygccx.result_reader.dat_result.DatResult.result_sets">result_sets</a></code></li>
+<li><code><a title="pygccx.result_reader.dat_result.DatResult.step_times" href="#pygccx.result_reader.dat_result.DatResult.step_times">step_times</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.result_reader.dat_result.DatResultSet" href="#pygccx.result_reader.dat_result.DatResultSet">DatResultSet</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pygccx.result_reader.dat_result.DatResultSet.component_names" href="#pygccx.result_reader.dat_result.DatResultSet.component_names">component_names</a></code></li>
+<li><code><a title="pygccx.result_reader.dat_result.DatResultSet.entity" href="#pygccx.result_reader.dat_result.DatResultSet.entity">entity</a></code></li>
+<li><code><a title="pygccx.result_reader.dat_result.DatResultSet.entity_location" href="#pygccx.result_reader.dat_result.DatResultSet.entity_location">entity_location</a></code></li>
+<li><code><a title="pygccx.result_reader.dat_result.DatResultSet.get_values_by_ids" href="#pygccx.result_reader.dat_result.DatResultSet.get_values_by_ids">get_values_by_ids</a></code></li>
+<li><code><a title="pygccx.result_reader.dat_result.DatResultSet.no_components" href="#pygccx.result_reader.dat_result.DatResultSet.no_components">no_components</a></code></li>
+<li><code><a title="pygccx.result_reader.dat_result.DatResultSet.set_name" href="#pygccx.result_reader.dat_result.DatResultSet.set_name">set_name</a></code></li>
+<li><code><a title="pygccx.result_reader.dat_result.DatResultSet.step_time" href="#pygccx.result_reader.dat_result.DatResultSet.step_time">step_time</a></code></li>
+<li><code><a title="pygccx.result_reader.dat_result.DatResultSet.values" href="#pygccx.result_reader.dat_result.DatResultSet.values">values</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

@@ -22,9 +22,9 @@ from typing import Optional, Iterable, Any
 import numpy as np
 import numpy.typing as npt
 
-from enums import EPressureOverclosures
-from protocols import number
-from auxiliary import f2s
+from pygccx.enums import EPressureOverclosures
+from pygccx.protocols import number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class SurfaceBehavior:

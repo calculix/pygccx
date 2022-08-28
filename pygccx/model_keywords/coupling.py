@@ -19,8 +19,8 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass
 from typing import Optional, Any
-from protocols import IKeyword, ISurface
-from enums import ECouplingTypes, ESurfTypes
+from pygccx.protocols import IKeyword, ISurface
+from pygccx.enums import ECouplingTypes, ESurfTypes
 
 @dataclass
 class Coupling:

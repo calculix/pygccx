@@ -19,9 +19,10 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field, InitVar
 from typing import Optional, Any
-from enums import ELoadOps
-from protocols import IKeyword, ISet, number
-from auxiliary import f2s
+
+from pygccx.enums import ELoadOps
+from pygccx.protocols import IKeyword, ISet, number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class Boundary:

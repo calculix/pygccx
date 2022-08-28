@@ -21,7 +21,7 @@ from dataclasses import dataclass
 from typing import Protocol, runtime_checkable, Iterable
 import numpy as np
 import numpy.typing as npt
-import enums
+from . import enums
 
 number = int|float|np.number
 

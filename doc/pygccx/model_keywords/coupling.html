@@ -62,8 +62,8 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from dataclasses import dataclass
 from typing import Optional, Any
-from protocols import IKeyword, ISurface
-from enums import ECouplingTypes, ESurfTypes
+from pygccx.protocols import IKeyword, ISurface
+from pygccx.enums import ECouplingTypes, ESurfTypes
 
 @dataclass
 class Coupling:
@@ -137,7 +137,7 @@ class Coupling:
 <dl>
 <dt id="pygccx.model_keywords.coupling.Coupling"><code class="flex name class">
 <span>class <span class="ident">Coupling</span></span>
-<span>(</span><span>type: enums.ECouplingTypes, ref_node: int, surface: protocols.ISurface, name: str, first_dof: int, last_dof: Optional[int] = None, orientation: Optional[protocols.IKeyword] = None, cyclic_symmetry: bool = False, desc: str = '')</span>
+<span>(</span><span>type: <a title="pygccx.enums.ECouplingTypes" href="../enums.html#pygccx.enums.ECouplingTypes">ECouplingTypes</a>, ref_node: int, surface: <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a>, name: str, first_dof: int, last_dof: Optional[int] = None, orientation: Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>] = None, cyclic_symmetry: bool = False, desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to generate a kinematic or a distributing coupling.
@@ -251,7 +251,7 @@ class Coupling:
 <dd>
 <div class="desc"><p>Name of the coupling</p></div>
 </dd>
-<dt id="pygccx.model_keywords.coupling.Coupling.orientation"><code class="name">var <span class="ident">orientation</span> : Optional[protocols.IKeyword]</code></dt>
+<dt id="pygccx.model_keywords.coupling.Coupling.orientation"><code class="name">var <span class="ident">orientation</span> : Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>]</code></dt>
 <dd>
 <div class="desc"><p>Orientation object to assign a local coordinate system</p></div>
 </dd>
@@ -259,11 +259,11 @@ class Coupling:
 <dd>
 <div class="desc"><p>Reference node id</p></div>
 </dd>
-<dt id="pygccx.model_keywords.coupling.Coupling.surface"><code class="name">var <span class="ident">surface</span> : protocols.ISurface</code></dt>
+<dt id="pygccx.model_keywords.coupling.Coupling.surface"><code class="name">var <span class="ident">surface</span> : <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a></code></dt>
 <dd>
 <div class="desc"><p>Dependent surface. Must be of type EL_FACE</p></div>
 </dd>
-<dt id="pygccx.model_keywords.coupling.Coupling.type"><code class="name">var <span class="ident">type</span> : enums.ECouplingTypes</code></dt>
+<dt id="pygccx.model_keywords.coupling.Coupling.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.ECouplingTypes" href="../enums.html#pygccx.enums.ECouplingTypes">ECouplingTypes</a></code></dt>
 <dd>
 <div class="desc"><p>Type of the coupling. DISTRIBUTING or KINEMATIC</p></div>
 </dd>

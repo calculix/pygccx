@@ -61,8 +61,9 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
 from unittest import TestCase
-from model_keywords import CyclicHardening
-from protocols import IKeyword
+
+from pygccx.model_keywords import CyclicHardening
+from pygccx.protocols import IKeyword
 
 class TestCyclicHardening(TestCase):
 
@@ -73,8 +74,8 @@ class TestCyclicHardening(TestCase):
     def test_default(self):
         c = CyclicHardening([210., 235.], [0., 0.002])
         known = &#39;*CYCLIC HARDENING\n&#39;
-        known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-        known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
+        known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+        known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
 
         self.assertEqual(str(c), known)
 
@@ -82,10 +83,10 @@ class TestCyclicHardening(TestCase):
         c = CyclicHardening([210., 235.], [0., 0.002])
         c.add_plastic_stress_strain_for_temp(310., [190., 230.],[0., 0.002])
         known = &#39;*CYCLIC HARDENING\n&#39;
-        known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-        known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
-        known += &#39;  1.9000000e+02,  0.0000000e+00,  3.1000000e+02\n&#39;
-        known += &#39;  2.3000000e+02,  2.0000000e-03,  3.1000000e+02\n&#39;
+        known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+        known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
+        known += &#39;1.9000000e+02,0.0000000e+00,3.1000000e+02\n&#39;
+        known += &#39;2.3000000e+02,2.0000000e-03,3.1000000e+02\n&#39;
         self.assertEqual(str(c), known)
 
     def test_sress_strain_different_length(self):
@@ -147,8 +148,8 @@ not have a method with the specified name.</p></div>
     def test_default(self):
         c = CyclicHardening([210., 235.], [0., 0.002])
         known = &#39;*CYCLIC HARDENING\n&#39;
-        known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-        known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
+        known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+        known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
 
         self.assertEqual(str(c), known)
 
@@ -156,10 +157,10 @@ not have a method with the specified name.</p></div>
         c = CyclicHardening([210., 235.], [0., 0.002])
         c.add_plastic_stress_strain_for_temp(310., [190., 230.],[0., 0.002])
         known = &#39;*CYCLIC HARDENING\n&#39;
-        known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-        known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
-        known += &#39;  1.9000000e+02,  0.0000000e+00,  3.1000000e+02\n&#39;
-        known += &#39;  2.3000000e+02,  2.0000000e-03,  3.1000000e+02\n&#39;
+        known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+        known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
+        known += &#39;1.9000000e+02,0.0000000e+00,3.1000000e+02\n&#39;
+        known += &#39;2.3000000e+02,2.0000000e-03,3.1000000e+02\n&#39;
         self.assertEqual(str(c), known)
 
     def test_sress_strain_different_length(self):
@@ -184,10 +185,10 @@ not have a method with the specified name.</p></div>
     c = CyclicHardening([210., 235.], [0., 0.002])
     c.add_plastic_stress_strain_for_temp(310., [190., 230.],[0., 0.002])
     known = &#39;*CYCLIC HARDENING\n&#39;
-    known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-    known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
-    known += &#39;  1.9000000e+02,  0.0000000e+00,  3.1000000e+02\n&#39;
-    known += &#39;  2.3000000e+02,  2.0000000e-03,  3.1000000e+02\n&#39;
+    known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+    known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
+    known += &#39;1.9000000e+02,0.0000000e+00,3.1000000e+02\n&#39;
+    known += &#39;2.3000000e+02,2.0000000e-03,3.1000000e+02\n&#39;
     self.assertEqual(str(c), known)</code></pre>
 </details>
 </dd>
@@ -203,8 +204,8 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_default(self):
     c = CyclicHardening([210., 235.], [0., 0.002])
     known = &#39;*CYCLIC HARDENING\n&#39;
-    known += &#39;  2.1000000e+02,  0.0000000e+00,  2.9400000e+02\n&#39;
-    known += &#39;  2.3500000e+02,  2.0000000e-03,  2.9400000e+02\n&#39;
+    known += &#39;2.1000000e+02,0.0000000e+00,2.9400000e+02\n&#39;
+    known += &#39;2.3500000e+02,2.0000000e-03,2.9400000e+02\n&#39;
 
     self.assertEqual(str(c), known)</code></pre>
 </details>

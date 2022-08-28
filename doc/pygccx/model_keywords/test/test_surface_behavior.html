@@ -61,9 +61,10 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
 from unittest import TestCase
-from model_keywords import SurfaceBehavior
-from enums import EPressureOverclosures
-from protocols import IKeyword
+
+from pygccx.model_keywords import SurfaceBehavior
+from pygccx.enums import EPressureOverclosures
+from pygccx.protocols import IKeyword
 
 class TestSurfaceBehavior(TestCase):
 
@@ -74,40 +75,40 @@ class TestSurfaceBehavior(TestCase):
     def test_exponential(self):
         sb = SurfaceBehavior(EPressureOverclosures.EXPONENTIAL, c0=1.e-4, p0=.1)
         known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=EXPONENTIAL\n&#39;
-        known += &#39;  1.0000000e-04,  1.0000000e-01\n&#39;
+        known += &#39;1.0000000e-04,1.0000000e-01\n&#39;
         self.assertEqual(str(sb), known)
 
     def test_linear_only_k(self):
         sb = SurfaceBehavior(EPressureOverclosures.LINEAR, k=50000.)
         known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=LINEAR\n&#39;
-        known += &#39;  5.0000000e+04\n&#39;
+        known += &#39;5.0000000e+04\n&#39;
         self.assertEqual(str(sb), known)
 
     def test_linear_k_and_sig_inf(self):
         sb = SurfaceBehavior(EPressureOverclosures.LINEAR, k=50000., sig_inf=10.)
         known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=LINEAR\n&#39;
-        known += &#39;  5.0000000e+04,  1.0000000e+01\n&#39;
+        known += &#39;5.0000000e+04,1.0000000e+01\n&#39;
         self.assertEqual(str(sb), known)
 
     def test_linear_k_sig_inf_and_c0(self):
         sb = SurfaceBehavior(EPressureOverclosures.LINEAR, k=50000., sig_inf=10., c0=0.1)
         known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=LINEAR\n&#39;
-        known += &#39;  5.0000000e+04,  1.0000000e+01,  1.0000000e-01\n&#39;
+        known += &#39;5.0000000e+04,1.0000000e+01,1.0000000e-01\n&#39;
         self.assertEqual(str(sb), known)
 
     def test_tabular(self):
         sb = SurfaceBehavior(EPressureOverclosures.TABULAR,
                              table=[[0,0],[50,0.01],[500,0.02]])
         known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=TABULAR\n&#39;
-        known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-        known += &#39;  5.0000000e+01,  1.0000000e-02\n&#39;
-        known += &#39;  5.0000000e+02,  2.0000000e-02\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+        known += &#39;5.0000000e+01,1.0000000e-02\n&#39;
+        known += &#39;5.0000000e+02,2.0000000e-02\n&#39;
         self.assertEqual(str(sb), known)
 
     def test_tied(self):
         sb = SurfaceBehavior(EPressureOverclosures.TIED, k=50000.)
         known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=TIED\n&#39;
-        known += &#39;  5.0000000e+04\n&#39;
+        known += &#39;5.0000000e+04\n&#39;
         self.assertEqual(str(sb), known)
 
     def test_hard(self):
@@ -212,40 +213,40 @@ not have a method with the specified name.</p></div>
     def test_exponential(self):
         sb = SurfaceBehavior(EPressureOverclosures.EXPONENTIAL, c0=1.e-4, p0=.1)
         known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=EXPONENTIAL\n&#39;
-        known += &#39;  1.0000000e-04,  1.0000000e-01\n&#39;
+        known += &#39;1.0000000e-04,1.0000000e-01\n&#39;
         self.assertEqual(str(sb), known)
 
     def test_linear_only_k(self):
         sb = SurfaceBehavior(EPressureOverclosures.LINEAR, k=50000.)
         known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=LINEAR\n&#39;
-        known += &#39;  5.0000000e+04\n&#39;
+        known += &#39;5.0000000e+04\n&#39;
         self.assertEqual(str(sb), known)
 
     def test_linear_k_and_sig_inf(self):
         sb = SurfaceBehavior(EPressureOverclosures.LINEAR, k=50000., sig_inf=10.)
         known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=LINEAR\n&#39;
-        known += &#39;  5.0000000e+04,  1.0000000e+01\n&#39;
+        known += &#39;5.0000000e+04,1.0000000e+01\n&#39;
         self.assertEqual(str(sb), known)
 
     def test_linear_k_sig_inf_and_c0(self):
         sb = SurfaceBehavior(EPressureOverclosures.LINEAR, k=50000., sig_inf=10., c0=0.1)
         known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=LINEAR\n&#39;
-        known += &#39;  5.0000000e+04,  1.0000000e+01,  1.0000000e-01\n&#39;
+        known += &#39;5.0000000e+04,1.0000000e+01,1.0000000e-01\n&#39;
         self.assertEqual(str(sb), known)
 
     def test_tabular(self):
         sb = SurfaceBehavior(EPressureOverclosures.TABULAR,
                              table=[[0,0],[50,0.01],[500,0.02]])
         known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=TABULAR\n&#39;
-        known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-        known += &#39;  5.0000000e+01,  1.0000000e-02\n&#39;
-        known += &#39;  5.0000000e+02,  2.0000000e-02\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+        known += &#39;5.0000000e+01,1.0000000e-02\n&#39;
+        known += &#39;5.0000000e+02,2.0000000e-02\n&#39;
         self.assertEqual(str(sb), known)
 
     def test_tied(self):
         sb = SurfaceBehavior(EPressureOverclosures.TIED, k=50000.)
         known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=TIED\n&#39;
-        known += &#39;  5.0000000e+04\n&#39;
+        known += &#39;5.0000000e+04\n&#39;
         self.assertEqual(str(sb), known)
 
     def test_hard(self):
@@ -393,7 +394,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_exponential(self):
     sb = SurfaceBehavior(EPressureOverclosures.EXPONENTIAL, c0=1.e-4, p0=.1)
     known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=EXPONENTIAL\n&#39;
-    known += &#39;  1.0000000e-04,  1.0000000e-01\n&#39;
+    known += &#39;1.0000000e-04,1.0000000e-01\n&#39;
     self.assertEqual(str(sb), known)</code></pre>
 </details>
 </dd>
@@ -438,7 +439,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_linear_k_and_sig_inf(self):
     sb = SurfaceBehavior(EPressureOverclosures.LINEAR, k=50000., sig_inf=10.)
     known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=LINEAR\n&#39;
-    known += &#39;  5.0000000e+04,  1.0000000e+01\n&#39;
+    known += &#39;5.0000000e+04,1.0000000e+01\n&#39;
     self.assertEqual(str(sb), known)</code></pre>
 </details>
 </dd>
@@ -454,7 +455,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_linear_k_sig_inf_and_c0(self):
     sb = SurfaceBehavior(EPressureOverclosures.LINEAR, k=50000., sig_inf=10., c0=0.1)
     known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=LINEAR\n&#39;
-    known += &#39;  5.0000000e+04,  1.0000000e+01,  1.0000000e-01\n&#39;
+    known += &#39;5.0000000e+04,1.0000000e+01,1.0000000e-01\n&#39;
     self.assertEqual(str(sb), known)</code></pre>
 </details>
 </dd>
@@ -470,7 +471,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_linear_only_k(self):
     sb = SurfaceBehavior(EPressureOverclosures.LINEAR, k=50000.)
     known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=LINEAR\n&#39;
-    known += &#39;  5.0000000e+04\n&#39;
+    known += &#39;5.0000000e+04\n&#39;
     self.assertEqual(str(sb), known)</code></pre>
 </details>
 </dd>
@@ -487,9 +488,9 @@ not have a method with the specified name.</p></div>
     sb = SurfaceBehavior(EPressureOverclosures.TABULAR,
                          table=[[0,0],[50,0.01],[500,0.02]])
     known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=TABULAR\n&#39;
-    known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-    known += &#39;  5.0000000e+01,  1.0000000e-02\n&#39;
-    known += &#39;  5.0000000e+02,  2.0000000e-02\n&#39;
+    known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+    known += &#39;5.0000000e+01,1.0000000e-02\n&#39;
+    known += &#39;5.0000000e+02,2.0000000e-02\n&#39;
     self.assertEqual(str(sb), known)</code></pre>
 </details>
 </dd>
@@ -505,7 +506,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_tied(self):
     sb = SurfaceBehavior(EPressureOverclosures.TIED, k=50000.)
     known = &#39;*SURFACE BEHAVIOR,PRESSURE-OVERCLOSURE=TIED\n&#39;
-    known += &#39;  5.0000000e+04\n&#39;
+    known += &#39;5.0000000e+04\n&#39;
     self.assertEqual(str(sb), known)</code></pre>
 </details>
 </dd>

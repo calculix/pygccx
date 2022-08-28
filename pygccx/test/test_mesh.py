@@ -18,7 +18,7 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 import unittest
-from mesh.test.test_mesh import TestMesh
+from pygccx.mesh.test.test_mesh import TestMesh
 
 if __name__ == '__main__':
     unittest.main()

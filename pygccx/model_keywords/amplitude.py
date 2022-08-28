@@ -22,8 +22,8 @@ from typing import Sequence, Optional
 import numpy as np
 import numpy.typing as npt
 
-from protocols import number
-from auxiliary import f2s
+from pygccx.protocols import number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class Amplitude:

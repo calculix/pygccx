@@ -19,9 +19,10 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass
 from typing import Optional
-from enums import ESolvers
-from protocols import number
-from auxiliary import f2s
+
+from pygccx.enums import ESolvers
+from pygccx.protocols import number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class Static:

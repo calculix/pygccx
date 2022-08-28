@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>pygccx.test_step_keywords API documentation</title>
+<title>pygccx.step_keywords.element_output API documentation</title>
 <meta name="description" content="Copyright Matthias Sedlmaier 2022
 This file is part of pygccx …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -20,7 +20,7 @@ This file is part of pygccx …" />
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>pygccx.test_step_keywords</code></h1>
+<h1 class="title">Module <code>pygccx.step_keywords.element_output</code></h1>
 </header>
 <section id="section-intro">
 <p>Copyright Matthias Sedlmaier 2022
@@ -60,19 +60,13 @@ along with pygccx.
 If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
-import unittest
-from step_keywords.test.test_boundary import TestBoundary
-from step_keywords.test.test_step import TestStep
-from step_keywords.test.test_static import TestStatic
-from step_keywords.test.test_cload import TestCload
-from step_keywords.test.test_time_points import TestTimePoints
-from step_keywords.test.test_contact_file import TestContactFile
-from step_keywords.test.test_node_file import TestNodeFile
-from step_keywords.test.test_el_file import TestElFile
+from .el_file import ElFile
 
+class ElementOutput(ElFile):
 
-if __name__ == &#39;__main__&#39;:
-    unittest.main()</code></pre>
+    def __str__(self):
+        s = super().__str__()
+        return s.replace(&#39;EL FILE&#39;, &#39;ELEMENT OUTPUT&#39;)</code></pre>
 </details>
 </section>
 <section>
@@ -82,6 +76,89 @@ if __name__ == &#39;__main__&#39;:
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pygccx.step_keywords.element_output.ElementOutput"><code class="flex name class">
+<span>class <span class="ident">ElementOutput</span></span>
+<span>(</span><span>entities: Iterable[<a title="pygccx.enums.EElFileResults" href="../enums.html#pygccx.enums.EElFileResults">EElFileResults</a>], frequency: int = 1, global_: bool = True, output: <a title="pygccx.enums.EResultOutputs" href="../enums.html#pygccx.enums.EResultOutputs">EResultOutputs</a> = EResultOutputs.DEFAULT, output_all: bool = False, section_forces: bool = False, time_points: Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>] = None, nset: Optional[<a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>] = None, last_Iterations: bool = False, contact_elements: bool = False, name: str = '', desc: str = '')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class to select element result entities for printing in file jobname.frd for
+subsequent viewing by CalculiX GraphiX.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt>entities:Iterable (i.e. a list) of element result entities.</dt>
+<dt><strong><code>frequency</code></strong></dt>
+<dd>Optional. integer that indicates that the results of every Nth increment
+will be stored. frequency and time_points are mutually exclusive.</dd>
+<dt><strong><code>global_</code></strong></dt>
+<dd>Optional. Flag if results should be stored in the global or local nodal
+coordinate system.</dd>
+<dt><strong><code>output</code></strong></dt>
+<dd>Optional. Affects only 1D and 2D Elements. Enum if results should be stored
+in the expanded form (3D) or in the original form (2D). DEFAULT: Only beams and
+shells are expanded.
+section_forces == True and output == 3D are mutually exclusive.
+IMPORTANT: In order to use the result reader of pygccx, only 2D can be used.</dd>
+<dt><strong><code>output_all</code></strong></dt>
+<dd>Optional. Flag if the data has to be stored for all nodes, including
+those belonging to elements which have been deactivated.</dd>
+<dt><strong><code>section_forces</code></strong></dt>
+<dd>Optional. Flag if the stresses in the beam nodes should be replaced
+by the section forces. Only relevant for beam elements. section_forces == True
+and output == 3D are mutually exclusive.</dd>
+<dt><strong><code>time_points</code></strong></dt>
+<dd>Optional. TimePoints object specifying the times for which results should
+be stored.frequency and time_points are mutually exclusive.</dd>
+<dt><strong><code>nset</code></strong></dt>
+<dd>Optional. Node set object for which results should be stored.</dd>
+<dt><strong><code>last_Iterations</code></strong></dt>
+<dd>Optional. If True, leads to the storage of the displacements in all
+iterations of the
+last increment in a file with name ResultsForLastIterations.frd</dd>
+<dt><strong><code>contact_elements</code></strong></dt>
+<dd>Optional. If True, stores the contact elements which have been
+generated in each iteration in a file with the name jobname.cel.</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>Optional. Name of this instance</dd>
+<dt><strong><code>desc</code></strong></dt>
+<dd>Optional. A short description of this instance. This is written to the ccx input file.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ElementOutput(ElFile):
+
+    def __str__(self):
+        s = super().__str__()
+        return s.replace(&#39;EL FILE&#39;, &#39;ELEMENT OUTPUT&#39;)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="pygccx.step_keywords.el_file.ElFile" href="el_file.html#pygccx.step_keywords.el_file.ElFile">ElFile</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="pygccx.step_keywords.el_file.ElFile" href="el_file.html#pygccx.step_keywords.el_file.ElFile">ElFile</a></b></code>:
+<ul class="hlist">
+<li><code><a title="pygccx.step_keywords.el_file.ElFile.contact_elements" href="el_file.html#pygccx.step_keywords.el_file.ElFile.contact_elements">contact_elements</a></code></li>
+<li><code><a title="pygccx.step_keywords.el_file.ElFile.desc" href="el_file.html#pygccx.step_keywords.el_file.ElFile.desc">desc</a></code></li>
+<li><code><a title="pygccx.step_keywords.el_file.ElFile.entities" href="el_file.html#pygccx.step_keywords.el_file.ElFile.entities">entities</a></code></li>
+<li><code><a title="pygccx.step_keywords.el_file.ElFile.frequency" href="el_file.html#pygccx.step_keywords.el_file.ElFile.frequency">frequency</a></code></li>
+<li><code><a title="pygccx.step_keywords.el_file.ElFile.global_" href="el_file.html#pygccx.step_keywords.el_file.ElFile.global_">global_</a></code></li>
+<li><code><a title="pygccx.step_keywords.el_file.ElFile.last_Iterations" href="el_file.html#pygccx.step_keywords.el_file.ElFile.last_Iterations">last_Iterations</a></code></li>
+<li><code><a title="pygccx.step_keywords.el_file.ElFile.name" href="el_file.html#pygccx.step_keywords.el_file.ElFile.name">name</a></code></li>
+<li><code><a title="pygccx.step_keywords.el_file.ElFile.nset" href="el_file.html#pygccx.step_keywords.el_file.ElFile.nset">nset</a></code></li>
+<li><code><a title="pygccx.step_keywords.el_file.ElFile.output" href="el_file.html#pygccx.step_keywords.el_file.ElFile.output">output</a></code></li>
+<li><code><a title="pygccx.step_keywords.el_file.ElFile.output_all" href="el_file.html#pygccx.step_keywords.el_file.ElFile.output_all">output_all</a></code></li>
+<li><code><a title="pygccx.step_keywords.el_file.ElFile.section_forces" href="el_file.html#pygccx.step_keywords.el_file.ElFile.section_forces">section_forces</a></code></li>
+<li><code><a title="pygccx.step_keywords.el_file.ElFile.time_points" href="el_file.html#pygccx.step_keywords.el_file.ElFile.time_points">time_points</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -92,7 +169,14 @@ if __name__ == &#39;__main__&#39;:
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="pygccx" href="index.html">pygccx</a></code></li>
+<li><code><a title="pygccx.step_keywords" href="index.html">pygccx.step_keywords</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pygccx.step_keywords.element_output.ElementOutput" href="#pygccx.step_keywords.element_output.ElementOutput">ElementOutput</a></code></h4>
+</li>
 </ul>
 </li>
 </ul>

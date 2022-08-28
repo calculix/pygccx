@@ -63,7 +63,8 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 from dataclasses import dataclass
 from typing import Any
 
-from protocols import number
+from pygccx.protocols import number
+from pygccx.auxiliary import f2s
 @dataclass
 class Friction:
 
@@ -97,7 +98,7 @@ class Friction:
 
     def __str__(self):
         s = &#39;*FRICTION\n&#39;
-        s += f&#39;{self.mue},{self.lam}\n&#39;
+        s += f&#39;{f2s(self.mue)},{f2s(self.lam)}\n&#39;
         return s</code></pre>
 </details>
 </section>
@@ -165,7 +166,7 @@ class Friction:
 
     def __str__(self):
         s = &#39;*FRICTION\n&#39;
-        s += f&#39;{self.mue},{self.lam}\n&#39;
+        s += f&#39;{f2s(self.mue)},{f2s(self.lam)}\n&#39;
         return s</code></pre>
 </details>
 <h3>Class variables</h3>

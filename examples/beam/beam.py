@@ -26,9 +26,7 @@ used step keywords:
 Step, Static, Cload, NodeFile, ElFile
 '''
 
-import sys, os
-os.chdir(sys.path[0])
-sys.path += ['../../', '../../pygccx']
+import os
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -38,13 +36,13 @@ from pygccx import model_keywords as mk
 from pygccx import step_keywords as sk
 from pygccx import enums
 
+WKD = os.path.dirname(os.path.abspath(__file__))
 # change this paths to your location of ccx and cgx
-CCX_PATH = os.path.join('../../', 'executables', 'calculix_2.19_4win', 'ccx_static.exe')
-CGX_PATH = os.path.join('../../', 'executables', 'calculix_2.19_4win', 'cgx_GLUT.exe')
+CCX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.19_4win', 'ccx_static.exe')
+CGX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.19_4win', 'cgx_GLUT.exe')
 
 def main():
-    with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
-        model.jobname = 'beam'
+    with ccx_model.Model(CCX_PATH, CGX_PATH, jobname='beam', working_dir=WKD) as model:
 
         # make model of a beam in gmsh
         # Cross section = 10x10; Length = 100
@@ -102,7 +100,8 @@ def main():
         step.add_step_keywords(
             sk.Static(),                # step is a static one
             sk.Cload(pilot, 2, 20000),  # force in Y at pilot node with magnitude 20000
-            sk.NodeFile([enums.ENodeFileResults.U], nset=load_set), # request deformations in frd file
+            sk.NodeFile([enums.ENodeFileResults.U,
+                         enums.ENodeFileResults.RF]), # request deformations in frd file
             sk.ElFile([enums.EElFileResults.S]), # request stresses in frd file
             sk.NodePrint(mesh.get_node_set_by_name('BEAM'),[enums.ENodePrintResults.U,
                                                             enums.ENodePrintResults.RF]),

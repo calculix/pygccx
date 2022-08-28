@@ -18,9 +18,10 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from model_keywords import Plastic
-from enums import EHardeningRules
-from protocols import IKeyword
+
+from pygccx.model_keywords import Plastic
+from pygccx.enums import EHardeningRules
+from pygccx.protocols import IKeyword
 
 class TestPlastic(TestCase):
 

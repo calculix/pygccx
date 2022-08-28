@@ -62,8 +62,10 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from dataclasses import dataclass, field, InitVar
 from typing import Optional, Any
-from enums import ELoadOps
-from protocols import IKeyword, ISet, number
+
+from pygccx.enums import ELoadOps
+from pygccx.protocols import IKeyword, ISet, number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class Boundary:
@@ -174,7 +176,7 @@ class Boundary:
         s = &#39;*BOUNDARY&#39;
         if self.op != ELoadOps.MOD: s += f&#39;,OP={self.op.value}&#39;
         if self.amplitude: s += f&#39;,AMPLITUDE={self.amplitude.name}&#39;
-        if self.time_delay is not None: s += f&#39;,TIME DELAY={self.time_delay}&#39;
+        if self.time_delay is not None: s += f&#39;,TIME DELAY={f2s(self.time_delay)}&#39;
         if self.load_case != 1: s += f&#39;,LOAD CASE={self.load_case}&#39;
         if self.fixed: s += f&#39;,FIXED&#39;
         if self.submodel: s += &#39;,SUBMODEL&#39;
@@ -185,7 +187,7 @@ class Boundary:
         for c in self.conditions:
             if isinstance(c[0], int): s += f&#39;{c[0]},&#39;
             if isinstance(c[0], ISet): s += f&#39;{c[0].name},&#39;
-            s += f&#39;{c[1]},{c[2] if c[2] is not None else &#34;&#34;},{c[3]}\n&#39;
+            s += f&#39;{c[1]},{c[2] if c[2] is not None else &#34;&#34;},{f2s(c[3])}\n&#39;
 
         return s</code></pre>
 </details>
@@ -201,7 +203,7 @@ class Boundary:
 <dl>
 <dt id="pygccx.step_keywords.boundary.Boundary"><code class="flex name class">
 <span>class <span class="ident">Boundary</span></span>
-<span>(</span><span>nid_or_set: dataclasses.InitVar[int | protocols.ISet], first_dof: dataclasses.InitVar[int], mag: dataclasses.InitVar[int | float | numpy.number], last_dof: dataclasses.InitVar[typing.Optional[int]] = None, op: enums.ELoadOps = ELoadOps.MOD, amplitude: Optional[protocols.IKeyword] = None, time_delay: Union[int, float, numpy.number, ForwardRef(None)] = None, load_case: int = 1, fixed: bool = False, submodel: bool = False, step: Optional[int] = None, data_set: Optional[int] = None, name: str = '', desc: str = '')</span>
+<span>(</span><span>nid_or_set: dataclasses.InitVar[int | <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>], first_dof: dataclasses.InitVar[int], mag: dataclasses.InitVar[int | float | numpy.number], last_dof: dataclasses.InitVar[typing.Optional[int]] = None, op: <a title="pygccx.enums.ELoadOps" href="../enums.html#pygccx.enums.ELoadOps">ELoadOps</a> = ELoadOps.MOD, amplitude: Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>] = None, time_delay: Union[int, float, numpy.number, ForwardRef(None)] = None, load_case: int = 1, fixed: bool = False, submodel: bool = False, step: Optional[int] = None, data_set: Optional[int] = None, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class for defining concentrated forces to be applied to any node in the model
@@ -351,7 +353,7 @@ class Boundary:
         s = &#39;*BOUNDARY&#39;
         if self.op != ELoadOps.MOD: s += f&#39;,OP={self.op.value}&#39;
         if self.amplitude: s += f&#39;,AMPLITUDE={self.amplitude.name}&#39;
-        if self.time_delay is not None: s += f&#39;,TIME DELAY={self.time_delay}&#39;
+        if self.time_delay is not None: s += f&#39;,TIME DELAY={f2s(self.time_delay)}&#39;
         if self.load_case != 1: s += f&#39;,LOAD CASE={self.load_case}&#39;
         if self.fixed: s += f&#39;,FIXED&#39;
         if self.submodel: s += &#39;,SUBMODEL&#39;
@@ -362,13 +364,13 @@ class Boundary:
         for c in self.conditions:
             if isinstance(c[0], int): s += f&#39;{c[0]},&#39;
             if isinstance(c[0], ISet): s += f&#39;{c[0].name},&#39;
-            s += f&#39;{c[1]},{c[2] if c[2] is not None else &#34;&#34;},{c[3]}\n&#39;
+            s += f&#39;{c[1]},{c[2] if c[2] is not None else &#34;&#34;},{f2s(c[3])}\n&#39;
 
         return s</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="pygccx.step_keywords.boundary.Boundary.amplitude"><code class="name">var <span class="ident">amplitude</span> : Optional[protocols.IKeyword]</code></dt>
+<dt id="pygccx.step_keywords.boundary.Boundary.amplitude"><code class="name">var <span class="ident">amplitude</span> : Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>]</code></dt>
 <dd>
 <div class="desc"><p>Amplitude object</p></div>
 </dd>
@@ -410,11 +412,11 @@ class Boundary:
 <dd>
 <div class="desc"><p>Name of this instance</p></div>
 </dd>
-<dt id="pygccx.step_keywords.boundary.Boundary.nid_or_set"><code class="name">var <span class="ident">nid_or_set</span> : dataclasses.InitVar[int | protocols.ISet]</code></dt>
+<dt id="pygccx.step_keywords.boundary.Boundary.nid_or_set"><code class="name">var <span class="ident">nid_or_set</span> : dataclasses.InitVar[int | <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>]</code></dt>
 <dd>
 <div class="desc"><p>Node id or node set on which the first condition (first line under *BOUNDARY) should be applied</p></div>
 </dd>
-<dt id="pygccx.step_keywords.boundary.Boundary.op"><code class="name">var <span class="ident">op</span> : enums.ELoadOps</code></dt>
+<dt id="pygccx.step_keywords.boundary.Boundary.op"><code class="name">var <span class="ident">op</span> : <a title="pygccx.enums.ELoadOps" href="../enums.html#pygccx.enums.ELoadOps">ELoadOps</a></code></dt>
 <dd>
 <div class="desc"><p>Option if boundary values should be modified or defined new</p></div>
 </dd>
@@ -435,7 +437,7 @@ obtained by interpolation from a global model.</p></div>
 <h3>Methods</h3>
 <dl>
 <dt id="pygccx.step_keywords.boundary.Boundary.add_condition"><code class="name flex">
-<span>def <span class="ident">add_condition</span></span>(<span>self, nid_or_set: int | protocols.ISet, first_dof: int, mag: int | float | numpy.number, last_dof: Optional[int] = None)</span>
+<span>def <span class="ident">add_condition</span></span>(<span>self, nid_or_set: int | <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, first_dof: int, mag: int | float | numpy.number, last_dof: Optional[int] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>

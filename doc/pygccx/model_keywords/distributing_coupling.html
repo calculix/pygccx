@@ -62,8 +62,9 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from dataclasses import dataclass, InitVar, field
 from typing import Any
-from protocols import ISet, number
-from enums import ESetTypes
+from pygccx.protocols import ISet, number
+from pygccx.enums import ESetTypes
+from pygccx.auxiliary import f2s
 
 @dataclass
 class DistribuitingCoupling:
@@ -133,9 +134,9 @@ class DistribuitingCoupling:
 
         for nid_or_set, weight in self.conditions:
             if isinstance(nid_or_set, ISet):
-                s += f&#39;{nid_or_set.name},{weight:.7e}\n&#39;
+                s += f&#39;{nid_or_set.name},{f2s(weight)}\n&#39;
             else:
-                s += f&#39;{nid_or_set},{weight:.7e}\n&#39;
+                s += f&#39;{nid_or_set},{f2s(weight)}\n&#39;
 
         return s</code></pre>
 </details>
@@ -151,7 +152,7 @@ class DistribuitingCoupling:
 <dl>
 <dt id="pygccx.model_keywords.distributing_coupling.DistribuitingCoupling"><code class="flex name class">
 <span>class <span class="ident">DistribuitingCoupling</span></span>
-<span>(</span><span>elset: protocols.ISet, nid_or_set: dataclasses.InitVar[int | protocols.ISet], weight: dataclasses.InitVar[int | float | numpy.number] = 1.0, name: str = '', desc: str = '')</span>
+<span>(</span><span>elset: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, nid_or_set: dataclasses.InitVar[int | <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>], weight: dataclasses.InitVar[int | float | numpy.number] = 1.0, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to apply translational loading (force or displacement)
@@ -244,9 +245,9 @@ class DistribuitingCoupling:
 
         for nid_or_set, weight in self.conditions:
             if isinstance(nid_or_set, ISet):
-                s += f&#39;{nid_or_set.name},{weight:.7e}\n&#39;
+                s += f&#39;{nid_or_set.name},{f2s(weight)}\n&#39;
             else:
-                s += f&#39;{nid_or_set},{weight:.7e}\n&#39;
+                s += f&#39;{nid_or_set},{f2s(weight)}\n&#39;
 
         return s</code></pre>
 </details>
@@ -261,7 +262,7 @@ class DistribuitingCoupling:
 <dd>
 <div class="desc"><p>A short description of this instance. This is written to the ccx input file.</p></div>
 </dd>
-<dt id="pygccx.model_keywords.distributing_coupling.DistribuitingCoupling.elset"><code class="name">var <span class="ident">elset</span> : protocols.ISet</code></dt>
+<dt id="pygccx.model_keywords.distributing_coupling.DistribuitingCoupling.elset"><code class="name">var <span class="ident">elset</span> : <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a></code></dt>
 <dd>
 <div class="desc"><p>Element set which should contain exacty one element of type DCOUP3D</p></div>
 </dd>
@@ -269,7 +270,7 @@ class DistribuitingCoupling:
 <dd>
 <div class="desc"><p>Name of this instance.</p></div>
 </dd>
-<dt id="pygccx.model_keywords.distributing_coupling.DistribuitingCoupling.nid_or_set"><code class="name">var <span class="ident">nid_or_set</span> : dataclasses.InitVar[int | protocols.ISet]</code></dt>
+<dt id="pygccx.model_keywords.distributing_coupling.DistribuitingCoupling.nid_or_set"><code class="name">var <span class="ident">nid_or_set</span> : dataclasses.InitVar[int | <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>]</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -281,7 +282,7 @@ class DistribuitingCoupling:
 <h3>Methods</h3>
 <dl>
 <dt id="pygccx.model_keywords.distributing_coupling.DistribuitingCoupling.add_condition"><code class="name flex">
-<span>def <span class="ident">add_condition</span></span>(<span>self, nid_or_set: int | protocols.ISet, weight: int | float | numpy.number = 1.0)</span>
+<span>def <span class="ident">add_condition</span></span>(<span>self, nid_or_set: int | <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, weight: int | float | numpy.number = 1.0)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Adds a condition to this DistribuitingCoupling</p>

@@ -20,9 +20,10 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass
 from typing import Sequence, Any
 import numpy as np
-from enums import EOrientationSystems, EOrientationRotAxis
-from protocols import ICoordinateSystem, number
-from auxiliary import f2s
+
+from pygccx.enums import EOrientationSystems, EOrientationRotAxis
+from pygccx.protocols import ICoordinateSystem, number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class Orientation:

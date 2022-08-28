@@ -62,9 +62,10 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from step_keywords import Cload
-from enums import ESetTypes, ELoadOps
-from protocols import IKeyword
+
+from pygccx.step_keywords import Cload
+from pygccx.enums import ESetTypes, ELoadOps
+from pygccx.protocols import IKeyword
 
 @dataclass
 class AmplitudeMock:
@@ -87,14 +88,14 @@ class TestCload(TestCase):
     def test_default(self):
         c = Cload(99, 1, 1.234)
         known = &#39;*CLOAD\n&#39;
-        known += &#39;99,1,1.234\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known)
 
     def test_default_with_set(self):
         s = SetMock(&#39;TestSet&#39;, ESetTypes.NODE, 2, set((1,2)))
         c = Cload(s, 1, 1.234)
         known = &#39;*CLOAD\n&#39;
-        known += &#39;TestSet,1,1.234\n&#39;
+        known += &#39;TestSet,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known)
 
     def test_dof_lower_1(self):
@@ -109,28 +110,28 @@ class TestCload(TestCase):
         c = Cload(99, 1, 1.234)
         c.add_load(100, 2, 4.87)
         known = &#39;*CLOAD\n&#39;
-        known += &#39;99,1,1.234\n&#39;
-        known += &#39;100,2,4.87\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
+        known += &#39;100,2,4.8700000e+00\n&#39;
         self.assertEqual(str(c), known)
 
     def test_op(self):
         c = Cload(99, 1, 1.234, op=ELoadOps.NEW)
         known = &#39;*CLOAD,OP=NEW\n&#39;
-        known += &#39;99,1,1.234\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known)
 
     def test_amplitude(self):
         a = AmplitudeMock(&#39;A1&#39;)
         c = Cload(99, 1, 1.234, amplitude=a)
         known = &#39;*CLOAD,AMPLITUDE=A1\n&#39;
-        known += &#39;99,1,1.234\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known)
 
     def test_time_delay(self):
         a = AmplitudeMock(&#39;A1&#39;)
         c = Cload(99, 1, 1.234, amplitude=a, time_delay=0.33)
-        known = &#39;*CLOAD,AMPLITUDE=A1,TIME DELAY=0.33\n&#39;
-        known += &#39;99,1,1.234\n&#39;
+        known = &#39;*CLOAD,AMPLITUDE=A1,TIME DELAY=3.3000000e-01\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known)
 
     def test_time_delay_wo_amplitude(self):
@@ -140,7 +141,7 @@ class TestCload(TestCase):
     def test_load_case(self):
         c = Cload(99, 1, 1.234, load_case=2)
         known = &#39;*CLOAD,LOAD CASE=2\n&#39;
-        known += &#39;99,1,1.234\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known)
 
     def test_load_case_out_of_bounds(self):
@@ -150,7 +151,7 @@ class TestCload(TestCase):
     def test_sector(self):
         c = Cload(99, 1, 1.234, sector=2)
         known = &#39;*CLOAD,SECTOR=2\n&#39;
-        known += &#39;99,1,1.234\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known)
 
     def test_sector_lower_1(self):
@@ -160,13 +161,13 @@ class TestCload(TestCase):
     def test_submodel_and_step(self):
         c = Cload(99, 1, 1.234, submodel=True, step=1)
         known = &#39;*CLOAD,SUBMODEL,STEP=1\n&#39;
-        known += &#39;99,1,1.234\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known) 
 
     def test_submodel_and_data_set(self):
         c = Cload(99, 1, 1.234, submodel=True, data_set=1)
         known = &#39;*CLOAD,SUBMODEL,DATA SET=1\n&#39;
-        known += &#39;99,1,1.234\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known) 
 
     def test_step_wo_submodel(self):
@@ -230,10 +231,10 @@ class AmplitudeMock:
 </dd>
 <dt id="pygccx.step_keywords.test.test_cload.SetMock"><code class="flex name class">
 <span>class <span class="ident">SetMock</span></span>
-<span>(</span><span>name: str, type: enums.ESetTypes, dim: int, ids: set[int])</span>
+<span>(</span><span>name: str, type: <a title="pygccx.enums.ESetTypes" href="../../enums.html#pygccx.enums.ESetTypes">ESetTypes</a>, dim: int, ids: set[int])</span>
 </code></dt>
 <dd>
-<div class="desc"><p>SetMock(name: str, type: enums.ESetTypes, dim: int, ids: set[int])</p></div>
+<div class="desc"><p>SetMock(name: str, type: pygccx.enums.ESetTypes, dim: int, ids: set[int])</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -259,7 +260,7 @@ class SetMock():
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pygccx.step_keywords.test.test_cload.SetMock.type"><code class="name">var <span class="ident">type</span> : enums.ESetTypes</code></dt>
+<dt id="pygccx.step_keywords.test.test_cload.SetMock.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.ESetTypes" href="../../enums.html#pygccx.enums.ESetTypes">ESetTypes</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -311,14 +312,14 @@ not have a method with the specified name.</p></div>
     def test_default(self):
         c = Cload(99, 1, 1.234)
         known = &#39;*CLOAD\n&#39;
-        known += &#39;99,1,1.234\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known)
 
     def test_default_with_set(self):
         s = SetMock(&#39;TestSet&#39;, ESetTypes.NODE, 2, set((1,2)))
         c = Cload(s, 1, 1.234)
         known = &#39;*CLOAD\n&#39;
-        known += &#39;TestSet,1,1.234\n&#39;
+        known += &#39;TestSet,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known)
 
     def test_dof_lower_1(self):
@@ -333,28 +334,28 @@ not have a method with the specified name.</p></div>
         c = Cload(99, 1, 1.234)
         c.add_load(100, 2, 4.87)
         known = &#39;*CLOAD\n&#39;
-        known += &#39;99,1,1.234\n&#39;
-        known += &#39;100,2,4.87\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
+        known += &#39;100,2,4.8700000e+00\n&#39;
         self.assertEqual(str(c), known)
 
     def test_op(self):
         c = Cload(99, 1, 1.234, op=ELoadOps.NEW)
         known = &#39;*CLOAD,OP=NEW\n&#39;
-        known += &#39;99,1,1.234\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known)
 
     def test_amplitude(self):
         a = AmplitudeMock(&#39;A1&#39;)
         c = Cload(99, 1, 1.234, amplitude=a)
         known = &#39;*CLOAD,AMPLITUDE=A1\n&#39;
-        known += &#39;99,1,1.234\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known)
 
     def test_time_delay(self):
         a = AmplitudeMock(&#39;A1&#39;)
         c = Cload(99, 1, 1.234, amplitude=a, time_delay=0.33)
-        known = &#39;*CLOAD,AMPLITUDE=A1,TIME DELAY=0.33\n&#39;
-        known += &#39;99,1,1.234\n&#39;
+        known = &#39;*CLOAD,AMPLITUDE=A1,TIME DELAY=3.3000000e-01\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known)
 
     def test_time_delay_wo_amplitude(self):
@@ -364,7 +365,7 @@ not have a method with the specified name.</p></div>
     def test_load_case(self):
         c = Cload(99, 1, 1.234, load_case=2)
         known = &#39;*CLOAD,LOAD CASE=2\n&#39;
-        known += &#39;99,1,1.234\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known)
 
     def test_load_case_out_of_bounds(self):
@@ -374,7 +375,7 @@ not have a method with the specified name.</p></div>
     def test_sector(self):
         c = Cload(99, 1, 1.234, sector=2)
         known = &#39;*CLOAD,SECTOR=2\n&#39;
-        known += &#39;99,1,1.234\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known)
 
     def test_sector_lower_1(self):
@@ -384,13 +385,13 @@ not have a method with the specified name.</p></div>
     def test_submodel_and_step(self):
         c = Cload(99, 1, 1.234, submodel=True, step=1)
         known = &#39;*CLOAD,SUBMODEL,STEP=1\n&#39;
-        known += &#39;99,1,1.234\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known) 
 
     def test_submodel_and_data_set(self):
         c = Cload(99, 1, 1.234, submodel=True, data_set=1)
         known = &#39;*CLOAD,SUBMODEL,DATA SET=1\n&#39;
-        known += &#39;99,1,1.234\n&#39;
+        known += &#39;99,1,1.2340000e+00\n&#39;
         self.assertEqual(str(c), known) 
 
     def test_step_wo_submodel(self):
@@ -434,8 +435,8 @@ not have a method with the specified name.</p></div>
     c = Cload(99, 1, 1.234)
     c.add_load(100, 2, 4.87)
     known = &#39;*CLOAD\n&#39;
-    known += &#39;99,1,1.234\n&#39;
-    known += &#39;100,2,4.87\n&#39;
+    known += &#39;99,1,1.2340000e+00\n&#39;
+    known += &#39;100,2,4.8700000e+00\n&#39;
     self.assertEqual(str(c), known)</code></pre>
 </details>
 </dd>
@@ -452,7 +453,7 @@ not have a method with the specified name.</p></div>
     a = AmplitudeMock(&#39;A1&#39;)
     c = Cload(99, 1, 1.234, amplitude=a)
     known = &#39;*CLOAD,AMPLITUDE=A1\n&#39;
-    known += &#39;99,1,1.234\n&#39;
+    known += &#39;99,1,1.2340000e+00\n&#39;
     self.assertEqual(str(c), known)</code></pre>
 </details>
 </dd>
@@ -495,7 +496,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_default(self):
     c = Cload(99, 1, 1.234)
     known = &#39;*CLOAD\n&#39;
-    known += &#39;99,1,1.234\n&#39;
+    known += &#39;99,1,1.2340000e+00\n&#39;
     self.assertEqual(str(c), known)</code></pre>
 </details>
 </dd>
@@ -512,7 +513,7 @@ not have a method with the specified name.</p></div>
     s = SetMock(&#39;TestSet&#39;, ESetTypes.NODE, 2, set((1,2)))
     c = Cload(s, 1, 1.234)
     known = &#39;*CLOAD\n&#39;
-    known += &#39;TestSet,1,1.234\n&#39;
+    known += &#39;TestSet,1,1.2340000e+00\n&#39;
     self.assertEqual(str(c), known)</code></pre>
 </details>
 </dd>
@@ -556,7 +557,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_load_case(self):
     c = Cload(99, 1, 1.234, load_case=2)
     known = &#39;*CLOAD,LOAD CASE=2\n&#39;
-    known += &#39;99,1,1.234\n&#39;
+    known += &#39;99,1,1.2340000e+00\n&#39;
     self.assertEqual(str(c), known)</code></pre>
 </details>
 </dd>
@@ -600,7 +601,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_op(self):
     c = Cload(99, 1, 1.234, op=ELoadOps.NEW)
     known = &#39;*CLOAD,OP=NEW\n&#39;
-    known += &#39;99,1,1.234\n&#39;
+    known += &#39;99,1,1.2340000e+00\n&#39;
     self.assertEqual(str(c), known)</code></pre>
 </details>
 </dd>
@@ -616,7 +617,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_sector(self):
     c = Cload(99, 1, 1.234, sector=2)
     known = &#39;*CLOAD,SECTOR=2\n&#39;
-    known += &#39;99,1,1.234\n&#39;
+    known += &#39;99,1,1.2340000e+00\n&#39;
     self.assertEqual(str(c), known)</code></pre>
 </details>
 </dd>
@@ -700,7 +701,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_submodel_and_data_set(self):
     c = Cload(99, 1, 1.234, submodel=True, data_set=1)
     known = &#39;*CLOAD,SUBMODEL,DATA SET=1\n&#39;
-    known += &#39;99,1,1.234\n&#39;
+    known += &#39;99,1,1.2340000e+00\n&#39;
     self.assertEqual(str(c), known) </code></pre>
 </details>
 </dd>
@@ -716,7 +717,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_submodel_and_step(self):
     c = Cload(99, 1, 1.234, submodel=True, step=1)
     known = &#39;*CLOAD,SUBMODEL,STEP=1\n&#39;
-    known += &#39;99,1,1.234\n&#39;
+    known += &#39;99,1,1.2340000e+00\n&#39;
     self.assertEqual(str(c), known) </code></pre>
 </details>
 </dd>
@@ -732,8 +733,8 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_time_delay(self):
     a = AmplitudeMock(&#39;A1&#39;)
     c = Cload(99, 1, 1.234, amplitude=a, time_delay=0.33)
-    known = &#39;*CLOAD,AMPLITUDE=A1,TIME DELAY=0.33\n&#39;
-    known += &#39;99,1,1.234\n&#39;
+    known = &#39;*CLOAD,AMPLITUDE=A1,TIME DELAY=3.3000000e-01\n&#39;
+    known += &#39;99,1,1.2340000e+00\n&#39;
     self.assertEqual(str(c), known)</code></pre>
 </details>
 </dd>

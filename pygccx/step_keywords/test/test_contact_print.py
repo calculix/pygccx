@@ -19,9 +19,10 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from step_keywords import ContactPrint, TimePoints
-from enums import EContactPrintResults, ESurfTypes, EPrintTotals
-from protocols import IKeyword
+
+from pygccx.step_keywords import ContactPrint, TimePoints
+from pygccx.enums import EContactPrintResults, ESurfTypes, EPrintTotals
+from pygccx.protocols import IKeyword
 
 @dataclass()
 class SurfaceMock:

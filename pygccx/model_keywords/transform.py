@@ -20,10 +20,10 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass
 from typing import Sequence, Any
 import numpy as np
-from protocols import ISet
-from enums import EOrientationSystems, ESetTypes
-from protocols import ICoordinateSystem, number
-from auxiliary import f2s
+
+from pygccx.protocols import ISet, ICoordinateSystem, number
+from pygccx.enums import EOrientationSystems, ESetTypes
+from pygccx.auxiliary import f2s
 
 @dataclass
 class Transform:

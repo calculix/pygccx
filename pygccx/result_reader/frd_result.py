@@ -1,26 +1,39 @@
+'''
+Copyright Matthias Sedlmaier 2022
+This file is part of pygccx.
+
+pygccx is free software: you can redistribute it 
+and/or modify it under the terms of the GNU General Public License as 
+published by the Free Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+pygccx is distributed in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with pygccx.  
+If not, see <http://www.gnu.org/licenses/>.
+'''
+
 from dataclasses import dataclass, field
-from typing import Iterable
-from enum import Enum
+from typing import Iterable, TextIO
 
 import numpy as np
 import numpy.typing as npt
 
-from enums import EResultLocations, EFrdEntities
-
-IMAGINARIES:set[EFrdEntities] = {
-    EFrdEntities.FORCI, 
-    EFrdEntities.DISPI, 
-    EFrdEntities.TOSTRAII, 
-    EFrdEntities.ERRORI, 
-    EFrdEntities.HERRORI, 
-    EFrdEntities.MESTRAII,
-    EFrdEntities.STRESSI,
-    EFrdEntities.ZZSTRI,
-    EFrdEntities.CONTACTI
-}
+from pygccx.enums import EResultLocations, EFrdEntities
 
 @dataclass(frozen=True, slots=True)
 class FrdResultSet:
+    """
+    Class representing a result set from a *.frd file.
+
+    A result set contains the nodal result values of an
+    entity (i.e. DISP, STRESS) for a single step time.
+    """
+
     entity:EFrdEntities
     """Enum of the result set entity i.e. DISP, STRESS"""
     no_components:int
@@ -40,12 +53,28 @@ class FrdResultSet:
     """Name of the node- or element set."""
 
     def get_values_by_ids(self, ids:Iterable[int]) -> npt.NDArray[np.float64]:
+        """
+        Returns the result values for the given node ids as a 2D numpy array. 
+        len axis 0: number of given ids
+        len axis 1: number of components.
+
+        The order of axis 0 is the same as ids.
+        If ids is a non ordered iterable (i.e. a set) the ordering is arbitrary.
+
+        If a node id is not in values, the row is filled with zeros. 
+        """
         return np.array([self.values.get(id, np.zeros(self.no_components)) for id in ids])
 
 
 @dataclass(frozen=True, slots=True)
 class FrdResult:
-    step_times:tuple[float]
+    """
+    Class representing the content of a *.frd file. 
+    
+    Don't instanciate this class directly. Use FrdResult.from_file() instead.
+    """
+
+    step_times:tuple[float, ...]
     """Sorted tuple with all step times"""
     result_sets:tuple[FrdResultSet, ...]
     """Tuple with all result sets"""
@@ -124,48 +153,66 @@ class FrdResult:
               
         # Parse the file
         #-----------------------------------------------------
-        result_set_open = False     # Flag indicates that a result set is starting
-        entity_name = ''
-        no_comp = 0
-        step_time = 0.
         step_times = set()
-        values:dict[int, npt.NDArray[np.float64]] = {}
         result_stes:list[FrdResultSet] = []
-        component_names:list[str] = []
 
         with open(filename) as f:
-            for line in f:        
-                line_split = line.split()    #split line at white spaces
-
-                if line_split[0] == '-3':
-                    result_set_open = False
-                    if values:
-                        result = FrdResultSet(EFrdEntities(entity_name) , no_comp, step_time, tuple(component_names[:no_comp]), values)
-                        result_stes.append(result)
-                        values = {}
-                        component_names = []
-                    continue
-                elif line_split[0] == '-4':
-                    result_set_open = True
-                    entity_name = line_split[1]
-                    continue
-                elif line_split[0] == '100CL':
-                    step_time = float(line_split[2])
-                    step_times.add(step_time)
-                    continue
-
-                if not result_set_open: continue
-
-                if line_split[0] == '-5':
-                    component_names.append(line_split[1])
-                    if line_split[3] == '1': no_comp = 1
-                    elif line_split[3] == '2': no_comp = 3
-                    else: no_comp = 6 # line_split[3] must be 4. to verify
-                                  
-                elif line_split[0] == '-1':                  
-                    nid=int(line[3:13])                   
-                    components = np.array([line[13+j*12 : 13+j*12+12] for j in range(no_comp)], dtype=float)
-                    values[nid] = components 
+            while line := f.readline():
+                line_split = line.split() 
+                if line_split[0] == '100CL':
+                    rs = _read_result_block(f, line_split)
+                    result_stes.append(rs)
+                    step_times.add(rs.step_time)
 
         step_times = tuple(sorted(step_times))
         return cls(step_times, tuple(result_stes))
+
+def _read_result_block(f:TextIO, line_split:list[str]) -> FrdResultSet:
+
+        step_time = float(line_split[2])
+        component_names:list[str] = []
+        values:dict[int, list[float]] = {}
+        entity_name = ''
+
+        while line := f.readline():
+            line_split = line.split()
+            line_type = line_split[0]
+
+            # following if statements in optimized order.
+            # most common case first
+            if line_type == '-1':    
+                nid, components = _read_component_line(line, 12)   
+                values[nid] = components  
+
+            elif line_type == '-5':
+                component_names.append(line_split[1])
+
+            elif line_type == '-4':
+                entity_name = line_split[1]
+
+            elif line_type == '-3': 
+                break
+
+            elif line_type == '-2': # rarest case
+                _, components = _read_component_line(line, 12)   
+                values[nid] += components # type: ignore
+                #nid comes from the prvious '-1' line
+
+        # get number of components from arbitrary dict item
+        no_comp = len(next(iter(values.values())))
+        # convert dict[int, list[float]] -> dict[int, np.NDarray]
+        values_arr = {nid:np.array(v, dtype=float) for nid, v in values.items()}
+
+        return FrdResultSet(EFrdEntities(entity_name) , no_comp, step_time, 
+                            tuple(component_names[:no_comp]), values_arr)
+        
+def _read_component_line(line:str, len_comp_str:int) -> tuple[int, list[float]]:
+
+    try: nid = int(line[3:13])  
+    except ValueError: nid = 0 # happens if line is a continuation line, rare
+
+    tmp, n =  line[13:].rstrip(), len_comp_str     
+    comps = [tmp[i:i+n] for i in range(0, len(tmp), n)]  
+    comps = [float(c) for c in comps]
+
+    return nid, comps

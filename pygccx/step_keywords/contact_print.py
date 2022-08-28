@@ -19,8 +19,9 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field
 from typing import Iterable, Optional, Any
-from protocols import IKeyword, ISurface
-from enums import EContactPrintResults, EPrintTotals
+
+from pygccx.protocols import IKeyword, ISurface
+from pygccx.enums import EContactPrintResults, EPrintTotals
 
 @dataclass
 class ContactPrint:

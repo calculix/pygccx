@@ -19,9 +19,11 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from model_keywords import Orientation
-from enums import EOrientationRotAxis, EOrientationSystems
-from protocols import IKeyword
+
+from pygccx.model_keywords import Orientation
+from pygccx.enums import EOrientationRotAxis, EOrientationSystems
+from pygccx.protocols import IKeyword
+
 import numpy as np
 
 @dataclass

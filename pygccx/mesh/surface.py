@@ -18,9 +18,10 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from dataclasses import dataclass, field
-import enums
 from typing import Iterable
-import protocols
+
+from pygccx import enums, protocols
+
 
 @dataclass(frozen=True, slots=True)
 class ElementSurface():

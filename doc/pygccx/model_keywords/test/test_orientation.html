@@ -62,9 +62,11 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from model_keywords import Orientation
-from enums import EOrientationRotAxis, EOrientationSystems
-from protocols import IKeyword
+
+from pygccx.model_keywords import Orientation
+from pygccx.enums import EOrientationRotAxis, EOrientationSystems
+from pygccx.protocols import IKeyword
+
 import numpy as np
 
 @dataclass
@@ -89,20 +91,20 @@ class TestOrientation(TestCase):
     def test_rectangular(self): 
         o = Orientation(&#39;O1&#39;, (0,0,1), (1,0,0))
         known = &#39;*ORIENTATION,NAME=O1,SYSTEM=RECTANGULAR\n&#39;
-        known += &#39;0,0,1,1,0,0\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00,1.0000000e+00,1.0000000e+00,0.0000000e+00,0.0000000e+00\n&#39;
         self.assertEqual(str(o), known)
 
     def test_cylindrical(self):
         o = Orientation(&#39;O1&#39;, (0,0,1), (1,0,0), EOrientationSystems.CYLINDRICAL)
         known = &#39;*ORIENTATION,NAME=O1,SYSTEM=CYLINDRICAL\n&#39;
-        known += &#39;0,0,1,1,0,0\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00,1.0000000e+00,1.0000000e+00,0.0000000e+00,0.0000000e+00\n&#39;
         self.assertEqual(str(o), known)
 
     def test_rectangular_w_rot(self): 
         o = Orientation(&#39;O1&#39;, (0,0,1), (1,0,0), rot_axis=EOrientationRotAxis.Y, rot_angle=1.67)
         known = &#39;*ORIENTATION,NAME=O1,SYSTEM=RECTANGULAR\n&#39;
-        known += &#39;0,0,1,1,0,0\n&#39;
-        known += &#39;2,1.67\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00,1.0000000e+00,1.0000000e+00,0.0000000e+00,0.0000000e+00\n&#39;
+        known += &#39;2,1.6700000e+00\n&#39;
         self.assertEqual(str(o), known)
 
     def test_cylindrical_w_rot(self):
@@ -110,7 +112,7 @@ class TestOrientation(TestCase):
                         rot_axis=EOrientationRotAxis.Y, rot_angle=1.67)
         # rotation has no influence
         known = &#39;*ORIENTATION,NAME=O1,SYSTEM=CYLINDRICAL\n&#39;
-        known += &#39;0,0,1,1,0,0\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00,1.0000000e+00,1.0000000e+00,0.0000000e+00,0.0000000e+00\n&#39;
         self.assertEqual(str(o), known)
 
     def test_pnt_a_false_length(self):
@@ -123,14 +125,14 @@ class TestOrientation(TestCase):
         cs = CoordinateSystemMock(&#39;C1&#39;, EOrientationSystems.RECTANGULAR)
         o = Orientation.from_coordinate_system(cs)
         known = &#39;*ORIENTATION,NAME=OR_C1,SYSTEM=RECTANGULAR\n&#39;
-        known += &#39;0,0,1,0,-1,0\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00,1.0000000e+00,0.0000000e+00,-1.0000000e+00,0.0000000e+00\n&#39;
         self.assertEqual(str(o), known)
     
     def test_from_coordinate_system_cylindrical(self):
         cs = CoordinateSystemMock(&#39;C1&#39;, EOrientationSystems.CYLINDRICAL)
         o = Orientation.from_coordinate_system(cs)
         known = &#39;*ORIENTATION,NAME=OR_C1,SYSTEM=CYLINDRICAL\n&#39;
-        known += &#39;1,2,3,2,2,3\n&#39;
+        known += &#39;1.0000000e+00,2.0000000e+00,3.0000000e+00,2.0000000e+00,2.0000000e+00,3.0000000e+00\n&#39;
         self.assertEqual(str(o), known)</code></pre>
 </details>
 </section>
@@ -145,10 +147,10 @@ class TestOrientation(TestCase):
 <dl>
 <dt id="pygccx.model_keywords.test.test_orientation.CoordinateSystemMock"><code class="flex name class">
 <span>class <span class="ident">CoordinateSystemMock</span></span>
-<span>(</span><span>name: str, type: enums.EOrientationSystems)</span>
+<span>(</span><span>name: str, type: <a title="pygccx.enums.EOrientationSystems" href="../../enums.html#pygccx.enums.EOrientationSystems">EOrientationSystems</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>CoordinateSystemMock(name: str, type: enums.EOrientationSystems)</p></div>
+<div class="desc"><p>CoordinateSystemMock(name: str, type: pygccx.enums.EOrientationSystems)</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -172,7 +174,7 @@ class CoordinateSystemMock:
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pygccx.model_keywords.test.test_orientation.CoordinateSystemMock.type"><code class="name">var <span class="ident">type</span> : enums.EOrientationSystems</code></dt>
+<dt id="pygccx.model_keywords.test.test_orientation.CoordinateSystemMock.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.EOrientationSystems" href="../../enums.html#pygccx.enums.EOrientationSystems">EOrientationSystems</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -255,20 +257,20 @@ not have a method with the specified name.</p></div>
     def test_rectangular(self): 
         o = Orientation(&#39;O1&#39;, (0,0,1), (1,0,0))
         known = &#39;*ORIENTATION,NAME=O1,SYSTEM=RECTANGULAR\n&#39;
-        known += &#39;0,0,1,1,0,0\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00,1.0000000e+00,1.0000000e+00,0.0000000e+00,0.0000000e+00\n&#39;
         self.assertEqual(str(o), known)
 
     def test_cylindrical(self):
         o = Orientation(&#39;O1&#39;, (0,0,1), (1,0,0), EOrientationSystems.CYLINDRICAL)
         known = &#39;*ORIENTATION,NAME=O1,SYSTEM=CYLINDRICAL\n&#39;
-        known += &#39;0,0,1,1,0,0\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00,1.0000000e+00,1.0000000e+00,0.0000000e+00,0.0000000e+00\n&#39;
         self.assertEqual(str(o), known)
 
     def test_rectangular_w_rot(self): 
         o = Orientation(&#39;O1&#39;, (0,0,1), (1,0,0), rot_axis=EOrientationRotAxis.Y, rot_angle=1.67)
         known = &#39;*ORIENTATION,NAME=O1,SYSTEM=RECTANGULAR\n&#39;
-        known += &#39;0,0,1,1,0,0\n&#39;
-        known += &#39;2,1.67\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00,1.0000000e+00,1.0000000e+00,0.0000000e+00,0.0000000e+00\n&#39;
+        known += &#39;2,1.6700000e+00\n&#39;
         self.assertEqual(str(o), known)
 
     def test_cylindrical_w_rot(self):
@@ -276,7 +278,7 @@ not have a method with the specified name.</p></div>
                         rot_axis=EOrientationRotAxis.Y, rot_angle=1.67)
         # rotation has no influence
         known = &#39;*ORIENTATION,NAME=O1,SYSTEM=CYLINDRICAL\n&#39;
-        known += &#39;0,0,1,1,0,0\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00,1.0000000e+00,1.0000000e+00,0.0000000e+00,0.0000000e+00\n&#39;
         self.assertEqual(str(o), known)
 
     def test_pnt_a_false_length(self):
@@ -289,14 +291,14 @@ not have a method with the specified name.</p></div>
         cs = CoordinateSystemMock(&#39;C1&#39;, EOrientationSystems.RECTANGULAR)
         o = Orientation.from_coordinate_system(cs)
         known = &#39;*ORIENTATION,NAME=OR_C1,SYSTEM=RECTANGULAR\n&#39;
-        known += &#39;0,0,1,0,-1,0\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00,1.0000000e+00,0.0000000e+00,-1.0000000e+00,0.0000000e+00\n&#39;
         self.assertEqual(str(o), known)
     
     def test_from_coordinate_system_cylindrical(self):
         cs = CoordinateSystemMock(&#39;C1&#39;, EOrientationSystems.CYLINDRICAL)
         o = Orientation.from_coordinate_system(cs)
         known = &#39;*ORIENTATION,NAME=OR_C1,SYSTEM=CYLINDRICAL\n&#39;
-        known += &#39;1,2,3,2,2,3\n&#39;
+        known += &#39;1.0000000e+00,2.0000000e+00,3.0000000e+00,2.0000000e+00,2.0000000e+00,3.0000000e+00\n&#39;
         self.assertEqual(str(o), known)</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -317,7 +319,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_cylindrical(self):
     o = Orientation(&#39;O1&#39;, (0,0,1), (1,0,0), EOrientationSystems.CYLINDRICAL)
     known = &#39;*ORIENTATION,NAME=O1,SYSTEM=CYLINDRICAL\n&#39;
-    known += &#39;0,0,1,1,0,0\n&#39;
+    known += &#39;0.0000000e+00,0.0000000e+00,1.0000000e+00,1.0000000e+00,0.0000000e+00,0.0000000e+00\n&#39;
     self.assertEqual(str(o), known)</code></pre>
 </details>
 </dd>
@@ -335,7 +337,7 @@ not have a method with the specified name.</p></div>
                     rot_axis=EOrientationRotAxis.Y, rot_angle=1.67)
     # rotation has no influence
     known = &#39;*ORIENTATION,NAME=O1,SYSTEM=CYLINDRICAL\n&#39;
-    known += &#39;0,0,1,1,0,0\n&#39;
+    known += &#39;0.0000000e+00,0.0000000e+00,1.0000000e+00,1.0000000e+00,0.0000000e+00,0.0000000e+00\n&#39;
     self.assertEqual(str(o), known)</code></pre>
 </details>
 </dd>
@@ -352,7 +354,7 @@ not have a method with the specified name.</p></div>
     cs = CoordinateSystemMock(&#39;C1&#39;, EOrientationSystems.CYLINDRICAL)
     o = Orientation.from_coordinate_system(cs)
     known = &#39;*ORIENTATION,NAME=OR_C1,SYSTEM=CYLINDRICAL\n&#39;
-    known += &#39;1,2,3,2,2,3\n&#39;
+    known += &#39;1.0000000e+00,2.0000000e+00,3.0000000e+00,2.0000000e+00,2.0000000e+00,3.0000000e+00\n&#39;
     self.assertEqual(str(o), known)</code></pre>
 </details>
 </dd>
@@ -369,7 +371,7 @@ not have a method with the specified name.</p></div>
     cs = CoordinateSystemMock(&#39;C1&#39;, EOrientationSystems.RECTANGULAR)
     o = Orientation.from_coordinate_system(cs)
     known = &#39;*ORIENTATION,NAME=OR_C1,SYSTEM=RECTANGULAR\n&#39;
-    known += &#39;0,0,1,0,-1,0\n&#39;
+    known += &#39;0.0000000e+00,0.0000000e+00,1.0000000e+00,0.0000000e+00,-1.0000000e+00,0.0000000e+00\n&#39;
     self.assertEqual(str(o), known)</code></pre>
 </details>
 </dd>
@@ -425,7 +427,7 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_rectangular(self): 
     o = Orientation(&#39;O1&#39;, (0,0,1), (1,0,0))
     known = &#39;*ORIENTATION,NAME=O1,SYSTEM=RECTANGULAR\n&#39;
-    known += &#39;0,0,1,1,0,0\n&#39;
+    known += &#39;0.0000000e+00,0.0000000e+00,1.0000000e+00,1.0000000e+00,0.0000000e+00,0.0000000e+00\n&#39;
     self.assertEqual(str(o), known)</code></pre>
 </details>
 </dd>
@@ -441,8 +443,8 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_rectangular_w_rot(self): 
     o = Orientation(&#39;O1&#39;, (0,0,1), (1,0,0), rot_axis=EOrientationRotAxis.Y, rot_angle=1.67)
     known = &#39;*ORIENTATION,NAME=O1,SYSTEM=RECTANGULAR\n&#39;
-    known += &#39;0,0,1,1,0,0\n&#39;
-    known += &#39;2,1.67\n&#39;
+    known += &#39;0.0000000e+00,0.0000000e+00,1.0000000e+00,1.0000000e+00,0.0000000e+00,0.0000000e+00\n&#39;
+    known += &#39;2,1.6700000e+00\n&#39;
     self.assertEqual(str(o), known)</code></pre>
 </details>
 </dd>

@@ -1,5 +1,3 @@
-import os, sys
-syspath = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(syspath)
-
-__version__ = '0.0.1'
+__version__ = '0.1.0'
+__author__ = 'Matthias Sedlmaier'
+__author_email__='winterheart@gmx.de'

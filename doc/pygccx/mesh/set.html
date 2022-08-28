@@ -61,7 +61,7 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
 from dataclasses import dataclass
-from enums import ESetTypes
+from pygccx.enums import ESetTypes
 
 @dataclass(frozen=True, slots=True)
 class Set():
@@ -102,7 +102,7 @@ class Set():
 <dl>
 <dt id="pygccx.mesh.set.Set"><code class="flex name class">
 <span>class <span class="ident">Set</span></span>
-<span>(</span><span>name: str, type: enums.ESetTypes, dim: int, ids: set[int])</span>
+<span>(</span><span>name: str, type: <a title="pygccx.enums.ESetTypes" href="../enums.html#pygccx.enums.ESetTypes">ESetTypes</a>, dim: int, ids: set[int])</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to represent a set of nodes or elements.</p>
@@ -154,7 +154,7 @@ based surface</p></div>
 <dd>
 <div class="desc"><p>Name of this set</p></div>
 </dd>
-<dt id="pygccx.mesh.set.Set.type"><code class="name">var <span class="ident">type</span> : enums.ESetTypes</code></dt>
+<dt id="pygccx.mesh.set.Set.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.ESetTypes" href="../enums.html#pygccx.enums.ESetTypes">ESetTypes</a></code></dt>
 <dd>
 <div class="desc"><p>Type of this set. Either NODE or ELEMENT</p></div>
 </dd>

@@ -62,9 +62,10 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from model_keywords import RigidBody
-from enums import ESetTypes
-from protocols import IKeyword
+
+from pygccx.model_keywords import RigidBody
+from pygccx.enums import ESetTypes
+from pygccx.protocols import IKeyword
 
 @dataclass()
 class SetMock():
@@ -123,10 +124,10 @@ class TestRigidBody(TestCase):
 <dl>
 <dt id="pygccx.model_keywords.test.test_rigid_body.SetMock"><code class="flex name class">
 <span>class <span class="ident">SetMock</span></span>
-<span>(</span><span>name: str, type: enums.ESetTypes, dim: int, ids: set[int])</span>
+<span>(</span><span>name: str, type: <a title="pygccx.enums.ESetTypes" href="../../enums.html#pygccx.enums.ESetTypes">ESetTypes</a>, dim: int, ids: set[int])</span>
 </code></dt>
 <dd>
-<div class="desc"><p>SetMock(name: str, type: enums.ESetTypes, dim: int, ids: set[int])</p></div>
+<div class="desc"><p>SetMock(name: str, type: pygccx.enums.ESetTypes, dim: int, ids: set[int])</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -152,7 +153,7 @@ class SetMock():
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pygccx.model_keywords.test.test_rigid_body.SetMock.type"><code class="name">var <span class="ident">type</span> : enums.ESetTypes</code></dt>
+<dt id="pygccx.model_keywords.test.test_rigid_body.SetMock.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.ESetTypes" href="../../enums.html#pygccx.enums.ESetTypes">ESetTypes</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>

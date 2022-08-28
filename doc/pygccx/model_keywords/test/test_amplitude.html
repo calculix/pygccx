@@ -61,8 +61,9 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
 from unittest import TestCase
-from model_keywords import Amplitude
-from protocols import IKeyword
+
+from pygccx.model_keywords import Amplitude
+from pygccx.protocols import IKeyword
 
 class TestAmplitude(TestCase):
 
@@ -73,46 +74,46 @@ class TestAmplitude(TestCase):
     def test_only_mandatory_params(self):
         a = Amplitude(&#39;TestAmp&#39;, times = [0.,.1,.2,.3], amps=[0,1,-1,3])
         known = &#39;*AMPLITUDE,NAME=TestAmp\n&#39;
-        known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-        known += &#39;  1.0000000e-01,  1.0000000e+00\n&#39;
-        known += &#39;  2.0000000e-01, -1.0000000e+00\n&#39;
-        known += &#39;  3.0000000e-01,  3.0000000e+00\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+        known += &#39;1.0000000e-01,1.0000000e+00\n&#39;
+        known += &#39;2.0000000e-01,-1.0000000e+00\n&#39;
+        known += &#39;3.0000000e-01,3.0000000e+00\n&#39;
         self.assertEqual(str(a), known)
 
     def test_total_time(self):
         a = Amplitude(&#39;TestAmp&#39;, times = [0.,.1,.2,.3], amps=[0,1,-1,3], use_total_time=True)
         known = &#39;*AMPLITUDE,NAME=TestAmp,TIME=TOTAL TIME\n&#39;
-        known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-        known += &#39;  1.0000000e-01,  1.0000000e+00\n&#39;
-        known += &#39;  2.0000000e-01, -1.0000000e+00\n&#39;
-        known += &#39;  3.0000000e-01,  3.0000000e+00\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+        known += &#39;1.0000000e-01,1.0000000e+00\n&#39;
+        known += &#39;2.0000000e-01,-1.0000000e+00\n&#39;
+        known += &#39;3.0000000e-01,3.0000000e+00\n&#39;
         self.assertEqual(str(a), known)
 
     def test_shift_x(self):
         a = Amplitude(&#39;TestAmp&#39;, times = [0.,.1,.2,.3], amps=[0,1,-1,3], shift_x=0.5)
-        known = &#39;*AMPLITUDE,NAME=TestAmp,SHIFTX=0.5\n&#39;
-        known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-        known += &#39;  1.0000000e-01,  1.0000000e+00\n&#39;
-        known += &#39;  2.0000000e-01, -1.0000000e+00\n&#39;
-        known += &#39;  3.0000000e-01,  3.0000000e+00\n&#39;
+        known = &#39;*AMPLITUDE,NAME=TestAmp,SHIFTX=5.0000000e-01\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+        known += &#39;1.0000000e-01,1.0000000e+00\n&#39;
+        known += &#39;2.0000000e-01,-1.0000000e+00\n&#39;
+        known += &#39;3.0000000e-01,3.0000000e+00\n&#39;
         self.assertEqual(str(a), known)
 
     def test_shift_y(self):
         a = Amplitude(&#39;TestAmp&#39;, times = [0.,.1,.2,.3], amps=[0,1,-1,3], shift_y=0.5)
-        known = &#39;*AMPLITUDE,NAME=TestAmp,SHIFTY=0.5\n&#39;
-        known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-        known += &#39;  1.0000000e-01,  1.0000000e+00\n&#39;
-        known += &#39;  2.0000000e-01, -1.0000000e+00\n&#39;
-        known += &#39;  3.0000000e-01,  3.0000000e+00\n&#39;
+        known = &#39;*AMPLITUDE,NAME=TestAmp,SHIFTY=5.0000000e-01\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+        known += &#39;1.0000000e-01,1.0000000e+00\n&#39;
+        known += &#39;2.0000000e-01,-1.0000000e+00\n&#39;
+        known += &#39;3.0000000e-01,3.0000000e+00\n&#39;
         self.assertEqual(str(a), known)
 
     def test_total_time_shift_x_shift_y(self):
         a = Amplitude(&#39;TestAmp&#39;, times = [0.,.1,.2,.3], amps=[0,1,-1,3], use_total_time=True, shift_x=0.25, shift_y=0.5)
-        known = &#39;*AMPLITUDE,NAME=TestAmp,TIME=TOTAL TIME,SHIFTX=0.25,SHIFTY=0.5\n&#39;
-        known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-        known += &#39;  1.0000000e-01,  1.0000000e+00\n&#39;
-        known += &#39;  2.0000000e-01, -1.0000000e+00\n&#39;
-        known += &#39;  3.0000000e-01,  3.0000000e+00\n&#39;
+        known = &#39;*AMPLITUDE,NAME=TestAmp,TIME=TOTAL TIME,SHIFTX=2.5000000e-01,SHIFTY=5.0000000e-01\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+        known += &#39;1.0000000e-01,1.0000000e+00\n&#39;
+        known += &#39;2.0000000e-01,-1.0000000e+00\n&#39;
+        known += &#39;3.0000000e-01,3.0000000e+00\n&#39;
         self.assertEqual(str(a), known)</code></pre>
 </details>
 </section>
@@ -171,46 +172,46 @@ not have a method with the specified name.</p></div>
     def test_only_mandatory_params(self):
         a = Amplitude(&#39;TestAmp&#39;, times = [0.,.1,.2,.3], amps=[0,1,-1,3])
         known = &#39;*AMPLITUDE,NAME=TestAmp\n&#39;
-        known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-        known += &#39;  1.0000000e-01,  1.0000000e+00\n&#39;
-        known += &#39;  2.0000000e-01, -1.0000000e+00\n&#39;
-        known += &#39;  3.0000000e-01,  3.0000000e+00\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+        known += &#39;1.0000000e-01,1.0000000e+00\n&#39;
+        known += &#39;2.0000000e-01,-1.0000000e+00\n&#39;
+        known += &#39;3.0000000e-01,3.0000000e+00\n&#39;
         self.assertEqual(str(a), known)
 
     def test_total_time(self):
         a = Amplitude(&#39;TestAmp&#39;, times = [0.,.1,.2,.3], amps=[0,1,-1,3], use_total_time=True)
         known = &#39;*AMPLITUDE,NAME=TestAmp,TIME=TOTAL TIME\n&#39;
-        known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-        known += &#39;  1.0000000e-01,  1.0000000e+00\n&#39;
-        known += &#39;  2.0000000e-01, -1.0000000e+00\n&#39;
-        known += &#39;  3.0000000e-01,  3.0000000e+00\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+        known += &#39;1.0000000e-01,1.0000000e+00\n&#39;
+        known += &#39;2.0000000e-01,-1.0000000e+00\n&#39;
+        known += &#39;3.0000000e-01,3.0000000e+00\n&#39;
         self.assertEqual(str(a), known)
 
     def test_shift_x(self):
         a = Amplitude(&#39;TestAmp&#39;, times = [0.,.1,.2,.3], amps=[0,1,-1,3], shift_x=0.5)
-        known = &#39;*AMPLITUDE,NAME=TestAmp,SHIFTX=0.5\n&#39;
-        known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-        known += &#39;  1.0000000e-01,  1.0000000e+00\n&#39;
-        known += &#39;  2.0000000e-01, -1.0000000e+00\n&#39;
-        known += &#39;  3.0000000e-01,  3.0000000e+00\n&#39;
+        known = &#39;*AMPLITUDE,NAME=TestAmp,SHIFTX=5.0000000e-01\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+        known += &#39;1.0000000e-01,1.0000000e+00\n&#39;
+        known += &#39;2.0000000e-01,-1.0000000e+00\n&#39;
+        known += &#39;3.0000000e-01,3.0000000e+00\n&#39;
         self.assertEqual(str(a), known)
 
     def test_shift_y(self):
         a = Amplitude(&#39;TestAmp&#39;, times = [0.,.1,.2,.3], amps=[0,1,-1,3], shift_y=0.5)
-        known = &#39;*AMPLITUDE,NAME=TestAmp,SHIFTY=0.5\n&#39;
-        known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-        known += &#39;  1.0000000e-01,  1.0000000e+00\n&#39;
-        known += &#39;  2.0000000e-01, -1.0000000e+00\n&#39;
-        known += &#39;  3.0000000e-01,  3.0000000e+00\n&#39;
+        known = &#39;*AMPLITUDE,NAME=TestAmp,SHIFTY=5.0000000e-01\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+        known += &#39;1.0000000e-01,1.0000000e+00\n&#39;
+        known += &#39;2.0000000e-01,-1.0000000e+00\n&#39;
+        known += &#39;3.0000000e-01,3.0000000e+00\n&#39;
         self.assertEqual(str(a), known)
 
     def test_total_time_shift_x_shift_y(self):
         a = Amplitude(&#39;TestAmp&#39;, times = [0.,.1,.2,.3], amps=[0,1,-1,3], use_total_time=True, shift_x=0.25, shift_y=0.5)
-        known = &#39;*AMPLITUDE,NAME=TestAmp,TIME=TOTAL TIME,SHIFTX=0.25,SHIFTY=0.5\n&#39;
-        known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-        known += &#39;  1.0000000e-01,  1.0000000e+00\n&#39;
-        known += &#39;  2.0000000e-01, -1.0000000e+00\n&#39;
-        known += &#39;  3.0000000e-01,  3.0000000e+00\n&#39;
+        known = &#39;*AMPLITUDE,NAME=TestAmp,TIME=TOTAL TIME,SHIFTX=2.5000000e-01,SHIFTY=5.0000000e-01\n&#39;
+        known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+        known += &#39;1.0000000e-01,1.0000000e+00\n&#39;
+        known += &#39;2.0000000e-01,-1.0000000e+00\n&#39;
+        known += &#39;3.0000000e-01,3.0000000e+00\n&#39;
         self.assertEqual(str(a), known)</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -245,10 +246,10 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_only_mandatory_params(self):
     a = Amplitude(&#39;TestAmp&#39;, times = [0.,.1,.2,.3], amps=[0,1,-1,3])
     known = &#39;*AMPLITUDE,NAME=TestAmp\n&#39;
-    known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-    known += &#39;  1.0000000e-01,  1.0000000e+00\n&#39;
-    known += &#39;  2.0000000e-01, -1.0000000e+00\n&#39;
-    known += &#39;  3.0000000e-01,  3.0000000e+00\n&#39;
+    known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+    known += &#39;1.0000000e-01,1.0000000e+00\n&#39;
+    known += &#39;2.0000000e-01,-1.0000000e+00\n&#39;
+    known += &#39;3.0000000e-01,3.0000000e+00\n&#39;
     self.assertEqual(str(a), known)</code></pre>
 </details>
 </dd>
@@ -263,11 +264,11 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_shift_x(self):
     a = Amplitude(&#39;TestAmp&#39;, times = [0.,.1,.2,.3], amps=[0,1,-1,3], shift_x=0.5)
-    known = &#39;*AMPLITUDE,NAME=TestAmp,SHIFTX=0.5\n&#39;
-    known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-    known += &#39;  1.0000000e-01,  1.0000000e+00\n&#39;
-    known += &#39;  2.0000000e-01, -1.0000000e+00\n&#39;
-    known += &#39;  3.0000000e-01,  3.0000000e+00\n&#39;
+    known = &#39;*AMPLITUDE,NAME=TestAmp,SHIFTX=5.0000000e-01\n&#39;
+    known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+    known += &#39;1.0000000e-01,1.0000000e+00\n&#39;
+    known += &#39;2.0000000e-01,-1.0000000e+00\n&#39;
+    known += &#39;3.0000000e-01,3.0000000e+00\n&#39;
     self.assertEqual(str(a), known)</code></pre>
 </details>
 </dd>
@@ -282,11 +283,11 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_shift_y(self):
     a = Amplitude(&#39;TestAmp&#39;, times = [0.,.1,.2,.3], amps=[0,1,-1,3], shift_y=0.5)
-    known = &#39;*AMPLITUDE,NAME=TestAmp,SHIFTY=0.5\n&#39;
-    known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-    known += &#39;  1.0000000e-01,  1.0000000e+00\n&#39;
-    known += &#39;  2.0000000e-01, -1.0000000e+00\n&#39;
-    known += &#39;  3.0000000e-01,  3.0000000e+00\n&#39;
+    known = &#39;*AMPLITUDE,NAME=TestAmp,SHIFTY=5.0000000e-01\n&#39;
+    known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+    known += &#39;1.0000000e-01,1.0000000e+00\n&#39;
+    known += &#39;2.0000000e-01,-1.0000000e+00\n&#39;
+    known += &#39;3.0000000e-01,3.0000000e+00\n&#39;
     self.assertEqual(str(a), known)</code></pre>
 </details>
 </dd>
@@ -302,10 +303,10 @@ not have a method with the specified name.</p></div>
 <pre><code class="python">def test_total_time(self):
     a = Amplitude(&#39;TestAmp&#39;, times = [0.,.1,.2,.3], amps=[0,1,-1,3], use_total_time=True)
     known = &#39;*AMPLITUDE,NAME=TestAmp,TIME=TOTAL TIME\n&#39;
-    known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-    known += &#39;  1.0000000e-01,  1.0000000e+00\n&#39;
-    known += &#39;  2.0000000e-01, -1.0000000e+00\n&#39;
-    known += &#39;  3.0000000e-01,  3.0000000e+00\n&#39;
+    known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+    known += &#39;1.0000000e-01,1.0000000e+00\n&#39;
+    known += &#39;2.0000000e-01,-1.0000000e+00\n&#39;
+    known += &#39;3.0000000e-01,3.0000000e+00\n&#39;
     self.assertEqual(str(a), known)</code></pre>
 </details>
 </dd>
@@ -320,11 +321,11 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_total_time_shift_x_shift_y(self):
     a = Amplitude(&#39;TestAmp&#39;, times = [0.,.1,.2,.3], amps=[0,1,-1,3], use_total_time=True, shift_x=0.25, shift_y=0.5)
-    known = &#39;*AMPLITUDE,NAME=TestAmp,TIME=TOTAL TIME,SHIFTX=0.25,SHIFTY=0.5\n&#39;
-    known += &#39;  0.0000000e+00,  0.0000000e+00\n&#39;
-    known += &#39;  1.0000000e-01,  1.0000000e+00\n&#39;
-    known += &#39;  2.0000000e-01, -1.0000000e+00\n&#39;
-    known += &#39;  3.0000000e-01,  3.0000000e+00\n&#39;
+    known = &#39;*AMPLITUDE,NAME=TestAmp,TIME=TOTAL TIME,SHIFTX=2.5000000e-01,SHIFTY=5.0000000e-01\n&#39;
+    known += &#39;0.0000000e+00,0.0000000e+00\n&#39;
+    known += &#39;1.0000000e-01,1.0000000e+00\n&#39;
+    known += &#39;2.0000000e-01,-1.0000000e+00\n&#39;
+    known += &#39;3.0000000e-01,3.0000000e+00\n&#39;
     self.assertEqual(str(a), known)</code></pre>
 </details>
 </dd>

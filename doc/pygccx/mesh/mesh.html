@@ -62,11 +62,13 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from dataclasses import dataclass, field
 from typing import Iterable, Sequence, Optional
-import enums
+
+from pygccx import enums, protocols
+from pygccx.auxiliary import f2s
 from . import surface
 from .element import Element
 from .set import Set
-import protocols
+
 
 @dataclass(repr=False)
 class Mesh:
@@ -365,7 +367,8 @@ class Mesh:
         if not self.nodes: return
         buffer += [&#39;*NODE&#39;]
         for nid, coords in self.nodes.items():
-            buffer += [&#39;{},{:15.7e},{:15.7e},{:15.7e}&#39;.format(nid, *coords)]
+            buffer += [f&#39;{nid},&#39; + &#39;,&#39;.join(map(f2s, coords))]
+            # buffer += [&#39;{},{:15.7e},{:15.7e},{:15.7e}&#39;.format(nid, *coords)]
 
     def _write_elements_ccx(self, buffer:list[str]):
         if not self.elements:return
@@ -415,7 +418,7 @@ def _list_to_chunks(lst:Sequence, n:int):
 <dl>
 <dt id="pygccx.mesh.mesh.Mesh"><code class="flex name class">
 <span>class <span class="ident">Mesh</span></span>
-<span>(</span><span>nodes: dict[int, tuple[float, float, float]], elements: dict[int, protocols.IElement], node_sets: list[protocols.ISet], element_sets: list[protocols.ISet])</span>
+<span>(</span><span>nodes: dict[int, tuple[float, float, float]], elements: dict[int, <a title="pygccx.protocols.IElement" href="../protocols.html#pygccx.protocols.IElement">IElement</a>], node_sets: list[<a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>], element_sets: list[<a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>])</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class representing the mesh of a pygccx model</p></div>
@@ -720,7 +723,8 @@ class Mesh:
         if not self.nodes: return
         buffer += [&#39;*NODE&#39;]
         for nid, coords in self.nodes.items():
-            buffer += [&#39;{},{:15.7e},{:15.7e},{:15.7e}&#39;.format(nid, *coords)]
+            buffer += [f&#39;{nid},&#39; + &#39;,&#39;.join(map(f2s, coords))]
+            # buffer += [&#39;{},{:15.7e},{:15.7e},{:15.7e}&#39;.format(nid, *coords)]
 
     def _write_elements_ccx(self, buffer:list[str]):
         if not self.elements:return
@@ -748,15 +752,15 @@ class Mesh:
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="pygccx.mesh.mesh.Mesh.element_sets"><code class="name">var <span class="ident">element_sets</span> : list[protocols.ISet]</code></dt>
+<dt id="pygccx.mesh.mesh.Mesh.element_sets"><code class="name">var <span class="ident">element_sets</span> : list[<a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>]</code></dt>
 <dd>
 <div class="desc"><p>List with all element sets of this mesh</p></div>
 </dd>
-<dt id="pygccx.mesh.mesh.Mesh.elements"><code class="name">var <span class="ident">elements</span> : dict[int, protocols.IElement]</code></dt>
+<dt id="pygccx.mesh.mesh.Mesh.elements"><code class="name">var <span class="ident">elements</span> : dict[int, <a title="pygccx.protocols.IElement" href="../protocols.html#pygccx.protocols.IElement">IElement</a>]</code></dt>
 <dd>
 <div class="desc"><p>Dict with all elements of this mesh. Key = element id</p></div>
 </dd>
-<dt id="pygccx.mesh.mesh.Mesh.node_sets"><code class="name">var <span class="ident">node_sets</span> : list[protocols.ISet]</code></dt>
+<dt id="pygccx.mesh.mesh.Mesh.node_sets"><code class="name">var <span class="ident">node_sets</span> : list[<a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>]</code></dt>
 <dd>
 <div class="desc"><p>List with all node sets of this mesh</p></div>
 </dd>
@@ -764,7 +768,7 @@ class Mesh:
 <dd>
 <div class="desc"><p>Dict with all nodes of this mesh. Key = node id, values = coordinates</p></div>
 </dd>
-<dt id="pygccx.mesh.mesh.Mesh.surfaces"><code class="name">var <span class="ident">surfaces</span> : list[protocols.ISurface]</code></dt>
+<dt id="pygccx.mesh.mesh.Mesh.surfaces"><code class="name">var <span class="ident">surfaces</span> : list[<a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a>]</code></dt>
 <dd>
 <div class="desc"><p>List with all surfaces (node based and element face based) of this mesh</p></div>
 </dd>
@@ -772,7 +776,7 @@ class Mesh:
 <h3>Methods</h3>
 <dl>
 <dt id="pygccx.mesh.mesh.Mesh.add_element"><code class="name flex">
-<span>def <span class="ident">add_element</span></span>(<span>self, etype: enums.EEtypes, nids: tuple[int, ...], id: Optional[int] = None, el_set: Optional[protocols.ISet] = None) ‑> int</span>
+<span>def <span class="ident">add_element</span></span>(<span>self, etype: <a title="pygccx.enums.EEtypes" href="../enums.html#pygccx.enums.EEtypes">EEtypes</a>, nids: tuple[int, ...], id: Optional[int] = None, el_set: Optional[<a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>] = None) ‑> int</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Adds an element to this mesh.</p>
@@ -839,7 +843,7 @@ if id is omitted, the next available id is used.</p>
 </details>
 </dd>
 <dt id="pygccx.mesh.mesh.Mesh.add_node"><code class="name flex">
-<span>def <span class="ident">add_node</span></span>(<span>self, coords: Sequence[int | float | numpy.number], id: Optional[int] = None, node_set: Optional[protocols.ISet] = None) ‑> int</span>
+<span>def <span class="ident">add_node</span></span>(<span>self, coords: Sequence[int | float | numpy.number], id: Optional[int] = None, node_set: Optional[<a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>] = None) ‑> int</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Adds a node to this mesh.</p>
@@ -916,7 +920,7 @@ if id is omitted, the next available id is used.</p>
 </details>
 </dd>
 <dt id="pygccx.mesh.mesh.Mesh.add_set"><code class="name flex">
-<span>def <span class="ident">add_set</span></span>(<span>self, set_name: str, set_type: enums.ESetTypes, ids: Iterable[int], dim: int = 0) ‑> protocols.ISet</span>
+<span>def <span class="ident">add_set</span></span>(<span>self, set_name: str, set_type: <a title="pygccx.enums.ESetTypes" href="../enums.html#pygccx.enums.ESetTypes">ESetTypes</a>, ids: Iterable[int], dim: int = 0) ‑> <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Adds a new set to the mesh.</p>
@@ -996,7 +1000,7 @@ In this case make sure all node ids are on the surface of the model and dim = 2.
 </details>
 </dd>
 <dt id="pygccx.mesh.mesh.Mesh.add_surface"><code class="name flex">
-<span>def <span class="ident">add_surface</span></span>(<span>self, surface: protocols.ISurface)</span>
+<span>def <span class="ident">add_surface</span></span>(<span>self, surface: <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Adds the given surface to the mesh</p>
@@ -1020,7 +1024,7 @@ In this case make sure all node ids are on the surface of the model and dim = 2.
 </details>
 </dd>
 <dt id="pygccx.mesh.mesh.Mesh.add_surface_from_node_set"><code class="name flex">
-<span>def <span class="ident">add_surface_from_node_set</span></span>(<span>self, surf_name: str, node_set: protocols.ISet, surf_type: enums.ESurfTypes) ‑> protocols.ISurface</span>
+<span>def <span class="ident">add_surface_from_node_set</span></span>(<span>self, surf_name: str, node_set: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, surf_type: <a title="pygccx.enums.ESurfTypes" href="../enums.html#pygccx.enums.ESurfTypes">ESurfTypes</a>) ‑> <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Makes a surface from a given node set, adds it to the surfaces of this mesh
@@ -1071,7 +1075,7 @@ Type of node_set must be NODE and dim must be 2.</dd>
 </details>
 </dd>
 <dt id="pygccx.mesh.mesh.Mesh.change_element_type"><code class="name flex">
-<span>def <span class="ident">change_element_type</span></span>(<span>self, etype: enums.EEtypes, *ids: int)</span>
+<span>def <span class="ident">change_element_type</span></span>(<span>self, etype: <a title="pygccx.enums.EEtypes" href="../enums.html#pygccx.enums.EEtypes">EEtypes</a>, *ids: int)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Changes the element type for all elements with the given ids.</p>
@@ -1113,7 +1117,7 @@ I.e. C3D20R -&gt; C3D20 or C3D8I -&gt; C3D8R</p>
 </details>
 </dd>
 <dt id="pygccx.mesh.mesh.Mesh.get_el_set_by_name"><code class="name flex">
-<span>def <span class="ident">get_el_set_by_name</span></span>(<span>self, set_name: str) ‑> protocols.ISet</span>
+<span>def <span class="ident">get_el_set_by_name</span></span>(<span>self, set_name: str) ‑> <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets an element set by its name. If no such set exists an exception is raised.</p>
@@ -1145,7 +1149,7 @@ I.e. C3D20R -&gt; C3D20 or C3D8I -&gt; C3D8R</p>
 </details>
 </dd>
 <dt id="pygccx.mesh.mesh.Mesh.get_elements_by_ids"><code class="name flex">
-<span>def <span class="ident">get_elements_by_ids</span></span>(<span>self, *ids: int) ‑> tuple[protocols.IElement, ...]</span>
+<span>def <span class="ident">get_elements_by_ids</span></span>(<span>self, *ids: int) ‑> tuple[<a title="pygccx.protocols.IElement" href="../protocols.html#pygccx.protocols.IElement">IElement</a>, ...]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets a tuple of elements for the given ids</p>
@@ -1169,7 +1173,7 @@ I.e. C3D20R -&gt; C3D20 or C3D8I -&gt; C3D8R</p>
 </details>
 </dd>
 <dt id="pygccx.mesh.mesh.Mesh.get_elements_by_type"><code class="name flex">
-<span>def <span class="ident">get_elements_by_type</span></span>(<span>self, etype: enums.EEtypes) ‑> tuple[protocols.IElement, ...]</span>
+<span>def <span class="ident">get_elements_by_type</span></span>(<span>self, etype: <a title="pygccx.enums.EEtypes" href="../enums.html#pygccx.enums.EEtypes">EEtypes</a>) ‑> tuple[<a title="pygccx.protocols.IElement" href="../protocols.html#pygccx.protocols.IElement">IElement</a>, ...]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets a tuple of elements with the given element type.</p></div>
@@ -1243,7 +1247,7 @@ I.e. C3D20R -&gt; C3D20 or C3D8I -&gt; C3D8R</p>
 </details>
 </dd>
 <dt id="pygccx.mesh.mesh.Mesh.get_node_set_by_name"><code class="name flex">
-<span>def <span class="ident">get_node_set_by_name</span></span>(<span>self, set_name: str) ‑> protocols.ISet</span>
+<span>def <span class="ident">get_node_set_by_name</span></span>(<span>self, set_name: str) ‑> <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets a node set by its name. If no such set exists an exception is raised.</p>
@@ -1299,7 +1303,7 @@ I.e. C3D20R -&gt; C3D20 or C3D8I -&gt; C3D8R</p>
 </details>
 </dd>
 <dt id="pygccx.mesh.mesh.Mesh.get_set_by_name_and_type"><code class="name flex">
-<span>def <span class="ident">get_set_by_name_and_type</span></span>(<span>self, set_name: str, set_type: enums.ESetTypes = ESetTypes.NODE) ‑> protocols.ISet</span>
+<span>def <span class="ident">get_set_by_name_and_type</span></span>(<span>self, set_name: str, set_type: <a title="pygccx.enums.ESetTypes" href="../enums.html#pygccx.enums.ESetTypes">ESetTypes</a> = ESetTypes.NODE) ‑> <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets a set by its name and type. If no such set exists an exception is raised.</p>
@@ -1347,7 +1351,7 @@ I.e. C3D20R -&gt; C3D20 or C3D8I -&gt; C3D8R</p>
 </details>
 </dd>
 <dt id="pygccx.mesh.mesh.Mesh.get_surface_from_node_set"><code class="name flex">
-<span>def <span class="ident">get_surface_from_node_set</span></span>(<span>self, surf_name: str, node_set: protocols.ISet, surf_type: enums.ESurfTypes) ‑> protocols.ISurface</span>
+<span>def <span class="ident">get_surface_from_node_set</span></span>(<span>self, surf_name: str, node_set: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, surf_type: <a title="pygccx.enums.ESurfTypes" href="../enums.html#pygccx.enums.ESurfTypes">ESurfTypes</a>) ‑> <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets a surface from a given node set.</p>

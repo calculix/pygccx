@@ -18,9 +18,10 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from model_keywords import Elastic
-from enums import EELasticTypes
-from protocols import IKeyword
+
+from pygccx.model_keywords import Elastic
+from pygccx.enums import EELasticTypes
+from pygccx.protocols import IKeyword
 
 class TestElastic(TestCase):
 

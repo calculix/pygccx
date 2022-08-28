@@ -62,14 +62,13 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from dataclasses import dataclass, field, InitVar
 from typing import Sequence
+
+from pygccx.enums import EOrientationSystems
+from pygccx.protocols import number
+
 import numpy as np
 import numpy.typing as npt
 from scipy.spatial.transform import Rotation
-
-from enums import EOrientationSystems
-
-number = int|float
-
 @dataclass
 class CoordinateSystem:
     &#34;&#34;&#34;
@@ -208,7 +207,7 @@ class CoordinateSystem:
 <dl>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem"><code class="flex name class">
 <span>class <span class="ident">CoordinateSystem</span></span>
-<span>(</span><span>name: str, type: enums.EOrientationSystems = EOrientationSystems.RECTANGULAR, origin: dataclasses.InitVar[typing.Union[typing.Sequence[int | float], numpy.ndarray[typing.Any, numpy.dtype[+ScalarType]]]] = (0.0, 0.0, 0.0), matrix: dataclasses.InitVar[typing.Union[typing.Sequence[typing.Sequence[int | float]], numpy.ndarray[typing.Any, numpy.dtype[+ScalarType]]]] = ((1.0, 0.0, 0.0), (0.0, 1.0, 0.0), (0.0, 0.0, 1.0)))</span>
+<span>(</span><span>name: str, type: <a title="pygccx.enums.EOrientationSystems" href="../enums.html#pygccx.enums.EOrientationSystems">EOrientationSystems</a> = EOrientationSystems.RECTANGULAR, origin: dataclasses.InitVar[typing.Union[typing.Sequence[int | float | numpy.number], numpy.ndarray[typing.Any, numpy.dtype[+ScalarType]]]] = (0.0, 0.0, 0.0), matrix: dataclasses.InitVar[typing.Union[typing.Sequence[typing.Sequence[int | float | numpy.number]], numpy.ndarray[typing.Any, numpy.dtype[+ScalarType]]]] = ((1.0, 0.0, 0.0), (0.0, 1.0, 0.0), (0.0, 0.0, 1.0)))</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class representing a local coordinate system.</p>
@@ -359,7 +358,7 @@ class CoordinateSystem:
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.matrix"><code class="name">var <span class="ident">matrix</span> : dataclasses.InitVar[typing.Union[typing.Sequence[typing.Sequence[int | float]], numpy.ndarray[typing.Any, numpy.dtype[+ScalarType]]]]</code></dt>
+<dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.matrix"><code class="name">var <span class="ident">matrix</span> : dataclasses.InitVar[typing.Union[typing.Sequence[typing.Sequence[int | float | numpy.number]], numpy.ndarray[typing.Any, numpy.dtype[+ScalarType]]]]</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -367,11 +366,11 @@ class CoordinateSystem:
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.origin"><code class="name">var <span class="ident">origin</span> : dataclasses.InitVar[typing.Union[typing.Sequence[int | float], numpy.ndarray[typing.Any, numpy.dtype[+ScalarType]]]]</code></dt>
+<dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.origin"><code class="name">var <span class="ident">origin</span> : dataclasses.InitVar[typing.Union[typing.Sequence[int | float | numpy.number], numpy.ndarray[typing.Any, numpy.dtype[+ScalarType]]]]</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.type"><code class="name">var <span class="ident">type</span> : enums.EOrientationSystems</code></dt>
+<dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.EOrientationSystems" href="../enums.html#pygccx.enums.EOrientationSystems">EOrientationSystems</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -414,7 +413,7 @@ row 2: vector of z axis in global system</p></div>
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.move"><code class="name flex">
-<span>def <span class="ident">move</span></span>(<span>self, v_inc: Union[Sequence[int | float], numpy.ndarray[Any, numpy.dtype[+ScalarType]]])</span>
+<span>def <span class="ident">move</span></span>(<span>self, v_inc: Union[Sequence[int | float | numpy.number], numpy.ndarray[Any, numpy.dtype[+ScalarType]]])</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Moves the origin by the incrementation vector v_inc.</p>
@@ -445,7 +444,7 @@ row 2: vector of z axis in global system</p></div>
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.rotate_x"><code class="name flex">
-<span>def <span class="ident">rotate_x</span></span>(<span>self, ang: int | float, degrees: bool = False)</span>
+<span>def <span class="ident">rotate_x</span></span>(<span>self, ang: int | float | numpy.number, degrees: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Rotates this coordinate system about its x-axis by the given angle.</p>
@@ -472,7 +471,7 @@ row 2: vector of z axis in global system</p></div>
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.rotate_y"><code class="name flex">
-<span>def <span class="ident">rotate_y</span></span>(<span>self, ang: int | float, degrees: bool = False)</span>
+<span>def <span class="ident">rotate_y</span></span>(<span>self, ang: int | float | numpy.number, degrees: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Rotates this coordinate system about its y-axis by the given angle.</p>
@@ -499,7 +498,7 @@ row 2: vector of z axis in global system</p></div>
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.rotate_z"><code class="name flex">
-<span>def <span class="ident">rotate_z</span></span>(<span>self, ang: int | float, degrees: bool = False)</span>
+<span>def <span class="ident">rotate_z</span></span>(<span>self, ang: int | float | numpy.number, degrees: bool = False)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Rotates this coordinate system about its z-axis by the given angle.</p>
@@ -526,7 +525,7 @@ row 2: vector of z axis in global system</p></div>
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.set_matrix"><code class="name flex">
-<span>def <span class="ident">set_matrix</span></span>(<span>self, matrix: Union[Sequence[Sequence[int | float]], numpy.ndarray[Any, numpy.dtype[+ScalarType]]])</span>
+<span>def <span class="ident">set_matrix</span></span>(<span>self, matrix: Union[Sequence[Sequence[int | float | numpy.number]], numpy.ndarray[Any, numpy.dtype[+ScalarType]]])</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sets the orientation matrix of this coordinate system.</p>
@@ -573,7 +572,7 @@ row 2: vector of z axis in global system</dd>
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.set_origin"><code class="name flex">
-<span>def <span class="ident">set_origin</span></span>(<span>self, origin: Union[Sequence[int | float], numpy.ndarray[Any, numpy.dtype[+ScalarType]]])</span>
+<span>def <span class="ident">set_origin</span></span>(<span>self, origin: Union[Sequence[int | float | numpy.number], numpy.ndarray[Any, numpy.dtype[+ScalarType]]])</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Sets the origin of this coordinate system.</p>

@@ -19,8 +19,9 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field
 from typing import Iterable, Optional, Any
-from protocols import IKeyword
-from enums import EContactFileResults
+
+from pygccx.protocols import IKeyword
+from pygccx.enums import EContactFileResults
 
 @dataclass
 class ContactFile:

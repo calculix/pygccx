@@ -1,17 +1,18 @@
 .vscode/
 __pycache__/
 venv/
+venv_setup/
 notes.txt
 
-# Calculix files
+# Calculix files in examples
 executables/
-*.12d
-*.cvg
-*.dat
-*.frd
-*.inp
-*.sta
-*.nam
-*.out
-*.fbd
-*.eig
+examples/**/*.12d
+examples/**/*.cvg
+examples/**/*.dat
+examples/**/*.frd
+examples/**/*.inp
+examples/**/*.sta
+examples/**/*.nam
+examples/**/*.out
+examples/**/*.fbd
+examples/**/*.eig

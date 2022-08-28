@@ -19,12 +19,13 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field
 from typing import Iterable, Sequence, Optional
-import enums
+
+from pygccx import enums, protocols
+from pygccx.auxiliary import f2s
 from . import surface
 from .element import Element
 from .set import Set
-import protocols
-from auxiliary import f2s
+
 
 @dataclass(repr=False)
 class Mesh:

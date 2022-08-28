@@ -19,9 +19,10 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from step_keywords import ElFile, TimePoints
-from enums import EElFileResults, EResultOutputs, ESetTypes
-from protocols import IKeyword
+
+from pygccx.step_keywords import ElFile, TimePoints
+from pygccx.enums import EElFileResults, EResultOutputs, ESetTypes
+from pygccx.protocols import IKeyword
 
 @dataclass()
 class SetMock():

@@ -63,8 +63,9 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 from dataclasses import dataclass
 from typing import Any
 
-from protocols import ISet, number
-from enums import ESetTypes
+from pygccx.protocols import ISet, number
+from pygccx.auxiliary import f2s
+from pygccx.enums import ESetTypes
 
 @dataclass
 class Mass:
@@ -94,7 +95,7 @@ class Mass:
 
     def __str__(self):
         s = f&#39;*MASS,ELSET={self.elset.name}\n&#39;
-        s += f&#39;{self.mass:.7e}\n&#39;
+        s += f&#39;{f2s(self.mass)}\n&#39;
         return s</code></pre>
 </details>
 </section>
@@ -109,7 +110,7 @@ class Mass:
 <dl>
 <dt id="pygccx.model_keywords.mass.Mass"><code class="flex name class">
 <span>class <span class="ident">Mass</span></span>
-<span>(</span><span>elset: protocols.ISet, mass: int | float | numpy.number, name: str = '', desc: str = '')</span>
+<span>(</span><span>elset: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, mass: int | float | numpy.number, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to specify the nodal mass in MASS elements </p>
@@ -156,7 +157,7 @@ class Mass:
 
     def __str__(self):
         s = f&#39;*MASS,ELSET={self.elset.name}\n&#39;
-        s += f&#39;{self.mass:.7e}\n&#39;
+        s += f&#39;{f2s(self.mass)}\n&#39;
         return s</code></pre>
 </details>
 <h3>Class variables</h3>
@@ -165,7 +166,7 @@ class Mass:
 <dd>
 <div class="desc"><p>A short description of this instance. This is written to the ccx input file</p></div>
 </dd>
-<dt id="pygccx.model_keywords.mass.Mass.elset"><code class="name">var <span class="ident">elset</span> : protocols.ISet</code></dt>
+<dt id="pygccx.model_keywords.mass.Mass.elset"><code class="name">var <span class="ident">elset</span> : <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a></code></dt>
 <dd>
 <div class="desc"><p>Element set for which this mass applies</p></div>
 </dd>

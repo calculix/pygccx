@@ -1,11 +1,31 @@
+'''
+Copyright Matthias Sedlmaier 2022
+This file is part of pygccx.
+
+pygccx is free software: you can redistribute it 
+and/or modify it under the terms of the GNU General Public License as 
+published by the Free Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+pygccx is distributed in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with pygccx.  
+If not, see <http://www.gnu.org/licenses/>.
+'''
+
 from dataclasses import dataclass, field
 import csv, re
 from collections import defaultdict
+from typing import Iterable
 
 import numpy as np
 import numpy.typing as npt
 
-from enums import EResultLocations, EDatEntities
+from pygccx.enums import EResultLocations, EDatEntities
 
 
 
@@ -23,6 +43,7 @@ ENTITY_2_LOCATION_MAP = {
     EDatEntities.ENER : EResultLocations.INT_PNT,
     EDatEntities.ELKE : EResultLocations.ELEMENT,
     EDatEntities.ELSE : EResultLocations.ELEMENT,
+    EDatEntities.EMAS : EResultLocations.ELEMENT,
     # Contact print entities
     EDatEntities.CELS : EResultLocations.NODAL,
     EDatEntities.CSTR : EResultLocations.NODAL,
@@ -31,9 +52,14 @@ ENTITY_2_LOCATION_MAP = {
 
 @dataclass(frozen=True, slots=True)
 class DatResultSet:
+    """
+    Class representing a result set from a *.dat file.
 
+    A result set contains the nodal, element or integration point result 
+    values of an entity (i.e. U, S) for a single step time.
+    """
     entity:EDatEntities
-    """Enum of the result set entity"""
+    """Enum of the result set entity i.e. U, S"""
     no_components:int
     """number of components per value. I.e. for a U result set no_components == 3"""
     step_time:float
@@ -51,11 +77,38 @@ class DatResultSet:
     """
     entity_location:EResultLocations
     """Location of the result entity. i.e. NODAL, ELEMENT, ..."""
+
+    def get_values_by_ids(self, ids:Iterable[int]) -> npt.NDArray[np.float64]:
+        """
+        Returns the result values for the given node or element ids as a numpy array.
+
+        if entity_location==NODAL or ELEMENT: 
+            2D Array is returned.
+            len axis 0: number of given ids
+            len axis 1: number of components.
+        if entity_location==INT_PNT:
+            3D Array is returned
+            len axis 0: number of given ids
+            len axis 1: number of int. pnts
+            len axis 2: number of components
+
+        The order of axis 0 is the same as ids.
+        If ids is a non ordered iterable (i.e. a set) the ordering is arbitrary.
+
+        If a node id is not in values an exception is raised. 
+        """
+        return np.array([self.values[id] for id in ids])
     
 
 @dataclass(frozen=True, slots=True)
 class DatResult:
-    step_times:tuple[float]
+    """
+    Class representing the content of a *.dat file. 
+    
+    Don't instanciate this class directly. Use DatResult.from_file() instead.
+    """
+
+    step_times:tuple[float, ...]
     """Sorted tuple with all step times"""
     result_sets:tuple[DatResultSet, ...]
     """Tuple with all result sets"""
@@ -133,15 +186,18 @@ class DatResult:
     @classmethod
     def from_file(cls, filename:str) -> 'DatResult':
         """
-        Totals are not processed.
+        Creates a FrdResult from the given filename and returns it.
 
-        _extended_summary_
+        IMPORTANT:
+        Total result sets (with parameter TOTALS set in *NODE PRINT, *EL PRINT, etc)
+        are not processed. These values can be obtained with simple numpy operations
+        like np.sum() from the same result, if TOTALS is omitted.
 
         Args:
-            filename (str): _description_
+            filename (str): Path to ascii *.dat file
 
         Returns:
-            DatResult: _description_
+            DatResult
         """
 
         # define variables to get the IDE happy

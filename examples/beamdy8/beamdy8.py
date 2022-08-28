@@ -20,9 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 
 '''
 
-import sys, os
-os.chdir(sys.path[0])
-sys.path += ['../../', '../../pygccx']
+import os
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -32,13 +30,13 @@ from pygccx import model_keywords as mk
 from pygccx import step_keywords as sk
 from pygccx import enums
 
+WKD = os.path.dirname(os.path.abspath(__file__))
 # change this paths to your location of ccx and cgx
-CCX_PATH = os.path.join('../../', 'executables', 'calculix_2.19_4win', 'ccx_static.exe')
-CGX_PATH = os.path.join('../../', 'executables', 'calculix_2.19_4win', 'cgx_GLUT.exe')
+CCX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.19_4win', 'ccx_static.exe')
+CGX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.19_4win', 'cgx_GLUT.exe')
 
 def main():
-    with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
-        model.jobname = 'beamdy8'
+    with ccx_model.Model(CCX_PATH, CGX_PATH, jobname='beamdy8', working_dir=WKD) as model:
 
         model.solve(write_ccx_input=False)
 

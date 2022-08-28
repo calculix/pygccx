@@ -61,8 +61,10 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
 from dataclasses import dataclass, field, InitVar
-from enums import EELasticTypes
-from protocols import number
+
+from pygccx.enums import EELasticTypes
+from pygccx.protocols import number
+from pygccx.auxiliary import f2s
 
 @dataclass
 class Elastic:
@@ -131,7 +133,7 @@ class Elastic:
         for p in self.elastic_params_for_temps:
             lines = [p[i:i+n] for i in range(0, len(p) or 1, n)]
             for i, line in enumerate(lines):
-                s += &#39;,&#39;.join(map(str, line)) 
+                s += &#39;,&#39;.join(map(f2s, line)) 
                 s += &#39;\n&#39; if i == len(lines) -1 else &#39;,\n&#39;
 
         return s</code></pre>
@@ -148,7 +150,7 @@ class Elastic:
 <dl>
 <dt id="pygccx.model_keywords.elastic.Elastic"><code class="flex name class">
 <span>class <span class="ident">Elastic</span></span>
-<span>(</span><span>elastic_params: dataclasses.InitVar[tuple[int | float | numpy.number, ...]], type: enums.EELasticTypes = EELasticTypes.ISO, temp: dataclasses.InitVar[int | float | numpy.number] = 294.0, name: str = '', desc: str = '')</span>
+<span>(</span><span>elastic_params: dataclasses.InitVar[tuple[int | float | numpy.number, ...]], type: <a title="pygccx.enums.EELasticTypes" href="../enums.html#pygccx.enums.EELasticTypes">EELasticTypes</a> = EELasticTypes.ISO, temp: dataclasses.InitVar[int | float | numpy.number] = 294.0, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class to define the elastic properties of a material</p>
@@ -239,7 +241,7 @@ class Elastic:
         for p in self.elastic_params_for_temps:
             lines = [p[i:i+n] for i in range(0, len(p) or 1, n)]
             for i, line in enumerate(lines):
-                s += &#39;,&#39;.join(map(str, line)) 
+                s += &#39;,&#39;.join(map(f2s, line)) 
                 s += &#39;\n&#39; if i == len(lines) -1 else &#39;,\n&#39;
 
         return s</code></pre>
@@ -267,7 +269,7 @@ class Elastic:
 <dd>
 <div class="desc"><p>Temperature of first elastic parameter set</p></div>
 </dd>
-<dt id="pygccx.model_keywords.elastic.Elastic.type"><code class="name">var <span class="ident">type</span> : enums.EELasticTypes</code></dt>
+<dt id="pygccx.model_keywords.elastic.Elastic.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.EELasticTypes" href="../enums.html#pygccx.enums.EELasticTypes">EELasticTypes</a></code></dt>
 <dd>
 <div class="desc"><p>Type of elasticity. ISO, ORTHO, etc</p></div>
 </dd>

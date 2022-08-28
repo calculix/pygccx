@@ -36,22 +36,20 @@ used step keywords:
 Step, Static, Cload, NodeFile, ElFile
 '''
 
-import sys, os
-os.chdir(sys.path[0])
-sys.path += ['../../', '../../pygccx']
+import os
 
 from pygccx import model as ccx_model
 from pygccx import model_keywords as mk
 from pygccx import step_keywords as sk
 from pygccx import enums
 
+WKD = os.path.dirname(os.path.abspath(__file__))
 # change this paths to your location of ccx and cgx
-CCX_PATH = os.path.join('../../', 'executables', 'calculix_2.19_4win', 'ccx_static.exe')
-CGX_PATH = os.path.join('../../', 'executables', 'calculix_2.19_4win', 'cgx_GLUT.exe')
+CCX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.19_4win', 'ccx_static.exe')
+CGX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.19_4win', 'cgx_GLUT.exe')
 
 def main():
-    with ccx_model.Model(CCX_PATH, CGX_PATH) as model:
-        model.jobname = 'beam_plastic'
+    with ccx_model.Model(CCX_PATH, CGX_PATH, jobname='beam_plastic', working_dir=WKD) as model:
 
         # make model of a beam in gmsh
         # Cross section = 10x10; Length = 100

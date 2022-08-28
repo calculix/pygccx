@@ -18,9 +18,10 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from step_keywords import ContactFile, TimePoints
-from enums import EContactFileResults
-from protocols import IKeyword
+
+from pygccx.step_keywords import ContactFile, TimePoints
+from pygccx.enums import EContactFileResults
+from pygccx.protocols import IKeyword
 
 class TestContactFile(TestCase):
 

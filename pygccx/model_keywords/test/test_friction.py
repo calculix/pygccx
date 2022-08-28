@@ -18,8 +18,9 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from model_keywords import Friction
-from protocols import IKeyword
+
+from pygccx.model_keywords import Friction
+from pygccx.protocols import IKeyword
 
 class TestFriction(TestCase):
 

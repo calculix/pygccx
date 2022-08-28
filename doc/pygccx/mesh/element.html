@@ -62,8 +62,8 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from dataclasses import dataclass, field
 from typing import Any
-from enums import EEtypes
-from protocols import IElementFace
+from pygccx.enums import EEtypes
+from pygccx.protocols import IElementFace
 
 FACE_INDEX_TABLE = {
     EEtypes.C3D4:  ((0,1,2),   (0,3,1),   (1,3,2),   (2,3,0)),
@@ -226,7 +226,7 @@ class ElementFace:
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="pygccx.mesh.element.get_element_dimension"><code class="name flex">
-<span>def <span class="ident">get_element_dimension</span></span>(<span>type: enums.EEtypes) ‑> int</span>
+<span>def <span class="ident">get_element_dimension</span></span>(<span>type: <a title="pygccx.enums.EEtypes" href="../enums.html#pygccx.enums.EEtypes">EEtypes</a>) ‑> int</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets the dimension for the given element type.</p>
@@ -281,7 +281,7 @@ class ElementFace:
 <dl>
 <dt id="pygccx.mesh.element.Element"><code class="flex name class">
 <span>class <span class="ident">Element</span></span>
-<span>(</span><span>id: int, type: enums.EEtypes, node_ids: tuple[int, ...])</span>
+<span>(</span><span>id: int, type: <a title="pygccx.enums.EEtypes" href="../enums.html#pygccx.enums.EEtypes">EEtypes</a>, node_ids: tuple[int, ...])</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class representing an element</p></div>
@@ -356,7 +356,7 @@ class Element:
 <dd>
 <div class="desc"><p>Node ids belonging to this element</p></div>
 </dd>
-<dt id="pygccx.mesh.element.Element.type"><code class="name">var <span class="ident">type</span> : enums.EEtypes</code></dt>
+<dt id="pygccx.mesh.element.Element.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.EEtypes" href="../enums.html#pygccx.enums.EEtypes">EEtypes</a></code></dt>
 <dd>
 <div class="desc"><p>Enum type of this element</p></div>
 </dd>
@@ -408,7 +408,7 @@ class Element:
 </details>
 </dd>
 <dt id="pygccx.mesh.element.Element.get_faces"><code class="name flex">
-<span>def <span class="ident">get_faces</span></span>(<span>self) ‑> tuple[protocols.IElementFace, ...]</span>
+<span>def <span class="ident">get_faces</span></span>(<span>self) ‑> tuple[<a title="pygccx.protocols.IElementFace" href="../protocols.html#pygccx.protocols.IElementFace">IElementFace</a>, ...]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets the faces of this element</p></div>

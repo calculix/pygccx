@@ -18,9 +18,11 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from unittest import TestCase
-from step_keywords import TimePoints
+
+from pygccx.step_keywords import TimePoints
+from pygccx.protocols import IKeyword
+
 import numpy as np
-from protocols import IKeyword
 
 class TestTimePoints(TestCase):
 

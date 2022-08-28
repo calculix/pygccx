@@ -19,14 +19,13 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field, InitVar
 from typing import Sequence
+
+from pygccx.enums import EOrientationSystems
+from pygccx.protocols import number
+
 import numpy as np
 import numpy.typing as npt
 from scipy.spatial.transform import Rotation
-
-from enums import EOrientationSystems
-
-number = int|float
-
 @dataclass
 class CoordinateSystem:
     """

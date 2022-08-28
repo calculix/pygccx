@@ -61,69 +61,88 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
 from unittest import TestCase
-from step_keywords import NodeFile, TimePoints
-from enums import ENodeResults, EResultOutputs
-from protocols import IKeyword
+from dataclasses import dataclass
 
+from pygccx.step_keywords import NodeFile, TimePoints
+from pygccx.enums import ENodeFileResults, EResultOutputs, ESetTypes
+from pygccx.protocols import IKeyword
+
+@dataclass()
+class SetMock():
+    name:str
+    type:ESetTypes
+    dim:int
+    ids:set[int]
 class TestNodeFile(TestCase):
 
+    def setUp(self) -&gt; None:
+        self.nset = SetMock(&#39;N1&#39;, ESetTypes.NODE, 2, set([1,2,3,4]))
+        self.eset = SetMock(&#39;E1&#39;, ESetTypes.ELEMENT, 2, set([1,2,3,4]))
+
     def test_is_IKeyword(self):
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF])
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF])
         self.assertTrue(isinstance(nf, IKeyword))
 
     def test_default(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF])
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF])
         known = &#39;*NODE FILE\n&#39;
         known +=&#39;U,RF\n&#39;
         self.assertEqual(str(nf), known)
 
     def test_frequency(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], frequency=2)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], frequency=2)
         known = &#39;*NODE FILE,FREQUENCY=2\n&#39;
         known +=&#39;U,RF\n&#39;
         self.assertEqual(str(nf), known)
 
     def test_time_points(self):
         tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], time_points=tp)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], time_points=tp)
         known = &#39;*NODE FILE,TIME POINTS=TP1\n&#39;
         known +=&#39;U,RF\n&#39;
         self.assertEqual(str(nf), known)
 
     def test_last_iteration(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], last_Iterations=True)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], last_Iterations=True)
         known = &#39;*NODE FILE,LAST ITERATIONS\n&#39;
         known +=&#39;U,RF\n&#39;
         self.assertEqual(str(nf), known)
 
     def test_contact_elements(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], contact_elements=True)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], contact_elements=True)
         known = &#39;*NODE FILE,CONTACT ELEMENTS\n&#39;
         known +=&#39;U,RF\n&#39;
         self.assertEqual(str(nf), known)
 
     def test_global_no(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], global_=False)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], global_=False)
         known = &#39;*NODE FILE,GLOBAL=NO\n&#39;
         known +=&#39;U,RF\n&#39;
         self.assertEqual(str(nf), known)
 
     def test_output_all(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], output_all=True)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], output_all=True)
         known = &#39;*NODE FILE,OUTPUT ALL\n&#39;
         known +=&#39;U,RF\n&#39;
         self.assertEqual(str(nf), known)
 
     def test_output_2D(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], output=EResultOutputs._2D)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], output=EResultOutputs._2D)
         known = &#39;*NODE FILE,OUTPUT=2D\n&#39;
+        known +=&#39;U,RF\n&#39;
+        self.assertEqual(str(nf), known)
+
+    def test_nset(self):
+
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], nset=self.nset)
+        known = &#39;*NODE FILE,NSET=N1\n&#39;
         known +=&#39;U,RF\n&#39;
         self.assertEqual(str(nf), known)
 
@@ -132,7 +151,10 @@ class TestNodeFile(TestCase):
 
     def test_time_points_and_frequency(self):
         tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-        self.assertRaises(ValueError, NodeFile, [ENodeResults.U], time_points=tp, frequency=2)</code></pre>
+        self.assertRaises(ValueError, NodeFile, [ENodeFileResults.U], time_points=tp, frequency=2)
+
+    def test_wrong_set_type(self):
+        self.assertRaises(ValueError, NodeFile, [ENodeFileResults.U], nset=self.eset)</code></pre>
 </details>
 </section>
 <section>
@@ -144,6 +166,43 @@ class TestNodeFile(TestCase):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
+<dt id="pygccx.step_keywords.test.test_node_file.SetMock"><code class="flex name class">
+<span>class <span class="ident">SetMock</span></span>
+<span>(</span><span>name: str, type: <a title="pygccx.enums.ESetTypes" href="../../enums.html#pygccx.enums.ESetTypes">ESetTypes</a>, dim: int, ids: set[int])</span>
+</code></dt>
+<dd>
+<div class="desc"><p>SetMock(name: str, type: pygccx.enums.ESetTypes, dim: int, ids: set[int])</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass()
+class SetMock():
+    name:str
+    type:ESetTypes
+    dim:int
+    ids:set[int]</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.step_keywords.test.test_node_file.SetMock.dim"><code class="name">var <span class="ident">dim</span> : int</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.step_keywords.test.test_node_file.SetMock.ids"><code class="name">var <span class="ident">ids</span> : set[int]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.step_keywords.test.test_node_file.SetMock.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.step_keywords.test.test_node_file.SetMock.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.ESetTypes" href="../../enums.html#pygccx.enums.ESetTypes">ESetTypes</a></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+</dd>
 <dt id="pygccx.step_keywords.test.test_node_file.TestNodeFile"><code class="flex name class">
 <span>class <span class="ident">TestNodeFile</span></span>
 <span>(</span><span>methodName='runTest')</span>
@@ -183,63 +242,74 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">class TestNodeFile(TestCase):
 
+    def setUp(self) -&gt; None:
+        self.nset = SetMock(&#39;N1&#39;, ESetTypes.NODE, 2, set([1,2,3,4]))
+        self.eset = SetMock(&#39;E1&#39;, ESetTypes.ELEMENT, 2, set([1,2,3,4]))
+
     def test_is_IKeyword(self):
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF])
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF])
         self.assertTrue(isinstance(nf, IKeyword))
 
     def test_default(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF])
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF])
         known = &#39;*NODE FILE\n&#39;
         known +=&#39;U,RF\n&#39;
         self.assertEqual(str(nf), known)
 
     def test_frequency(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], frequency=2)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], frequency=2)
         known = &#39;*NODE FILE,FREQUENCY=2\n&#39;
         known +=&#39;U,RF\n&#39;
         self.assertEqual(str(nf), known)
 
     def test_time_points(self):
         tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], time_points=tp)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], time_points=tp)
         known = &#39;*NODE FILE,TIME POINTS=TP1\n&#39;
         known +=&#39;U,RF\n&#39;
         self.assertEqual(str(nf), known)
 
     def test_last_iteration(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], last_Iterations=True)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], last_Iterations=True)
         known = &#39;*NODE FILE,LAST ITERATIONS\n&#39;
         known +=&#39;U,RF\n&#39;
         self.assertEqual(str(nf), known)
 
     def test_contact_elements(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], contact_elements=True)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], contact_elements=True)
         known = &#39;*NODE FILE,CONTACT ELEMENTS\n&#39;
         known +=&#39;U,RF\n&#39;
         self.assertEqual(str(nf), known)
 
     def test_global_no(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], global_=False)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], global_=False)
         known = &#39;*NODE FILE,GLOBAL=NO\n&#39;
         known +=&#39;U,RF\n&#39;
         self.assertEqual(str(nf), known)
 
     def test_output_all(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], output_all=True)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], output_all=True)
         known = &#39;*NODE FILE,OUTPUT ALL\n&#39;
         known +=&#39;U,RF\n&#39;
         self.assertEqual(str(nf), known)
 
     def test_output_2D(self):
 
-        nf = NodeFile([ENodeResults.U, ENodeResults.RF], output=EResultOutputs._2D)
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], output=EResultOutputs._2D)
         known = &#39;*NODE FILE,OUTPUT=2D\n&#39;
+        known +=&#39;U,RF\n&#39;
+        self.assertEqual(str(nf), known)
+
+    def test_nset(self):
+
+        nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], nset=self.nset)
+        known = &#39;*NODE FILE,NSET=N1\n&#39;
         known +=&#39;U,RF\n&#39;
         self.assertEqual(str(nf), known)
 
@@ -248,7 +318,10 @@ not have a method with the specified name.</p></div>
 
     def test_time_points_and_frequency(self):
         tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-        self.assertRaises(ValueError, NodeFile, [ENodeResults.U], time_points=tp, frequency=2)</code></pre>
+        self.assertRaises(ValueError, NodeFile, [ENodeFileResults.U], time_points=tp, frequency=2)
+
+    def test_wrong_set_type(self):
+        self.assertRaises(ValueError, NodeFile, [ENodeFileResults.U], nset=self.eset)</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -256,6 +329,20 @@ not have a method with the specified name.</p></div>
 </ul>
 <h3>Methods</h3>
 <dl>
+<dt id="pygccx.step_keywords.test.test_node_file.TestNodeFile.setUp"><code class="name flex">
+<span>def <span class="ident">setUp</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Hook method for setting up the test fixture before exercising it.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def setUp(self) -&gt; None:
+    self.nset = SetMock(&#39;N1&#39;, ESetTypes.NODE, 2, set([1,2,3,4]))
+    self.eset = SetMock(&#39;E1&#39;, ESetTypes.ELEMENT, 2, set([1,2,3,4]))</code></pre>
+</details>
+</dd>
 <dt id="pygccx.step_keywords.test.test_node_file.TestNodeFile.test_contact_elements"><code class="name flex">
 <span>def <span class="ident">test_contact_elements</span></span>(<span>self)</span>
 </code></dt>
@@ -267,7 +354,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_contact_elements(self):
 
-    nf = NodeFile([ENodeResults.U, ENodeResults.RF], contact_elements=True)
+    nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], contact_elements=True)
     known = &#39;*NODE FILE,CONTACT ELEMENTS\n&#39;
     known +=&#39;U,RF\n&#39;
     self.assertEqual(str(nf), known)</code></pre>
@@ -284,7 +371,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_default(self):
 
-    nf = NodeFile([ENodeResults.U, ENodeResults.RF])
+    nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF])
     known = &#39;*NODE FILE\n&#39;
     known +=&#39;U,RF\n&#39;
     self.assertEqual(str(nf), known)</code></pre>
@@ -314,7 +401,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_frequency(self):
 
-    nf = NodeFile([ENodeResults.U, ENodeResults.RF], frequency=2)
+    nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], frequency=2)
     known = &#39;*NODE FILE,FREQUENCY=2\n&#39;
     known +=&#39;U,RF\n&#39;
     self.assertEqual(str(nf), known)</code></pre>
@@ -331,7 +418,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_global_no(self):
 
-    nf = NodeFile([ENodeResults.U, ENodeResults.RF], global_=False)
+    nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], global_=False)
     known = &#39;*NODE FILE,GLOBAL=NO\n&#39;
     known +=&#39;U,RF\n&#39;
     self.assertEqual(str(nf), known)</code></pre>
@@ -347,7 +434,7 @@ not have a method with the specified name.</p></div>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def test_is_IKeyword(self):
-    nf = NodeFile([ENodeResults.U, ENodeResults.RF])
+    nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF])
     self.assertTrue(isinstance(nf, IKeyword))</code></pre>
 </details>
 </dd>
@@ -362,8 +449,25 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_last_iteration(self):
 
-    nf = NodeFile([ENodeResults.U, ENodeResults.RF], last_Iterations=True)
+    nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], last_Iterations=True)
     known = &#39;*NODE FILE,LAST ITERATIONS\n&#39;
+    known +=&#39;U,RF\n&#39;
+    self.assertEqual(str(nf), known)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.step_keywords.test.test_node_file.TestNodeFile.test_nset"><code class="name flex">
+<span>def <span class="ident">test_nset</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_nset(self):
+
+    nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], nset=self.nset)
+    known = &#39;*NODE FILE,NSET=N1\n&#39;
     known +=&#39;U,RF\n&#39;
     self.assertEqual(str(nf), known)</code></pre>
 </details>
@@ -379,7 +483,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_output_2D(self):
 
-    nf = NodeFile([ENodeResults.U, ENodeResults.RF], output=EResultOutputs._2D)
+    nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], output=EResultOutputs._2D)
     known = &#39;*NODE FILE,OUTPUT=2D\n&#39;
     known +=&#39;U,RF\n&#39;
     self.assertEqual(str(nf), known)</code></pre>
@@ -396,7 +500,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_output_all(self):
 
-    nf = NodeFile([ENodeResults.U, ENodeResults.RF], output_all=True)
+    nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], output_all=True)
     known = &#39;*NODE FILE,OUTPUT ALL\n&#39;
     known +=&#39;U,RF\n&#39;
     self.assertEqual(str(nf), known)</code></pre>
@@ -413,7 +517,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_time_points(self):
     tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-    nf = NodeFile([ENodeResults.U, ENodeResults.RF], time_points=tp)
+    nf = NodeFile([ENodeFileResults.U, ENodeFileResults.RF], time_points=tp)
     known = &#39;*NODE FILE,TIME POINTS=TP1\n&#39;
     known +=&#39;U,RF\n&#39;
     self.assertEqual(str(nf), known)</code></pre>
@@ -430,7 +534,20 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_time_points_and_frequency(self):
     tp = TimePoints(&#39;TP1&#39;, (1,2,3,4))
-    self.assertRaises(ValueError, NodeFile, [ENodeResults.U], time_points=tp, frequency=2)</code></pre>
+    self.assertRaises(ValueError, NodeFile, [ENodeFileResults.U], time_points=tp, frequency=2)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.step_keywords.test.test_node_file.TestNodeFile.test_wrong_set_type"><code class="name flex">
+<span>def <span class="ident">test_wrong_set_type</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_wrong_set_type(self):
+    self.assertRaises(ValueError, NodeFile, [ENodeFileResults.U], nset=self.eset)</code></pre>
 </details>
 </dd>
 </dl>
@@ -452,8 +569,18 @@ not have a method with the specified name.</p></div>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
+<h4><code><a title="pygccx.step_keywords.test.test_node_file.SetMock" href="#pygccx.step_keywords.test.test_node_file.SetMock">SetMock</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.step_keywords.test.test_node_file.SetMock.dim" href="#pygccx.step_keywords.test.test_node_file.SetMock.dim">dim</a></code></li>
+<li><code><a title="pygccx.step_keywords.test.test_node_file.SetMock.ids" href="#pygccx.step_keywords.test.test_node_file.SetMock.ids">ids</a></code></li>
+<li><code><a title="pygccx.step_keywords.test.test_node_file.SetMock.name" href="#pygccx.step_keywords.test.test_node_file.SetMock.name">name</a></code></li>
+<li><code><a title="pygccx.step_keywords.test.test_node_file.SetMock.type" href="#pygccx.step_keywords.test.test_node_file.SetMock.type">type</a></code></li>
+</ul>
+</li>
+<li>
 <h4><code><a title="pygccx.step_keywords.test.test_node_file.TestNodeFile" href="#pygccx.step_keywords.test.test_node_file.TestNodeFile">TestNodeFile</a></code></h4>
 <ul class="">
+<li><code><a title="pygccx.step_keywords.test.test_node_file.TestNodeFile.setUp" href="#pygccx.step_keywords.test.test_node_file.TestNodeFile.setUp">setUp</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_node_file.TestNodeFile.test_contact_elements" href="#pygccx.step_keywords.test.test_node_file.TestNodeFile.test_contact_elements">test_contact_elements</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_node_file.TestNodeFile.test_default" href="#pygccx.step_keywords.test.test_node_file.TestNodeFile.test_default">test_default</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_node_file.TestNodeFile.test_empty_entities" href="#pygccx.step_keywords.test.test_node_file.TestNodeFile.test_empty_entities">test_empty_entities</a></code></li>
@@ -461,10 +588,12 @@ not have a method with the specified name.</p></div>
 <li><code><a title="pygccx.step_keywords.test.test_node_file.TestNodeFile.test_global_no" href="#pygccx.step_keywords.test.test_node_file.TestNodeFile.test_global_no">test_global_no</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_node_file.TestNodeFile.test_is_IKeyword" href="#pygccx.step_keywords.test.test_node_file.TestNodeFile.test_is_IKeyword">test_is_IKeyword</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_node_file.TestNodeFile.test_last_iteration" href="#pygccx.step_keywords.test.test_node_file.TestNodeFile.test_last_iteration">test_last_iteration</a></code></li>
+<li><code><a title="pygccx.step_keywords.test.test_node_file.TestNodeFile.test_nset" href="#pygccx.step_keywords.test.test_node_file.TestNodeFile.test_nset">test_nset</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_node_file.TestNodeFile.test_output_2D" href="#pygccx.step_keywords.test.test_node_file.TestNodeFile.test_output_2D">test_output_2D</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_node_file.TestNodeFile.test_output_all" href="#pygccx.step_keywords.test.test_node_file.TestNodeFile.test_output_all">test_output_all</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_node_file.TestNodeFile.test_time_points" href="#pygccx.step_keywords.test.test_node_file.TestNodeFile.test_time_points">test_time_points</a></code></li>
 <li><code><a title="pygccx.step_keywords.test.test_node_file.TestNodeFile.test_time_points_and_frequency" href="#pygccx.step_keywords.test.test_node_file.TestNodeFile.test_time_points_and_frequency">test_time_points_and_frequency</a></code></li>
+<li><code><a title="pygccx.step_keywords.test.test_node_file.TestNodeFile.test_wrong_set_type" href="#pygccx.step_keywords.test.test_node_file.TestNodeFile.test_wrong_set_type">test_wrong_set_type</a></code></li>
 </ul>
 </li>
 </ul>

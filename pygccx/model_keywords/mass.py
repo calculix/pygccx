@@ -20,9 +20,9 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass
 from typing import Any
 
-from protocols import ISet, number
-from auxiliary import f2s
-from enums import ESetTypes
+from pygccx.protocols import ISet, number
+from pygccx.auxiliary import f2s
+from pygccx.enums import ESetTypes
 
 @dataclass
 class Mass:

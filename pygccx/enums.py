@@ -187,27 +187,27 @@ class ENodePrintResults(str, Enum):
 
 class EElPrintResults(str, Enum):
     COORD = 'COORD'
-    """coordinates"""
+    """Coordinates"""
     E = 'E'
     """Lagrange strain"""
     ENER = 'ENER'
-    """internal energy density"""
+    """Internal energy density"""
     HFL = 'HFL'
-    """heat flux in a structure"""
+    """Heat flux in a structure"""
     ME = 'ME'
-    """mechanical strain"""
+    """Mechanical strain"""
     PEEQ = 'PEEQ'
-    """equivalent plastic strain"""
+    """Equivalent plastic strain"""
     S = 'S'
     """Cauchy stress (structure)"""
     ELKE = 'ELKE'
-    """kinetic energy"""
+    """Kinetic energy"""
     ELSE = 'ELSE'
-    """ELSE"""
+    """Internal energy"""
     EMAS = 'EMAS'  
-    """mass and mass moments of inertia"""
+    """Mass and mass moments of inertia"""
     EVOL = 'EVOL'
-    """volume"""
+    """Volume"""
 
 class EContactPrintResults(str, Enum):
     CDIS = 'CDIS' 
@@ -227,60 +227,112 @@ class EContactPrintResults(str, Enum):
     
 class EFrdEntities(str, Enum):
     CT3D_MIS = 'CT3D-MIS'
+    """Stress intensity factor"""
     MDISP = 'MDISP'
+    """Worst displacement orthogonal to a given vector
+     in cyclic symmetric frequency calculations"""
     NDTEMP = 'NDTEMP'
+    """Structural temperature; total temperature in a network"""
     PNDTEMP = 'PNDTEMP'
+    """magnitude and phase of temperature"""
     PFORC = 'PFORC'
+    """Magnitude and phase of external forces"""
     PDISP = 'PDISP'
+    """Magnitude and phase of displacement"""
     FORC = 'FORC'
+    """Real part of total force"""
     FORCI = 'FORCI'
+    """Imaginary part of total force"""
     SEN = 'SEN'
+    """Sensitifity"""
     DISP = 'DISP'
+    """Real part of displacement"""
     DISPI = 'DISPI'
+    """Imaginary part of displacement"""
     VELO = 'VELO'
+    """Velocity"""
 
     TOSTRAIN = 'TOSTRAIN'
+    """Real part of lagrange strain"""
     TOSTRAII = 'TOSTRAII'
+    """Imaginary part of lagrange strain"""
     ENER = 'ENER'
+    """Internal energy density"""
     ERROR = 'ERROR'
+    """Real part of error estimator for the worst principal stress"""
     ERRORI = 'ERRORI'
+    """Imaginary part of error estimator for the worst principal stress"""
     HERROR = 'HERROR'
+    """Real part of error estimator for the temperature"""
     HERRORI = 'HERRORI'
+    """Imaginary part of error estimator for the temperature"""
     FLUX = 'FLUX'
+    """Heat flux in a structure"""
     MSTRAIN = 'MSTRAIN'
+    """worst principal strain in cyclic symmetric frequency calculations"""
     MSTRESS = 'MSTRESS'
+    """worst principal stress in cyclic symmetric frequency calculations"""
     MESTRAIN = 'MESTRAIN'
+    """Real part of mechanical strain"""
     MESTRAII = 'MESTRAII'
+    """Imaginary part of mechanical strain"""
     PE = 'PE'
+    """Equivalent plastic strain"""
     STRESS = 'STRESS'
+    """Real part of Cauchy stress (structure)"""
     STRESSI = 'STRESSI'
+    """Imaginary part of Cauchy stress (structure)"""
     THSTRAIN = 'THSTRAIN'
+    """thermal strain"""
     ZZSTR = 'ZZSTR'
+    """Real part of Zienkiewicz-Zhu stress"""
     ZZSTRI = 'ZZSTRI'
+    """Imaginary part of Zienkiewicz-Zhu stress"""
 
     CONTACT = 'CONTACT'
+    """Real part of relative contact displacements"""
     CONTACTI = 'CONTACTI'
+    """Imaginary part of relative contact displacements"""
     CELS = 'CELS'
+    """contact energy"""
     PCONTAC = 'PCONTAC'
+    """amplitude and phase of the relative contact displacements and contact stresses"""
 
 class EDatEntities(str, Enum):
     # Node Print entities
     U = 'displacements' 
+    """Displacements"""
     RF = 'forces' 
+    """Total force"""
+
     # El Print entities
     S = 'stresses' 
+    """Cauchy stress (structure)"""
     E = 'strains' 
+    """Lagrange strain"""
     ME = 'mechanical strains' 
+    """Mechanical strain"""
     PEEQ = 'equivalent plastic strain' 
+    """Equivalent plastic strain"""
     EVOL = 'volume' 
+    """Volume"""
     COORD = 'global coordinates' 
+    """Global coordinates"""
     ENER = 'internal energy density' 
+    """Internal energy density"""
     ELKE = 'kinetic energy' 
+    """Kinetic energy"""
     ELSE = 'internal energy' 
+    """Internal energy"""
+    EMAS = 'mass'
+    """Mass and mass moments of inertia"""
     # Contact print entities
     CELS = 'contact print energy' 
+    """Contact energy"""
     CSTR = 'contact stress' 
+    """Contact stress"""
     CDIS = 'relative contact displacement' 
+    """Relative contact displacement"""
     
 class EPrintTotals(str, Enum):
     YES = 'YES'

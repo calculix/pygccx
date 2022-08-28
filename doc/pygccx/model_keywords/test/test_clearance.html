@@ -62,9 +62,10 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from unittest import TestCase
 from dataclasses import dataclass
-from model_keywords import Clearance
-from enums import ESurfTypes
-from protocols import IKeyword
+
+from pygccx.model_keywords import Clearance
+from pygccx.enums import ESurfTypes
+from pygccx.protocols import IKeyword
 
 @dataclass
 class SurfaceMock:
@@ -84,7 +85,7 @@ class TestClearance(TestCase):
 
     def test_default(self):
         c = Clearance(self.s1, self.s2, 0.1)
-        known = &#39;*CLEARANCE,MASTER=S1,SLAVE=S2,VALUE=0.1\n&#39;
+        known = &#39;*CLEARANCE,MASTER=S1,SLAVE=S2,VALUE=1.0000000e-01\n&#39;
         self.assertEqual(str(c), known)</code></pre>
 </details>
 </section>
@@ -99,10 +100,10 @@ class TestClearance(TestCase):
 <dl>
 <dt id="pygccx.model_keywords.test.test_clearance.SurfaceMock"><code class="flex name class">
 <span>class <span class="ident">SurfaceMock</span></span>
-<span>(</span><span>name: str, type: enums.ESurfTypes)</span>
+<span>(</span><span>name: str, type: <a title="pygccx.enums.ESurfTypes" href="../../enums.html#pygccx.enums.ESurfTypes">ESurfTypes</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>SurfaceMock(name: str, type: enums.ESurfTypes)</p></div>
+<div class="desc"><p>SurfaceMock(name: str, type: pygccx.enums.ESurfTypes)</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -119,7 +120,7 @@ class SurfaceMock:
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="pygccx.model_keywords.test.test_clearance.SurfaceMock.type"><code class="name">var <span class="ident">type</span> : enums.ESurfTypes</code></dt>
+<dt id="pygccx.model_keywords.test.test_clearance.SurfaceMock.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.ESurfTypes" href="../../enums.html#pygccx.enums.ESurfTypes">ESurfTypes</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -189,7 +190,7 @@ not have a method with the specified name.</p></div>
 
     def test_default(self):
         c = Clearance(self.s1, self.s2, 0.1)
-        known = &#39;*CLEARANCE,MASTER=S1,SLAVE=S2,VALUE=0.1\n&#39;
+        known = &#39;*CLEARANCE,MASTER=S1,SLAVE=S2,VALUE=1.0000000e-01\n&#39;
         self.assertEqual(str(c), known)</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -223,7 +224,7 @@ not have a method with the specified name.</p></div>
 </summary>
 <pre><code class="python">def test_default(self):
     c = Clearance(self.s1, self.s2, 0.1)
-    known = &#39;*CLEARANCE,MASTER=S1,SLAVE=S2,VALUE=0.1\n&#39;
+    known = &#39;*CLEARANCE,MASTER=S1,SLAVE=S2,VALUE=1.0000000e-01\n&#39;
     self.assertEqual(str(c), known)</code></pre>
 </details>
 </dd>

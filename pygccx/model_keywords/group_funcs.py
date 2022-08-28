@@ -20,8 +20,8 @@ If not, see <http://www.gnu.org/licenses/>.
 from typing import Optional
 
 from . import ContactPair, SurfaceInteraction, SurfaceBehavior, Friction, Clearance
-from enums import EContactTypes, EPressureOverclosures
-from protocols import ISet, ISurface, IKeyword, number
+from pygccx.enums import EContactTypes, EPressureOverclosures
+from pygccx.protocols import ISet, ISurface, IKeyword, number
 
 def make_contact(name:str, contact_type:EContactTypes, dep_surf:ISurface, ind_surf:ISurface,
                 pressure_overclosure:EPressureOverclosures, small_sliding:bool=False,              

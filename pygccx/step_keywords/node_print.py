@@ -19,8 +19,9 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field
 from typing import Iterable, Optional, Any
-from protocols import IKeyword, ISet
-from enums import ESetTypes, ENodePrintResults, EPrintTotals
+
+from pygccx.protocols import IKeyword, ISet
+from pygccx.enums import ESetTypes, ENodePrintResults, EPrintTotals
 
 @dataclass
 class NodePrint:

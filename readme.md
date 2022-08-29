@@ -15,7 +15,7 @@ in pygccx.
 Look in the examples folder for a quick start and to learn more about how to use pygccx.
 The best way to explore pygccx is by using an IDE like VS Code or PyCharm with auto completion,
 intellysense and static type checking switched on. So you can see all the members, parameters types and doc strings.
-In the folder doc/pygccx you can find an auto generated html documentation of all classes.
+In the folder docs/pygccx you can find an auto generated html documentation of all classes.
 
 
 # Install Pygccx
@@ -70,6 +70,7 @@ In the folder doc/pygccx you can find an auto generated html documentation of al
 - Show CCX input file in CGX
 - Solve CCX input file
 - Show result file in CGX
+- Create result object from *.frd or *.dat files for postprocessing
 
 # Planned capabilities of Pygccx:
 - Support of all CCX keywords for static analysis

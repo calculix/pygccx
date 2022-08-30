@@ -58,9 +58,6 @@ GMSH_2_CCX_NODE_MAP = {
     18: (0,1,2,3,4,5,6,9,7,12,14,13, 8,10,11)
 }
 
-def set_gmsh_2_ccx_etype_map(gmsh_etype:int, ccx_etype:EEtypes):
-    GMSH_2_CCX_ETYPE_MAP[gmsh_etype] = ccx_etype
-
 def mesh_from_gmsh(gmsh:'_gmsh', type_mapping:Optional[dict[int, EEtypes]]=None) -> Mesh:  # type: ignore
     """
     Builds a pygccx mesh object from the given gmsh api and returns it

@@ -21,15 +21,15 @@ from enum import Enum, IntEnum, auto
 
 class ESetTypes(IntEnum):
     NODE = 0
-    """Set or surface of nodes"""
+    """Set is a node set"""
     ELEMENT = 1
-    """Set of elements or surface of element faces"""
+    """Set is an element set"""
 
 class ESurfTypes(str, Enum):
     NODE = 'NODE'
-    """Set or surface of nodes"""
+    """Surface is based on nodes"""
     EL_FACE = 'ELEMENT'
-    """Set of elements or surface of element faces"""
+    """Surface is based on element faces"""
 
 class EEtypes(IntEnum):
     # Point Elements

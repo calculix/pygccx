@@ -20,7 +20,6 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass, field
 from typing import Any
 from pygccx.enums import EEtypes
-from pygccx.protocols import IElementFace
 
 FACE_INDEX_TABLE = {
     EEtypes.C3D4:  ((0,1,2),   (0,3,1),   (1,3,2),   (2,3,0)),
@@ -145,13 +144,13 @@ class Element:
         """Gets the ids of the corner nodes"""
         return self.node_ids[:self.get_corner_node_count()]
 
-    def get_faces(self) -> tuple[IElementFace, ...]:
+    def get_faces(self) -> tuple[tuple[int, ...]]:
         """Gets the faces of this element"""
         face_node_ind = FACE_INDEX_TABLE.get(self.type, [])
         faces = []
         for num, inds in enumerate(face_node_ind, 1):
             nids = tuple(self.node_ids[i] for i in inds)
-            faces.append(ElementFace(num, self.id, nids))
+            faces.append(nids)
 
         return tuple(faces)
 

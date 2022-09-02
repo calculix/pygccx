@@ -39,7 +39,7 @@ class Mesh:
     """List with all node sets of this mesh"""
     element_sets:list[protocols.ISet]
     """List with all element sets of this mesh"""
-    surfaces:list[protocols.ISurface] = field(default_factory=list, init=False)
+    surfaces:list[protocols.ISurface] = field(default_factory=list)
     """List with all surfaces (node based and element face based) of this mesh"""
 
     def get_nodes_by_ids(self, *ids:int) -> tuple[tuple[float, float, float],...]:

@@ -34,18 +34,6 @@ class ISurface(Protocol):
 
     def write_ccx(self, buffer:list[str]): 
         """Writes the ccx input string of this surface to the given buffer"""
-
-class IElementFace(Protocol):
-    """Protocol for element face classes"""
-    number:int
-    """Gets the number of this element face inside the element with element_id"""
-    element_id:int
-    """Gets the id of the element this element face belongs to"""
-    node_ids:tuple[int, ...]
-    """Gets the node ids of this element face"""
-    name:str
-    """Gets the name of this element face"""
-
 class IElement(Protocol):
     """Protocol for Element classes"""
     id:int
@@ -64,8 +52,12 @@ class IElement(Protocol):
     def get_corner_node_ids(self) -> tuple[int, ...]:
         """Gets the corner node ids for this element"""
         ...
-    def get_faces(self) -> tuple[IElementFace, ...]:
-        """Gets the faces for this element"""
+    def get_faces(self) -> tuple[tuple[int, ...]]:
+        """Gets the faces for this element. 
+        Each face is a tuple with nodes ids forming this face.
+        The order of the faces as well as the node ids of each face
+        corresponds to the order in the element. I.e. faces[0] is
+        the face this no. 1 ..."""
         ...
 
 @runtime_checkable

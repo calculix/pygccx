@@ -35,7 +35,7 @@ class ElementSurface():
     """Name of this surface"""
     type: enums.ESurfTypes = field(default=enums.ESurfTypes.EL_FACE, init=False)
     """Enum type of this surface."""
-    element_faces:set[protocols.IElementFace]
+    element_faces:set[tuple[int, int]]
     """Set with element faces"""
 
     def write_ccx(self, buffer:list[str]): 
@@ -43,7 +43,7 @@ class ElementSurface():
 
         buffer += [f'*SURFACE,NAME={self.name},TYPE={self.type.value}']
         for f in self.element_faces:
-            buffer += [f'{f.name}']
+            buffer += [f'{f[0]},S{f[1]}']
         # buffer[-1] = buffer[-1][:-1] # delete last ','
 
 @dataclass(frozen=True, slots=True)
@@ -103,14 +103,14 @@ def _get_element_surface_from_set(name:str,
                                   elements:Iterable[protocols.IElement], 
                                   node_set:protocols.ISet) -> ElementSurface:
 
-    surface = set()
+    surface:set[tuple[int, int]] = set()
     for e in elements:
         if node_set.ids.isdisjoint(e.get_corner_node_ids()): continue
         e_faces = e.get_faces()
         if not e_faces: continue
-        for f in e_faces:
-            if node_set.ids.issuperset(f.node_ids):
-                surface.add(f)
+        for f_no, f in enumerate(e_faces, 1):
+            if node_set.ids.issuperset(f):
+                surface.add((e.id, f_no))
     return ElementSurface(name, surface)
 
 def _get_node_surface_from_set(name:str, node_set:protocols.ISet) -> NodeSurface:

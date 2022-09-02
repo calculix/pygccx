@@ -18,9 +18,10 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from typing import TYPE_CHECKING, Optional
-from . import Mesh, Element, Set
+from .. import Mesh, Element, Set
 from pygccx.enums import EEtypes, ESetTypes
 from pygccx.protocols import IElement, ISet
+from pygccx.exceptions import ElementTypeNotSupportedError
 
 if TYPE_CHECKING:
     import gmsh as _gmsh
@@ -58,19 +59,21 @@ GMSH_2_CCX_NODE_MAP = {
     18: (0,1,2,3,4,5,6,9,7,12,14,13, 8,10,11)
 }
 
-def mesh_from_gmsh(gmsh:'_gmsh', type_mapping:Optional[dict[int, EEtypes]]=None) -> Mesh:  # type: ignore
+def mesh_from_gmsh(gmsh:'_gmsh', type_mapping:Optional[dict[int, EEtypes]]=None, skip_unsup_elems:bool=False) -> Mesh:  # type: ignore
     """
     Builds a pygccx mesh object from the given gmsh api and returns it
 
     Args:
         gmsh (_gmsh): Gmsh api module with the mesh to be converted. 
         type_mapping (Optional[dict[int, EEtypes]], optional): Mapping from gmsh element type numbers to ccx types. Defaults to None.
-
+        skip_unsup_elems (bool, optional): Flag if unsupported Solid elements should be skipped. If False, an ElementTypeNotSupportedError
+        is raised if an unsupported solid element is processed. Defaults to False.
+    
     Returns:
         Mesh: The converted mesh
     """
     nodes = _get_nodes_from_gmsh(gmsh)
-    elems = _get_elements_from_gmsh(gmsh, type_mapping)
+    elems = _get_elements_from_gmsh(gmsh, type_mapping, skip_unsup_elems)
     node_sets, element_sets = _get_physical_groups_from_gmsh(gmsh)
     return Mesh(nodes, elems, node_sets, element_sets) 
 
@@ -79,7 +82,7 @@ def _get_nodes_from_gmsh(gmsh:'_gmsh') -> dict[int, tuple[float, float, float]]:
     nids, ncoords, _ = gmsh.model.mesh.get_nodes()
     return {int(nid): tuple(coords) for nid, coords in zip(nids, ncoords.reshape((-1,3)))}  # type: ignore
 
-def _get_elements_from_gmsh(gmsh:'_gmsh', type_mapping:Optional[dict[int, EEtypes]]=None) -> dict[int, IElement]:  # type: ignore
+def _get_elements_from_gmsh(gmsh:'_gmsh', type_mapping:Optional[dict[int, EEtypes]]|None, ignore:bool) -> dict[int, IElement]:  # type: ignore
 
     etype_map = GMSH_2_CCX_ETYPE_MAP.copy()
     if type_mapping:
@@ -89,6 +92,11 @@ def _get_elements_from_gmsh(gmsh:'_gmsh', type_mapping:Optional[dict[int, EEtype
     elems = {}
     EEtypes, eids, nids = gmsh.model.mesh.getElements(3)
     for et, et_eids, et_nids in zip(EEtypes, eids, nids):
+        if et not in etype_map:
+            if ignore: continue
+            raise ElementTypeNotSupportedError(
+                f'{et} is not a supported gmsh element type number.'
+            )
         et_nids = et_nids.reshape((len(et_eids), -1))  # type: ignore
         for e_id, e_nids in zip(et_eids, et_nids):
             elems[int(e_id)] = Element(

@@ -98,27 +98,30 @@ class Model:
 
         buffer = []
         self.mesh.write_ccx(buffer)
-        buffer.append('')
-        buffer.append('***************************************')
-        buffer.append('** MODEL KEYWORDSS')
-        buffer.append('***************************************')
-        buffer.append('')
-        for mf in self.model_keywords:
-            if mf.desc: buffer.append(f'** {mf.desc}')
-            buffer.append(str(mf))
 
-        buffer.append('')
-        buffer.append('***************************************')
-        buffer.append('** STEPS')
-        buffer.append('***************************************')
-        buffer.append('')
-        for step in self.steps:
-            if step.desc: buffer.append(f'** {step.desc}')
-            buffer.append(str(step))
-            for sf in step.step_keywords:
-                if sf.desc: buffer.append(f'** {sf.desc}')
-                buffer.append(str(sf))
-            buffer.append('*END STEP')
+        if self.model_keywords:
+            buffer.append('')
+            buffer.append('***************************************')
+            buffer.append('** MODEL KEYWORDS')
+            buffer.append('***************************************')
+            buffer.append('')
+            for mf in self.model_keywords:
+                if mf.desc: buffer.append(f'** {mf.desc}')
+                buffer.append(str(mf))
+
+        if self.steps:
+            buffer.append('')
+            buffer.append('***************************************')
+            buffer.append('** STEPS')
+            buffer.append('***************************************')
+            buffer.append('')
+            for step in self.steps:
+                if step.desc: buffer.append(f'** {step.desc}')
+                buffer.append(str(step))
+                for sf in step.step_keywords:
+                    if sf.desc: buffer.append(f'** {sf.desc}')
+                    buffer.append(str(sf))
+                buffer.append('*END STEP')
 
         filename = os.path.join(self.working_dir,  f'{self.jobname}.inp')
         with open(filename, 'w') as f:
@@ -144,17 +147,20 @@ class Model:
         if  write_ccx_input: self.write_ccx_input_file()
         subprocess.run(f'{self.cgx_path} -c "{self.jobname}.inp"', cwd=self.working_dir)
 
-    def solve(self, write_ccx_input:bool=True):
+    def solve(self, write_ccx_input:bool=True, no_cpu:int=1):
         """
-        Solves the CCX input file.
-
-        Per default, the input file is written before.
+        Starts CCX and solves the CCX input file.
 
         Args:
-            write_ccx_input (bool, optional): Flag if CCX input file should be written before solve. Defaults to True.
+            write_ccx_input (bool, optional): Flag if CCX input file should be written before solve.
+            Defaults to True.
+            no_cpu (int, optional): Number of cpus used for solving. Defaults to 1.
+            This parameter sets the local environment variable 
+            OMP_NUM_THREADS to no_cpu
         """
         if  write_ccx_input: self.write_ccx_input_file()
-        subprocess.run(f'{self.ccx_path} -i "{self.jobname}"', cwd=self.working_dir)
+        env = {'OMP_NUM_THREADS': str(no_cpu)}
+        subprocess.run(f'{self.ccx_path} -i "{self.jobname}"', cwd=self.working_dir, env=env)
 
     def show_results_in_cgx(self):
         """Writes the ccx input file and shows it in cgx"""

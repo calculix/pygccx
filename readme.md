@@ -51,6 +51,7 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
         - *SPRING
         - *SURFACE BEHAVIOR
         - *SURFACE INTERACTION
+        - *TIE
         - *TRANSFORM <br>
     - Implemented step keywords:
         - *BOUNDARY (inhomogeneous)

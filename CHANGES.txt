@@ -1,3 +1,33 @@
+0.2.0:
+    - NEW FEATURES
+      - New model keyword *TIE (model_keywords.Tie)
+      - New method model.update_mesh_from_inp(filename, ignore_unsup_elems, clear_mesh)
+        for reading mesh, sets and surfaces from ccx input file.
+      - New method mesh.add_sets(*sets) 
+        for adding existing ISet instances to mesh.
+      - New method mesh.add_node_surface(surf_name, nids) 
+        for manuel creation of node surfaces .
+      - New method mesh.add_el_face_surface(surf_name, faces)
+        for manuel creation of element face surfaces 
+      - New method mesh.add_surfaces(*surfaces)
+        for adding existing ISurface instances to mesh.
+      - New parameter "no_cpu" in model.solve
+        for selecting the number of cpus used during solve.
+
+    - CHANGES:
+      - Removed attribute "dim" from ISet.
+      - Removed class ElementFace.
+        Element faces inside an IElement are now represented by nested tuples
+        Each face is a tuple with the node ids forming this face
+        (
+          (1, 2, 3), # face 1 of element, made up from nodes 1,2,3
+          (1, 3, 4), # face 2 of element, made up from nodes 1,2,4
+        )
+      - Changes in method mesh.add_set(set_name, set_type, ids)
+        If a set with given name and set_type already exists, 
+        ids are added to the existing set.
+  
+
 0.1.0: 
     - NEW FEATURES:
         - Added Keywords *NODE PRINT, *EL PRINT, *CONTACT PRINT
@@ -7,6 +37,7 @@
           With model.get_dat_results() a result object is returned for querying results from dat file
         - Added example "specimen_weibull" as a Jupyter notebook to show
           the use of model.get_dat_results()
+
     - CHANGES:
         - Changed name of enum ENodeResults to ENodeFileResults
         - Changed name of enum EElementResult to EElFileResults

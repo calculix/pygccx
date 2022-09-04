@@ -148,30 +148,12 @@ class Element:
         """Gets the faces of this element"""
         face_node_ind = FACE_INDEX_TABLE.get(self.type, [])
         faces = []
-        for num, inds in enumerate(face_node_ind, 1):
+        for inds in face_node_ind:
             nids = tuple(self.node_ids[i] for i in inds)
             faces.append(nids)
 
         return tuple(faces)
 
-    
-@dataclass(frozen=True, slots=True)
-class ElementFace:
-    """
-    Class representing an element face.
-    This class is intended as a return value for Element.get_faces.
-    """
-    number:int
-    """Number of this face inside the element"""
-    element_id:int
-    """Id of the element this face belongs to"""
-    node_ids:tuple[int, ...]
-    """Node ids of this face"""
-
-    @property
-    def name(self) -> str:
-        """Gets the name of this face in the form 'eid,Sx'"""
-        return f'{self.element_id},S{self.number}'
 
 
 

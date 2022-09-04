@@ -41,7 +41,7 @@ class ElementSurface():
     def write_ccx(self, buffer:list[str]): 
         """Writes the CCX input string to the given buffer."""
 
-        buffer += [f'*SURFACE,NAME={self.name},TYPE={self.type.value}']
+        buffer += [f'*SURFACE,NAME={self.name.upper()},TYPE={self.type.value}']
         for f in self.element_faces:
             buffer += [f'{f[0]},S{f[1]}']
         # buffer[-1] = buffer[-1][:-1] # delete last ','
@@ -63,7 +63,7 @@ class NodeSurface():
     '''Set with node set names belonging to this surface'''
 
     def write_ccx(self, buffer:list[str]): 
-        buffer += [f'*SURFACE,NAME={self.name},TYPE={self.type.value}']
+        buffer += [f'*SURFACE,NAME={self.name.upper()},TYPE={self.type.value}']
         for x in self.node_set_names | self.node_ids:
             buffer += [f'{x},']
         buffer[-1] = buffer[-1][:-1] # delete last ','
@@ -85,13 +85,10 @@ def get_surface_from_node_set(name:str,
 
     Raises:
         ValueError: Raised if type of node_set is not NODE
-        ValueError: RAISED if dim of node_set is not 2
     """
 
     if node_set.type != enums.ESetTypes.NODE:
         raise ValueError(f'type of node_sets has to be "NODE", got {node_set.type}')
-    if node_set.dim != 2:
-        raise ValueError(f'dim of node set has to be 2 (face node set), got {node_set.dim}')
 
     if stype == enums.ESurfTypes.NODE:
         return _get_node_surface_from_set(name, node_set)
@@ -111,8 +108,8 @@ def _get_element_surface_from_set(name:str,
         for f_no, f in enumerate(e_faces, 1):
             if node_set.ids.issuperset(f):
                 surface.add((e.id, f_no))
-    return ElementSurface(name, surface)
+    return ElementSurface(name.upper(), surface)
 
 def _get_node_surface_from_set(name:str, node_set:protocols.ISet) -> NodeSurface:
 
-    return NodeSurface(name, set(), set([node_set.name]))
+    return NodeSurface(name.upper(), set(), set([node_set.name]))

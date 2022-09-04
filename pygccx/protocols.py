@@ -67,8 +67,6 @@ class ISet(Protocol):
     """Gets the name of this set"""
     type:enums.ESetTypes
     """Gets the type of this set"""
-    dim:int
-    """Gets the dimension of this set"""
     ids:set[int]
     """Gets the ids of this set"""
 

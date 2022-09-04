@@ -213,7 +213,41 @@ class TestDatResult(TestCase):
 
         # test with entity not in result
         res = dat_result.get_result_set_by_entity_and_index(EDatEntities.CDIS, 0)
-        self.assertIsNone(res)</code></pre>
+        self.assertIsNone(res)
+
+    def test_get_result_set_by_entity_and_index_same_ent_same_time_diff_setnames(self):
+        dat_result = DatResult.from_file(
+            os.path.join(self.test_data_path, &#39;same_ent_same_time_diff_setnames.dat&#39;)
+        )
+
+        # no set name specified. Should return result for set &#34;SET1&#34;
+        disp = dat_result.get_result_set_by_entity_and_index(EDatEntities.U, 0)
+        self.assertEqual(disp.set_name, &#39;SET1&#39;) # type: ignore
+
+        # set name &#39;SET1&#39; specified. Should return result for set &#34;SET1&#34;
+        disp = dat_result.get_result_set_by_entity_and_index(EDatEntities.U, 0, set_name=&#39;SET1&#39;)
+        self.assertEqual(disp.set_name, &#39;SET1&#39;) # type: ignore
+
+        # set name &#39;SET2&#39; specified. Should return result for set &#34;SET1&#34;
+        disp = dat_result.get_result_set_by_entity_and_index(EDatEntities.U, 0, set_name=&#39;SET2&#39;)
+        self.assertEqual(disp.set_name, &#39;SET2&#39;) # type: ignore
+
+    def test_get_result_set_by_entity_and_time_same_ent_same_time_diff_setnames(self):
+        dat_result = DatResult.from_file(
+            os.path.join(self.test_data_path, &#39;same_ent_same_time_diff_setnames.dat&#39;)
+        )
+
+        # no set name specified. Should return result for set &#34;SET1&#34;
+        disp = dat_result.get_result_set_by_entity_and_time(EDatEntities.U, 1)
+        self.assertEqual(disp.set_name, &#39;SET1&#39;) # type: ignore
+
+        # set name &#39;SET1&#39; specified. Should return result for set &#34;SET1&#34;
+        disp = dat_result.get_result_set_by_entity_and_time(EDatEntities.U, 1, set_name=&#39;SET1&#39;)
+        self.assertEqual(disp.set_name, &#39;SET1&#39;) # type: ignore
+
+        # set name &#39;SET2&#39; specified. Should return result for set &#34;SET1&#34;
+        disp = dat_result.get_result_set_by_entity_and_time(EDatEntities.U, 1, set_name=&#39;SET2&#39;)
+        self.assertEqual(disp.set_name, &#39;SET2&#39;) # type: ignore</code></pre>
 </details>
 </section>
 <section>
@@ -410,7 +444,41 @@ not have a method with the specified name.</p></div>
 
         # test with entity not in result
         res = dat_result.get_result_set_by_entity_and_index(EDatEntities.CDIS, 0)
-        self.assertIsNone(res)</code></pre>
+        self.assertIsNone(res)
+
+    def test_get_result_set_by_entity_and_index_same_ent_same_time_diff_setnames(self):
+        dat_result = DatResult.from_file(
+            os.path.join(self.test_data_path, &#39;same_ent_same_time_diff_setnames.dat&#39;)
+        )
+
+        # no set name specified. Should return result for set &#34;SET1&#34;
+        disp = dat_result.get_result_set_by_entity_and_index(EDatEntities.U, 0)
+        self.assertEqual(disp.set_name, &#39;SET1&#39;) # type: ignore
+
+        # set name &#39;SET1&#39; specified. Should return result for set &#34;SET1&#34;
+        disp = dat_result.get_result_set_by_entity_and_index(EDatEntities.U, 0, set_name=&#39;SET1&#39;)
+        self.assertEqual(disp.set_name, &#39;SET1&#39;) # type: ignore
+
+        # set name &#39;SET2&#39; specified. Should return result for set &#34;SET1&#34;
+        disp = dat_result.get_result_set_by_entity_and_index(EDatEntities.U, 0, set_name=&#39;SET2&#39;)
+        self.assertEqual(disp.set_name, &#39;SET2&#39;) # type: ignore
+
+    def test_get_result_set_by_entity_and_time_same_ent_same_time_diff_setnames(self):
+        dat_result = DatResult.from_file(
+            os.path.join(self.test_data_path, &#39;same_ent_same_time_diff_setnames.dat&#39;)
+        )
+
+        # no set name specified. Should return result for set &#34;SET1&#34;
+        disp = dat_result.get_result_set_by_entity_and_time(EDatEntities.U, 1)
+        self.assertEqual(disp.set_name, &#39;SET1&#39;) # type: ignore
+
+        # set name &#39;SET1&#39; specified. Should return result for set &#34;SET1&#34;
+        disp = dat_result.get_result_set_by_entity_and_time(EDatEntities.U, 1, set_name=&#39;SET1&#39;)
+        self.assertEqual(disp.set_name, &#39;SET1&#39;) # type: ignore
+
+        # set name &#39;SET2&#39; specified. Should return result for set &#34;SET1&#34;
+        disp = dat_result.get_result_set_by_entity_and_time(EDatEntities.U, 1, set_name=&#39;SET2&#39;)
+        self.assertEqual(disp.set_name, &#39;SET2&#39;) # type: ignore</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -555,6 +623,33 @@ not have a method with the specified name.</p></div>
     self.assertIsNone(res)</code></pre>
 </details>
 </dd>
+<dt id="pygccx.result_reader.test.test_dat_result.TestDatResult.test_get_result_set_by_entity_and_index_same_ent_same_time_diff_setnames"><code class="name flex">
+<span>def <span class="ident">test_get_result_set_by_entity_and_index_same_ent_same_time_diff_setnames</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_get_result_set_by_entity_and_index_same_ent_same_time_diff_setnames(self):
+    dat_result = DatResult.from_file(
+        os.path.join(self.test_data_path, &#39;same_ent_same_time_diff_setnames.dat&#39;)
+    )
+
+    # no set name specified. Should return result for set &#34;SET1&#34;
+    disp = dat_result.get_result_set_by_entity_and_index(EDatEntities.U, 0)
+    self.assertEqual(disp.set_name, &#39;SET1&#39;) # type: ignore
+
+    # set name &#39;SET1&#39; specified. Should return result for set &#34;SET1&#34;
+    disp = dat_result.get_result_set_by_entity_and_index(EDatEntities.U, 0, set_name=&#39;SET1&#39;)
+    self.assertEqual(disp.set_name, &#39;SET1&#39;) # type: ignore
+
+    # set name &#39;SET2&#39; specified. Should return result for set &#34;SET1&#34;
+    disp = dat_result.get_result_set_by_entity_and_index(EDatEntities.U, 0, set_name=&#39;SET2&#39;)
+    self.assertEqual(disp.set_name, &#39;SET2&#39;) # type: ignore</code></pre>
+</details>
+</dd>
 <dt id="pygccx.result_reader.test.test_dat_result.TestDatResult.test_get_result_set_by_entity_and_time"><code class="name flex">
 <span>def <span class="ident">test_get_result_set_by_entity_and_time</span></span>(<span>self)</span>
 </code></dt>
@@ -589,6 +684,33 @@ not have a method with the specified name.</p></div>
     # test with entity not in result
     res = dat_result.get_result_set_by_entity_and_time(EDatEntities.CDIS, 0.34)
     self.assertIsNone(res)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.result_reader.test.test_dat_result.TestDatResult.test_get_result_set_by_entity_and_time_same_ent_same_time_diff_setnames"><code class="name flex">
+<span>def <span class="ident">test_get_result_set_by_entity_and_time_same_ent_same_time_diff_setnames</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_get_result_set_by_entity_and_time_same_ent_same_time_diff_setnames(self):
+    dat_result = DatResult.from_file(
+        os.path.join(self.test_data_path, &#39;same_ent_same_time_diff_setnames.dat&#39;)
+    )
+
+    # no set name specified. Should return result for set &#34;SET1&#34;
+    disp = dat_result.get_result_set_by_entity_and_time(EDatEntities.U, 1)
+    self.assertEqual(disp.set_name, &#39;SET1&#39;) # type: ignore
+
+    # set name &#39;SET1&#39; specified. Should return result for set &#34;SET1&#34;
+    disp = dat_result.get_result_set_by_entity_and_time(EDatEntities.U, 1, set_name=&#39;SET1&#39;)
+    self.assertEqual(disp.set_name, &#39;SET1&#39;) # type: ignore
+
+    # set name &#39;SET2&#39; specified. Should return result for set &#34;SET1&#34;
+    disp = dat_result.get_result_set_by_entity_and_time(EDatEntities.U, 1, set_name=&#39;SET2&#39;)
+    self.assertEqual(disp.set_name, &#39;SET2&#39;) # type: ignore</code></pre>
 </details>
 </dd>
 <dt id="pygccx.result_reader.test.test_dat_result.TestDatResult.test_get_result_sets_by_entity"><code class="name flex">
@@ -639,7 +761,9 @@ not have a method with the specified name.</p></div>
 <li><code><a title="pygccx.result_reader.test.test_dat_result.TestDatResult.setUp" href="#pygccx.result_reader.test.test_dat_result.TestDatResult.setUp">setUp</a></code></li>
 <li><code><a title="pygccx.result_reader.test.test_dat_result.TestDatResult.test_from_file" href="#pygccx.result_reader.test.test_dat_result.TestDatResult.test_from_file">test_from_file</a></code></li>
 <li><code><a title="pygccx.result_reader.test.test_dat_result.TestDatResult.test_get_result_set_by_entity_and_index" href="#pygccx.result_reader.test.test_dat_result.TestDatResult.test_get_result_set_by_entity_and_index">test_get_result_set_by_entity_and_index</a></code></li>
+<li><code><a title="pygccx.result_reader.test.test_dat_result.TestDatResult.test_get_result_set_by_entity_and_index_same_ent_same_time_diff_setnames" href="#pygccx.result_reader.test.test_dat_result.TestDatResult.test_get_result_set_by_entity_and_index_same_ent_same_time_diff_setnames">test_get_result_set_by_entity_and_index_same_ent_same_time_diff_setnames</a></code></li>
 <li><code><a title="pygccx.result_reader.test.test_dat_result.TestDatResult.test_get_result_set_by_entity_and_time" href="#pygccx.result_reader.test.test_dat_result.TestDatResult.test_get_result_set_by_entity_and_time">test_get_result_set_by_entity_and_time</a></code></li>
+<li><code><a title="pygccx.result_reader.test.test_dat_result.TestDatResult.test_get_result_set_by_entity_and_time_same_ent_same_time_diff_setnames" href="#pygccx.result_reader.test.test_dat_result.TestDatResult.test_get_result_set_by_entity_and_time_same_ent_same_time_diff_setnames">test_get_result_set_by_entity_and_time_same_ent_same_time_diff_setnames</a></code></li>
 <li><code><a title="pygccx.result_reader.test.test_dat_result.TestDatResult.test_get_result_sets_by_entity" href="#pygccx.result_reader.test.test_dat_result.TestDatResult.test_get_result_sets_by_entity">test_get_result_sets_by_entity</a></code></li>
 </ul>
 </li>

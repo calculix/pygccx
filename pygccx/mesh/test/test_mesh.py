@@ -20,7 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 import unittest
 from dataclasses import dataclass
 from pygccx.mesh import Mesh
-from pygccx.enums import ESetTypes, EEtypes
+from pygccx.enums import ESetTypes, EEtypes, ESurfTypes
 
 @dataclass()
 class SetMock():
@@ -205,7 +205,7 @@ class TestMesh(unittest.TestCase):
         self.assertEqual(self.mesh.get_next_element_id(), 5)
 
     def test_add_set(self):
-
+        # Tests also add_sets()
         # happy case, add node set
         self.mesh.add_set("N1", ESetTypes.NODE, ids=[1,2,3,4])
         self.assertEqual(len(self.mesh.node_sets), 1)
@@ -215,9 +215,43 @@ class TestMesh(unittest.TestCase):
         self.assertEqual(len(self.mesh.element_sets), 1)
         self.assertEqual(self.mesh.element_sets[-1].name, 'E1')
         # Add a node set with an existing name
-        self.assertRaises(ValueError, self.mesh.add_set, "N1", ESetTypes.NODE, ids=[5,6,7,8])
+        n1 = self.mesh.add_set("N1", ESetTypes.NODE, ids=[3,4,5,6,7,8])
+        self.assertEqual(len(self.mesh.node_sets), 1)
+        self.assertEqual(len(n1.ids), 8)
         # Add an element set with an existing name
-        self.assertRaises(ValueError, self.mesh.add_set, "E1", ESetTypes.ELEMENT, ids=[5,6,7,8])   
+        e1 = self.mesh.add_set("E1", ESetTypes.ELEMENT, ids=[3,4,5,6,7,8])
+        self.assertEqual(len(self.mesh.element_sets), 1)
+        self.assertEqual(len(e1.ids), 8)
+
+    def test_add_surface(self):
+        # Tests also add_surfaces()
+        # happy case, add node surface
+        self.mesh.add_node_surface("S1", nids=[1,2,3,4])
+        self.assertEqual(len(self.mesh.surfaces), 1)
+        self.assertEqual(len(self.mesh.surfaces[-1].node_ids), 4)  # type: ignore
+        self.assertEqual(self.mesh.surfaces[-1].name, 'S1')
+        self.assertEqual(self.mesh.surfaces[-1].type, ESurfTypes.NODE)
+        # # happy case, add element surface
+        self.mesh.add_el_face_surface("S2", faces=[(1, 1),(1,2),(2,1),(2,2)])
+        self.assertEqual(len(self.mesh.surfaces), 2)
+        self.assertEqual(len(self.mesh.surfaces[-1].element_faces), 4)  # type: ignore
+        self.assertEqual(self.mesh.surfaces[-1].name, 'S2')
+        self.assertEqual(self.mesh.surfaces[-1].type, ESurfTypes.EL_FACE)
+        # Add a node surface with an existing name
+        s1 = self.mesh.add_node_surface("S1", nids=[3,4,5,6,7,8])
+        self.assertEqual(len(self.mesh.surfaces), 2)
+        self.assertEqual(len(s1.node_ids), 8)  # type: ignore
+        # Add an element surface with an existing name
+        s2 = self.mesh.add_el_face_surface("S2", faces=[(1, 1),(1,2),(3,1),(3,2)])
+        self.assertEqual(len(self.mesh.surfaces), 2)
+        self.assertEqual(len(s2.element_faces), 6)  # type: ignore
+        # Add a surface with an existing name but different type
+        self.assertRaises(ValueError, self.mesh.add_el_face_surface,
+                          "S1", faces=[(1, 1),(1,2),(3,1),(3,2)])
+        # Add a surface with an existing name but different type
+        self.assertRaises(ValueError, self.mesh.add_node_surface,
+                          "S2", nids=[3,4,5,6,7,8])
+
 
     def test_change_element_type(self):
 

@@ -75,7 +75,7 @@ class Model:
         Updates the mesh of this model from gmsh model. 
         Call this method every time you have made changes to the gmsh model 
         via gmsh gui or gmsh api.
-        After the call, the mesh object of this model is updated.
+        After the call, the mesh object of this model is updated (replaced).
 
         Important: 
         - Only solid elements are processed
@@ -92,6 +92,29 @@ class Model:
         """
         
         self.mesh = msh.mesh_factory.mesh_from_gmsh(self.get_gmsh(), type_mapping)  # type: ignore
+
+    def update_mesh_from_inp(self, filename:str, ignore_unsup_elems:bool=False, clear_mesh:bool=False):
+        """
+        Updates the mesh of this model from gmsh model. 
+
+        Only nodes, 3D solid elements, node- and element sets and surfaces will be read.
+
+        If ignore_unsup_elems==True element blocks with unsupported elements (i.e. beam, shell) are skipped.
+        If False, an ElementTypeNotSupportedError is raised if there are unsupported
+        elements in the file.
+
+        if clear_mesh==True the resulting mesh object is cleared. This means all element ids,
+        node ids and element faces which are not referred by any element are removed from every
+        set and surface. If False, no clearing is done. 
+
+        Args:
+            filename (str): File name incl. path of ccx input file. 
+            ignore_unsup_elems (bool, optional): Flag if unsupported elements should be skipped. If False, an ElementTypeNotSupportedError
+        is raised if an unsupported solid element is processed. Defaults to False.
+            ignore_unsup_elems (bool, optional): Flag if unsupported elements should be ignored. Defaults to False.
+        
+        """
+        self.mesh = msh.mesh_factory.mesh_from_inp(filename, ignore_unsup_elems, clear_mesh)
 
     def write_ccx_input_file(self):
         """Writes the ccx input file 'jobname.inp' to the working directory."""

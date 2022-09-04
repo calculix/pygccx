@@ -172,6 +172,21 @@ class Mesh:
         self.surfaces.append(surf)
         return surf
 
+    def get_surface_by_name(self, surf_name:str) -> protocols.ISurface:
+        """
+        Gets a aurface by its name. If no such surface exists an exception is raised.
+
+        Args:
+            surf_name (str): Name of surface to be returned
+
+        Returns:
+            protocols.ISurface: Surface with given name
+        """
+        surf_name = surf_name.upper()
+        for s in self.surfaces:
+            if s.name.upper()==surf_name: return s
+        raise ValueError(f'No surface with name {surf_name} found.')
+
     def add_node(self, coords:Sequence[protocols.number], id:Optional[int]=None, node_set:Optional[protocols.ISet]=None) -> int:
         """
         Adds a node to this mesh.
@@ -244,55 +259,116 @@ class Mesh:
 
         return id
 
-    def add_set(self, set_name:str, set_type:enums.ESetTypes, ids:Iterable[int], dim:int=0) -> protocols.ISet:
+    def add_set(self, set_name:str, set_type:enums.ESetTypes, ids:Iterable[int]) -> protocols.ISet:
         """
-        Adds a new set to the mesh.
+        Creates and adds a new set to the mesh and returns it.
 
-        If a mesh with the same name already exists (case insensitive) an exception is raised.\n
-        
-        The optional parameter dim gives the dimension of the underlying geometry.
-        When a mesh is updated from gmsh, this parameter is set automatically for each 
-        node or element set.
-        When you create a new set with this method, dim is only important if the new set 
-        is of type NODE and should be used to create an element face surface via 
-        get_surface_from_node_set or add_surface_from_node_set.
-        In this case make sure all node ids are on the surface of the model and dim = 2.
+        If a set with the same name and type already exists, the ids
+        will be added to the existing set
 
         Args:
             set_name (str): Name of the new set
             set_type (enums.ESetTypes): type of the new set
             ids (int): ids (node or element) of the new set
-            dim (int, optional): Dimension of the set. Defaults to 0.
-
-        Raises:
-            ValueError: Raised if set with set_name already exists (case insensitive)
 
         Returns:
             ISet: The new set
         """
 
-        set_name = set_name.upper()
-        # check if set with name already exists
-        sets_to_check = self.node_sets if set_type == enums.ESetTypes.NODE else self.element_sets
-        for s in sets_to_check:
-            if s.name == set_name: 
-                raise ValueError(f'Set with name {set_name} already exists')
+        new_set = Set(set_name.upper(), set_type, set(ids))
+        self.add_sets(new_set)
+        if set_type==enums.ESetTypes.NODE: 
+            return self.get_node_set_by_name(set_name)
+        return self.get_el_set_by_name(set_name)
 
-        new_set = Set(set_name, set_type, dim, set(ids))
-        if set_type == enums.ESetTypes.NODE:
-            self.node_sets.append(new_set)
-        else:
-            self.element_sets.append(new_set)
-        return new_set
-
-    def add_surface(self, surface:protocols.ISurface):
+    def add_sets(self, *sets:protocols.ISet):
         """
-        Adds the given surface to the mesh
+        Adds the given sets to this mesh.
+        
+        If a set with the same name and type already exists, the ids
+        will be added to the existing set
+        """
+
+        for s in sets:
+            if s.type==enums.ESetTypes.NODE:
+                try: existing_set = self.get_node_set_by_name(s.name)
+                except: existing_set = None
+                if existing_set: 
+                    print(f'Node set "{s.name}" already exists. Ids are added to existing.')
+                    existing_set.ids.update(s.ids)
+                else: self.node_sets.append(s)
+            else:
+                try: existing_set = self.get_el_set_by_name(s.name)
+                except: existing_set = None
+                if existing_set: 
+                    print(f'Element set "{s.name}" already exists. Ids are added to existing.')
+                    existing_set.ids.update(s.ids)
+                else: self.element_sets.append(s)
+
+    def add_node_surface(self, surf_name:str, nids:Iterable[int]) -> protocols.ISurface:
+        """
+        Creates and adds a new node surface to the mesh and returns it.
+
+        If a surface with the same name and type already exists, the nids
+        will be added to the existing surface.
 
         Args:
-            surface (protocols.ISurface): The surface to be added.
+            surf_name (str): Name of the new surface
+            nids (Iterable[int]): An iterable with node ids.
+
+        Returns:
+            ISurface: The new node surface
         """
-        self.surfaces.append(surface)
+
+        surf_name = surf_name.upper()
+        new_surf = surface.NodeSurface(surf_name, set(nids), set())
+        self.add_surfaces(new_surf)
+        return self.get_surface_by_name(surf_name)
+
+    def add_el_face_surface(self, surf_name:str, faces:Iterable[tuple[int, int]]) -> protocols.ISurface:
+        """
+        Creates and adds a new element face surface to the mesh and returns it.
+
+        If a surface with the same name and type already exists, the eids
+        will be added to the existing surface.
+
+        Args:
+            surf_name (str): Name of the new surface
+            faces (Iterable[tuple[int,int]]): An iterable with tuples (elem id, face_no)
+
+        Returns:
+            ISurface: The new element face surface
+        """
+
+        surf_name = surf_name.upper()
+        new_surf = surface.ElementSurface(surf_name, set(faces))
+        self.add_surfaces(new_surf)
+        return self.get_surface_by_name(surf_name)
+
+    def add_surfaces(self, *surfaces:protocols.ISurface):
+        """
+        Adds the given surfaces to this mesh.
+        
+        If a surface with the same name and type already exists, the content
+        will be added to the existing surface
+        """
+        for s in surfaces:
+            try: existing = self.get_surface_by_name(s.name.upper())
+            except: existing = None
+            if existing:
+                if not type(s) is type(existing):
+                    raise ValueError(f'A surface with name {s.name} already exists, but of type {existing.type.name}. ' +
+                                     f"The surface to add is of type {s.type.name}. They can't be merged.")
+                if isinstance(s, surface.NodeSurface) and isinstance(existing, surface.NodeSurface):
+                    print(f'Node surface "{s.name}" already exists. Content is added to existing.')
+                    existing.node_ids.update(s.node_ids)
+                    existing.node_set_names.update(s.node_set_names)
+                if isinstance(s, surface.ElementSurface) and isinstance(existing, surface.ElementSurface):
+                    print(f'Element face surface "{s.name}" already exists. Content is added to existing.')
+                    existing.element_faces.update(s.element_faces)
+            else:
+                self.surfaces.append(s)
+                
 
     def change_element_type(self, etype:enums.EEtypes, *ids:int):
         """

@@ -38,6 +38,7 @@ from pygccx.model_keywords.test.test_clearance import TestClearance
 from pygccx.model_keywords.test.test_spring import TestSpringLin, TestSpringNonlin
 from pygccx.model_keywords.test.test_distributing_coupling import TestDistribuitingCoupling
 from pygccx.model_keywords.test.test_gap import TestGap
+from pygccx.model_keywords.test.test_tie import TestTie
 
 if __name__ == '__main__':
     unittest.main()

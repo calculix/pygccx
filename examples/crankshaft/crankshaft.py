@@ -121,7 +121,7 @@ def main():
 
         model.show_model_in_cgx()
 
-        model.solve()
+        model.solve(no_cpu=3)
 
         model.show_results_in_cgx()
 

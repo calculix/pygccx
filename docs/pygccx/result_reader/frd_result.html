@@ -62,7 +62,6 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 
 from dataclasses import dataclass, field
 from typing import Iterable, TextIO
-from enum import Enum
 
 import numpy as np
 import numpy.typing as npt
@@ -112,6 +111,12 @@ class FrdResultSet:
 
 @dataclass(frozen=True, slots=True)
 class FrdResult:
+    &#34;&#34;&#34;
+    Class representing the content of a *.frd file. 
+    
+    Don&#39;t instanciate this class directly. Use FrdResult.from_file() instead.
+    &#34;&#34;&#34;
+
     step_times:tuple[float, ...]
     &#34;&#34;&#34;Sorted tuple with all step times&#34;&#34;&#34;
     result_sets:tuple[FrdResultSet, ...]
@@ -270,13 +275,20 @@ def _read_component_line(line:str, len_comp_str:int) -&gt; tuple[int, list[float
 <span>(</span><span>step_times: tuple[float, ...], result_sets: tuple[<a title="pygccx.result_reader.frd_result.FrdResultSet" href="#pygccx.result_reader.frd_result.FrdResultSet">FrdResultSet</a>, ...])</span>
 </code></dt>
 <dd>
-<div class="desc"><p>FrdResult(step_times: tuple[float, &hellip;], result_sets: tuple[pygccx.result_reader.frd_result.FrdResultSet, &hellip;])</p></div>
+<div class="desc"><p>Class representing the content of a *.frd file. </p>
+<p>Don't instanciate this class directly. Use FrdResult.from_file() instead.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@dataclass(frozen=True, slots=True)
 class FrdResult:
+    &#34;&#34;&#34;
+    Class representing the content of a *.frd file. 
+    
+    Don&#39;t instanciate this class directly. Use FrdResult.from_file() instead.
+    &#34;&#34;&#34;
+
     step_times:tuple[float, ...]
     &#34;&#34;&#34;Sorted tuple with all step times&#34;&#34;&#34;
     result_sets:tuple[FrdResultSet, ...]

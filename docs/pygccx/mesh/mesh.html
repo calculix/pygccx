@@ -82,7 +82,7 @@ class Mesh:
     &#34;&#34;&#34;List with all node sets of this mesh&#34;&#34;&#34;
     element_sets:list[protocols.ISet]
     &#34;&#34;&#34;List with all element sets of this mesh&#34;&#34;&#34;
-    surfaces:list[protocols.ISurface] = field(default_factory=list, init=False)
+    surfaces:list[protocols.ISurface] = field(default_factory=list)
     &#34;&#34;&#34;List with all surfaces (node based and element face based) of this mesh&#34;&#34;&#34;
 
     def get_nodes_by_ids(self, *ids:int) -&gt; tuple[tuple[float, float, float],...]:
@@ -215,6 +215,21 @@ class Mesh:
         self.surfaces.append(surf)
         return surf
 
+    def get_surface_by_name(self, surf_name:str) -&gt; protocols.ISurface:
+        &#34;&#34;&#34;
+        Gets a aurface by its name. If no such surface exists an exception is raised.
+
+        Args:
+            surf_name (str): Name of surface to be returned
+
+        Returns:
+            protocols.ISurface: Surface with given name
+        &#34;&#34;&#34;
+        surf_name = surf_name.upper()
+        for s in self.surfaces:
+            if s.name.upper()==surf_name: return s
+        raise ValueError(f&#39;No surface with name {surf_name} found.&#39;)
+
     def add_node(self, coords:Sequence[protocols.number], id:Optional[int]=None, node_set:Optional[protocols.ISet]=None) -&gt; int:
         &#34;&#34;&#34;
         Adds a node to this mesh.
@@ -287,55 +302,116 @@ class Mesh:
 
         return id
 
-    def add_set(self, set_name:str, set_type:enums.ESetTypes, ids:Iterable[int], dim:int=0) -&gt; protocols.ISet:
+    def add_set(self, set_name:str, set_type:enums.ESetTypes, ids:Iterable[int]) -&gt; protocols.ISet:
         &#34;&#34;&#34;
-        Adds a new set to the mesh.
+        Creates and adds a new set to the mesh and returns it.
 
-        If a mesh with the same name already exists (case insensitive) an exception is raised.\n
-        
-        The optional parameter dim gives the dimension of the underlying geometry.
-        When a mesh is updated from gmsh, this parameter is set automatically for each 
-        node or element set.
-        When you create a new set with this method, dim is only important if the new set 
-        is of type NODE and should be used to create an element face surface via 
-        get_surface_from_node_set or add_surface_from_node_set.
-        In this case make sure all node ids are on the surface of the model and dim = 2.
+        If a set with the same name and type already exists, the ids
+        will be added to the existing set
 
         Args:
             set_name (str): Name of the new set
             set_type (enums.ESetTypes): type of the new set
             ids (int): ids (node or element) of the new set
-            dim (int, optional): Dimension of the set. Defaults to 0.
-
-        Raises:
-            ValueError: Raised if set with set_name already exists (case insensitive)
 
         Returns:
             ISet: The new set
         &#34;&#34;&#34;
 
-        set_name = set_name.upper()
-        # check if set with name already exists
-        sets_to_check = self.node_sets if set_type == enums.ESetTypes.NODE else self.element_sets
-        for s in sets_to_check:
-            if s.name == set_name: 
-                raise ValueError(f&#39;Set with name {set_name} already exists&#39;)
+        new_set = Set(set_name.upper(), set_type, set(ids))
+        self.add_sets(new_set)
+        if set_type==enums.ESetTypes.NODE: 
+            return self.get_node_set_by_name(set_name)
+        return self.get_el_set_by_name(set_name)
 
-        new_set = Set(set_name, set_type, dim, set(ids))
-        if set_type == enums.ESetTypes.NODE:
-            self.node_sets.append(new_set)
-        else:
-            self.element_sets.append(new_set)
-        return new_set
-
-    def add_surface(self, surface:protocols.ISurface):
+    def add_sets(self, *sets:protocols.ISet):
         &#34;&#34;&#34;
-        Adds the given surface to the mesh
+        Adds the given sets to this mesh.
+        
+        If a set with the same name and type already exists, the ids
+        will be added to the existing set
+        &#34;&#34;&#34;
+
+        for s in sets:
+            if s.type==enums.ESetTypes.NODE:
+                try: existing_set = self.get_node_set_by_name(s.name)
+                except: existing_set = None
+                if existing_set: 
+                    print(f&#39;Node set &#34;{s.name}&#34; already exists. Ids are added to existing.&#39;)
+                    existing_set.ids.update(s.ids)
+                else: self.node_sets.append(s)
+            else:
+                try: existing_set = self.get_el_set_by_name(s.name)
+                except: existing_set = None
+                if existing_set: 
+                    print(f&#39;Element set &#34;{s.name}&#34; already exists. Ids are added to existing.&#39;)
+                    existing_set.ids.update(s.ids)
+                else: self.element_sets.append(s)
+
+    def add_node_surface(self, surf_name:str, nids:Iterable[int]) -&gt; protocols.ISurface:
+        &#34;&#34;&#34;
+        Creates and adds a new node surface to the mesh and returns it.
+
+        If a surface with the same name and type already exists, the nids
+        will be added to the existing surface.
 
         Args:
-            surface (protocols.ISurface): The surface to be added.
+            surf_name (str): Name of the new surface
+            nids (Iterable[int]): An iterable with node ids.
+
+        Returns:
+            ISurface: The new node surface
         &#34;&#34;&#34;
-        self.surfaces.append(surface)
+
+        surf_name = surf_name.upper()
+        new_surf = surface.NodeSurface(surf_name, set(nids), set())
+        self.add_surfaces(new_surf)
+        return self.get_surface_by_name(surf_name)
+
+    def add_el_face_surface(self, surf_name:str, faces:Iterable[tuple[int, int]]) -&gt; protocols.ISurface:
+        &#34;&#34;&#34;
+        Creates and adds a new element face surface to the mesh and returns it.
+
+        If a surface with the same name and type already exists, the eids
+        will be added to the existing surface.
+
+        Args:
+            surf_name (str): Name of the new surface
+            faces (Iterable[tuple[int,int]]): An iterable with tuples (elem id, face_no)
+
+        Returns:
+            ISurface: The new element face surface
+        &#34;&#34;&#34;
+
+        surf_name = surf_name.upper()
+        new_surf = surface.ElementSurface(surf_name, set(faces))
+        self.add_surfaces(new_surf)
+        return self.get_surface_by_name(surf_name)
+
+    def add_surfaces(self, *surfaces:protocols.ISurface):
+        &#34;&#34;&#34;
+        Adds the given surfaces to this mesh.
+        
+        If a surface with the same name and type already exists, the content
+        will be added to the existing surface
+        &#34;&#34;&#34;
+        for s in surfaces:
+            try: existing = self.get_surface_by_name(s.name.upper())
+            except: existing = None
+            if existing:
+                if not type(s) is type(existing):
+                    raise ValueError(f&#39;A surface with name {s.name} already exists, but of type {existing.type.name}. &#39; +
+                                     f&#34;The surface to add is of type {s.type.name}. They can&#39;t be merged.&#34;)
+                if isinstance(s, surface.NodeSurface) and isinstance(existing, surface.NodeSurface):
+                    print(f&#39;Node surface &#34;{s.name}&#34; already exists. Content is added to existing.&#39;)
+                    existing.node_ids.update(s.node_ids)
+                    existing.node_set_names.update(s.node_set_names)
+                if isinstance(s, surface.ElementSurface) and isinstance(existing, surface.ElementSurface):
+                    print(f&#39;Element face surface &#34;{s.name}&#34; already exists. Content is added to existing.&#39;)
+                    existing.element_faces.update(s.element_faces)
+            else:
+                self.surfaces.append(s)
+                
 
     def change_element_type(self, etype:enums.EEtypes, *ids:int):
         &#34;&#34;&#34;
@@ -418,7 +494,7 @@ def _list_to_chunks(lst:Sequence, n:int):
 <dl>
 <dt id="pygccx.mesh.mesh.Mesh"><code class="flex name class">
 <span>class <span class="ident">Mesh</span></span>
-<span>(</span><span>nodes: dict[int, tuple[float, float, float]], elements: dict[int, <a title="pygccx.protocols.IElement" href="../protocols.html#pygccx.protocols.IElement">IElement</a>], node_sets: list[<a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>], element_sets: list[<a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>])</span>
+<span>(</span><span>nodes: dict[int, tuple[float, float, float]], elements: dict[int, <a title="pygccx.protocols.IElement" href="../protocols.html#pygccx.protocols.IElement">IElement</a>], node_sets: list[<a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>], element_sets: list[<a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>], surfaces: list[<a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a>] = &lt;factory&gt;)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class representing the mesh of a pygccx model</p></div>
@@ -438,7 +514,7 @@ class Mesh:
     &#34;&#34;&#34;List with all node sets of this mesh&#34;&#34;&#34;
     element_sets:list[protocols.ISet]
     &#34;&#34;&#34;List with all element sets of this mesh&#34;&#34;&#34;
-    surfaces:list[protocols.ISurface] = field(default_factory=list, init=False)
+    surfaces:list[protocols.ISurface] = field(default_factory=list)
     &#34;&#34;&#34;List with all surfaces (node based and element face based) of this mesh&#34;&#34;&#34;
 
     def get_nodes_by_ids(self, *ids:int) -&gt; tuple[tuple[float, float, float],...]:
@@ -571,6 +647,21 @@ class Mesh:
         self.surfaces.append(surf)
         return surf
 
+    def get_surface_by_name(self, surf_name:str) -&gt; protocols.ISurface:
+        &#34;&#34;&#34;
+        Gets a aurface by its name. If no such surface exists an exception is raised.
+
+        Args:
+            surf_name (str): Name of surface to be returned
+
+        Returns:
+            protocols.ISurface: Surface with given name
+        &#34;&#34;&#34;
+        surf_name = surf_name.upper()
+        for s in self.surfaces:
+            if s.name.upper()==surf_name: return s
+        raise ValueError(f&#39;No surface with name {surf_name} found.&#39;)
+
     def add_node(self, coords:Sequence[protocols.number], id:Optional[int]=None, node_set:Optional[protocols.ISet]=None) -&gt; int:
         &#34;&#34;&#34;
         Adds a node to this mesh.
@@ -643,55 +734,116 @@ class Mesh:
 
         return id
 
-    def add_set(self, set_name:str, set_type:enums.ESetTypes, ids:Iterable[int], dim:int=0) -&gt; protocols.ISet:
+    def add_set(self, set_name:str, set_type:enums.ESetTypes, ids:Iterable[int]) -&gt; protocols.ISet:
         &#34;&#34;&#34;
-        Adds a new set to the mesh.
+        Creates and adds a new set to the mesh and returns it.
 
-        If a mesh with the same name already exists (case insensitive) an exception is raised.\n
-        
-        The optional parameter dim gives the dimension of the underlying geometry.
-        When a mesh is updated from gmsh, this parameter is set automatically for each 
-        node or element set.
-        When you create a new set with this method, dim is only important if the new set 
-        is of type NODE and should be used to create an element face surface via 
-        get_surface_from_node_set or add_surface_from_node_set.
-        In this case make sure all node ids are on the surface of the model and dim = 2.
+        If a set with the same name and type already exists, the ids
+        will be added to the existing set
 
         Args:
             set_name (str): Name of the new set
             set_type (enums.ESetTypes): type of the new set
             ids (int): ids (node or element) of the new set
-            dim (int, optional): Dimension of the set. Defaults to 0.
-
-        Raises:
-            ValueError: Raised if set with set_name already exists (case insensitive)
 
         Returns:
             ISet: The new set
         &#34;&#34;&#34;
 
-        set_name = set_name.upper()
-        # check if set with name already exists
-        sets_to_check = self.node_sets if set_type == enums.ESetTypes.NODE else self.element_sets
-        for s in sets_to_check:
-            if s.name == set_name: 
-                raise ValueError(f&#39;Set with name {set_name} already exists&#39;)
+        new_set = Set(set_name.upper(), set_type, set(ids))
+        self.add_sets(new_set)
+        if set_type==enums.ESetTypes.NODE: 
+            return self.get_node_set_by_name(set_name)
+        return self.get_el_set_by_name(set_name)
 
-        new_set = Set(set_name, set_type, dim, set(ids))
-        if set_type == enums.ESetTypes.NODE:
-            self.node_sets.append(new_set)
-        else:
-            self.element_sets.append(new_set)
-        return new_set
-
-    def add_surface(self, surface:protocols.ISurface):
+    def add_sets(self, *sets:protocols.ISet):
         &#34;&#34;&#34;
-        Adds the given surface to the mesh
+        Adds the given sets to this mesh.
+        
+        If a set with the same name and type already exists, the ids
+        will be added to the existing set
+        &#34;&#34;&#34;
+
+        for s in sets:
+            if s.type==enums.ESetTypes.NODE:
+                try: existing_set = self.get_node_set_by_name(s.name)
+                except: existing_set = None
+                if existing_set: 
+                    print(f&#39;Node set &#34;{s.name}&#34; already exists. Ids are added to existing.&#39;)
+                    existing_set.ids.update(s.ids)
+                else: self.node_sets.append(s)
+            else:
+                try: existing_set = self.get_el_set_by_name(s.name)
+                except: existing_set = None
+                if existing_set: 
+                    print(f&#39;Element set &#34;{s.name}&#34; already exists. Ids are added to existing.&#39;)
+                    existing_set.ids.update(s.ids)
+                else: self.element_sets.append(s)
+
+    def add_node_surface(self, surf_name:str, nids:Iterable[int]) -&gt; protocols.ISurface:
+        &#34;&#34;&#34;
+        Creates and adds a new node surface to the mesh and returns it.
+
+        If a surface with the same name and type already exists, the nids
+        will be added to the existing surface.
 
         Args:
-            surface (protocols.ISurface): The surface to be added.
+            surf_name (str): Name of the new surface
+            nids (Iterable[int]): An iterable with node ids.
+
+        Returns:
+            ISurface: The new node surface
         &#34;&#34;&#34;
-        self.surfaces.append(surface)
+
+        surf_name = surf_name.upper()
+        new_surf = surface.NodeSurface(surf_name, set(nids), set())
+        self.add_surfaces(new_surf)
+        return self.get_surface_by_name(surf_name)
+
+    def add_el_face_surface(self, surf_name:str, faces:Iterable[tuple[int, int]]) -&gt; protocols.ISurface:
+        &#34;&#34;&#34;
+        Creates and adds a new element face surface to the mesh and returns it.
+
+        If a surface with the same name and type already exists, the eids
+        will be added to the existing surface.
+
+        Args:
+            surf_name (str): Name of the new surface
+            faces (Iterable[tuple[int,int]]): An iterable with tuples (elem id, face_no)
+
+        Returns:
+            ISurface: The new element face surface
+        &#34;&#34;&#34;
+
+        surf_name = surf_name.upper()
+        new_surf = surface.ElementSurface(surf_name, set(faces))
+        self.add_surfaces(new_surf)
+        return self.get_surface_by_name(surf_name)
+
+    def add_surfaces(self, *surfaces:protocols.ISurface):
+        &#34;&#34;&#34;
+        Adds the given surfaces to this mesh.
+        
+        If a surface with the same name and type already exists, the content
+        will be added to the existing surface
+        &#34;&#34;&#34;
+        for s in surfaces:
+            try: existing = self.get_surface_by_name(s.name.upper())
+            except: existing = None
+            if existing:
+                if not type(s) is type(existing):
+                    raise ValueError(f&#39;A surface with name {s.name} already exists, but of type {existing.type.name}. &#39; +
+                                     f&#34;The surface to add is of type {s.type.name}. They can&#39;t be merged.&#34;)
+                if isinstance(s, surface.NodeSurface) and isinstance(existing, surface.NodeSurface):
+                    print(f&#39;Node surface &#34;{s.name}&#34; already exists. Content is added to existing.&#39;)
+                    existing.node_ids.update(s.node_ids)
+                    existing.node_set_names.update(s.node_set_names)
+                if isinstance(s, surface.ElementSurface) and isinstance(existing, surface.ElementSurface):
+                    print(f&#39;Element face surface &#34;{s.name}&#34; already exists. Content is added to existing.&#39;)
+                    existing.element_faces.update(s.element_faces)
+            else:
+                self.surfaces.append(s)
+                
 
     def change_element_type(self, etype:enums.EEtypes, *ids:int):
         &#34;&#34;&#34;
@@ -775,6 +927,50 @@ class Mesh:
 </dl>
 <h3>Methods</h3>
 <dl>
+<dt id="pygccx.mesh.mesh.Mesh.add_el_face_surface"><code class="name flex">
+<span>def <span class="ident">add_el_face_surface</span></span>(<span>self, surf_name: str, faces: Iterable[tuple[int, int]]) ‑> <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates and adds a new element face surface to the mesh and returns it.</p>
+<p>If a surface with the same name and type already exists, the eids
+will be added to the existing surface.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>surf_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the new surface</dd>
+<dt><strong><code>faces</code></strong> :&ensp;<code>Iterable[tuple[int,int]]</code></dt>
+<dd>An iterable with tuples (elem id, face_no)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ISurface</code></dt>
+<dd>The new element face surface</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_el_face_surface(self, surf_name:str, faces:Iterable[tuple[int, int]]) -&gt; protocols.ISurface:
+    &#34;&#34;&#34;
+    Creates and adds a new element face surface to the mesh and returns it.
+
+    If a surface with the same name and type already exists, the eids
+    will be added to the existing surface.
+
+    Args:
+        surf_name (str): Name of the new surface
+        faces (Iterable[tuple[int,int]]): An iterable with tuples (elem id, face_no)
+
+    Returns:
+        ISurface: The new element face surface
+    &#34;&#34;&#34;
+
+    surf_name = surf_name.upper()
+    new_surf = surface.ElementSurface(surf_name, set(faces))
+    self.add_surfaces(new_surf)
+    return self.get_surface_by_name(surf_name)</code></pre>
+</details>
+</dd>
 <dt id="pygccx.mesh.mesh.Mesh.add_element"><code class="name flex">
 <span>def <span class="ident">add_element</span></span>(<span>self, etype: <a title="pygccx.enums.EEtypes" href="../enums.html#pygccx.enums.EEtypes">EEtypes</a>, nids: tuple[int, ...], id: Optional[int] = None, el_set: Optional[<a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>] = None) ‑> int</span>
 </code></dt>
@@ -919,19 +1115,57 @@ if id is omitted, the next available id is used.</p>
     return id</code></pre>
 </details>
 </dd>
-<dt id="pygccx.mesh.mesh.Mesh.add_set"><code class="name flex">
-<span>def <span class="ident">add_set</span></span>(<span>self, set_name: str, set_type: <a title="pygccx.enums.ESetTypes" href="../enums.html#pygccx.enums.ESetTypes">ESetTypes</a>, ids: Iterable[int], dim: int = 0) ‑> <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a></span>
+<dt id="pygccx.mesh.mesh.Mesh.add_node_surface"><code class="name flex">
+<span>def <span class="ident">add_node_surface</span></span>(<span>self, surf_name: str, nids: Iterable[int]) ‑> <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds a new set to the mesh.</p>
-<p>If a mesh with the same name already exists (case insensitive) an exception is raised.</p>
-<p>The optional parameter dim gives the dimension of the underlying geometry.
-When a mesh is updated from gmsh, this parameter is set automatically for each
-node or element set.
-When you create a new set with this method, dim is only important if the new set
-is of type NODE and should be used to create an element face surface via
-get_surface_from_node_set or add_surface_from_node_set.
-In this case make sure all node ids are on the surface of the model and dim = 2.</p>
+<div class="desc"><p>Creates and adds a new node surface to the mesh and returns it.</p>
+<p>If a surface with the same name and type already exists, the nids
+will be added to the existing surface.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>surf_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of the new surface</dd>
+<dt><strong><code>nids</code></strong> :&ensp;<code>Iterable[int]</code></dt>
+<dd>An iterable with node ids.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>ISurface</code></dt>
+<dd>The new node surface</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_node_surface(self, surf_name:str, nids:Iterable[int]) -&gt; protocols.ISurface:
+    &#34;&#34;&#34;
+    Creates and adds a new node surface to the mesh and returns it.
+
+    If a surface with the same name and type already exists, the nids
+    will be added to the existing surface.
+
+    Args:
+        surf_name (str): Name of the new surface
+        nids (Iterable[int]): An iterable with node ids.
+
+    Returns:
+        ISurface: The new node surface
+    &#34;&#34;&#34;
+
+    surf_name = surf_name.upper()
+    new_surf = surface.NodeSurface(surf_name, set(nids), set())
+    self.add_surfaces(new_surf)
+    return self.get_surface_by_name(surf_name)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.add_set"><code class="name flex">
+<span>def <span class="ident">add_set</span></span>(<span>self, set_name: str, set_type: <a title="pygccx.enums.ESetTypes" href="../enums.html#pygccx.enums.ESetTypes">ESetTypes</a>, ids: Iterable[int]) ‑> <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates and adds a new set to the mesh and returns it.</p>
+<p>If a set with the same name and type already exists, the ids
+will be added to the existing set</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>set_name</code></strong> :&ensp;<code>str</code></dt>
@@ -940,13 +1174,6 @@ In this case make sure all node ids are on the surface of the model and dim = 2.
 <dd>type of the new set</dd>
 <dt><strong><code>ids</code></strong> :&ensp;<code>int</code></dt>
 <dd>ids (node or element) of the new set</dd>
-<dt><strong><code>dim</code></strong> :&ensp;<code>int</code>, optional</dt>
-<dd>Dimension of the set. Defaults to 0.</dd>
-</dl>
-<h2 id="raises">Raises</h2>
-<dl>
-<dt><code>ValueError</code></dt>
-<dd>Raised if set with set_name already exists (case insensitive)</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -957,70 +1184,63 @@ In this case make sure all node ids are on the surface of the model and dim = 2.
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def add_set(self, set_name:str, set_type:enums.ESetTypes, ids:Iterable[int], dim:int=0) -&gt; protocols.ISet:
+<pre><code class="python">def add_set(self, set_name:str, set_type:enums.ESetTypes, ids:Iterable[int]) -&gt; protocols.ISet:
     &#34;&#34;&#34;
-    Adds a new set to the mesh.
+    Creates and adds a new set to the mesh and returns it.
 
-    If a mesh with the same name already exists (case insensitive) an exception is raised.\n
-    
-    The optional parameter dim gives the dimension of the underlying geometry.
-    When a mesh is updated from gmsh, this parameter is set automatically for each 
-    node or element set.
-    When you create a new set with this method, dim is only important if the new set 
-    is of type NODE and should be used to create an element face surface via 
-    get_surface_from_node_set or add_surface_from_node_set.
-    In this case make sure all node ids are on the surface of the model and dim = 2.
+    If a set with the same name and type already exists, the ids
+    will be added to the existing set
 
     Args:
         set_name (str): Name of the new set
         set_type (enums.ESetTypes): type of the new set
         ids (int): ids (node or element) of the new set
-        dim (int, optional): Dimension of the set. Defaults to 0.
-
-    Raises:
-        ValueError: Raised if set with set_name already exists (case insensitive)
 
     Returns:
         ISet: The new set
     &#34;&#34;&#34;
 
-    set_name = set_name.upper()
-    # check if set with name already exists
-    sets_to_check = self.node_sets if set_type == enums.ESetTypes.NODE else self.element_sets
-    for s in sets_to_check:
-        if s.name == set_name: 
-            raise ValueError(f&#39;Set with name {set_name} already exists&#39;)
-
-    new_set = Set(set_name, set_type, dim, set(ids))
-    if set_type == enums.ESetTypes.NODE:
-        self.node_sets.append(new_set)
-    else:
-        self.element_sets.append(new_set)
-    return new_set</code></pre>
+    new_set = Set(set_name.upper(), set_type, set(ids))
+    self.add_sets(new_set)
+    if set_type==enums.ESetTypes.NODE: 
+        return self.get_node_set_by_name(set_name)
+    return self.get_el_set_by_name(set_name)</code></pre>
 </details>
 </dd>
-<dt id="pygccx.mesh.mesh.Mesh.add_surface"><code class="name flex">
-<span>def <span class="ident">add_surface</span></span>(<span>self, surface: <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a>)</span>
+<dt id="pygccx.mesh.mesh.Mesh.add_sets"><code class="name flex">
+<span>def <span class="ident">add_sets</span></span>(<span>self, *sets: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Adds the given surface to the mesh</p>
-<h2 id="args">Args</h2>
-<dl>
-<dt><strong><code>surface</code></strong> :&ensp;<code>protocols.ISurface</code></dt>
-<dd>The surface to be added.</dd>
-</dl></div>
+<div class="desc"><p>Adds the given sets to this mesh.</p>
+<p>If a set with the same name and type already exists, the ids
+will be added to the existing set</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def add_surface(self, surface:protocols.ISurface):
+<pre><code class="python">def add_sets(self, *sets:protocols.ISet):
     &#34;&#34;&#34;
-    Adds the given surface to the mesh
+    Adds the given sets to this mesh.
+    
+    If a set with the same name and type already exists, the ids
+    will be added to the existing set
+    &#34;&#34;&#34;
 
-    Args:
-        surface (protocols.ISurface): The surface to be added.
-    &#34;&#34;&#34;
-    self.surfaces.append(surface)</code></pre>
+    for s in sets:
+        if s.type==enums.ESetTypes.NODE:
+            try: existing_set = self.get_node_set_by_name(s.name)
+            except: existing_set = None
+            if existing_set: 
+                print(f&#39;Node set &#34;{s.name}&#34; already exists. Ids are added to existing.&#39;)
+                existing_set.ids.update(s.ids)
+            else: self.node_sets.append(s)
+        else:
+            try: existing_set = self.get_el_set_by_name(s.name)
+            except: existing_set = None
+            if existing_set: 
+                print(f&#39;Element set &#34;{s.name}&#34; already exists. Ids are added to existing.&#39;)
+                existing_set.ids.update(s.ids)
+            else: self.element_sets.append(s)</code></pre>
 </details>
 </dd>
 <dt id="pygccx.mesh.mesh.Mesh.add_surface_from_node_set"><code class="name flex">
@@ -1072,6 +1292,42 @@ Type of node_set must be NODE and dim must be 2.</dd>
                                             node_set, surf_type)
     self.surfaces.append(surf)
     return surf</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.mesh.Mesh.add_surfaces"><code class="name flex">
+<span>def <span class="ident">add_surfaces</span></span>(<span>self, *surfaces: <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds the given surfaces to this mesh.</p>
+<p>If a surface with the same name and type already exists, the content
+will be added to the existing surface</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_surfaces(self, *surfaces:protocols.ISurface):
+    &#34;&#34;&#34;
+    Adds the given surfaces to this mesh.
+    
+    If a surface with the same name and type already exists, the content
+    will be added to the existing surface
+    &#34;&#34;&#34;
+    for s in surfaces:
+        try: existing = self.get_surface_by_name(s.name.upper())
+        except: existing = None
+        if existing:
+            if not type(s) is type(existing):
+                raise ValueError(f&#39;A surface with name {s.name} already exists, but of type {existing.type.name}. &#39; +
+                                 f&#34;The surface to add is of type {s.type.name}. They can&#39;t be merged.&#34;)
+            if isinstance(s, surface.NodeSurface) and isinstance(existing, surface.NodeSurface):
+                print(f&#39;Node surface &#34;{s.name}&#34; already exists. Content is added to existing.&#39;)
+                existing.node_ids.update(s.node_ids)
+                existing.node_set_names.update(s.node_set_names)
+            if isinstance(s, surface.ElementSurface) and isinstance(existing, surface.ElementSurface):
+                print(f&#39;Element face surface &#34;{s.name}&#34; already exists. Content is added to existing.&#39;)
+                existing.element_faces.update(s.element_faces)
+        else:
+            self.surfaces.append(s)</code></pre>
 </details>
 </dd>
 <dt id="pygccx.mesh.mesh.Mesh.change_element_type"><code class="name flex">
@@ -1350,6 +1606,41 @@ I.e. C3D20R -&gt; C3D20 or C3D8I -&gt; C3D8R</p>
     raise ValueError(f&#39;No set with name {set_name} found.&#39;)</code></pre>
 </details>
 </dd>
+<dt id="pygccx.mesh.mesh.Mesh.get_surface_by_name"><code class="name flex">
+<span>def <span class="ident">get_surface_by_name</span></span>(<span>self, surf_name: str) ‑> <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets a aurface by its name. If no such surface exists an exception is raised.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>surf_name</code></strong> :&ensp;<code>str</code></dt>
+<dd>Name of surface to be returned</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>protocols.ISurface</code></dt>
+<dd>Surface with given name</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_surface_by_name(self, surf_name:str) -&gt; protocols.ISurface:
+    &#34;&#34;&#34;
+    Gets a aurface by its name. If no such surface exists an exception is raised.
+
+    Args:
+        surf_name (str): Name of surface to be returned
+
+    Returns:
+        protocols.ISurface: Surface with given name
+    &#34;&#34;&#34;
+    surf_name = surf_name.upper()
+    for s in self.surfaces:
+        if s.name.upper()==surf_name: return s
+    raise ValueError(f&#39;No surface with name {surf_name} found.&#39;)</code></pre>
+</details>
+</dd>
 <dt id="pygccx.mesh.mesh.Mesh.get_surface_from_node_set"><code class="name flex">
 <span>def <span class="ident">get_surface_from_node_set</span></span>(<span>self, surf_name: str, node_set: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, surf_type: <a title="pygccx.enums.ESurfTypes" href="../enums.html#pygccx.enums.ESurfTypes">ESurfTypes</a>) ‑> <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a></span>
 </code></dt>
@@ -1436,11 +1727,14 @@ Type of node_set must be NODE and dim must be 2.</dd>
 <li>
 <h4><code><a title="pygccx.mesh.mesh.Mesh" href="#pygccx.mesh.mesh.Mesh">Mesh</a></code></h4>
 <ul class="">
+<li><code><a title="pygccx.mesh.mesh.Mesh.add_el_face_surface" href="#pygccx.mesh.mesh.Mesh.add_el_face_surface">add_el_face_surface</a></code></li>
 <li><code><a title="pygccx.mesh.mesh.Mesh.add_element" href="#pygccx.mesh.mesh.Mesh.add_element">add_element</a></code></li>
 <li><code><a title="pygccx.mesh.mesh.Mesh.add_node" href="#pygccx.mesh.mesh.Mesh.add_node">add_node</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.add_node_surface" href="#pygccx.mesh.mesh.Mesh.add_node_surface">add_node_surface</a></code></li>
 <li><code><a title="pygccx.mesh.mesh.Mesh.add_set" href="#pygccx.mesh.mesh.Mesh.add_set">add_set</a></code></li>
-<li><code><a title="pygccx.mesh.mesh.Mesh.add_surface" href="#pygccx.mesh.mesh.Mesh.add_surface">add_surface</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.add_sets" href="#pygccx.mesh.mesh.Mesh.add_sets">add_sets</a></code></li>
 <li><code><a title="pygccx.mesh.mesh.Mesh.add_surface_from_node_set" href="#pygccx.mesh.mesh.Mesh.add_surface_from_node_set">add_surface_from_node_set</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.add_surfaces" href="#pygccx.mesh.mesh.Mesh.add_surfaces">add_surfaces</a></code></li>
 <li><code><a title="pygccx.mesh.mesh.Mesh.change_element_type" href="#pygccx.mesh.mesh.Mesh.change_element_type">change_element_type</a></code></li>
 <li><code><a title="pygccx.mesh.mesh.Mesh.element_sets" href="#pygccx.mesh.mesh.Mesh.element_sets">element_sets</a></code></li>
 <li><code><a title="pygccx.mesh.mesh.Mesh.elements" href="#pygccx.mesh.mesh.Mesh.elements">elements</a></code></li>
@@ -1454,6 +1748,7 @@ Type of node_set must be NODE and dim must be 2.</dd>
 <li><code><a title="pygccx.mesh.mesh.Mesh.get_node_set_by_name" href="#pygccx.mesh.mesh.Mesh.get_node_set_by_name">get_node_set_by_name</a></code></li>
 <li><code><a title="pygccx.mesh.mesh.Mesh.get_nodes_by_ids" href="#pygccx.mesh.mesh.Mesh.get_nodes_by_ids">get_nodes_by_ids</a></code></li>
 <li><code><a title="pygccx.mesh.mesh.Mesh.get_set_by_name_and_type" href="#pygccx.mesh.mesh.Mesh.get_set_by_name_and_type">get_set_by_name_and_type</a></code></li>
+<li><code><a title="pygccx.mesh.mesh.Mesh.get_surface_by_name" href="#pygccx.mesh.mesh.Mesh.get_surface_by_name">get_surface_by_name</a></code></li>
 <li><code><a title="pygccx.mesh.mesh.Mesh.get_surface_from_node_set" href="#pygccx.mesh.mesh.Mesh.get_surface_from_node_set">get_surface_from_node_set</a></code></li>
 <li><code><a title="pygccx.mesh.mesh.Mesh.node_sets" href="#pygccx.mesh.mesh.Mesh.node_sets">node_sets</a></code></li>
 <li><code><a title="pygccx.mesh.mesh.Mesh.nodes" href="#pygccx.mesh.mesh.Mesh.nodes">nodes</a></code></li>

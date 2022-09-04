@@ -63,7 +63,6 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 from dataclasses import dataclass, field
 from typing import Any
 from pygccx.enums import EEtypes
-from pygccx.protocols import IElementFace
 
 FACE_INDEX_TABLE = {
     EEtypes.C3D4:  ((0,1,2),   (0,3,1),   (1,3,2),   (2,3,0)),
@@ -188,34 +187,15 @@ class Element:
         &#34;&#34;&#34;Gets the ids of the corner nodes&#34;&#34;&#34;
         return self.node_ids[:self.get_corner_node_count()]
 
-    def get_faces(self) -&gt; tuple[IElementFace, ...]:
+    def get_faces(self) -&gt; tuple[tuple[int, ...]]:
         &#34;&#34;&#34;Gets the faces of this element&#34;&#34;&#34;
         face_node_ind = FACE_INDEX_TABLE.get(self.type, [])
         faces = []
-        for num, inds in enumerate(face_node_ind, 1):
+        for inds in face_node_ind:
             nids = tuple(self.node_ids[i] for i in inds)
-            faces.append(ElementFace(num, self.id, nids))
+            faces.append(nids)
 
-        return tuple(faces)
-
-    
-@dataclass(frozen=True, slots=True)
-class ElementFace:
-    &#34;&#34;&#34;
-    Class representing an element face.
-    This class is intended as a return value for Element.get_faces.
-    &#34;&#34;&#34;
-    number:int
-    &#34;&#34;&#34;Number of this face inside the element&#34;&#34;&#34;
-    element_id:int
-    &#34;&#34;&#34;Id of the element this face belongs to&#34;&#34;&#34;
-    node_ids:tuple[int, ...]
-    &#34;&#34;&#34;Node ids of this face&#34;&#34;&#34;
-
-    @property
-    def name(self) -&gt; str:
-        &#34;&#34;&#34;Gets the name of this face in the form &#39;eid,Sx&#39;&#34;&#34;&#34;
-        return f&#39;{self.element_id},S{self.number}&#39;</code></pre>
+        return tuple(faces)</code></pre>
 </details>
 </section>
 <section>
@@ -336,13 +316,13 @@ class Element:
         &#34;&#34;&#34;Gets the ids of the corner nodes&#34;&#34;&#34;
         return self.node_ids[:self.get_corner_node_count()]
 
-    def get_faces(self) -&gt; tuple[IElementFace, ...]:
+    def get_faces(self) -&gt; tuple[tuple[int, ...]]:
         &#34;&#34;&#34;Gets the faces of this element&#34;&#34;&#34;
         face_node_ind = FACE_INDEX_TABLE.get(self.type, [])
         faces = []
-        for num, inds in enumerate(face_node_ind, 1):
+        for inds in face_node_ind:
             nids = tuple(self.node_ids[i] for i in inds)
-            faces.append(ElementFace(num, self.id, nids))
+            faces.append(nids)
 
         return tuple(faces)</code></pre>
 </details>
@@ -408,7 +388,7 @@ class Element:
 </details>
 </dd>
 <dt id="pygccx.mesh.element.Element.get_faces"><code class="name flex">
-<span>def <span class="ident">get_faces</span></span>(<span>self) ‑> tuple[<a title="pygccx.protocols.IElementFace" href="../protocols.html#pygccx.protocols.IElementFace">IElementFace</a>, ...]</span>
+<span>def <span class="ident">get_faces</span></span>(<span>self) ‑> tuple[tuple[int, ...]]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets the faces of this element</p></div>
@@ -416,74 +396,16 @@ class Element:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_faces(self) -&gt; tuple[IElementFace, ...]:
+<pre><code class="python">def get_faces(self) -&gt; tuple[tuple[int, ...]]:
     &#34;&#34;&#34;Gets the faces of this element&#34;&#34;&#34;
     face_node_ind = FACE_INDEX_TABLE.get(self.type, [])
     faces = []
-    for num, inds in enumerate(face_node_ind, 1):
+    for inds in face_node_ind:
         nids = tuple(self.node_ids[i] for i in inds)
-        faces.append(ElementFace(num, self.id, nids))
+        faces.append(nids)
 
     return tuple(faces)</code></pre>
 </details>
-</dd>
-</dl>
-</dd>
-<dt id="pygccx.mesh.element.ElementFace"><code class="flex name class">
-<span>class <span class="ident">ElementFace</span></span>
-<span>(</span><span>number: int, element_id: int, node_ids: tuple[int, ...])</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Class representing an element face.
-This class is intended as a return value for Element.get_faces.</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@dataclass(frozen=True, slots=True)
-class ElementFace:
-    &#34;&#34;&#34;
-    Class representing an element face.
-    This class is intended as a return value for Element.get_faces.
-    &#34;&#34;&#34;
-    number:int
-    &#34;&#34;&#34;Number of this face inside the element&#34;&#34;&#34;
-    element_id:int
-    &#34;&#34;&#34;Id of the element this face belongs to&#34;&#34;&#34;
-    node_ids:tuple[int, ...]
-    &#34;&#34;&#34;Node ids of this face&#34;&#34;&#34;
-
-    @property
-    def name(self) -&gt; str:
-        &#34;&#34;&#34;Gets the name of this face in the form &#39;eid,Sx&#39;&#34;&#34;&#34;
-        return f&#39;{self.element_id},S{self.number}&#39;</code></pre>
-</details>
-<h3>Instance variables</h3>
-<dl>
-<dt id="pygccx.mesh.element.ElementFace.element_id"><code class="name">var <span class="ident">element_id</span> : int</code></dt>
-<dd>
-<div class="desc"><p>Id of the element this face belongs to</p></div>
-</dd>
-<dt id="pygccx.mesh.element.ElementFace.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
-<dd>
-<div class="desc"><p>Gets the name of this face in the form 'eid,Sx'</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def name(self) -&gt; str:
-    &#34;&#34;&#34;Gets the name of this face in the form &#39;eid,Sx&#39;&#34;&#34;&#34;
-    return f&#39;{self.element_id},S{self.number}&#39;</code></pre>
-</details>
-</dd>
-<dt id="pygccx.mesh.element.ElementFace.node_ids"><code class="name">var <span class="ident">node_ids</span> : tuple[int, ...]</code></dt>
-<dd>
-<div class="desc"><p>Node ids of this face</p></div>
-</dd>
-<dt id="pygccx.mesh.element.ElementFace.number"><code class="name">var <span class="ident">number</span> : int</code></dt>
-<dd>
-<div class="desc"><p>Number of this face inside the element</p></div>
 </dd>
 </dl>
 </dd>
@@ -518,15 +440,6 @@ def name(self) -&gt; str:
 <li><code><a title="pygccx.mesh.element.Element.id" href="#pygccx.mesh.element.Element.id">id</a></code></li>
 <li><code><a title="pygccx.mesh.element.Element.node_ids" href="#pygccx.mesh.element.Element.node_ids">node_ids</a></code></li>
 <li><code><a title="pygccx.mesh.element.Element.type" href="#pygccx.mesh.element.Element.type">type</a></code></li>
-</ul>
-</li>
-<li>
-<h4><code><a title="pygccx.mesh.element.ElementFace" href="#pygccx.mesh.element.ElementFace">ElementFace</a></code></h4>
-<ul class="">
-<li><code><a title="pygccx.mesh.element.ElementFace.element_id" href="#pygccx.mesh.element.ElementFace.element_id">element_id</a></code></li>
-<li><code><a title="pygccx.mesh.element.ElementFace.name" href="#pygccx.mesh.element.ElementFace.name">name</a></code></li>
-<li><code><a title="pygccx.mesh.element.ElementFace.node_ids" href="#pygccx.mesh.element.ElementFace.node_ids">node_ids</a></code></li>
-<li><code><a title="pygccx.mesh.element.ElementFace.number" href="#pygccx.mesh.element.ElementFace.number">number</a></code></li>
 </ul>
 </li>
 </ul>

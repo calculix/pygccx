@@ -118,7 +118,7 @@ class Model:
         Updates the mesh of this model from gmsh model. 
         Call this method every time you have made changes to the gmsh model 
         via gmsh gui or gmsh api.
-        After the call, the mesh object of this model is updated.
+        After the call, the mesh object of this model is updated (replaced).
 
         Important: 
         - Only solid elements are processed
@@ -136,32 +136,58 @@ class Model:
         
         self.mesh = msh.mesh_factory.mesh_from_gmsh(self.get_gmsh(), type_mapping)  # type: ignore
 
+    def update_mesh_from_inp(self, filename:str, ignore_unsup_elems:bool=False, clear_mesh:bool=False):
+        &#34;&#34;&#34;
+        Updates the mesh of this model from gmsh model. 
+
+        Only nodes, 3D solid elements, node- and element sets and surfaces will be read.
+
+        If ignore_unsup_elems==True element blocks with unsupported elements (i.e. beam, shell) are skipped.
+        If False, an ElementTypeNotSupportedError is raised if there are unsupported
+        elements in the file.
+
+        if clear_mesh==True the resulting mesh object is cleared. This means all element ids,
+        node ids and element faces which are not referred by any element are removed from every
+        set and surface. If False, no clearing is done. 
+
+        Args:
+            filename (str): File name incl. path of ccx input file. 
+            ignore_unsup_elems (bool, optional): Flag if unsupported elements should be skipped. If False, an ElementTypeNotSupportedError
+        is raised if an unsupported solid element is processed. Defaults to False.
+            ignore_unsup_elems (bool, optional): Flag if unsupported elements should be ignored. Defaults to False.
+        
+        &#34;&#34;&#34;
+        self.mesh = msh.mesh_factory.mesh_from_inp(filename, ignore_unsup_elems, clear_mesh)
+
     def write_ccx_input_file(self):
         &#34;&#34;&#34;Writes the ccx input file &#39;jobname.inp&#39; to the working directory.&#34;&#34;&#34;
 
         buffer = []
         self.mesh.write_ccx(buffer)
-        buffer.append(&#39;&#39;)
-        buffer.append(&#39;***************************************&#39;)
-        buffer.append(&#39;** MODEL KEYWORDSS&#39;)
-        buffer.append(&#39;***************************************&#39;)
-        buffer.append(&#39;&#39;)
-        for mf in self.model_keywords:
-            if mf.desc: buffer.append(f&#39;** {mf.desc}&#39;)
-            buffer.append(str(mf))
 
-        buffer.append(&#39;&#39;)
-        buffer.append(&#39;***************************************&#39;)
-        buffer.append(&#39;** STEPS&#39;)
-        buffer.append(&#39;***************************************&#39;)
-        buffer.append(&#39;&#39;)
-        for step in self.steps:
-            if step.desc: buffer.append(f&#39;** {step.desc}&#39;)
-            buffer.append(str(step))
-            for sf in step.step_keywords:
-                if sf.desc: buffer.append(f&#39;** {sf.desc}&#39;)
-                buffer.append(str(sf))
-            buffer.append(&#39;*END STEP&#39;)
+        if self.model_keywords:
+            buffer.append(&#39;&#39;)
+            buffer.append(&#39;***************************************&#39;)
+            buffer.append(&#39;** MODEL KEYWORDS&#39;)
+            buffer.append(&#39;***************************************&#39;)
+            buffer.append(&#39;&#39;)
+            for mf in self.model_keywords:
+                if mf.desc: buffer.append(f&#39;** {mf.desc}&#39;)
+                buffer.append(str(mf))
+
+        if self.steps:
+            buffer.append(&#39;&#39;)
+            buffer.append(&#39;***************************************&#39;)
+            buffer.append(&#39;** STEPS&#39;)
+            buffer.append(&#39;***************************************&#39;)
+            buffer.append(&#39;&#39;)
+            for step in self.steps:
+                if step.desc: buffer.append(f&#39;** {step.desc}&#39;)
+                buffer.append(str(step))
+                for sf in step.step_keywords:
+                    if sf.desc: buffer.append(f&#39;** {sf.desc}&#39;)
+                    buffer.append(str(sf))
+                buffer.append(&#39;*END STEP&#39;)
 
         filename = os.path.join(self.working_dir,  f&#39;{self.jobname}.inp&#39;)
         with open(filename, &#39;w&#39;) as f:
@@ -187,17 +213,20 @@ class Model:
         if  write_ccx_input: self.write_ccx_input_file()
         subprocess.run(f&#39;{self.cgx_path} -c &#34;{self.jobname}.inp&#34;&#39;, cwd=self.working_dir)
 
-    def solve(self, write_ccx_input:bool=True):
+    def solve(self, write_ccx_input:bool=True, no_cpu:int=1):
         &#34;&#34;&#34;
-        Solves the CCX input file.
-
-        Per default, the input file is written before.
+        Starts CCX and solves the CCX input file.
 
         Args:
-            write_ccx_input (bool, optional): Flag if CCX input file should be written before solve. Defaults to True.
+            write_ccx_input (bool, optional): Flag if CCX input file should be written before solve.
+            Defaults to True.
+            no_cpu (int, optional): Number of cpus used for solving. Defaults to 1.
+            This parameter sets the local environment variable 
+            OMP_NUM_THREADS to no_cpu
         &#34;&#34;&#34;
         if  write_ccx_input: self.write_ccx_input_file()
-        subprocess.run(f&#39;{self.ccx_path} -i &#34;{self.jobname}&#34;&#39;, cwd=self.working_dir)
+        env = {&#39;OMP_NUM_THREADS&#39;: str(no_cpu)}
+        subprocess.run(f&#39;{self.ccx_path} -i &#34;{self.jobname}&#34;&#39;, cwd=self.working_dir, env=env)
 
     def show_results_in_cgx(self):
         &#34;&#34;&#34;Writes the ccx input file and shows it in cgx&#34;&#34;&#34;
@@ -280,7 +309,7 @@ class Model:
         Updates the mesh of this model from gmsh model. 
         Call this method every time you have made changes to the gmsh model 
         via gmsh gui or gmsh api.
-        After the call, the mesh object of this model is updated.
+        After the call, the mesh object of this model is updated (replaced).
 
         Important: 
         - Only solid elements are processed
@@ -298,32 +327,58 @@ class Model:
         
         self.mesh = msh.mesh_factory.mesh_from_gmsh(self.get_gmsh(), type_mapping)  # type: ignore
 
+    def update_mesh_from_inp(self, filename:str, ignore_unsup_elems:bool=False, clear_mesh:bool=False):
+        &#34;&#34;&#34;
+        Updates the mesh of this model from gmsh model. 
+
+        Only nodes, 3D solid elements, node- and element sets and surfaces will be read.
+
+        If ignore_unsup_elems==True element blocks with unsupported elements (i.e. beam, shell) are skipped.
+        If False, an ElementTypeNotSupportedError is raised if there are unsupported
+        elements in the file.
+
+        if clear_mesh==True the resulting mesh object is cleared. This means all element ids,
+        node ids and element faces which are not referred by any element are removed from every
+        set and surface. If False, no clearing is done. 
+
+        Args:
+            filename (str): File name incl. path of ccx input file. 
+            ignore_unsup_elems (bool, optional): Flag if unsupported elements should be skipped. If False, an ElementTypeNotSupportedError
+        is raised if an unsupported solid element is processed. Defaults to False.
+            ignore_unsup_elems (bool, optional): Flag if unsupported elements should be ignored. Defaults to False.
+        
+        &#34;&#34;&#34;
+        self.mesh = msh.mesh_factory.mesh_from_inp(filename, ignore_unsup_elems, clear_mesh)
+
     def write_ccx_input_file(self):
         &#34;&#34;&#34;Writes the ccx input file &#39;jobname.inp&#39; to the working directory.&#34;&#34;&#34;
 
         buffer = []
         self.mesh.write_ccx(buffer)
-        buffer.append(&#39;&#39;)
-        buffer.append(&#39;***************************************&#39;)
-        buffer.append(&#39;** MODEL KEYWORDSS&#39;)
-        buffer.append(&#39;***************************************&#39;)
-        buffer.append(&#39;&#39;)
-        for mf in self.model_keywords:
-            if mf.desc: buffer.append(f&#39;** {mf.desc}&#39;)
-            buffer.append(str(mf))
 
-        buffer.append(&#39;&#39;)
-        buffer.append(&#39;***************************************&#39;)
-        buffer.append(&#39;** STEPS&#39;)
-        buffer.append(&#39;***************************************&#39;)
-        buffer.append(&#39;&#39;)
-        for step in self.steps:
-            if step.desc: buffer.append(f&#39;** {step.desc}&#39;)
-            buffer.append(str(step))
-            for sf in step.step_keywords:
-                if sf.desc: buffer.append(f&#39;** {sf.desc}&#39;)
-                buffer.append(str(sf))
-            buffer.append(&#39;*END STEP&#39;)
+        if self.model_keywords:
+            buffer.append(&#39;&#39;)
+            buffer.append(&#39;***************************************&#39;)
+            buffer.append(&#39;** MODEL KEYWORDS&#39;)
+            buffer.append(&#39;***************************************&#39;)
+            buffer.append(&#39;&#39;)
+            for mf in self.model_keywords:
+                if mf.desc: buffer.append(f&#39;** {mf.desc}&#39;)
+                buffer.append(str(mf))
+
+        if self.steps:
+            buffer.append(&#39;&#39;)
+            buffer.append(&#39;***************************************&#39;)
+            buffer.append(&#39;** STEPS&#39;)
+            buffer.append(&#39;***************************************&#39;)
+            buffer.append(&#39;&#39;)
+            for step in self.steps:
+                if step.desc: buffer.append(f&#39;** {step.desc}&#39;)
+                buffer.append(str(step))
+                for sf in step.step_keywords:
+                    if sf.desc: buffer.append(f&#39;** {sf.desc}&#39;)
+                    buffer.append(str(sf))
+                buffer.append(&#39;*END STEP&#39;)
 
         filename = os.path.join(self.working_dir,  f&#39;{self.jobname}.inp&#39;)
         with open(filename, &#39;w&#39;) as f:
@@ -349,17 +404,20 @@ class Model:
         if  write_ccx_input: self.write_ccx_input_file()
         subprocess.run(f&#39;{self.cgx_path} -c &#34;{self.jobname}.inp&#34;&#39;, cwd=self.working_dir)
 
-    def solve(self, write_ccx_input:bool=True):
+    def solve(self, write_ccx_input:bool=True, no_cpu:int=1):
         &#34;&#34;&#34;
-        Solves the CCX input file.
-
-        Per default, the input file is written before.
+        Starts CCX and solves the CCX input file.
 
         Args:
-            write_ccx_input (bool, optional): Flag if CCX input file should be written before solve. Defaults to True.
+            write_ccx_input (bool, optional): Flag if CCX input file should be written before solve.
+            Defaults to True.
+            no_cpu (int, optional): Number of cpus used for solving. Defaults to 1.
+            This parameter sets the local environment variable 
+            OMP_NUM_THREADS to no_cpu
         &#34;&#34;&#34;
         if  write_ccx_input: self.write_ccx_input_file()
-        subprocess.run(f&#39;{self.ccx_path} -i &#34;{self.jobname}&#34;&#39;, cwd=self.working_dir)
+        env = {&#39;OMP_NUM_THREADS&#39;: str(no_cpu)}
+        subprocess.run(f&#39;{self.ccx_path} -i &#34;{self.jobname}&#34;&#39;, cwd=self.working_dir, env=env)
 
     def show_results_in_cgx(self):
         &#34;&#34;&#34;Writes the ccx input file and shows it in cgx&#34;&#34;&#34;
@@ -558,31 +616,38 @@ Per default, the input file is written before.</p>
 </details>
 </dd>
 <dt id="pygccx.model.Model.solve"><code class="name flex">
-<span>def <span class="ident">solve</span></span>(<span>self, write_ccx_input: bool = True)</span>
+<span>def <span class="ident">solve</span></span>(<span>self, write_ccx_input: bool = True, no_cpu: int = 1)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Solves the CCX input file.</p>
-<p>Per default, the input file is written before.</p>
+<div class="desc"><p>Starts CCX and solves the CCX input file.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>write_ccx_input</code></strong> :&ensp;<code>bool</code>, optional</dt>
-<dd>Flag if CCX input file should be written before solve. Defaults to True.</dd>
-</dl></div>
+<dd>Flag if CCX input file should be written before solve.</dd>
+<dt>Defaults to True.</dt>
+<dt><strong><code>no_cpu</code></strong> :&ensp;<code>int</code>, optional</dt>
+<dd>Number of cpus used for solving. Defaults to 1.</dd>
+</dl>
+<p>This parameter sets the local environment variable
+OMP_NUM_THREADS to no_cpu</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def solve(self, write_ccx_input:bool=True):
+<pre><code class="python">def solve(self, write_ccx_input:bool=True, no_cpu:int=1):
     &#34;&#34;&#34;
-    Solves the CCX input file.
-
-    Per default, the input file is written before.
+    Starts CCX and solves the CCX input file.
 
     Args:
-        write_ccx_input (bool, optional): Flag if CCX input file should be written before solve. Defaults to True.
+        write_ccx_input (bool, optional): Flag if CCX input file should be written before solve.
+        Defaults to True.
+        no_cpu (int, optional): Number of cpus used for solving. Defaults to 1.
+        This parameter sets the local environment variable 
+        OMP_NUM_THREADS to no_cpu
     &#34;&#34;&#34;
     if  write_ccx_input: self.write_ccx_input_file()
-    subprocess.run(f&#39;{self.ccx_path} -i &#34;{self.jobname}&#34;&#39;, cwd=self.working_dir)</code></pre>
+    env = {&#39;OMP_NUM_THREADS&#39;: str(no_cpu)}
+    subprocess.run(f&#39;{self.ccx_path} -i &#34;{self.jobname}&#34;&#39;, cwd=self.working_dir, env=env)</code></pre>
 </details>
 </dd>
 <dt id="pygccx.model.Model.update_mesh_from_gmsh"><code class="name flex">
@@ -592,7 +657,7 @@ Per default, the input file is written before.</p>
 <div class="desc"><p>Updates the mesh of this model from gmsh model.
 Call this method every time you have made changes to the gmsh model
 via gmsh gui or gmsh api.
-After the call, the mesh object of this model is updated.</p>
+After the call, the mesh object of this model is updated (replaced).</p>
 <p>Important:
 - Only solid elements are processed
 - Only nodes, elements and sets are processed which are in physical groups.
@@ -614,7 +679,7 @@ All changes since the last update (added nodes, surfaces etc.) will be lost.</p>
     Updates the mesh of this model from gmsh model. 
     Call this method every time you have made changes to the gmsh model 
     via gmsh gui or gmsh api.
-    After the call, the mesh object of this model is updated.
+    After the call, the mesh object of this model is updated (replaced).
 
     Important: 
     - Only solid elements are processed
@@ -633,6 +698,55 @@ All changes since the last update (added nodes, surfaces etc.) will be lost.</p>
     self.mesh = msh.mesh_factory.mesh_from_gmsh(self.get_gmsh(), type_mapping)  # type: ignore</code></pre>
 </details>
 </dd>
+<dt id="pygccx.model.Model.update_mesh_from_inp"><code class="name flex">
+<span>def <span class="ident">update_mesh_from_inp</span></span>(<span>self, filename: str, ignore_unsup_elems: bool = False, clear_mesh: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Updates the mesh of this model from gmsh model. </p>
+<p>Only nodes, 3D solid elements, node- and element sets and surfaces will be read.</p>
+<p>If ignore_unsup_elems==True element blocks with unsupported elements (i.e. beam, shell) are skipped.
+If False, an ElementTypeNotSupportedError is raised if there are unsupported
+elements in the file.</p>
+<p>if clear_mesh==True the resulting mesh object is cleared. This means all element ids,
+node ids and element faces which are not referred by any element are removed from every
+set and surface. If False, no clearing is done. </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
+<dd>File name incl. path of ccx input file. </dd>
+<dt><strong><code>ignore_unsup_elems</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Flag if unsupported elements should be skipped. If False, an ElementTypeNotSupportedError</dd>
+</dl>
+<p>is raised if an unsupported solid element is processed. Defaults to False.
+ignore_unsup_elems (bool, optional): Flag if unsupported elements should be ignored. Defaults to False.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def update_mesh_from_inp(self, filename:str, ignore_unsup_elems:bool=False, clear_mesh:bool=False):
+    &#34;&#34;&#34;
+    Updates the mesh of this model from gmsh model. 
+
+    Only nodes, 3D solid elements, node- and element sets and surfaces will be read.
+
+    If ignore_unsup_elems==True element blocks with unsupported elements (i.e. beam, shell) are skipped.
+    If False, an ElementTypeNotSupportedError is raised if there are unsupported
+    elements in the file.
+
+    if clear_mesh==True the resulting mesh object is cleared. This means all element ids,
+    node ids and element faces which are not referred by any element are removed from every
+    set and surface. If False, no clearing is done. 
+
+    Args:
+        filename (str): File name incl. path of ccx input file. 
+        ignore_unsup_elems (bool, optional): Flag if unsupported elements should be skipped. If False, an ElementTypeNotSupportedError
+    is raised if an unsupported solid element is processed. Defaults to False.
+        ignore_unsup_elems (bool, optional): Flag if unsupported elements should be ignored. Defaults to False.
+    
+    &#34;&#34;&#34;
+    self.mesh = msh.mesh_factory.mesh_from_inp(filename, ignore_unsup_elems, clear_mesh)</code></pre>
+</details>
+</dd>
 <dt id="pygccx.model.Model.write_ccx_input_file"><code class="name flex">
 <span>def <span class="ident">write_ccx_input_file</span></span>(<span>self)</span>
 </code></dt>
@@ -647,27 +761,30 @@ All changes since the last update (added nodes, surfaces etc.) will be lost.</p>
 
     buffer = []
     self.mesh.write_ccx(buffer)
-    buffer.append(&#39;&#39;)
-    buffer.append(&#39;***************************************&#39;)
-    buffer.append(&#39;** MODEL KEYWORDSS&#39;)
-    buffer.append(&#39;***************************************&#39;)
-    buffer.append(&#39;&#39;)
-    for mf in self.model_keywords:
-        if mf.desc: buffer.append(f&#39;** {mf.desc}&#39;)
-        buffer.append(str(mf))
 
-    buffer.append(&#39;&#39;)
-    buffer.append(&#39;***************************************&#39;)
-    buffer.append(&#39;** STEPS&#39;)
-    buffer.append(&#39;***************************************&#39;)
-    buffer.append(&#39;&#39;)
-    for step in self.steps:
-        if step.desc: buffer.append(f&#39;** {step.desc}&#39;)
-        buffer.append(str(step))
-        for sf in step.step_keywords:
-            if sf.desc: buffer.append(f&#39;** {sf.desc}&#39;)
-            buffer.append(str(sf))
-        buffer.append(&#39;*END STEP&#39;)
+    if self.model_keywords:
+        buffer.append(&#39;&#39;)
+        buffer.append(&#39;***************************************&#39;)
+        buffer.append(&#39;** MODEL KEYWORDS&#39;)
+        buffer.append(&#39;***************************************&#39;)
+        buffer.append(&#39;&#39;)
+        for mf in self.model_keywords:
+            if mf.desc: buffer.append(f&#39;** {mf.desc}&#39;)
+            buffer.append(str(mf))
+
+    if self.steps:
+        buffer.append(&#39;&#39;)
+        buffer.append(&#39;***************************************&#39;)
+        buffer.append(&#39;** STEPS&#39;)
+        buffer.append(&#39;***************************************&#39;)
+        buffer.append(&#39;&#39;)
+        for step in self.steps:
+            if step.desc: buffer.append(f&#39;** {step.desc}&#39;)
+            buffer.append(str(step))
+            for sf in step.step_keywords:
+                if sf.desc: buffer.append(f&#39;** {sf.desc}&#39;)
+                buffer.append(str(sf))
+            buffer.append(&#39;*END STEP&#39;)
 
     filename = os.path.join(self.working_dir,  f&#39;{self.jobname}.inp&#39;)
     with open(filename, &#39;w&#39;) as f:
@@ -712,6 +829,7 @@ All changes since the last update (added nodes, surfaces etc.) will be lost.</p>
 <li><code><a title="pygccx.model.Model.solve" href="#pygccx.model.Model.solve">solve</a></code></li>
 <li><code><a title="pygccx.model.Model.steps" href="#pygccx.model.Model.steps">steps</a></code></li>
 <li><code><a title="pygccx.model.Model.update_mesh_from_gmsh" href="#pygccx.model.Model.update_mesh_from_gmsh">update_mesh_from_gmsh</a></code></li>
+<li><code><a title="pygccx.model.Model.update_mesh_from_inp" href="#pygccx.model.Model.update_mesh_from_inp">update_mesh_from_inp</a></code></li>
 <li><code><a title="pygccx.model.Model.working_dir" href="#pygccx.model.Model.working_dir">working_dir</a></code></li>
 <li><code><a title="pygccx.model.Model.write_ccx_input_file" href="#pygccx.model.Model.write_ccx_input_file">write_ccx_input_file</a></code></li>
 </ul>

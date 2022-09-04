@@ -77,18 +77,6 @@ class ISurface(Protocol):
 
     def write_ccx(self, buffer:list[str]): 
         &#34;&#34;&#34;Writes the ccx input string of this surface to the given buffer&#34;&#34;&#34;
-
-class IElementFace(Protocol):
-    &#34;&#34;&#34;Protocol for element face classes&#34;&#34;&#34;
-    number:int
-    &#34;&#34;&#34;Gets the number of this element face inside the element with element_id&#34;&#34;&#34;
-    element_id:int
-    &#34;&#34;&#34;Gets the id of the element this element face belongs to&#34;&#34;&#34;
-    node_ids:tuple[int, ...]
-    &#34;&#34;&#34;Gets the node ids of this element face&#34;&#34;&#34;
-    name:str
-    &#34;&#34;&#34;Gets the name of this element face&#34;&#34;&#34;
-
 class IElement(Protocol):
     &#34;&#34;&#34;Protocol for Element classes&#34;&#34;&#34;
     id:int
@@ -107,8 +95,12 @@ class IElement(Protocol):
     def get_corner_node_ids(self) -&gt; tuple[int, ...]:
         &#34;&#34;&#34;Gets the corner node ids for this element&#34;&#34;&#34;
         ...
-    def get_faces(self) -&gt; tuple[IElementFace, ...]:
-        &#34;&#34;&#34;Gets the faces for this element&#34;&#34;&#34;
+    def get_faces(self) -&gt; tuple[tuple[int, ...]]:
+        &#34;&#34;&#34;Gets the faces for this element. 
+        Each face is a tuple with nodes ids forming this face.
+        The order of the faces as well as the node ids of each face
+        corresponds to the order in the element. I.e. faces[0] is
+        the face this no. 1 ...&#34;&#34;&#34;
         ...
 
 @runtime_checkable
@@ -118,8 +110,6 @@ class ISet(Protocol):
     &#34;&#34;&#34;Gets the name of this set&#34;&#34;&#34;
     type:enums.ESetTypes
     &#34;&#34;&#34;Gets the type of this set&#34;&#34;&#34;
-    dim:int
-    &#34;&#34;&#34;Gets the dimension of this set&#34;&#34;&#34;
     ids:set[int]
     &#34;&#34;&#34;Gets the ids of this set&#34;&#34;&#34;
 
@@ -283,8 +273,12 @@ row 2: vector of z axis in global system</p></div>
     def get_corner_node_ids(self) -&gt; tuple[int, ...]:
         &#34;&#34;&#34;Gets the corner node ids for this element&#34;&#34;&#34;
         ...
-    def get_faces(self) -&gt; tuple[IElementFace, ...]:
-        &#34;&#34;&#34;Gets the faces for this element&#34;&#34;&#34;
+    def get_faces(self) -&gt; tuple[tuple[int, ...]]:
+        &#34;&#34;&#34;Gets the faces for this element. 
+        Each face is a tuple with nodes ids forming this face.
+        The order of the faces as well as the node ids of each face
+        corresponds to the order in the element. I.e. faces[0] is
+        the face this no. 1 ...&#34;&#34;&#34;
         ...</code></pre>
 </details>
 <h3>Ancestors</h3>
@@ -352,64 +346,26 @@ row 2: vector of z axis in global system</p></div>
 </details>
 </dd>
 <dt id="pygccx.protocols.IElement.get_faces"><code class="name flex">
-<span>def <span class="ident">get_faces</span></span>(<span>self) ‑> tuple[<a title="pygccx.protocols.IElementFace" href="#pygccx.protocols.IElementFace">IElementFace</a>, ...]</span>
+<span>def <span class="ident">get_faces</span></span>(<span>self) ‑> tuple[tuple[int, ...]]</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Gets the faces for this element</p></div>
+<div class="desc"><p>Gets the faces for this element.
+Each face is a tuple with nodes ids forming this face.
+The order of the faces as well as the node ids of each face
+corresponds to the order in the element. I.e. faces[0] is
+the face this no. 1 &hellip;</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_faces(self) -&gt; tuple[IElementFace, ...]:
-    &#34;&#34;&#34;Gets the faces for this element&#34;&#34;&#34;
+<pre><code class="python">def get_faces(self) -&gt; tuple[tuple[int, ...]]:
+    &#34;&#34;&#34;Gets the faces for this element. 
+    Each face is a tuple with nodes ids forming this face.
+    The order of the faces as well as the node ids of each face
+    corresponds to the order in the element. I.e. faces[0] is
+    the face this no. 1 ...&#34;&#34;&#34;
     ...</code></pre>
 </details>
-</dd>
-</dl>
-</dd>
-<dt id="pygccx.protocols.IElementFace"><code class="flex name class">
-<span>class <span class="ident">IElementFace</span></span>
-<span>(</span><span>*args, **kwargs)</span>
-</code></dt>
-<dd>
-<div class="desc"><p>Protocol for element face classes</p></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">class IElementFace(Protocol):
-    &#34;&#34;&#34;Protocol for element face classes&#34;&#34;&#34;
-    number:int
-    &#34;&#34;&#34;Gets the number of this element face inside the element with element_id&#34;&#34;&#34;
-    element_id:int
-    &#34;&#34;&#34;Gets the id of the element this element face belongs to&#34;&#34;&#34;
-    node_ids:tuple[int, ...]
-    &#34;&#34;&#34;Gets the node ids of this element face&#34;&#34;&#34;
-    name:str
-    &#34;&#34;&#34;Gets the name of this element face&#34;&#34;&#34;</code></pre>
-</details>
-<h3>Ancestors</h3>
-<ul class="hlist">
-<li>typing.Protocol</li>
-<li>typing.Generic</li>
-</ul>
-<h3>Class variables</h3>
-<dl>
-<dt id="pygccx.protocols.IElementFace.element_id"><code class="name">var <span class="ident">element_id</span> : int</code></dt>
-<dd>
-<div class="desc"><p>Gets the id of the element this element face belongs to</p></div>
-</dd>
-<dt id="pygccx.protocols.IElementFace.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
-<dd>
-<div class="desc"><p>Gets the name of this element face</p></div>
-</dd>
-<dt id="pygccx.protocols.IElementFace.node_ids"><code class="name">var <span class="ident">node_ids</span> : tuple[int, ...]</code></dt>
-<dd>
-<div class="desc"><p>Gets the node ids of this element face</p></div>
-</dd>
-<dt id="pygccx.protocols.IElementFace.number"><code class="name">var <span class="ident">number</span> : int</code></dt>
-<dd>
-<div class="desc"><p>Gets the number of this element face inside the element with element_id</p></div>
 </dd>
 </dl>
 </dd>
@@ -465,8 +421,6 @@ class ISet(Protocol):
     &#34;&#34;&#34;Gets the name of this set&#34;&#34;&#34;
     type:enums.ESetTypes
     &#34;&#34;&#34;Gets the type of this set&#34;&#34;&#34;
-    dim:int
-    &#34;&#34;&#34;Gets the dimension of this set&#34;&#34;&#34;
     ids:set[int]
     &#34;&#34;&#34;Gets the ids of this set&#34;&#34;&#34;</code></pre>
 </details>
@@ -477,10 +431,6 @@ class ISet(Protocol):
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="pygccx.protocols.ISet.dim"><code class="name">var <span class="ident">dim</span> : int</code></dt>
-<dd>
-<div class="desc"><p>Gets the dimension of this set</p></div>
-</dd>
 <dt id="pygccx.protocols.ISet.ids"><code class="name">var <span class="ident">ids</span> : set[int]</code></dt>
 <dd>
 <div class="desc"><p>Gets the ids of this set</p></div>
@@ -636,15 +586,6 @@ class IStep(Protocol):
 </ul>
 </li>
 <li>
-<h4><code><a title="pygccx.protocols.IElementFace" href="#pygccx.protocols.IElementFace">IElementFace</a></code></h4>
-<ul class="">
-<li><code><a title="pygccx.protocols.IElementFace.element_id" href="#pygccx.protocols.IElementFace.element_id">element_id</a></code></li>
-<li><code><a title="pygccx.protocols.IElementFace.name" href="#pygccx.protocols.IElementFace.name">name</a></code></li>
-<li><code><a title="pygccx.protocols.IElementFace.node_ids" href="#pygccx.protocols.IElementFace.node_ids">node_ids</a></code></li>
-<li><code><a title="pygccx.protocols.IElementFace.number" href="#pygccx.protocols.IElementFace.number">number</a></code></li>
-</ul>
-</li>
-<li>
 <h4><code><a title="pygccx.protocols.IKeyword" href="#pygccx.protocols.IKeyword">IKeyword</a></code></h4>
 <ul class="">
 <li><code><a title="pygccx.protocols.IKeyword.desc" href="#pygccx.protocols.IKeyword.desc">desc</a></code></li>
@@ -654,7 +595,6 @@ class IStep(Protocol):
 <li>
 <h4><code><a title="pygccx.protocols.ISet" href="#pygccx.protocols.ISet">ISet</a></code></h4>
 <ul class="">
-<li><code><a title="pygccx.protocols.ISet.dim" href="#pygccx.protocols.ISet.dim">dim</a></code></li>
 <li><code><a title="pygccx.protocols.ISet.ids" href="#pygccx.protocols.ISet.ids">ids</a></code></li>
 <li><code><a title="pygccx.protocols.ISet.name" href="#pygccx.protocols.ISet.name">name</a></code></li>
 <li><code><a title="pygccx.protocols.ISet.type" href="#pygccx.protocols.ISet.type">type</a></code></li>

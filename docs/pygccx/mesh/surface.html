@@ -78,15 +78,15 @@ class ElementSurface():
     &#34;&#34;&#34;Name of this surface&#34;&#34;&#34;
     type: enums.ESurfTypes = field(default=enums.ESurfTypes.EL_FACE, init=False)
     &#34;&#34;&#34;Enum type of this surface.&#34;&#34;&#34;
-    element_faces:set[protocols.IElementFace]
+    element_faces:set[tuple[int, int]]
     &#34;&#34;&#34;Set with element faces&#34;&#34;&#34;
 
     def write_ccx(self, buffer:list[str]): 
         &#34;&#34;&#34;Writes the CCX input string to the given buffer.&#34;&#34;&#34;
 
-        buffer += [f&#39;*SURFACE,NAME={self.name},TYPE={self.type.value}&#39;]
+        buffer += [f&#39;*SURFACE,NAME={self.name.upper()},TYPE={self.type.value}&#39;]
         for f in self.element_faces:
-            buffer += [f&#39;{f.name}&#39;]
+            buffer += [f&#39;{f[0]},S{f[1]}&#39;]
         # buffer[-1] = buffer[-1][:-1] # delete last &#39;,&#39;
 
 @dataclass(frozen=True, slots=True)
@@ -106,7 +106,7 @@ class NodeSurface():
     &#39;&#39;&#39;Set with node set names belonging to this surface&#39;&#39;&#39;
 
     def write_ccx(self, buffer:list[str]): 
-        buffer += [f&#39;*SURFACE,NAME={self.name},TYPE={self.type.value}&#39;]
+        buffer += [f&#39;*SURFACE,NAME={self.name.upper()},TYPE={self.type.value}&#39;]
         for x in self.node_set_names | self.node_ids:
             buffer += [f&#39;{x},&#39;]
         buffer[-1] = buffer[-1][:-1] # delete last &#39;,&#39;
@@ -128,13 +128,10 @@ def get_surface_from_node_set(name:str,
 
     Raises:
         ValueError: Raised if type of node_set is not NODE
-        ValueError: RAISED if dim of node_set is not 2
     &#34;&#34;&#34;
 
     if node_set.type != enums.ESetTypes.NODE:
         raise ValueError(f&#39;type of node_sets has to be &#34;NODE&#34;, got {node_set.type}&#39;)
-    if node_set.dim != 2:
-        raise ValueError(f&#39;dim of node set has to be 2 (face node set), got {node_set.dim}&#39;)
 
     if stype == enums.ESurfTypes.NODE:
         return _get_node_surface_from_set(name, node_set)
@@ -146,19 +143,19 @@ def _get_element_surface_from_set(name:str,
                                   elements:Iterable[protocols.IElement], 
                                   node_set:protocols.ISet) -&gt; ElementSurface:
 
-    surface = set()
+    surface:set[tuple[int, int]] = set()
     for e in elements:
         if node_set.ids.isdisjoint(e.get_corner_node_ids()): continue
         e_faces = e.get_faces()
         if not e_faces: continue
-        for f in e_faces:
-            if node_set.ids.issuperset(f.node_ids):
-                surface.add(f)
-    return ElementSurface(name, surface)
+        for f_no, f in enumerate(e_faces, 1):
+            if node_set.ids.issuperset(f):
+                surface.add((e.id, f_no))
+    return ElementSurface(name.upper(), surface)
 
 def _get_node_surface_from_set(name:str, node_set:protocols.ISet) -&gt; NodeSurface:
 
-    return NodeSurface(name, set(), set([node_set.name]))</code></pre>
+    return NodeSurface(name.upper(), set(), set([node_set.name]))</code></pre>
 </details>
 </section>
 <section>
@@ -189,8 +186,6 @@ Type of node_set must be NODE and dim must be 2.</dd>
 <dl>
 <dt><code>ValueError</code></dt>
 <dd>Raised if type of node_set is not NODE</dd>
-<dt><code>ValueError</code></dt>
-<dd>RAISED if dim of node_set is not 2</dd>
 </dl></div>
 <details class="source">
 <summary>
@@ -213,13 +208,10 @@ Type of node_set must be NODE and dim must be 2.</dd>
 
     Raises:
         ValueError: Raised if type of node_set is not NODE
-        ValueError: RAISED if dim of node_set is not 2
     &#34;&#34;&#34;
 
     if node_set.type != enums.ESetTypes.NODE:
         raise ValueError(f&#39;type of node_sets has to be &#34;NODE&#34;, got {node_set.type}&#39;)
-    if node_set.dim != 2:
-        raise ValueError(f&#39;dim of node set has to be 2 (face node set), got {node_set.dim}&#39;)
 
     if stype == enums.ESurfTypes.NODE:
         return _get_node_surface_from_set(name, node_set)
@@ -234,7 +226,7 @@ Type of node_set must be NODE and dim must be 2.</dd>
 <dl>
 <dt id="pygccx.mesh.surface.ElementSurface"><code class="flex name class">
 <span>class <span class="ident">ElementSurface</span></span>
-<span>(</span><span>name: str, element_faces: set[<a title="pygccx.protocols.IElementFace" href="../protocols.html#pygccx.protocols.IElementFace">IElementFace</a>])</span>
+<span>(</span><span>name: str, element_faces: set[tuple[int, int]])</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Class representing an element face based surface.</p>
@@ -255,20 +247,20 @@ class ElementSurface():
     &#34;&#34;&#34;Name of this surface&#34;&#34;&#34;
     type: enums.ESurfTypes = field(default=enums.ESurfTypes.EL_FACE, init=False)
     &#34;&#34;&#34;Enum type of this surface.&#34;&#34;&#34;
-    element_faces:set[protocols.IElementFace]
+    element_faces:set[tuple[int, int]]
     &#34;&#34;&#34;Set with element faces&#34;&#34;&#34;
 
     def write_ccx(self, buffer:list[str]): 
         &#34;&#34;&#34;Writes the CCX input string to the given buffer.&#34;&#34;&#34;
 
-        buffer += [f&#39;*SURFACE,NAME={self.name},TYPE={self.type.value}&#39;]
+        buffer += [f&#39;*SURFACE,NAME={self.name.upper()},TYPE={self.type.value}&#39;]
         for f in self.element_faces:
-            buffer += [f&#39;{f.name}&#39;]
+            buffer += [f&#39;{f[0]},S{f[1]}&#39;]
         # buffer[-1] = buffer[-1][:-1] # delete last &#39;,&#39;</code></pre>
 </details>
 <h3>Instance variables</h3>
 <dl>
-<dt id="pygccx.mesh.surface.ElementSurface.element_faces"><code class="name">var <span class="ident">element_faces</span> : set[<a title="pygccx.protocols.IElementFace" href="../protocols.html#pygccx.protocols.IElementFace">IElementFace</a>]</code></dt>
+<dt id="pygccx.mesh.surface.ElementSurface.element_faces"><code class="name">var <span class="ident">element_faces</span> : set[tuple[int, int]]</code></dt>
 <dd>
 <div class="desc"><p>Set with element faces</p></div>
 </dd>
@@ -295,9 +287,9 @@ class ElementSurface():
 <pre><code class="python">def write_ccx(self, buffer:list[str]): 
     &#34;&#34;&#34;Writes the CCX input string to the given buffer.&#34;&#34;&#34;
 
-    buffer += [f&#39;*SURFACE,NAME={self.name},TYPE={self.type.value}&#39;]
+    buffer += [f&#39;*SURFACE,NAME={self.name.upper()},TYPE={self.type.value}&#39;]
     for f in self.element_faces:
-        buffer += [f&#39;{f.name}&#39;]
+        buffer += [f&#39;{f[0]},S{f[1]}&#39;]
     # buffer[-1] = buffer[-1][:-1] # delete last &#39;,&#39;</code></pre>
 </details>
 </dd>
@@ -331,7 +323,7 @@ class NodeSurface():
     &#39;&#39;&#39;Set with node set names belonging to this surface&#39;&#39;&#39;
 
     def write_ccx(self, buffer:list[str]): 
-        buffer += [f&#39;*SURFACE,NAME={self.name},TYPE={self.type.value}&#39;]
+        buffer += [f&#39;*SURFACE,NAME={self.name.upper()},TYPE={self.type.value}&#39;]
         for x in self.node_set_names | self.node_ids:
             buffer += [f&#39;{x},&#39;]
         buffer[-1] = buffer[-1][:-1] # delete last &#39;,&#39;</code></pre>
@@ -367,7 +359,7 @@ class NodeSurface():
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def write_ccx(self, buffer:list[str]): 
-    buffer += [f&#39;*SURFACE,NAME={self.name},TYPE={self.type.value}&#39;]
+    buffer += [f&#39;*SURFACE,NAME={self.name.upper()},TYPE={self.type.value}&#39;]
     for x in self.node_set_names | self.node_ids:
         buffer += [f&#39;{x},&#39;]
     buffer[-1] = buffer[-1][:-1] # delete last &#39;,&#39;</code></pre>

@@ -102,7 +102,7 @@ class DatResultSet:
     values of an entity (i.e. U, S) for a single step time.
     &#34;&#34;&#34;
     entity:EDatEntities
-    &#34;&#34;&#34;Enum of the result set entity&#34;&#34;&#34;
+    &#34;&#34;&#34;Enum of the result set entity i.e. U, S&#34;&#34;&#34;
     no_components:int
     &#34;&#34;&#34;number of components per value. I.e. for a U result set no_components == 3&#34;&#34;&#34;
     step_time:float
@@ -145,6 +145,12 @@ class DatResultSet:
 
 @dataclass(frozen=True, slots=True)
 class DatResult:
+    &#34;&#34;&#34;
+    Class representing the content of a *.dat file. 
+    
+    Don&#39;t instanciate this class directly. Use DatResult.from_file() instead.
+    &#34;&#34;&#34;
+
     step_times:tuple[float, ...]
     &#34;&#34;&#34;Sorted tuple with all step times&#34;&#34;&#34;
     result_sets:tuple[DatResultSet, ...]
@@ -223,15 +229,18 @@ class DatResult:
     @classmethod
     def from_file(cls, filename:str) -&gt; &#39;DatResult&#39;:
         &#34;&#34;&#34;
-        Totals are not processed.
+        Creates a FrdResult from the given filename and returns it.
 
-        _extended_summary_
+        IMPORTANT:
+        Total result sets (with parameter TOTALS set in *NODE PRINT, *EL PRINT, etc)
+        are not processed. These values can be obtained with simple numpy operations
+        like np.sum() from the same result, if TOTALS is omitted.
 
         Args:
-            filename (str): _description_
+            filename (str): Path to ascii *.dat file
 
         Returns:
-            DatResult: _description_
+            DatResult
         &#34;&#34;&#34;
 
         # define variables to get the IDE happy
@@ -364,13 +373,20 @@ def _isnumeric(x) -&gt; bool:
 <span>(</span><span>step_times: tuple[float, ...], result_sets: tuple[<a title="pygccx.result_reader.dat_result.DatResultSet" href="#pygccx.result_reader.dat_result.DatResultSet">DatResultSet</a>, ...])</span>
 </code></dt>
 <dd>
-<div class="desc"><p>DatResult(step_times: tuple[float, &hellip;], result_sets: tuple[pygccx.result_reader.dat_result.DatResultSet, &hellip;])</p></div>
+<div class="desc"><p>Class representing the content of a *.dat file. </p>
+<p>Don't instanciate this class directly. Use DatResult.from_file() instead.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@dataclass(frozen=True, slots=True)
 class DatResult:
+    &#34;&#34;&#34;
+    Class representing the content of a *.dat file. 
+    
+    Don&#39;t instanciate this class directly. Use DatResult.from_file() instead.
+    &#34;&#34;&#34;
+
     step_times:tuple[float, ...]
     &#34;&#34;&#34;Sorted tuple with all step times&#34;&#34;&#34;
     result_sets:tuple[DatResultSet, ...]
@@ -449,15 +465,18 @@ class DatResult:
     @classmethod
     def from_file(cls, filename:str) -&gt; &#39;DatResult&#39;:
         &#34;&#34;&#34;
-        Totals are not processed.
+        Creates a FrdResult from the given filename and returns it.
 
-        _extended_summary_
+        IMPORTANT:
+        Total result sets (with parameter TOTALS set in *NODE PRINT, *EL PRINT, etc)
+        are not processed. These values can be obtained with simple numpy operations
+        like np.sum() from the same result, if TOTALS is omitted.
 
         Args:
-            filename (str): _description_
+            filename (str): Path to ascii *.dat file
 
         Returns:
-            DatResult: _description_
+            DatResult
         &#34;&#34;&#34;
 
         # define variables to get the IDE happy
@@ -517,18 +536,18 @@ class DatResult:
 <span>def <span class="ident">from_file</span></span>(<span>filename: str) ‑> <a title="pygccx.result_reader.dat_result.DatResult" href="#pygccx.result_reader.dat_result.DatResult">DatResult</a></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Totals are not processed.</p>
-<p><em>extended_summary</em></p>
+<div class="desc"><p>Creates a FrdResult from the given filename and returns it.</p>
+<p>IMPORTANT:
+Total result sets (with parameter TOTALS set in <em>NODE PRINT, </em>EL PRINT, etc)
+are not processed. These values can be obtained with simple numpy operations
+like np.sum() from the same result, if TOTALS is omitted.</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
-<dd><em>description</em></dd>
+<dd>Path to ascii *.dat file</dd>
 </dl>
 <h2 id="returns">Returns</h2>
-<dl>
-<dt><code><a title="pygccx.result_reader.dat_result.DatResult" href="#pygccx.result_reader.dat_result.DatResult">DatResult</a></code></dt>
-<dd><em>description</em></dd>
-</dl></div>
+<p>DatResult</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -536,15 +555,18 @@ class DatResult:
 <pre><code class="python">@classmethod
 def from_file(cls, filename:str) -&gt; &#39;DatResult&#39;:
     &#34;&#34;&#34;
-    Totals are not processed.
+    Creates a FrdResult from the given filename and returns it.
 
-    _extended_summary_
+    IMPORTANT:
+    Total result sets (with parameter TOTALS set in *NODE PRINT, *EL PRINT, etc)
+    are not processed. These values can be obtained with simple numpy operations
+    like np.sum() from the same result, if TOTALS is omitted.
 
     Args:
-        filename (str): _description_
+        filename (str): Path to ascii *.dat file
 
     Returns:
-        DatResult: _description_
+        DatResult
     &#34;&#34;&#34;
 
     # define variables to get the IDE happy
@@ -772,7 +794,7 @@ class DatResultSet:
     values of an entity (i.e. U, S) for a single step time.
     &#34;&#34;&#34;
     entity:EDatEntities
-    &#34;&#34;&#34;Enum of the result set entity&#34;&#34;&#34;
+    &#34;&#34;&#34;Enum of the result set entity i.e. U, S&#34;&#34;&#34;
     no_components:int
     &#34;&#34;&#34;number of components per value. I.e. for a U result set no_components == 3&#34;&#34;&#34;
     step_time:float
@@ -820,7 +842,7 @@ class DatResultSet:
 </dd>
 <dt id="pygccx.result_reader.dat_result.DatResultSet.entity"><code class="name">var <span class="ident">entity</span> : <a title="pygccx.enums.EDatEntities" href="../enums.html#pygccx.enums.EDatEntities">EDatEntities</a></code></dt>
 <dd>
-<div class="desc"><p>Enum of the result set entity</p></div>
+<div class="desc"><p>Enum of the result set entity i.e. U, S</p></div>
 </dd>
 <dt id="pygccx.result_reader.dat_result.DatResultSet.entity_location"><code class="name">var <span class="ident">entity_location</span> : <a title="pygccx.enums.EResultLocations" href="../enums.html#pygccx.enums.EResultLocations">EResultLocations</a></code></dt>
 <dd>

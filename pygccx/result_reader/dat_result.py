@@ -128,15 +128,21 @@ class DatResult:
         return tuple(rs for rs in self.result_sets if rs.entity==entity)   
 
     def get_result_set_by_entity_and_time(self, entity:EDatEntities,
-                                            step_time:float, imag:bool=False) -> DatResultSet|None:
+                                            step_time:float, imag:bool=False,
+                                            set_name:str='') -> DatResultSet|None:
         """
         Returns the result set with the given entity and closest step time to the given step_time.
         If no such result set exists, None is returned.
+
+        If more than one result set with same entity and step_time but different set names
+        are present, the first one is returned, unless the parameter set_name is specified.
 
         Args:
             entity (EDatEntities): Entity name of result set to be returned
             step_time (float): Step time of result set to be returned
             imag (bool): Flag if real or imaginary results should be returned. Defaults to False (real)
+            set_name(str): Set name of the result set to be returned. Only relevant if more than one 
+            result set with same entity and time bit different set names are present
 
         Returns:
             IResultSet|None: Matched result set or None
@@ -147,24 +153,36 @@ class DatResult:
         # filter by step times    
         nearest_time = min(self.step_times, key=lambda x:abs(x - step_time)) 
         result_sets = [rs for rs in result_sets if rs.step_time == nearest_time]
+        if not result_sets: return None # no matching result sets found
+
+        # filter by given set name if specified, or by setname of first hit
+        if not set_name: set_name = result_sets[0].set_name
+        result_sets = [rs for rs in result_sets if rs.set_name == set_name]
+        if not result_sets: return None # no matching result sets found
+
         # if the requested entity has an imaginary part, result_sets has 2 items,
         # 1 otherwise
 
-        if not result_sets: return None # no matching result sets found
         if not imag: return result_sets[0] # usual case
         if imag and len(result_sets) == 1: return None # imag requested, but only real present
         return result_sets[1] # return imag
         
     def get_result_set_by_entity_and_index(self, entity:EDatEntities,
-                                            step_index:int, imag:bool=False) -> DatResultSet|None:
+                                            step_index:int, imag:bool=False,
+                                            set_name:str='') -> DatResultSet|None:
         """
         Returns the result set with the given entity and step index (index of step time in step_times).
         If no such result set exists, None is returned.
+
+        If more than one result set with same entity and index but different set names
+        are present, the first one is returned, unless the parameter set_name is specified.
 
         Args:
             entity (EDatEntities): Entity name of result set to be returned
             step_index (int): Step index of result set to be returned
             imag (bool): Flag if real or imaginary results should be returned. Defaults to False (real)
+            set_name(str): Set name of the result set to be returned. Only relevant if more than one 
+            result set with same entity and time bit different set names are present
 
         Returns:
             IResultSet|None: Matched result set or None
@@ -175,10 +193,16 @@ class DatResult:
         # filter by step indices
         step_time = self.step_times[step_index] 
         result_sets = [rs for rs in result_sets if rs.step_time == step_time]
+        if not result_sets: return None # no matching result sets found
+
+        # filter by given set name if specified, or by setname of first hit
+        if not set_name: set_name = result_sets[0].set_name
+        result_sets = [rs for rs in result_sets if rs.set_name == set_name]
+        if not result_sets: return None # no matching result sets found
+
         # if the requested entity has an imaginary part, result_sets has 2 items,
         # 1 otherwise
         
-        if not result_sets: return None # no matching result sets found
         if not imag: return result_sets[0] # usual case
         if imag and len(result_sets) == 1: return None # imag requested, but only real present
         return result_sets[1] # return imag

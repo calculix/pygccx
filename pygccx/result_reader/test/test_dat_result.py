@@ -172,3 +172,38 @@ class TestDatResult(TestCase):
         res = dat_result.get_result_set_by_entity_and_index(EDatEntities.CDIS, 0)
         self.assertIsNone(res)
 
+    def test_get_result_set_by_entity_and_index_same_ent_same_time_diff_setnames(self):
+        dat_result = DatResult.from_file(
+            os.path.join(self.test_data_path, 'same_ent_same_time_diff_setnames.dat')
+        )
+
+        # no set name specified. Should return result for set "SET1"
+        disp = dat_result.get_result_set_by_entity_and_index(EDatEntities.U, 0)
+        self.assertEqual(disp.set_name, 'SET1') # type: ignore
+
+        # set name 'SET1' specified. Should return result for set "SET1"
+        disp = dat_result.get_result_set_by_entity_and_index(EDatEntities.U, 0, set_name='SET1')
+        self.assertEqual(disp.set_name, 'SET1') # type: ignore
+
+        # set name 'SET2' specified. Should return result for set "SET1"
+        disp = dat_result.get_result_set_by_entity_and_index(EDatEntities.U, 0, set_name='SET2')
+        self.assertEqual(disp.set_name, 'SET2') # type: ignore
+
+    def test_get_result_set_by_entity_and_time_same_ent_same_time_diff_setnames(self):
+        dat_result = DatResult.from_file(
+            os.path.join(self.test_data_path, 'same_ent_same_time_diff_setnames.dat')
+        )
+
+        # no set name specified. Should return result for set "SET1"
+        disp = dat_result.get_result_set_by_entity_and_time(EDatEntities.U, 1)
+        self.assertEqual(disp.set_name, 'SET1') # type: ignore
+
+        # set name 'SET1' specified. Should return result for set "SET1"
+        disp = dat_result.get_result_set_by_entity_and_time(EDatEntities.U, 1, set_name='SET1')
+        self.assertEqual(disp.set_name, 'SET1') # type: ignore
+
+        # set name 'SET2' specified. Should return result for set "SET1"
+        disp = dat_result.get_result_set_by_entity_and_time(EDatEntities.U, 1, set_name='SET2')
+        self.assertEqual(disp.set_name, 'SET2') # type: ignore
+
+

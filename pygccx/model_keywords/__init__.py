@@ -40,3 +40,4 @@ from .group_funcs import make_contact
 from .tie import Tie
 from .include import Include
 from .equation import Equation
+from .universal import Universal

@@ -60,6 +60,7 @@ along with pygccx.
 If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
+from genericpath import isfile
 import os
 import subprocess
 from dataclasses import dataclass, field
@@ -228,16 +229,41 @@ class Model:
         env = {&#39;OMP_NUM_THREADS&#39;: str(no_cpu)}
         subprocess.run(f&#39;{self.ccx_path} -i &#34;{self.jobname}&#34;&#39;, cwd=self.working_dir, env=env)
 
-    def show_results_in_cgx(self):
-        &#34;&#34;&#34;Writes the ccx input file and shows it in cgx&#34;&#34;&#34;
+    def show_results_in_cgx(self, load_inp:bool=True):
+        &#34;&#34;&#34;
+        Shows the results stored in the jobname.frd in CGX.
+        
+        If load_inp==True and the file jobname.inp is present in the working dir, it is
+        loaded together with the frd.
 
-        subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34; &#34;{self.jobname}.inp&#34;&#39;, cwd=self.working_dir)
+        Args:
+            load_inp (bool, optional): Flag if the inp file should be loaded with the 
+            frd. Defaults to True.
+        &#34;&#34;&#34;
+
+        if load_inp and os.path.isfile(self.jobname + &#39;inp&#39;):
+            subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34; &#34;{self.jobname}.inp&#34;&#39;, cwd=self.working_dir)
+        else:
+            subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34;&#39;, cwd=self.working_dir)
+
 
     def get_frd_result(self) -&gt; FrdResult:
+        &#34;&#34;&#34;
+        Returns a frd result object from the jobname.frd
+
+        Returns:
+            FrdResult
+        &#34;&#34;&#34;
         filename = os.path.join(self.working_dir, f&#39;{self.jobname}.frd&#39;)
         return FrdResult.from_file(filename)
 
     def get_dat_result(self) -&gt; DatResult:
+        &#34;&#34;&#34;
+        Returns a dat result object from the jobname.dat
+
+        Returns:
+            DatResult
+        &#34;&#34;&#34;
         filename = os.path.join(self.working_dir, f&#39;{self.jobname}.dat&#39;)
         return DatResult.from_file(filename)
 
@@ -419,16 +445,41 @@ class Model:
         env = {&#39;OMP_NUM_THREADS&#39;: str(no_cpu)}
         subprocess.run(f&#39;{self.ccx_path} -i &#34;{self.jobname}&#34;&#39;, cwd=self.working_dir, env=env)
 
-    def show_results_in_cgx(self):
-        &#34;&#34;&#34;Writes the ccx input file and shows it in cgx&#34;&#34;&#34;
+    def show_results_in_cgx(self, load_inp:bool=True):
+        &#34;&#34;&#34;
+        Shows the results stored in the jobname.frd in CGX.
+        
+        If load_inp==True and the file jobname.inp is present in the working dir, it is
+        loaded together with the frd.
 
-        subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34; &#34;{self.jobname}.inp&#34;&#39;, cwd=self.working_dir)
+        Args:
+            load_inp (bool, optional): Flag if the inp file should be loaded with the 
+            frd. Defaults to True.
+        &#34;&#34;&#34;
+
+        if load_inp and os.path.isfile(self.jobname + &#39;inp&#39;):
+            subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34; &#34;{self.jobname}.inp&#34;&#39;, cwd=self.working_dir)
+        else:
+            subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34;&#39;, cwd=self.working_dir)
+
 
     def get_frd_result(self) -&gt; FrdResult:
+        &#34;&#34;&#34;
+        Returns a frd result object from the jobname.frd
+
+        Returns:
+            FrdResult
+        &#34;&#34;&#34;
         filename = os.path.join(self.working_dir, f&#39;{self.jobname}.frd&#39;)
         return FrdResult.from_file(filename)
 
     def get_dat_result(self) -&gt; DatResult:
+        &#34;&#34;&#34;
+        Returns a dat result object from the jobname.dat
+
+        Returns:
+            DatResult
+        &#34;&#34;&#34;
         filename = os.path.join(self.working_dir, f&#39;{self.jobname}.dat&#39;)
         return DatResult.from_file(filename)
 
@@ -518,12 +569,20 @@ class Model:
 <span>def <span class="ident">get_dat_result</span></span>(<span>self) ‑> <a title="pygccx.result_reader.dat_result.DatResult" href="result_reader/dat_result.html#pygccx.result_reader.dat_result.DatResult">DatResult</a></span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Returns a dat result object from the jobname.dat</p>
+<h2 id="returns">Returns</h2>
+<p>DatResult</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def get_dat_result(self) -&gt; DatResult:
+    &#34;&#34;&#34;
+    Returns a dat result object from the jobname.dat
+
+    Returns:
+        DatResult
+    &#34;&#34;&#34;
     filename = os.path.join(self.working_dir, f&#39;{self.jobname}.dat&#39;)
     return DatResult.from_file(filename)</code></pre>
 </details>
@@ -532,12 +591,20 @@ class Model:
 <span>def <span class="ident">get_frd_result</span></span>(<span>self) ‑> <a title="pygccx.result_reader.frd_result.FrdResult" href="result_reader/frd_result.html#pygccx.result_reader.frd_result.FrdResult">FrdResult</a></span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Returns a frd result object from the jobname.frd</p>
+<h2 id="returns">Returns</h2>
+<p>FrdResult</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def get_frd_result(self) -&gt; FrdResult:
+    &#34;&#34;&#34;
+    Returns a frd result object from the jobname.frd
+
+    Returns:
+        FrdResult
+    &#34;&#34;&#34;
     filename = os.path.join(self.working_dir, f&#39;{self.jobname}.frd&#39;)
     return FrdResult.from_file(filename)</code></pre>
 </details>
@@ -601,18 +668,38 @@ Per default, the input file is written before.</p>
 </details>
 </dd>
 <dt id="pygccx.model.Model.show_results_in_cgx"><code class="name flex">
-<span>def <span class="ident">show_results_in_cgx</span></span>(<span>self)</span>
+<span>def <span class="ident">show_results_in_cgx</span></span>(<span>self, load_inp: bool = True)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Writes the ccx input file and shows it in cgx</p></div>
+<div class="desc"><p>Shows the results stored in the jobname.frd in CGX.</p>
+<p>If load_inp==True and the file jobname.inp is present in the working dir, it is
+loaded together with the frd.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>load_inp</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Flag if the inp file should be loaded with the </dd>
+</dl>
+<p>frd. Defaults to True.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def show_results_in_cgx(self):
-    &#34;&#34;&#34;Writes the ccx input file and shows it in cgx&#34;&#34;&#34;
+<pre><code class="python">def show_results_in_cgx(self, load_inp:bool=True):
+    &#34;&#34;&#34;
+    Shows the results stored in the jobname.frd in CGX.
+    
+    If load_inp==True and the file jobname.inp is present in the working dir, it is
+    loaded together with the frd.
 
-    subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34; &#34;{self.jobname}.inp&#34;&#39;, cwd=self.working_dir)</code></pre>
+    Args:
+        load_inp (bool, optional): Flag if the inp file should be loaded with the 
+        frd. Defaults to True.
+    &#34;&#34;&#34;
+
+    if load_inp and os.path.isfile(self.jobname + &#39;inp&#39;):
+        subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34; &#34;{self.jobname}.inp&#34;&#39;, cwd=self.working_dir)
+    else:
+        subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34;&#39;, cwd=self.working_dir)</code></pre>
 </details>
 </dd>
 <dt id="pygccx.model.Model.solve"><code class="name flex">

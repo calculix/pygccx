@@ -40,6 +40,7 @@ from pygccx.model_keywords.test.test_distributing_coupling import TestDistribuit
 from pygccx.model_keywords.test.test_gap import TestGap
 from pygccx.model_keywords.test.test_tie import TestTie
 from pygccx.model_keywords.test.test_include import TestInclude
+from pygccx.model_keywords.test.test_equation import TestEquation
 
 if __name__ == '__main__':
     unittest.main()

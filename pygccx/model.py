@@ -17,6 +17,7 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
+from genericpath import isfile
 import os
 import subprocess
 from dataclasses import dataclass, field
@@ -185,10 +186,23 @@ class Model:
         env = {'OMP_NUM_THREADS': str(no_cpu)}
         subprocess.run(f'{self.ccx_path} -i "{self.jobname}"', cwd=self.working_dir, env=env)
 
-    def show_results_in_cgx(self):
-        """Writes the ccx input file and shows it in cgx"""
+    def show_results_in_cgx(self, load_inp:bool=True):
+        """
+        Shows the results stored in the jobname.frd in CGX.
+        
+        If load_inp==True and the file jobname.inp is present in the working dir, it is
+        loaded together with the frd.
 
-        subprocess.run(f'{self.cgx_path} "{self.jobname}.frd" "{self.jobname}.inp"', cwd=self.working_dir)
+        Args:
+            load_inp (bool, optional): Flag if the inp file should be loaded with the 
+            frd. Defaults to True.
+        """
+
+        if load_inp and os.path.isfile(self.jobname + 'inp'):
+            subprocess.run(f'{self.cgx_path} "{self.jobname}.frd" "{self.jobname}.inp"', cwd=self.working_dir)
+        else:
+            subprocess.run(f'{self.cgx_path} "{self.jobname}.frd"', cwd=self.working_dir)
+
 
     def get_frd_result(self) -> FrdResult:
         filename = os.path.join(self.working_dir, f'{self.jobname}.frd')

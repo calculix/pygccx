@@ -1,6 +1,11 @@
 0.2.0:
     - NEW FEATURES
       - New model keyword *TIE (model_keywords.Tie)
+      - New model keyword *EQUATION (model_keywords.Equation)
+      - New model keyword *INCLUDE (model_keywords.Include).
+        Can also be used as a step keyword
+      - New class model_keywords.Universal to write arbitrary strings 
+        to input file
       - New method model.update_mesh_from_inp(filename, ignore_unsup_elems, clear_mesh)
         for reading mesh, sets and surfaces from ccx input file.
       - New method mesh.add_sets(*sets) 
@@ -13,6 +18,9 @@
         for adding existing ISurface instances to mesh.
       - New parameter "no_cpu" in model.solve
         for selecting the number of cpus used during solve.
+      - New parameter "load_inp" in model.show_results_in_cgx.
+        Loading of the inp file together with the frd is now optional
+      
 
     - CHANGES:
       - Removed attribute "dim" from ISet.

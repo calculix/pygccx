@@ -40,8 +40,10 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
         - *COUPLING
         - *DISTRIBUTING COUPLING
         - *EALSTIC
+        - *EQUATION
         - *FRICTION
         - *GAP
+        - *INCLUDE (also for step keywords)
         - *MASS
         - *MATERIAL
         - *ORIENTATION
@@ -76,7 +78,6 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
 # Planned capabilities of Pygccx:
 - Support of all CCX keywords for static analysis
 - Postpro in GMSH
-- Read mesh and sets from *.inp file
 - Read mesh from *.frd file
 
 # Prerequisites

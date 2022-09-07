@@ -205,10 +205,22 @@ class Model:
 
 
     def get_frd_result(self) -> FrdResult:
+        """
+        Returns a frd result object from the jobname.frd
+
+        Returns:
+            FrdResult
+        """
         filename = os.path.join(self.working_dir, f'{self.jobname}.frd')
         return FrdResult.from_file(filename)
 
     def get_dat_result(self) -> DatResult:
+        """
+        Returns a dat result object from the jobname.dat
+
+        Returns:
+            DatResult
+        """
         filename = os.path.join(self.working_dir, f'{self.jobname}.dat')
         return DatResult.from_file(filename)
 

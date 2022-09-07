@@ -39,6 +39,7 @@ from pygccx.model_keywords.test.test_spring import TestSpringLin, TestSpringNonl
 from pygccx.model_keywords.test.test_distributing_coupling import TestDistribuitingCoupling
 from pygccx.model_keywords.test.test_gap import TestGap
 from pygccx.model_keywords.test.test_tie import TestTie
+from pygccx.model_keywords.test.test_include import TestInclude
 
 if __name__ == '__main__':
     unittest.main()

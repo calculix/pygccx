@@ -2,7 +2,9 @@
     - NEW FEATURES
       - New model keyword *TIE (model_keywords.Tie)
       - New model keyword *EQUATION (model_keywords.Equation)
-      - New model keyword *INCLUDE (model_keywords.Include).
+      - New model keyword *INCLUDE (model_keywords.Include)
+      - New model keyword *DEFORMATION PLASTICITY (model_keywords.DeformationPlasticity)
+      - New step keyword *GREEN (step_keywords.Green) 
         Can also be used as a step keyword
       - New class model_keywords.Universal to write arbitrary strings 
         to input file

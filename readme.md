@@ -38,6 +38,7 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
         - *CLEARANCE
         - *CONTACT PAIR
         - *COUPLING
+        - *DEFORMATION PLASTICITY
         - *DISTRIBUTING COUPLING
         - *EALSTIC
         - *EQUATION
@@ -64,6 +65,7 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
         - *ELEMENT OUTPUT
         - *EL FILE
         - *EL PRINT
+        - *GREEN
         - *NODE FILE
         - *NODE OUTPUT
         - *NODE PRINT

@@ -41,6 +41,7 @@ from pygccx.model_keywords.test.test_gap import TestGap
 from pygccx.model_keywords.test.test_tie import TestTie
 from pygccx.model_keywords.test.test_include import TestInclude
 from pygccx.model_keywords.test.test_equation import TestEquation
+from pygccx.model_keywords.test.test_deformation_plasticity import TestDeformationPlasticity
 
 if __name__ == '__main__':
     unittest.main()

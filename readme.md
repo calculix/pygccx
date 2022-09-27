@@ -20,7 +20,8 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
 
 # Install Pygccx
 - Install Python 3.10 or higher (or make a virtual env of Python 3.10)
-- Download pygccx and extract to any location you want.
+- Download pygccx from https://github.com/calculix/pygccx/tags
+  and extract to any location you want.
 - install pygccx with pip
     ```
     pip install "path/to/pygccx"   (the folder where setup.py is located)

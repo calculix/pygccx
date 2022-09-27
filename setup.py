@@ -11,7 +11,7 @@ setup(
     packages=['pygccx',
                 'pygccx.test', 
                 'pygccx.helper_features', 'pygccx.helper_features.test',
-                'pygccx.mesh', 'pygccx.mesh.test',
+                'pygccx.mesh', 'pygccx.mesh.test', 'pygccx.mesh.mesh_factory',
                 'pygccx.model_keywords', 'pygccx.model_keywords.test',
                 'pygccx.result_reader', 'pygccx.result_reader.test',
                 'pygccx.step_keywords', 'pygccx.step_keywords.test'],

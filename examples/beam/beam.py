@@ -117,7 +117,7 @@ def main():
         )
         
         model.solve()
-        # model.show_results_in_cgx()
+        model.show_results_in_cgx()
 
         # post pro
         # =================================================================================

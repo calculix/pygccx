@@ -198,7 +198,7 @@ class Model:
             frd. Defaults to True.
         """
 
-        if load_inp and os.path.isfile(self.jobname + 'inp'):
+        if load_inp and os.path.isfile(os.path.join(self.working_dir, self.jobname + '.inp')):
             subprocess.run(f'{self.cgx_path} "{self.jobname}.frd" "{self.jobname}.inp"', cwd=self.working_dir)
         else:
             subprocess.run(f'{self.cgx_path} "{self.jobname}.frd"', cwd=self.working_dir)

@@ -96,7 +96,7 @@ class Model:
 
     def update_mesh_from_inp(self, filename:str, ignore_unsup_elems:bool=False, clear_mesh:bool=False):
         """
-        Updates the mesh of this model from gmsh model. 
+        Updates the mesh of this model from the given *.inp file. 
 
         Only nodes, 3D solid elements, node- and element sets and surfaces will be read.
 

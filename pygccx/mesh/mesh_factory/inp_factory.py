@@ -72,7 +72,6 @@ def surfaces_from_inp(filename:str) -> list[ISurface]:
     mesh = _parse_content(filename, True, read_surfs=True)
     return mesh.surfaces
 
-
 def _read_and_expand_inp(filename:str) -> list[list[str]]:
 
     out = []

@@ -35,6 +35,7 @@ from pygccx import model as ccx_model
 from pygccx import model_keywords as mk
 from pygccx import step_keywords as sk
 from pygccx import enums
+from pygccx.tools import stress_tools as st
 
 WKD = os.path.dirname(os.path.abspath(__file__))
 # change this paths to your location of ccx and cgx
@@ -138,8 +139,8 @@ def main():
             # get stress tensors for sorted node ids
             s = stress_result.get_values_by_ids(nids)
             # calc mises stress
-            mises = np.sqrt(s[:,0]**2 + s[:,1]**2 + s[:,2]**2 - s[:,0]*s[:,1] - s[:,1]*s[:,2] - s[:,2]*s[:,0] + 3*(s[:,3]**2 + s[:,4]**2 + s[:,5]**2))
-
+            mises = st.get_mises_stress(s)
+            prin = st.get_principal_stresses(s)
             # plot mises stress along x-axis
             plt.plot(x, mises)
             plt.show()

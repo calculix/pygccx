@@ -3,6 +3,7 @@ __pycache__/
 venv/
 venv_setup/
 notes.txt
+Problems/
 
 # Calculix files in examples
 executables/

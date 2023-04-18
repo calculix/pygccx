@@ -1,3 +1,20 @@
+0.2.1:
+    - NEW FEATURES
+      - New methods in class CoordinateSystem to transform points, vectors or tensors
+        from one coordinate system to another or from / to global.
+      - New module "tools" with helper functions
+        - tools.stress_tools
+          - get_mises_stress. 
+            Returns the mises stresses from given stress tensors.
+          - get_principal_stresses. 
+            Returns eigenvalues and eigenvactors from given stress tensors.
+          - get_worst_principal_stress.
+            Returns the worst principal stresses from given stress tensors.
+          - get_principal_shear_stresses. 
+            Returns the principal shear stresses from given stress tensors.
+          - get_max_principal_shear_stress. 
+            Returns the max principal shear stresses from given stress tensors.
+
 0.2.0:
     - NEW FEATURES
       - New model keyword *TIE (model_keywords.Tie)

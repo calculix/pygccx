@@ -60,8 +60,8 @@ along with pygccx.
 If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
-from dataclasses import dataclass, field, InitVar
-from typing import Sequence
+from dataclasses import dataclass, field, InitVar, replace
+from typing import Sequence, Optional
 
 from pygccx.enums import EOrientationSystems
 from pygccx.protocols import number
@@ -90,8 +90,8 @@ class CoordinateSystem:
     origin:InitVar[Sequence[number]|npt.NDArray] = (0.,0.,0.)
     matrix:InitVar[Sequence[Sequence[number]]|npt.NDArray] = ((1.,0.,0.), (0.,1.,0.), (0.,0.,1.))
 
-    _origin:np.ndarray = field(init=False)
-    _matrix:np.ndarray = field(init=False)
+    _origin:npt.NDArray[np.float_] = field(init=False)
+    _matrix:npt.NDArray[np.float_]   = field(init=False)
 
     def __post_init__(self, origin, matrix):
         self.set_origin(origin)
@@ -158,6 +158,10 @@ class CoordinateSystem:
             raise ValueError(f&#39;v_inc must have a length of 3, got {len(v_inc)}&#39;)
         self._origin += np.array(v_inc, dtype=float)
 
+    def copy(self) -&gt; &#39;CoordinateSystem&#39;: 
+        &#34;&#34;&#34;Returns an independant copy of this coordinate system&#34;&#34;&#34;    
+        return replace(self, origin=self._origin, matrix=self._matrix)
+    
     def rotate_x(self, ang:number, degrees:bool=False):
         &#34;&#34;&#34;
         Rotates this coordinate system about its x-axis by the given angle.
@@ -188,12 +192,360 @@ class CoordinateSystem:
         &#34;&#34;&#34;
         self._rotate(2, ang, degrees)
 
+    def transform_point_from_global(self, point:npt.ArrayLike) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given global cartesian point coordinates into this system and
+        returns the new coordinates.
+
+        If this system is cartesian, cartesian coordinates 
+        [x&#39;, y&#39;, z&#39;] are returned.
+        If this system is cylindrical, polar coordinates 
+        [r&#39;, theta&#39;(rad), z&#39;] are returned
+
+        Args:
+            points (npt.ArrayLike): 
+                Global cartesian coordinates [x1,y1,z1]
+                of point to transform  
+
+        Returns:
+            np.ndarray: Local coordinates [x&#39;,y&#39;,z&#39;] or [r&#39;, theta&#39;, z&#39;].
+        &#34;&#34;&#34;
+
+        pnt = np.array(point, dtype=float)
+        if pnt.shape != (3,):
+            raise ValueError(f&#34;Shape of point must be (3,), got {pnt.shape}&#34;)
+        
+        pnt -= self._origin
+        pnt = self._matrix @ pnt
+
+        if self.type == EOrientationSystems.CYLINDRICAL: 
+            pnt[0], pnt[1] = (np.hypot(pnt[0], pnt[1]),
+                                    np.arctan2(pnt[1], pnt[0]))
+
+        return pnt
+
+    def transform_point_to_global(self, point:npt.ArrayLike) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given local point coordinates into the global system and
+        returns the new coordinates.
+
+        If this system is cartesian, points must contain local cartesian coordinates 
+        [x&#39;, y&#39;, z&#39;].
+        If this system is cylindrical, points must contain local cylindrical coordinates
+        [r&#39;, theta&#39;(rad), z&#39;].
+
+        Args:
+            points (npt.ArrayLike): 
+                local cartesian or cylindriacl coordinates 
+                [x&#39;,y&#39;,z&#39;] or [r&#39;, theta&#39;(rad), z&#39;]
+                of points to transform  
+
+        Returns:
+            np.ndarray: global cartesian coordinates [x, y, z].
+        &#34;&#34;&#34;
+
+        pnt = np.array(point, dtype=float)
+        if pnt.shape != (3,):
+            raise ValueError(f&#34;Shape of point must be (3,), got {pnt.shape}&#34;)
+        
+        if self.type == EOrientationSystems.CYLINDRICAL:
+            pnt[0], pnt[1] = (np.cos(pnt[1]) * pnt[0],
+                                    np.sin(pnt[1]) * pnt[0])
+            
+        pnts = self._matrix.T @ pnt
+        pnts += self._origin
+
+        return pnts
+
+    def transform_point_to_other(self, point:npt.ArrayLike, other:&#39;CoordinateSystem&#39;) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given point coordinates from this system into an other
+        system and returns the new coordinates.
+
+        If this system is cartesian, points must contain local cartesian coordinates 
+        [x&#39;, y&#39;, z&#39;].
+        If this system is cylindrical, points must contain local cylindrical coordinates
+        [r&#39;, theta&#39;(rad), z&#39;].
+
+        If other system is cartesian, cartesian coordinates 
+        [x&#39;&#39;, y&#39;&#39;, z&#39;&#39;] are returned.
+        If other system is cylindrical, polar coordinates 
+        [[r&#39;&#39;, theta&#39;&#39;(rad), z&#39;&#39;], ...] are returned
+
+        Args:
+            point (npt.ArrayLike): 
+                Local coordinates [x&#39;,y&#39;,z&#39;] or [r&#39;, theta&#39;, z&#39;] of points to transform
+
+        Returns:
+            np.ndarray: Local coordinates [x&#39;&#39;,y&#39;&#39;,z&#39;&#39;] or [r&#39;&#39;, theta&#39;&#39;, z&#39;&#39;].
+        &#34;&#34;&#34;
+        return other.transform_point_from_global(
+                   self.transform_point_to_global(point)
+                   )
+
+    def transform_vector_from_global(self, vector:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given global vector into this system and returns it.
+
+        If this system is cartesian, the vector is rotated into it and returned. 
+        No ref_point is needed.
+
+        If this system is cylindrical, the returned components are:
+        vx&#39;: Radial component in this system at the location of ref_point.
+        vy&#39;: tangential component in this system at the location of ref_point.
+        vz&#39;: axial component in this system.
+
+        Args:
+            vector (npt.ArrayLike): 
+                Global cartesian vector [vx, vy, vz] to transform.
+            ref_point (npt.ArrayLike|None): 
+                Reference point in global system, at which the vector is acting.
+                Only required if this system is CYLINCRICAL.
+
+        Returns:
+            np.ndarray: Local vector [vx&#39;, vy&#39;, vz&#39;].
+        &#34;&#34;&#34;
+
+        vec = np.array(vector, dtype=float)
+        if vec.shape != (3,):
+            raise ValueError(f&#34;Shape of vector must be (3,), got {vec.shape}&#34;)
+
+        if self.type == EOrientationSystems.CYLINDRICAL: 
+            if ref_point is None:
+                raise ValueError(&#34;ref_point must be provided if coordinate system is CYLINDRICAL&#34;)
+            ref_pnt = np.array(ref_point, dtype=float)
+            if ref_pnt.shape != (3,):
+                raise ValueError(f&#34;Shape of ref_point must be (3,), got {ref_pnt.shape}&#34;)
+           
+            phi = self.transform_point_from_global(ref_pnt)[1]
+            c = self.copy()
+            c.rotate_z(phi)
+            return c._matrix @ vec 
+
+        vec = self._matrix @ vec
+        return vec
+
+    def transform_vector_to_global(self, vector:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given local vector from this system into the global and returns it.
+
+        If this system is cartesian, the vector is rotated into global and returned. 
+        No ref_point is needed.
+
+        If this system is cylindrical, the reference point at which the vector is acting, 
+        is required.
+
+        Args:
+            vector (npt.ArrayLike): 
+                Local vector [vx&#39;, vy&#39;, vz&#39;] to transform.
+            ref_point (npt.ArrayLike|None): 
+                Reference point in this system at which the vector is acting.
+                Only required if this system is CYLINCRICAL.
+
+        Returns:
+            np.ndarray: Global vector [vx, vy, vz].
+        &#34;&#34;&#34;
+        vec = np.array(vector, dtype=float)
+        if vec.shape != (3,):
+            raise ValueError(f&#34;Shape of vector must be (3,), got {vec.shape}&#34;)
+        
+        if self.type == EOrientationSystems.CYLINDRICAL:
+            if ref_point is None:
+                raise ValueError(&#34;ref_point must be provided if coordinate system is CYLINDRICAL&#34;)
+            ref_pnt = np.array(ref_point)
+            if ref_pnt.shape != (3,):
+                raise ValueError(f&#34;Shape of ref_point must be (3,), got {ref_pnt.shape}&#34;)
+            
+            phi = ref_pnt[1]
+            c = self.copy()
+            c.rotate_z(phi)
+            return c._matrix.T @ vec 
+
+        vec = self._matrix.T @ vec
+        return vec
+
+    def transform_vector_to_other(self, other:&#39;CoordinateSystem&#39;, vector:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given local vector into an other system and returns it.
+
+        Args:
+            other (CoordinateSystem): 
+                The system to which the vector should be transformed.
+            vector (npt.ArrayLike): 
+                Local vector [x&#39;,y&#39;,z&#39;] to transform
+            ref_point (npt.ArrayLike|None): 
+                Reference point in this system at which the vector is acting.
+                Only required if this system OR the other is CYLINCRICAL.
+
+        Returns:
+            np.ndarray: Local vector [vx&#39;&#39;,vy&#39;&#39;,vz&#39;&#39;] in other system.
+        &#34;&#34;&#34;
+
+        if (self.type == EOrientationSystems.CYLINDRICAL or 
+            other.type == EOrientationSystems.CYLINDRICAL):
+            if ref_point is None:
+                raise ValueError(&#34;ref_point must be provided if this or other system is CYLINDRICAL&#34;)
+            
+            return other.transform_vector_from_global(
+                        self.transform_vector_to_global(vector, ref_point),
+                        self.transform_point_to_global(ref_point)
+                    )
+        # self and other are rectangular
+        return other.transform_vector_from_global(
+                    self.transform_vector_to_global(vector)
+                )
+
+    def transform_tensor_from_global(self, tensor:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given global tensor into this system and returns it.
+
+        If this system is cartesian, the tensor is rotated into it and returned. 
+        No ref_point is needed.
+
+        The tensor can be either given as a vector with six components
+        [txx, tyy, tzz, txy, tyz, tzx] (this assumes a symmetric tensor, like stress),
+        or as a 3x3 matrix [[xx, xy, xz], [yx, yy, yz], [zx, zy, zz]].
+
+        If this system is cylindrical, the returned components are:
+        txx&#39;: Radial component in this system at the location of ref_point.
+        tyy&#39;: tangential component in this system at the location of ref_point.
+        tzz&#39;: axial component in this system.
+        txy&#39;, tyz&#39;, txz&#39;: corresponding deviatorivc components
+
+        Args:
+            tensor (npt.ArrayLike): 
+                Global cartesian tensor to transform. Of shape (6,) or (3,3)
+            ref_point (npt.ArrayLike|None): 
+                Reference point in global system, at which the tensor is acting.
+                Only required if this system is CYLINCRICAL.
+
+        Returns:
+            np.ndarray: Local transformed tensor, same shape as given tensor.
+        &#34;&#34;&#34;
+        t, out_shape = self._2matrix(tensor)
+        
+        if self.type == EOrientationSystems.CYLINDRICAL:
+            if ref_point is None:
+                raise ValueError(&#34;ref_point must be provided if coordinate system is CYLINDRICAL&#34;)
+            ref_pnt = np.array(ref_point, dtype=float)
+            if ref_pnt.shape != (3,):
+                raise ValueError(f&#34;Shape of ref_point must be (3,), got {ref_pnt.shape}&#34;)
+           
+            phi = self.transform_point_from_global(ref_pnt)[1]
+            c = self.copy()
+            c.rotate_z(phi)
+            t = c._matrix @ t @ c._matrix.T
+            return self._2outshape(t, out_shape)
+
+        t = self._matrix @ t @ self._matrix.T
+        return self._2outshape(t, out_shape)
+
+    def transform_tensor_to_global(self, tensor:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given local tensor from this system into the global and returns it.
+
+        If this system is cartesian, the tensor is rotated into global and returned. 
+        No ref_point is needed.
+
+        The tensor can be either given as a vector with six components
+        [txx, tyy, tzz, txy, tyz, tzx] (this assumes a symmetric tensor, like stress),
+        or as a 3x3 matrix [[xx, xy, xz], [yx, yy, yz], [zx, zy, zz]].
+
+        If this system is cylindrical, the reference point at which the tensor is acting, 
+        is required.
+
+        Args:
+            tensor (npt.ArrayLike): 
+                Local tensor to transform. Of shape (6,) or (3,3)
+            ref_point (npt.ArrayLike|None): 
+                Reference point in this system at which the tensor is acting.
+                Only required if this system is CYLINCRICAL.
+
+        Returns:
+            np.ndarray: Global tensor, same shape as given tensor.
+        &#34;&#34;&#34;
+        t, out_shape = self._2matrix(tensor)
+
+        if self.type == EOrientationSystems.CYLINDRICAL:
+            if ref_point is None:
+                raise ValueError(&#34;ref_point must be provided if coordinate system is CYLINDRICAL&#34;)
+            ref_pnt = np.array(ref_point, dtype=float)
+            if ref_pnt.shape != (3,):
+                raise ValueError(f&#34;Shape of ref_point must be (3,), got {ref_pnt.shape}&#34;)
+            
+            phi = ref_pnt[1]
+            c = self.copy()
+            c.rotate_z(phi)
+            t = c._matrix.T @ t @ c._matrix
+            return self._2outshape(t, out_shape)
+        
+        t = self._matrix.T @ t @ self._matrix
+        return self._2outshape(t, out_shape)
+
+    def transform_tensor_to_other(self, other:&#39;CoordinateSystem&#39;, tensor:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given local tensor into an other system and returns it.
+
+        The tensor can be either given as a vector with six components
+        [txx, tyy, tzz, txy, tyz, tzx] (this assumes a symmetric tensor, like stress),
+        or as a 3x3 matrix [[xx, xy, xz], [yx, yy, yz], [zx, zy, zz]].
+
+        Args:
+            other (CoordinateSystem): 
+                The system to which the vector should be transformed.
+            tensor (npt.ArrayLike): 
+                Local tensor to transform. Of shape (6,) or (3,3)
+            ref_point (npt.ArrayLike|None): 
+                Reference point in this system at which the tensor is acting.
+                Only required if this system OR the other is CYLINCRICAL.
+
+        Returns:
+            np.ndarray: Local vector in other system. Same shape as given tensor
+        &#34;&#34;&#34;
+        if (self.type == EOrientationSystems.CYLINDRICAL or 
+            other.type == EOrientationSystems.CYLINDRICAL):
+            if ref_point is None:
+                raise ValueError(&#34;ref_point must be provided if this or other system is CYLINDRICAL&#34;)
+            
+            return other.transform_tensor_from_global(
+                        self.transform_tensor_to_global(tensor, ref_point),
+                        self.transform_point_to_global(ref_point)
+                    )
+        # self and other are rectangular
+        return other.transform_tensor_from_global(
+                    self.transform_tensor_to_global(tensor)
+                )
+
+
     def _rotate(self, axis:int, ang:number, degrees:bool):
 
         rot_axis = self._matrix[axis]
         rot_ang = np.deg2rad(ang) if degrees else ang
         r = Rotation.from_rotvec(rot_axis * rot_ang)
-        self._matrix = r.apply(self._matrix)</code></pre>
+        self._matrix = r.apply(self._matrix)
+
+    def _2matrix(self, tensor:npt.ArrayLike) -&gt; tuple[np.ndarray, tuple[int,...]]:
+
+        t = np.array(tensor, dtype=float)
+        if t.shape == (6,):
+            xx, yy, zz, xy, yz, zx = t
+            return np.array([[xx, xy, zx],
+                             [xy, yy, yz],
+                             [zx, yz, zz]]), t.shape
+        
+        if t.shape == (3,3):
+            return t, t.shape
+        
+        raise ValueError(f&#34;Shape of tensor must be (6,) or (3,3), got {t.shape}&#34;)
+
+    def _2outshape(self, matrix:np.ndarray, out_shape:tuple[int,...]) -&gt; np.ndarray:
+        if out_shape == (3,3):
+            return matrix
+        if out_shape == (6,):
+            m = matrix
+            return np.array([m[0,0], m[1,1], m[2,2], m[0,1], m[1,2], m[0,2]])
+        
+        raise ValueError(f&#34;out_shape must be (6,) or (3,3), got {out_shape}&#34;)</code></pre>
 </details>
 </section>
 <section>
@@ -251,8 +603,8 @@ class CoordinateSystem:
     origin:InitVar[Sequence[number]|npt.NDArray] = (0.,0.,0.)
     matrix:InitVar[Sequence[Sequence[number]]|npt.NDArray] = ((1.,0.,0.), (0.,1.,0.), (0.,0.,1.))
 
-    _origin:np.ndarray = field(init=False)
-    _matrix:np.ndarray = field(init=False)
+    _origin:npt.NDArray[np.float_] = field(init=False)
+    _matrix:npt.NDArray[np.float_]   = field(init=False)
 
     def __post_init__(self, origin, matrix):
         self.set_origin(origin)
@@ -319,6 +671,10 @@ class CoordinateSystem:
             raise ValueError(f&#39;v_inc must have a length of 3, got {len(v_inc)}&#39;)
         self._origin += np.array(v_inc, dtype=float)
 
+    def copy(self) -&gt; &#39;CoordinateSystem&#39;: 
+        &#34;&#34;&#34;Returns an independant copy of this coordinate system&#34;&#34;&#34;    
+        return replace(self, origin=self._origin, matrix=self._matrix)
+    
     def rotate_x(self, ang:number, degrees:bool=False):
         &#34;&#34;&#34;
         Rotates this coordinate system about its x-axis by the given angle.
@@ -349,12 +705,360 @@ class CoordinateSystem:
         &#34;&#34;&#34;
         self._rotate(2, ang, degrees)
 
+    def transform_point_from_global(self, point:npt.ArrayLike) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given global cartesian point coordinates into this system and
+        returns the new coordinates.
+
+        If this system is cartesian, cartesian coordinates 
+        [x&#39;, y&#39;, z&#39;] are returned.
+        If this system is cylindrical, polar coordinates 
+        [r&#39;, theta&#39;(rad), z&#39;] are returned
+
+        Args:
+            points (npt.ArrayLike): 
+                Global cartesian coordinates [x1,y1,z1]
+                of point to transform  
+
+        Returns:
+            np.ndarray: Local coordinates [x&#39;,y&#39;,z&#39;] or [r&#39;, theta&#39;, z&#39;].
+        &#34;&#34;&#34;
+
+        pnt = np.array(point, dtype=float)
+        if pnt.shape != (3,):
+            raise ValueError(f&#34;Shape of point must be (3,), got {pnt.shape}&#34;)
+        
+        pnt -= self._origin
+        pnt = self._matrix @ pnt
+
+        if self.type == EOrientationSystems.CYLINDRICAL: 
+            pnt[0], pnt[1] = (np.hypot(pnt[0], pnt[1]),
+                                    np.arctan2(pnt[1], pnt[0]))
+
+        return pnt
+
+    def transform_point_to_global(self, point:npt.ArrayLike) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given local point coordinates into the global system and
+        returns the new coordinates.
+
+        If this system is cartesian, points must contain local cartesian coordinates 
+        [x&#39;, y&#39;, z&#39;].
+        If this system is cylindrical, points must contain local cylindrical coordinates
+        [r&#39;, theta&#39;(rad), z&#39;].
+
+        Args:
+            points (npt.ArrayLike): 
+                local cartesian or cylindriacl coordinates 
+                [x&#39;,y&#39;,z&#39;] or [r&#39;, theta&#39;(rad), z&#39;]
+                of points to transform  
+
+        Returns:
+            np.ndarray: global cartesian coordinates [x, y, z].
+        &#34;&#34;&#34;
+
+        pnt = np.array(point, dtype=float)
+        if pnt.shape != (3,):
+            raise ValueError(f&#34;Shape of point must be (3,), got {pnt.shape}&#34;)
+        
+        if self.type == EOrientationSystems.CYLINDRICAL:
+            pnt[0], pnt[1] = (np.cos(pnt[1]) * pnt[0],
+                                    np.sin(pnt[1]) * pnt[0])
+            
+        pnts = self._matrix.T @ pnt
+        pnts += self._origin
+
+        return pnts
+
+    def transform_point_to_other(self, point:npt.ArrayLike, other:&#39;CoordinateSystem&#39;) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given point coordinates from this system into an other
+        system and returns the new coordinates.
+
+        If this system is cartesian, points must contain local cartesian coordinates 
+        [x&#39;, y&#39;, z&#39;].
+        If this system is cylindrical, points must contain local cylindrical coordinates
+        [r&#39;, theta&#39;(rad), z&#39;].
+
+        If other system is cartesian, cartesian coordinates 
+        [x&#39;&#39;, y&#39;&#39;, z&#39;&#39;] are returned.
+        If other system is cylindrical, polar coordinates 
+        [[r&#39;&#39;, theta&#39;&#39;(rad), z&#39;&#39;], ...] are returned
+
+        Args:
+            point (npt.ArrayLike): 
+                Local coordinates [x&#39;,y&#39;,z&#39;] or [r&#39;, theta&#39;, z&#39;] of points to transform
+
+        Returns:
+            np.ndarray: Local coordinates [x&#39;&#39;,y&#39;&#39;,z&#39;&#39;] or [r&#39;&#39;, theta&#39;&#39;, z&#39;&#39;].
+        &#34;&#34;&#34;
+        return other.transform_point_from_global(
+                   self.transform_point_to_global(point)
+                   )
+
+    def transform_vector_from_global(self, vector:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given global vector into this system and returns it.
+
+        If this system is cartesian, the vector is rotated into it and returned. 
+        No ref_point is needed.
+
+        If this system is cylindrical, the returned components are:
+        vx&#39;: Radial component in this system at the location of ref_point.
+        vy&#39;: tangential component in this system at the location of ref_point.
+        vz&#39;: axial component in this system.
+
+        Args:
+            vector (npt.ArrayLike): 
+                Global cartesian vector [vx, vy, vz] to transform.
+            ref_point (npt.ArrayLike|None): 
+                Reference point in global system, at which the vector is acting.
+                Only required if this system is CYLINCRICAL.
+
+        Returns:
+            np.ndarray: Local vector [vx&#39;, vy&#39;, vz&#39;].
+        &#34;&#34;&#34;
+
+        vec = np.array(vector, dtype=float)
+        if vec.shape != (3,):
+            raise ValueError(f&#34;Shape of vector must be (3,), got {vec.shape}&#34;)
+
+        if self.type == EOrientationSystems.CYLINDRICAL: 
+            if ref_point is None:
+                raise ValueError(&#34;ref_point must be provided if coordinate system is CYLINDRICAL&#34;)
+            ref_pnt = np.array(ref_point, dtype=float)
+            if ref_pnt.shape != (3,):
+                raise ValueError(f&#34;Shape of ref_point must be (3,), got {ref_pnt.shape}&#34;)
+           
+            phi = self.transform_point_from_global(ref_pnt)[1]
+            c = self.copy()
+            c.rotate_z(phi)
+            return c._matrix @ vec 
+
+        vec = self._matrix @ vec
+        return vec
+
+    def transform_vector_to_global(self, vector:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given local vector from this system into the global and returns it.
+
+        If this system is cartesian, the vector is rotated into global and returned. 
+        No ref_point is needed.
+
+        If this system is cylindrical, the reference point at which the vector is acting, 
+        is required.
+
+        Args:
+            vector (npt.ArrayLike): 
+                Local vector [vx&#39;, vy&#39;, vz&#39;] to transform.
+            ref_point (npt.ArrayLike|None): 
+                Reference point in this system at which the vector is acting.
+                Only required if this system is CYLINCRICAL.
+
+        Returns:
+            np.ndarray: Global vector [vx, vy, vz].
+        &#34;&#34;&#34;
+        vec = np.array(vector, dtype=float)
+        if vec.shape != (3,):
+            raise ValueError(f&#34;Shape of vector must be (3,), got {vec.shape}&#34;)
+        
+        if self.type == EOrientationSystems.CYLINDRICAL:
+            if ref_point is None:
+                raise ValueError(&#34;ref_point must be provided if coordinate system is CYLINDRICAL&#34;)
+            ref_pnt = np.array(ref_point)
+            if ref_pnt.shape != (3,):
+                raise ValueError(f&#34;Shape of ref_point must be (3,), got {ref_pnt.shape}&#34;)
+            
+            phi = ref_pnt[1]
+            c = self.copy()
+            c.rotate_z(phi)
+            return c._matrix.T @ vec 
+
+        vec = self._matrix.T @ vec
+        return vec
+
+    def transform_vector_to_other(self, other:&#39;CoordinateSystem&#39;, vector:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given local vector into an other system and returns it.
+
+        Args:
+            other (CoordinateSystem): 
+                The system to which the vector should be transformed.
+            vector (npt.ArrayLike): 
+                Local vector [x&#39;,y&#39;,z&#39;] to transform
+            ref_point (npt.ArrayLike|None): 
+                Reference point in this system at which the vector is acting.
+                Only required if this system OR the other is CYLINCRICAL.
+
+        Returns:
+            np.ndarray: Local vector [vx&#39;&#39;,vy&#39;&#39;,vz&#39;&#39;] in other system.
+        &#34;&#34;&#34;
+
+        if (self.type == EOrientationSystems.CYLINDRICAL or 
+            other.type == EOrientationSystems.CYLINDRICAL):
+            if ref_point is None:
+                raise ValueError(&#34;ref_point must be provided if this or other system is CYLINDRICAL&#34;)
+            
+            return other.transform_vector_from_global(
+                        self.transform_vector_to_global(vector, ref_point),
+                        self.transform_point_to_global(ref_point)
+                    )
+        # self and other are rectangular
+        return other.transform_vector_from_global(
+                    self.transform_vector_to_global(vector)
+                )
+
+    def transform_tensor_from_global(self, tensor:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given global tensor into this system and returns it.
+
+        If this system is cartesian, the tensor is rotated into it and returned. 
+        No ref_point is needed.
+
+        The tensor can be either given as a vector with six components
+        [txx, tyy, tzz, txy, tyz, tzx] (this assumes a symmetric tensor, like stress),
+        or as a 3x3 matrix [[xx, xy, xz], [yx, yy, yz], [zx, zy, zz]].
+
+        If this system is cylindrical, the returned components are:
+        txx&#39;: Radial component in this system at the location of ref_point.
+        tyy&#39;: tangential component in this system at the location of ref_point.
+        tzz&#39;: axial component in this system.
+        txy&#39;, tyz&#39;, txz&#39;: corresponding deviatorivc components
+
+        Args:
+            tensor (npt.ArrayLike): 
+                Global cartesian tensor to transform. Of shape (6,) or (3,3)
+            ref_point (npt.ArrayLike|None): 
+                Reference point in global system, at which the tensor is acting.
+                Only required if this system is CYLINCRICAL.
+
+        Returns:
+            np.ndarray: Local transformed tensor, same shape as given tensor.
+        &#34;&#34;&#34;
+        t, out_shape = self._2matrix(tensor)
+        
+        if self.type == EOrientationSystems.CYLINDRICAL:
+            if ref_point is None:
+                raise ValueError(&#34;ref_point must be provided if coordinate system is CYLINDRICAL&#34;)
+            ref_pnt = np.array(ref_point, dtype=float)
+            if ref_pnt.shape != (3,):
+                raise ValueError(f&#34;Shape of ref_point must be (3,), got {ref_pnt.shape}&#34;)
+           
+            phi = self.transform_point_from_global(ref_pnt)[1]
+            c = self.copy()
+            c.rotate_z(phi)
+            t = c._matrix @ t @ c._matrix.T
+            return self._2outshape(t, out_shape)
+
+        t = self._matrix @ t @ self._matrix.T
+        return self._2outshape(t, out_shape)
+
+    def transform_tensor_to_global(self, tensor:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given local tensor from this system into the global and returns it.
+
+        If this system is cartesian, the tensor is rotated into global and returned. 
+        No ref_point is needed.
+
+        The tensor can be either given as a vector with six components
+        [txx, tyy, tzz, txy, tyz, tzx] (this assumes a symmetric tensor, like stress),
+        or as a 3x3 matrix [[xx, xy, xz], [yx, yy, yz], [zx, zy, zz]].
+
+        If this system is cylindrical, the reference point at which the tensor is acting, 
+        is required.
+
+        Args:
+            tensor (npt.ArrayLike): 
+                Local tensor to transform. Of shape (6,) or (3,3)
+            ref_point (npt.ArrayLike|None): 
+                Reference point in this system at which the tensor is acting.
+                Only required if this system is CYLINCRICAL.
+
+        Returns:
+            np.ndarray: Global tensor, same shape as given tensor.
+        &#34;&#34;&#34;
+        t, out_shape = self._2matrix(tensor)
+
+        if self.type == EOrientationSystems.CYLINDRICAL:
+            if ref_point is None:
+                raise ValueError(&#34;ref_point must be provided if coordinate system is CYLINDRICAL&#34;)
+            ref_pnt = np.array(ref_point, dtype=float)
+            if ref_pnt.shape != (3,):
+                raise ValueError(f&#34;Shape of ref_point must be (3,), got {ref_pnt.shape}&#34;)
+            
+            phi = ref_pnt[1]
+            c = self.copy()
+            c.rotate_z(phi)
+            t = c._matrix.T @ t @ c._matrix
+            return self._2outshape(t, out_shape)
+        
+        t = self._matrix.T @ t @ self._matrix
+        return self._2outshape(t, out_shape)
+
+    def transform_tensor_to_other(self, other:&#39;CoordinateSystem&#39;, tensor:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+        &#34;&#34;&#34;
+        Transforms the given local tensor into an other system and returns it.
+
+        The tensor can be either given as a vector with six components
+        [txx, tyy, tzz, txy, tyz, tzx] (this assumes a symmetric tensor, like stress),
+        or as a 3x3 matrix [[xx, xy, xz], [yx, yy, yz], [zx, zy, zz]].
+
+        Args:
+            other (CoordinateSystem): 
+                The system to which the vector should be transformed.
+            tensor (npt.ArrayLike): 
+                Local tensor to transform. Of shape (6,) or (3,3)
+            ref_point (npt.ArrayLike|None): 
+                Reference point in this system at which the tensor is acting.
+                Only required if this system OR the other is CYLINCRICAL.
+
+        Returns:
+            np.ndarray: Local vector in other system. Same shape as given tensor
+        &#34;&#34;&#34;
+        if (self.type == EOrientationSystems.CYLINDRICAL or 
+            other.type == EOrientationSystems.CYLINDRICAL):
+            if ref_point is None:
+                raise ValueError(&#34;ref_point must be provided if this or other system is CYLINDRICAL&#34;)
+            
+            return other.transform_tensor_from_global(
+                        self.transform_tensor_to_global(tensor, ref_point),
+                        self.transform_point_to_global(ref_point)
+                    )
+        # self and other are rectangular
+        return other.transform_tensor_from_global(
+                    self.transform_tensor_to_global(tensor)
+                )
+
+
     def _rotate(self, axis:int, ang:number, degrees:bool):
 
         rot_axis = self._matrix[axis]
         rot_ang = np.deg2rad(ang) if degrees else ang
         r = Rotation.from_rotvec(rot_axis * rot_ang)
-        self._matrix = r.apply(self._matrix)</code></pre>
+        self._matrix = r.apply(self._matrix)
+
+    def _2matrix(self, tensor:npt.ArrayLike) -&gt; tuple[np.ndarray, tuple[int,...]]:
+
+        t = np.array(tensor, dtype=float)
+        if t.shape == (6,):
+            xx, yy, zz, xy, yz, zx = t
+            return np.array([[xx, xy, zx],
+                             [xy, yy, yz],
+                             [zx, yz, zz]]), t.shape
+        
+        if t.shape == (3,3):
+            return t, t.shape
+        
+        raise ValueError(f&#34;Shape of tensor must be (6,) or (3,3), got {t.shape}&#34;)
+
+    def _2outshape(self, matrix:np.ndarray, out_shape:tuple[int,...]) -&gt; np.ndarray:
+        if out_shape == (3,3):
+            return matrix
+        if out_shape == (6,):
+            m = matrix
+            return np.array([m[0,0], m[1,1], m[2,2], m[0,1], m[1,2], m[0,2]])
+        
+        raise ValueError(f&#34;out_shape must be (6,) or (3,3), got {out_shape}&#34;)</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
@@ -377,6 +1081,20 @@ class CoordinateSystem:
 </dl>
 <h3>Methods</h3>
 <dl>
+<dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.copy"><code class="name flex">
+<span>def <span class="ident">copy</span></span>(<span>self) ‑> <a title="pygccx.helper_features.coordinate_system.CoordinateSystem" href="#pygccx.helper_features.coordinate_system.CoordinateSystem">CoordinateSystem</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns an independant copy of this coordinate system</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def copy(self) -&gt; &#39;CoordinateSystem&#39;: 
+    &#34;&#34;&#34;Returns an independant copy of this coordinate system&#34;&#34;&#34;    
+    return replace(self, origin=self._origin, matrix=self._matrix)</code></pre>
+</details>
+</dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.get_matrix"><code class="name flex">
 <span>def <span class="ident">get_matrix</span></span>(<span>self) ‑> numpy.ndarray[typing.Any, numpy.dtype[+ScalarType]]</span>
 </code></dt>
@@ -605,6 +1323,586 @@ row 2: vector of z axis in global system</dd>
     self._origin = np.array(origin, dtype=float)</code></pre>
 </details>
 </dd>
+<dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_point_from_global"><code class="name flex">
+<span>def <span class="ident">transform_point_from_global</span></span>(<span>self, point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]]) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Transforms the given global cartesian point coordinates into this system and
+returns the new coordinates.</p>
+<p>If this system is cartesian, cartesian coordinates
+[x', y', z'] are returned.
+If this system is cylindrical, polar coordinates
+[r', theta'(rad), z'] are returned</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>points</code></strong> :&ensp;<code>npt.ArrayLike</code></dt>
+<dd>Global cartesian coordinates [x1,y1,z1]
+of point to transform
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>Local coordinates [x',y',z'] or [r', theta', z'].</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def transform_point_from_global(self, point:npt.ArrayLike) -&gt; np.ndarray:
+    &#34;&#34;&#34;
+    Transforms the given global cartesian point coordinates into this system and
+    returns the new coordinates.
+
+    If this system is cartesian, cartesian coordinates 
+    [x&#39;, y&#39;, z&#39;] are returned.
+    If this system is cylindrical, polar coordinates 
+    [r&#39;, theta&#39;(rad), z&#39;] are returned
+
+    Args:
+        points (npt.ArrayLike): 
+            Global cartesian coordinates [x1,y1,z1]
+            of point to transform  
+
+    Returns:
+        np.ndarray: Local coordinates [x&#39;,y&#39;,z&#39;] or [r&#39;, theta&#39;, z&#39;].
+    &#34;&#34;&#34;
+
+    pnt = np.array(point, dtype=float)
+    if pnt.shape != (3,):
+        raise ValueError(f&#34;Shape of point must be (3,), got {pnt.shape}&#34;)
+    
+    pnt -= self._origin
+    pnt = self._matrix @ pnt
+
+    if self.type == EOrientationSystems.CYLINDRICAL: 
+        pnt[0], pnt[1] = (np.hypot(pnt[0], pnt[1]),
+                                np.arctan2(pnt[1], pnt[0]))
+
+    return pnt</code></pre>
+</details>
+</dd>
+<dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_point_to_global"><code class="name flex">
+<span>def <span class="ident">transform_point_to_global</span></span>(<span>self, point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]]) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Transforms the given local point coordinates into the global system and
+returns the new coordinates.</p>
+<p>If this system is cartesian, points must contain local cartesian coordinates
+[x', y', z'].
+If this system is cylindrical, points must contain local cylindrical coordinates
+[r', theta'(rad), z'].</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>points</code></strong> :&ensp;<code>npt.ArrayLike</code></dt>
+<dd>local cartesian or cylindriacl coordinates
+[x',y',z'] or [r', theta'(rad), z']
+of points to transform
+</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>global cartesian coordinates [x, y, z].</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def transform_point_to_global(self, point:npt.ArrayLike) -&gt; np.ndarray:
+    &#34;&#34;&#34;
+    Transforms the given local point coordinates into the global system and
+    returns the new coordinates.
+
+    If this system is cartesian, points must contain local cartesian coordinates 
+    [x&#39;, y&#39;, z&#39;].
+    If this system is cylindrical, points must contain local cylindrical coordinates
+    [r&#39;, theta&#39;(rad), z&#39;].
+
+    Args:
+        points (npt.ArrayLike): 
+            local cartesian or cylindriacl coordinates 
+            [x&#39;,y&#39;,z&#39;] or [r&#39;, theta&#39;(rad), z&#39;]
+            of points to transform  
+
+    Returns:
+        np.ndarray: global cartesian coordinates [x, y, z].
+    &#34;&#34;&#34;
+
+    pnt = np.array(point, dtype=float)
+    if pnt.shape != (3,):
+        raise ValueError(f&#34;Shape of point must be (3,), got {pnt.shape}&#34;)
+    
+    if self.type == EOrientationSystems.CYLINDRICAL:
+        pnt[0], pnt[1] = (np.cos(pnt[1]) * pnt[0],
+                                np.sin(pnt[1]) * pnt[0])
+        
+    pnts = self._matrix.T @ pnt
+    pnts += self._origin
+
+    return pnts</code></pre>
+</details>
+</dd>
+<dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_point_to_other"><code class="name flex">
+<span>def <span class="ident">transform_point_to_other</span></span>(<span>self, point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], other: <a title="pygccx.helper_features.coordinate_system.CoordinateSystem" href="#pygccx.helper_features.coordinate_system.CoordinateSystem">CoordinateSystem</a>) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Transforms the given point coordinates from this system into an other
+system and returns the new coordinates.</p>
+<p>If this system is cartesian, points must contain local cartesian coordinates
+[x', y', z'].
+If this system is cylindrical, points must contain local cylindrical coordinates
+[r', theta'(rad), z'].</p>
+<p>If other system is cartesian, cartesian coordinates
+[x'', y'', z''] are returned.
+If other system is cylindrical, polar coordinates
+[[r'', theta''(rad), z''], &hellip;] are returned</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>point</code></strong> :&ensp;<code>npt.ArrayLike</code></dt>
+<dd>Local coordinates [x',y',z'] or [r', theta', z'] of points to transform</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>Local coordinates [x'',y'',z''] or [r'', theta'', z''].</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def transform_point_to_other(self, point:npt.ArrayLike, other:&#39;CoordinateSystem&#39;) -&gt; np.ndarray:
+    &#34;&#34;&#34;
+    Transforms the given point coordinates from this system into an other
+    system and returns the new coordinates.
+
+    If this system is cartesian, points must contain local cartesian coordinates 
+    [x&#39;, y&#39;, z&#39;].
+    If this system is cylindrical, points must contain local cylindrical coordinates
+    [r&#39;, theta&#39;(rad), z&#39;].
+
+    If other system is cartesian, cartesian coordinates 
+    [x&#39;&#39;, y&#39;&#39;, z&#39;&#39;] are returned.
+    If other system is cylindrical, polar coordinates 
+    [[r&#39;&#39;, theta&#39;&#39;(rad), z&#39;&#39;], ...] are returned
+
+    Args:
+        point (npt.ArrayLike): 
+            Local coordinates [x&#39;,y&#39;,z&#39;] or [r&#39;, theta&#39;, z&#39;] of points to transform
+
+    Returns:
+        np.ndarray: Local coordinates [x&#39;&#39;,y&#39;&#39;,z&#39;&#39;] or [r&#39;&#39;, theta&#39;&#39;, z&#39;&#39;].
+    &#34;&#34;&#34;
+    return other.transform_point_from_global(
+               self.transform_point_to_global(point)
+               )</code></pre>
+</details>
+</dd>
+<dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_tensor_from_global"><code class="name flex">
+<span>def <span class="ident">transform_tensor_from_global</span></span>(<span>self, tensor: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Transforms the given global tensor into this system and returns it.</p>
+<p>If this system is cartesian, the tensor is rotated into it and returned.
+No ref_point is needed.</p>
+<p>The tensor can be either given as a vector with six components
+[txx, tyy, tzz, txy, tyz, tzx] (this assumes a symmetric tensor, like stress),
+or as a 3x3 matrix [[xx, xy, xz], [yx, yy, yz], [zx, zy, zz]].</p>
+<p>If this system is cylindrical, the returned components are:
+txx': Radial component in this system at the location of ref_point.
+tyy': tangential component in this system at the location of ref_point.
+tzz': axial component in this system.
+txy', tyz', txz': corresponding deviatorivc components</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>tensor</code></strong> :&ensp;<code>npt.ArrayLike</code></dt>
+<dd>Global cartesian tensor to transform. Of shape (6,) or (3,3)</dd>
+</dl>
+<p>ref_point (npt.ArrayLike|None):
+Reference point in global system, at which the tensor is acting.
+Only required if this system is CYLINCRICAL.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>Local transformed tensor, same shape as given tensor.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def transform_tensor_from_global(self, tensor:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+    &#34;&#34;&#34;
+    Transforms the given global tensor into this system and returns it.
+
+    If this system is cartesian, the tensor is rotated into it and returned. 
+    No ref_point is needed.
+
+    The tensor can be either given as a vector with six components
+    [txx, tyy, tzz, txy, tyz, tzx] (this assumes a symmetric tensor, like stress),
+    or as a 3x3 matrix [[xx, xy, xz], [yx, yy, yz], [zx, zy, zz]].
+
+    If this system is cylindrical, the returned components are:
+    txx&#39;: Radial component in this system at the location of ref_point.
+    tyy&#39;: tangential component in this system at the location of ref_point.
+    tzz&#39;: axial component in this system.
+    txy&#39;, tyz&#39;, txz&#39;: corresponding deviatorivc components
+
+    Args:
+        tensor (npt.ArrayLike): 
+            Global cartesian tensor to transform. Of shape (6,) or (3,3)
+        ref_point (npt.ArrayLike|None): 
+            Reference point in global system, at which the tensor is acting.
+            Only required if this system is CYLINCRICAL.
+
+    Returns:
+        np.ndarray: Local transformed tensor, same shape as given tensor.
+    &#34;&#34;&#34;
+    t, out_shape = self._2matrix(tensor)
+    
+    if self.type == EOrientationSystems.CYLINDRICAL:
+        if ref_point is None:
+            raise ValueError(&#34;ref_point must be provided if coordinate system is CYLINDRICAL&#34;)
+        ref_pnt = np.array(ref_point, dtype=float)
+        if ref_pnt.shape != (3,):
+            raise ValueError(f&#34;Shape of ref_point must be (3,), got {ref_pnt.shape}&#34;)
+       
+        phi = self.transform_point_from_global(ref_pnt)[1]
+        c = self.copy()
+        c.rotate_z(phi)
+        t = c._matrix @ t @ c._matrix.T
+        return self._2outshape(t, out_shape)
+
+    t = self._matrix @ t @ self._matrix.T
+    return self._2outshape(t, out_shape)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_tensor_to_global"><code class="name flex">
+<span>def <span class="ident">transform_tensor_to_global</span></span>(<span>self, tensor: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Transforms the given local tensor from this system into the global and returns it.</p>
+<p>If this system is cartesian, the tensor is rotated into global and returned.
+No ref_point is needed.</p>
+<p>The tensor can be either given as a vector with six components
+[txx, tyy, tzz, txy, tyz, tzx] (this assumes a symmetric tensor, like stress),
+or as a 3x3 matrix [[xx, xy, xz], [yx, yy, yz], [zx, zy, zz]].</p>
+<p>If this system is cylindrical, the reference point at which the tensor is acting,
+is required.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>tensor</code></strong> :&ensp;<code>npt.ArrayLike</code></dt>
+<dd>Local tensor to transform. Of shape (6,) or (3,3)</dd>
+</dl>
+<p>ref_point (npt.ArrayLike|None):
+Reference point in this system at which the tensor is acting.
+Only required if this system is CYLINCRICAL.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>Global tensor, same shape as given tensor.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def transform_tensor_to_global(self, tensor:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+    &#34;&#34;&#34;
+    Transforms the given local tensor from this system into the global and returns it.
+
+    If this system is cartesian, the tensor is rotated into global and returned. 
+    No ref_point is needed.
+
+    The tensor can be either given as a vector with six components
+    [txx, tyy, tzz, txy, tyz, tzx] (this assumes a symmetric tensor, like stress),
+    or as a 3x3 matrix [[xx, xy, xz], [yx, yy, yz], [zx, zy, zz]].
+
+    If this system is cylindrical, the reference point at which the tensor is acting, 
+    is required.
+
+    Args:
+        tensor (npt.ArrayLike): 
+            Local tensor to transform. Of shape (6,) or (3,3)
+        ref_point (npt.ArrayLike|None): 
+            Reference point in this system at which the tensor is acting.
+            Only required if this system is CYLINCRICAL.
+
+    Returns:
+        np.ndarray: Global tensor, same shape as given tensor.
+    &#34;&#34;&#34;
+    t, out_shape = self._2matrix(tensor)
+
+    if self.type == EOrientationSystems.CYLINDRICAL:
+        if ref_point is None:
+            raise ValueError(&#34;ref_point must be provided if coordinate system is CYLINDRICAL&#34;)
+        ref_pnt = np.array(ref_point, dtype=float)
+        if ref_pnt.shape != (3,):
+            raise ValueError(f&#34;Shape of ref_point must be (3,), got {ref_pnt.shape}&#34;)
+        
+        phi = ref_pnt[1]
+        c = self.copy()
+        c.rotate_z(phi)
+        t = c._matrix.T @ t @ c._matrix
+        return self._2outshape(t, out_shape)
+    
+    t = self._matrix.T @ t @ self._matrix
+    return self._2outshape(t, out_shape)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_tensor_to_other"><code class="name flex">
+<span>def <span class="ident">transform_tensor_to_other</span></span>(<span>self, other: <a title="pygccx.helper_features.coordinate_system.CoordinateSystem" href="#pygccx.helper_features.coordinate_system.CoordinateSystem">CoordinateSystem</a>, tensor: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Transforms the given local tensor into an other system and returns it.</p>
+<p>The tensor can be either given as a vector with six components
+[txx, tyy, tzz, txy, tyz, tzx] (this assumes a symmetric tensor, like stress),
+or as a 3x3 matrix [[xx, xy, xz], [yx, yy, yz], [zx, zy, zz]].</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>other</code></strong> :&ensp;<code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem" href="#pygccx.helper_features.coordinate_system.CoordinateSystem">CoordinateSystem</a></code></dt>
+<dd>The system to which the vector should be transformed.</dd>
+<dt><strong><code>tensor</code></strong> :&ensp;<code>npt.ArrayLike</code></dt>
+<dd>Local tensor to transform. Of shape (6,) or (3,3)</dd>
+</dl>
+<p>ref_point (npt.ArrayLike|None):
+Reference point in this system at which the tensor is acting.
+Only required if this system OR the other is CYLINCRICAL.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>Local vector in other system. Same shape as given tensor</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def transform_tensor_to_other(self, other:&#39;CoordinateSystem&#39;, tensor:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+    &#34;&#34;&#34;
+    Transforms the given local tensor into an other system and returns it.
+
+    The tensor can be either given as a vector with six components
+    [txx, tyy, tzz, txy, tyz, tzx] (this assumes a symmetric tensor, like stress),
+    or as a 3x3 matrix [[xx, xy, xz], [yx, yy, yz], [zx, zy, zz]].
+
+    Args:
+        other (CoordinateSystem): 
+            The system to which the vector should be transformed.
+        tensor (npt.ArrayLike): 
+            Local tensor to transform. Of shape (6,) or (3,3)
+        ref_point (npt.ArrayLike|None): 
+            Reference point in this system at which the tensor is acting.
+            Only required if this system OR the other is CYLINCRICAL.
+
+    Returns:
+        np.ndarray: Local vector in other system. Same shape as given tensor
+    &#34;&#34;&#34;
+    if (self.type == EOrientationSystems.CYLINDRICAL or 
+        other.type == EOrientationSystems.CYLINDRICAL):
+        if ref_point is None:
+            raise ValueError(&#34;ref_point must be provided if this or other system is CYLINDRICAL&#34;)
+        
+        return other.transform_tensor_from_global(
+                    self.transform_tensor_to_global(tensor, ref_point),
+                    self.transform_point_to_global(ref_point)
+                )
+    # self and other are rectangular
+    return other.transform_tensor_from_global(
+                self.transform_tensor_to_global(tensor)
+            )</code></pre>
+</details>
+</dd>
+<dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_vector_from_global"><code class="name flex">
+<span>def <span class="ident">transform_vector_from_global</span></span>(<span>self, vector: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Transforms the given global vector into this system and returns it.</p>
+<p>If this system is cartesian, the vector is rotated into it and returned.
+No ref_point is needed.</p>
+<p>If this system is cylindrical, the returned components are:
+vx': Radial component in this system at the location of ref_point.
+vy': tangential component in this system at the location of ref_point.
+vz': axial component in this system.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>vector</code></strong> :&ensp;<code>npt.ArrayLike</code></dt>
+<dd>Global cartesian vector [vx, vy, vz] to transform.</dd>
+</dl>
+<p>ref_point (npt.ArrayLike|None):
+Reference point in global system, at which the vector is acting.
+Only required if this system is CYLINCRICAL.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>Local vector [vx', vy', vz'].</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def transform_vector_from_global(self, vector:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+    &#34;&#34;&#34;
+    Transforms the given global vector into this system and returns it.
+
+    If this system is cartesian, the vector is rotated into it and returned. 
+    No ref_point is needed.
+
+    If this system is cylindrical, the returned components are:
+    vx&#39;: Radial component in this system at the location of ref_point.
+    vy&#39;: tangential component in this system at the location of ref_point.
+    vz&#39;: axial component in this system.
+
+    Args:
+        vector (npt.ArrayLike): 
+            Global cartesian vector [vx, vy, vz] to transform.
+        ref_point (npt.ArrayLike|None): 
+            Reference point in global system, at which the vector is acting.
+            Only required if this system is CYLINCRICAL.
+
+    Returns:
+        np.ndarray: Local vector [vx&#39;, vy&#39;, vz&#39;].
+    &#34;&#34;&#34;
+
+    vec = np.array(vector, dtype=float)
+    if vec.shape != (3,):
+        raise ValueError(f&#34;Shape of vector must be (3,), got {vec.shape}&#34;)
+
+    if self.type == EOrientationSystems.CYLINDRICAL: 
+        if ref_point is None:
+            raise ValueError(&#34;ref_point must be provided if coordinate system is CYLINDRICAL&#34;)
+        ref_pnt = np.array(ref_point, dtype=float)
+        if ref_pnt.shape != (3,):
+            raise ValueError(f&#34;Shape of ref_point must be (3,), got {ref_pnt.shape}&#34;)
+       
+        phi = self.transform_point_from_global(ref_pnt)[1]
+        c = self.copy()
+        c.rotate_z(phi)
+        return c._matrix @ vec 
+
+    vec = self._matrix @ vec
+    return vec</code></pre>
+</details>
+</dd>
+<dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_vector_to_global"><code class="name flex">
+<span>def <span class="ident">transform_vector_to_global</span></span>(<span>self, vector: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Transforms the given local vector from this system into the global and returns it.</p>
+<p>If this system is cartesian, the vector is rotated into global and returned.
+No ref_point is needed.</p>
+<p>If this system is cylindrical, the reference point at which the vector is acting,
+is required.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>vector</code></strong> :&ensp;<code>npt.ArrayLike</code></dt>
+<dd>Local vector [vx', vy', vz'] to transform.</dd>
+</dl>
+<p>ref_point (npt.ArrayLike|None):
+Reference point in this system at which the vector is acting.
+Only required if this system is CYLINCRICAL.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>Global vector [vx, vy, vz].</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def transform_vector_to_global(self, vector:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+    &#34;&#34;&#34;
+    Transforms the given local vector from this system into the global and returns it.
+
+    If this system is cartesian, the vector is rotated into global and returned. 
+    No ref_point is needed.
+
+    If this system is cylindrical, the reference point at which the vector is acting, 
+    is required.
+
+    Args:
+        vector (npt.ArrayLike): 
+            Local vector [vx&#39;, vy&#39;, vz&#39;] to transform.
+        ref_point (npt.ArrayLike|None): 
+            Reference point in this system at which the vector is acting.
+            Only required if this system is CYLINCRICAL.
+
+    Returns:
+        np.ndarray: Global vector [vx, vy, vz].
+    &#34;&#34;&#34;
+    vec = np.array(vector, dtype=float)
+    if vec.shape != (3,):
+        raise ValueError(f&#34;Shape of vector must be (3,), got {vec.shape}&#34;)
+    
+    if self.type == EOrientationSystems.CYLINDRICAL:
+        if ref_point is None:
+            raise ValueError(&#34;ref_point must be provided if coordinate system is CYLINDRICAL&#34;)
+        ref_pnt = np.array(ref_point)
+        if ref_pnt.shape != (3,):
+            raise ValueError(f&#34;Shape of ref_point must be (3,), got {ref_pnt.shape}&#34;)
+        
+        phi = ref_pnt[1]
+        c = self.copy()
+        c.rotate_z(phi)
+        return c._matrix.T @ vec 
+
+    vec = self._matrix.T @ vec
+    return vec</code></pre>
+</details>
+</dd>
+<dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_vector_to_other"><code class="name flex">
+<span>def <span class="ident">transform_vector_to_other</span></span>(<span>self, other: <a title="pygccx.helper_features.coordinate_system.CoordinateSystem" href="#pygccx.helper_features.coordinate_system.CoordinateSystem">CoordinateSystem</a>, vector: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Transforms the given local vector into an other system and returns it.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>other</code></strong> :&ensp;<code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem" href="#pygccx.helper_features.coordinate_system.CoordinateSystem">CoordinateSystem</a></code></dt>
+<dd>The system to which the vector should be transformed.</dd>
+<dt><strong><code>vector</code></strong> :&ensp;<code>npt.ArrayLike</code></dt>
+<dd>Local vector [x',y',z'] to transform</dd>
+</dl>
+<p>ref_point (npt.ArrayLike|None):
+Reference point in this system at which the vector is acting.
+Only required if this system OR the other is CYLINCRICAL.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>np.ndarray</code></dt>
+<dd>Local vector [vx'',vy'',vz''] in other system.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def transform_vector_to_other(self, other:&#39;CoordinateSystem&#39;, vector:npt.ArrayLike, ref_point:npt.ArrayLike|None=None) -&gt; np.ndarray:
+    &#34;&#34;&#34;
+    Transforms the given local vector into an other system and returns it.
+
+    Args:
+        other (CoordinateSystem): 
+            The system to which the vector should be transformed.
+        vector (npt.ArrayLike): 
+            Local vector [x&#39;,y&#39;,z&#39;] to transform
+        ref_point (npt.ArrayLike|None): 
+            Reference point in this system at which the vector is acting.
+            Only required if this system OR the other is CYLINCRICAL.
+
+    Returns:
+        np.ndarray: Local vector [vx&#39;&#39;,vy&#39;&#39;,vz&#39;&#39;] in other system.
+    &#34;&#34;&#34;
+
+    if (self.type == EOrientationSystems.CYLINDRICAL or 
+        other.type == EOrientationSystems.CYLINDRICAL):
+        if ref_point is None:
+            raise ValueError(&#34;ref_point must be provided if this or other system is CYLINDRICAL&#34;)
+        
+        return other.transform_vector_from_global(
+                    self.transform_vector_to_global(vector, ref_point),
+                    self.transform_point_to_global(ref_point)
+                )
+    # self and other are rectangular
+    return other.transform_vector_from_global(
+                self.transform_vector_to_global(vector)
+            )</code></pre>
+</details>
+</dd>
 </dl>
 </dd>
 </dl>
@@ -625,7 +1923,8 @@ row 2: vector of z axis in global system</dd>
 <ul>
 <li>
 <h4><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem" href="#pygccx.helper_features.coordinate_system.CoordinateSystem">CoordinateSystem</a></code></h4>
-<ul class="two-column">
+<ul class="">
+<li><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem.copy" href="#pygccx.helper_features.coordinate_system.CoordinateSystem.copy">copy</a></code></li>
 <li><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem.get_matrix" href="#pygccx.helper_features.coordinate_system.CoordinateSystem.get_matrix">get_matrix</a></code></li>
 <li><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem.get_origin" href="#pygccx.helper_features.coordinate_system.CoordinateSystem.get_origin">get_origin</a></code></li>
 <li><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem.matrix" href="#pygccx.helper_features.coordinate_system.CoordinateSystem.matrix">matrix</a></code></li>
@@ -637,6 +1936,15 @@ row 2: vector of z axis in global system</dd>
 <li><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem.rotate_z" href="#pygccx.helper_features.coordinate_system.CoordinateSystem.rotate_z">rotate_z</a></code></li>
 <li><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem.set_matrix" href="#pygccx.helper_features.coordinate_system.CoordinateSystem.set_matrix">set_matrix</a></code></li>
 <li><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem.set_origin" href="#pygccx.helper_features.coordinate_system.CoordinateSystem.set_origin">set_origin</a></code></li>
+<li><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_point_from_global" href="#pygccx.helper_features.coordinate_system.CoordinateSystem.transform_point_from_global">transform_point_from_global</a></code></li>
+<li><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_point_to_global" href="#pygccx.helper_features.coordinate_system.CoordinateSystem.transform_point_to_global">transform_point_to_global</a></code></li>
+<li><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_point_to_other" href="#pygccx.helper_features.coordinate_system.CoordinateSystem.transform_point_to_other">transform_point_to_other</a></code></li>
+<li><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_tensor_from_global" href="#pygccx.helper_features.coordinate_system.CoordinateSystem.transform_tensor_from_global">transform_tensor_from_global</a></code></li>
+<li><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_tensor_to_global" href="#pygccx.helper_features.coordinate_system.CoordinateSystem.transform_tensor_to_global">transform_tensor_to_global</a></code></li>
+<li><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_tensor_to_other" href="#pygccx.helper_features.coordinate_system.CoordinateSystem.transform_tensor_to_other">transform_tensor_to_other</a></code></li>
+<li><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_vector_from_global" href="#pygccx.helper_features.coordinate_system.CoordinateSystem.transform_vector_from_global">transform_vector_from_global</a></code></li>
+<li><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_vector_to_global" href="#pygccx.helper_features.coordinate_system.CoordinateSystem.transform_vector_to_global">transform_vector_to_global</a></code></li>
+<li><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_vector_to_other" href="#pygccx.helper_features.coordinate_system.CoordinateSystem.transform_vector_to_other">transform_vector_to_other</a></code></li>
 <li><code><a title="pygccx.helper_features.coordinate_system.CoordinateSystem.type" href="#pygccx.helper_features.coordinate_system.CoordinateSystem.type">type</a></code></li>
 </ul>
 </li>

@@ -139,7 +139,7 @@ class Model:
 
     def update_mesh_from_inp(self, filename:str, ignore_unsup_elems:bool=False, clear_mesh:bool=False):
         &#34;&#34;&#34;
-        Updates the mesh of this model from gmsh model. 
+        Updates the mesh of this model from the given *.inp file. 
 
         Only nodes, 3D solid elements, node- and element sets and surfaces will be read.
 
@@ -241,7 +241,7 @@ class Model:
             frd. Defaults to True.
         &#34;&#34;&#34;
 
-        if load_inp and os.path.isfile(self.jobname + &#39;inp&#39;):
+        if load_inp and os.path.isfile(os.path.join(self.working_dir, self.jobname + &#39;.inp&#39;)):
             subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34; &#34;{self.jobname}.inp&#34;&#39;, cwd=self.working_dir)
         else:
             subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34;&#39;, cwd=self.working_dir)
@@ -355,7 +355,7 @@ class Model:
 
     def update_mesh_from_inp(self, filename:str, ignore_unsup_elems:bool=False, clear_mesh:bool=False):
         &#34;&#34;&#34;
-        Updates the mesh of this model from gmsh model. 
+        Updates the mesh of this model from the given *.inp file. 
 
         Only nodes, 3D solid elements, node- and element sets and surfaces will be read.
 
@@ -457,7 +457,7 @@ class Model:
             frd. Defaults to True.
         &#34;&#34;&#34;
 
-        if load_inp and os.path.isfile(self.jobname + &#39;inp&#39;):
+        if load_inp and os.path.isfile(os.path.join(self.working_dir, self.jobname + &#39;.inp&#39;)):
             subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34; &#34;{self.jobname}.inp&#34;&#39;, cwd=self.working_dir)
         else:
             subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34;&#39;, cwd=self.working_dir)
@@ -696,7 +696,7 @@ loaded together with the frd.</p>
         frd. Defaults to True.
     &#34;&#34;&#34;
 
-    if load_inp and os.path.isfile(self.jobname + &#39;inp&#39;):
+    if load_inp and os.path.isfile(os.path.join(self.working_dir, self.jobname + &#39;.inp&#39;)):
         subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34; &#34;{self.jobname}.inp&#34;&#39;, cwd=self.working_dir)
     else:
         subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34;&#39;, cwd=self.working_dir)</code></pre>
@@ -789,7 +789,7 @@ All changes since the last update (added nodes, surfaces etc.) will be lost.</p>
 <span>def <span class="ident">update_mesh_from_inp</span></span>(<span>self, filename: str, ignore_unsup_elems: bool = False, clear_mesh: bool = False)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Updates the mesh of this model from gmsh model. </p>
+<div class="desc"><p>Updates the mesh of this model from the given *.inp file. </p>
 <p>Only nodes, 3D solid elements, node- and element sets and surfaces will be read.</p>
 <p>If ignore_unsup_elems==True element blocks with unsupported elements (i.e. beam, shell) are skipped.
 If False, an ElementTypeNotSupportedError is raised if there are unsupported
@@ -812,7 +812,7 @@ ignore_unsup_elems (bool, optional): Flag if unsupported elements should be igno
 </summary>
 <pre><code class="python">def update_mesh_from_inp(self, filename:str, ignore_unsup_elems:bool=False, clear_mesh:bool=False):
     &#34;&#34;&#34;
-    Updates the mesh of this model from gmsh model. 
+    Updates the mesh of this model from the given *.inp file. 
 
     Only nodes, 3D solid elements, node- and element sets and surfaces will be read.
 

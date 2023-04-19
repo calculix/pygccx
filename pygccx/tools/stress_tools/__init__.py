@@ -17,6 +17,6 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from ._mises import get_mises_stress
-from ._principals import (get_principal_stresses, get_max_principal_shear_stress,
+from .mises import get_mises_stress
+from .principals import (get_principal_stresses, get_max_principal_shear_stress,
                           get_principal_shear_stresses, get_worst_principal_stress)

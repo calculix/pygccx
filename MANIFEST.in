@@ -1,1 +1,2 @@
 include pygccx/result_reader/test/test_data/*
+include pygccx/mesh/test/test_data/*

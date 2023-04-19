@@ -4,6 +4,8 @@ venv/
 venv_setup/
 notes.txt
 Problems/
+build/
+pygccx.egg-info/
 
 # Calculix files in examples
 executables/

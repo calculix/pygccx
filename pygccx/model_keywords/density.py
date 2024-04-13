@@ -19,7 +19,6 @@ If not, see <http://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field, InitVar
 
-from pygccx.enums import EELasticTypes
 from pygccx.protocols import number
 from pygccx.auxiliary import f2s
 
@@ -35,9 +34,8 @@ class Density:
     can be added by the method add_density_for_temp().
 
     Args:
-        elastic_params: First set of elastic parameters
-        type: Type of elasticity. ISO, ORTHO, etc
-        temp: Optional. Temperature of first elastic parameter set
+        density: Density for the first temperature.
+        temp: Optional. First temperature.
         name: Optional. Name of this instance.
         desc: Optional. A short description of this instance. This is written to the ccx input file.
     """

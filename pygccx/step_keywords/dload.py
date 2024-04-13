@@ -28,15 +28,16 @@ from pygccx.auxiliary import f2s
 @dataclass
 class Dload:
     """
-    Class for defining concentrated forces to be applied to any node in the model
-    which is not fixed by a single or multiple point constraint.
+    Class for defining distributed loads. 
+    These include constant pressure loading on element faces and mass loading (load per unit mass)
+    either by gravity forces or by centrifugal forces.
+    
 
     Args:
         nid_or_set: Element id or element set on which the first force 
                     (first line under *DLOAD) should be applied
-        load_type: Degree of freedom on which the first force (first line under *CLOAD)
-                    should be applied
-        params: Parameters (first line under *DLOAD)
+        load_type: The distributed load type (NEWTON, GRAV, CENTRIF, Px).
+        params: Parameters (first line under *DLOAD). This depends on the load type.
         op: Optional. Option if forces should be modified or defined new
         amplitude: Optional Amplitude object
         time_delay: Optional. Time shift by which the AMPLITUDE definition it refers 
@@ -74,9 +75,9 @@ class Dload:
     """Sector where the force should be applied. Only for *MODAL DYNAMIC and
     *STEADY STATE DYNAMICS calculations with cyclic symmetry"""
     name: str = ''
-    """Name of this Cload instance"""
+    """Name of this Dload instance"""
     desc: str = ''
-    """A short description of this Cload. This is written to the ccx input file."""
+    """A short description of this Dload. This is written to the ccx input file."""
 
     loads: list[tuple] = field(default_factory=list, init=False)
     """List of loads in the form:\n
@@ -116,14 +117,16 @@ class Dload:
                         "For a CENTRIF load 7 parameters should be provided in the tuple.")
                 vector = l[2][4:]
                 if abs((vector[0]**2+vector[1]**2+vector[2]**2) - 1.0) > 1e-7:
-                    raise ValueError("The gravity vector components are not normalized.")
+                    raise ValueError(
+                        "The gravity vector components are not normalized.")
             elif l[1] == EDloadType.GRAV:
                 if len(l[2]) != 7:
                     raise ValueError(
                         "For a CENTRIF load 4 parameters should be provided inside the tuple.")
                 vector = l[2][1:]
                 if abs((vector[0]**2+vector[1]**2+vector[2]**2) - 1.0) > 1e-7:
-                    raise ValueError("The rotation axis components are not normalized.")
+                    raise ValueError(
+                        "The rotation axis components are not normalized.")
             elif l[1] in [EDloadType.P1, EDloadType.P2, EDloadType.P3, EDloadType.P4, EDloadType.P5, EDloadType.P6]:
                 if len(l[2]) != 1:
                     raise ValueError(
@@ -142,14 +145,16 @@ class Dload:
                     "For a CENTRIF load 7 parameters should be provided in the tuple.")
             vector = params[4:]
             if abs((vector[0]**2+vector[1]**2+vector[2]**2) - 1.0) > 1e-7:
-                raise ValueError("The rotation axis components are not normalized.")
+                raise ValueError(
+                    "The rotation axis components are not normalized.")
         elif load_type == EDloadType.GRAV:
             if len(params) != 4:
                 raise ValueError(
                     "For a GRAV load 4 parameters should be provided inside the tuple.")
             vector = params[1:]
             if abs((vector[0]**2+vector[1]**2+vector[2]**2) - 1.0) > 1e-7:
-                raise ValueError("The gravity vector components are not normalized.")
+                raise ValueError(
+                    "The gravity vector components are not normalized.")
         elif load_type in [EDloadType.P1, EDloadType.P2, EDloadType.P3, EDloadType.P4, EDloadType.P5, EDloadType.P6]:
             if len(params) != 1:
                 raise ValueError(

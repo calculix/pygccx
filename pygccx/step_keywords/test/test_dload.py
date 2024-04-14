@@ -67,32 +67,37 @@ class TestCload(TestCase):
         self.assertEqual(str(d), known)
 
     def test_Px_with_set(self):
-        s = SetMock('TestSet', ESetTypes.NODE, 2, set((1,2)))
+        s = SetMock('TestSet', ESetTypes.ELEMENT, 2, set((1,2)))
         d = Dload(s, EDloadType.P4, (10,))
         known = '*DLOAD\n'
         known += 'TestSet,P4,1.0000000e+01\n'
         self.assertEqual(str(d), known)
 
     def test_centrif_with_set(self):
-        s = SetMock('TestSet', ESetTypes.NODE, 2, set((1,2)))
+        s = SetMock('TestSet', ESetTypes.ELEMENT, 2, set((1,2)))
         d = Dload(s, EDloadType.CENTRIF, (10000, 0, 0, 0, 1, 0, 0))
         known = '*DLOAD\n'
         known += 'TestSet,CENTRIF,1.0000000e+04,0.0000000e+00,0.0000000e+00,0.0000000e+00,1.0000000e+00,0.0000000e+00,0.0000000e+00\n'
         self.assertEqual(str(d), known)
 
     def test_newton_with_set(self):
-        s = SetMock('TestSet', ESetTypes.NODE, 2, set((1,2)))
+        s = SetMock('TestSet', ESetTypes.ELEMENT, 2, set((1,2)))
         d = Dload(s, EDloadType.NEWTON, tuple())
         known = '*DLOAD\n'
         known += 'TestSet,NEWTON\n'
         self.assertEqual(str(d), known)
         
     def test_gravity_with_set(self):
-        s = SetMock('TestSet', ESetTypes.NODE, 2, set((1,2)))
+        s = SetMock('TestSet', ESetTypes.ELEMENT, 2, set((1,2)))
         d = Dload(s, EDloadType.GRAV, (9810, 0, 0, -1))
         known = '*DLOAD\n'
         known += 'TestSet,GRAV,9.8100000e+03,0.0000000e+00,0.0000000e+00,-1.0000000e+00\n'
         self.assertEqual(str(d), known)
+    
+    def test_set_type(self):
+        """Check if providing a NODE set yields an error."""
+        s = SetMock('TestSet', ESetTypes.NODE, 2, set((1,2)))
+        self.assertRaises(ValueError, Dload, s, EDloadType.NEWTON, tuple())
 
     def test_gravity_norm(self):
         """Check if not normalized components raise an error."""

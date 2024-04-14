@@ -20,7 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 from dataclasses import dataclass, field, InitVar
 from typing import Optional, Any
 
-from pygccx.enums import EDloadType, ELoadOps
+from pygccx.enums import EDloadType, ELoadOps, ESetTypes
 from pygccx.protocols import IKeyword, ISet, number
 from pygccx.auxiliary import f2s
 
@@ -31,10 +31,10 @@ class Dload:
     Class for defining distributed loads. 
     These include constant pressure loading on element faces and mass loading (load per unit mass)
     either by gravity forces or by centrifugal forces.
-    
+
 
     Args:
-        nid_or_set: Element id or element set on which the first force 
+        eid_or_set: Element id or element set on which the first force 
                     (first line under *DLOAD) should be applied
         load_type: The distributed load type (NEWTON, GRAV, CENTRIF, Px).
         params: Parameters (first line under *DLOAD). This depends on the load type.
@@ -54,7 +54,7 @@ class Dload:
                     file.
     """
 
-    nid_or_set: InitVar[int | ISet]
+    eid_or_set: InitVar[int | ISet]
     """Element id or element set on which the first load (first line under *DLOAD) should be applied"""
     load_type: InitVar[EDloadType]
     """Degree of freedom on which the first force (first line under *CLOAD) should be applied"""
@@ -81,7 +81,7 @@ class Dload:
 
     loads: list[tuple] = field(default_factory=list, init=False)
     """List of loads in the form:\n
-    [(nid_or_set, load_type, params), ...]"""
+    [(eid_or_set, load_type, params), ...]"""
 
     _is_initialized: bool = field(init=False, default=False)
 
@@ -89,9 +89,9 @@ class Dload:
         super().__setattr__(name, value)
         self._validate()
 
-    def __post_init__(self, nid_or_set, load_type, params):
+    def __post_init__(self, eid_or_set, load_type, params):
         self._is_initialized = type
-        self.add_load(nid_or_set, load_type, params)
+        self.add_load(eid_or_set, load_type, params)
 
     def _validate(self):
         if not self._is_initialized:
@@ -106,51 +106,27 @@ class Dload:
             raise ValueError(
                 f'sector must be grater or equal than 1, got {self.sector}.')
 
-        for l in self.loads:
-            if l[1] == EDloadType.NEWTON:
-                if len(l[2]) > 0:
-                    raise ValueError(
-                        "For a NEWTON load, the params tuple should be empty.")
-            elif l[1] == EDloadType.CENTRIF:
-                if len(l[2]) != 7:
-                    raise ValueError(
-                        "For a CENTRIF load 7 parameters should be provided in the tuple.")
-                vector = l[2][4:]
-                if abs((vector[0]**2+vector[1]**2+vector[2]**2) - 1.0) > 1e-7:
-                    raise ValueError(
-                        "The gravity vector components are not normalized.")
-            elif l[1] == EDloadType.GRAV:
-                if len(l[2]) != 7:
-                    raise ValueError(
-                        "For a CENTRIF load 4 parameters should be provided inside the tuple.")
-                vector = l[2][1:]
-                if abs((vector[0]**2+vector[1]**2+vector[2]**2) - 1.0) > 1e-7:
-                    raise ValueError(
-                        "The rotation axis components are not normalized.")
-            elif l[1] in [EDloadType.P1, EDloadType.P2, EDloadType.P3, EDloadType.P4, EDloadType.P5, EDloadType.P6]:
-                if len(l[2]) != 1:
-                    raise ValueError(
-                        "For a Px load 1one parameter should be provided inside the tuple.")
-            else:
-                raise ValueError("load_type can only be NEWTON, CENTRIF, GRAV")
+    def add_load(self, eid_or_set: int | ISet, load_type: EDloadType, params: tuple):
+        if not isinstance(eid_or_set, int) and eid_or_set.type != ESetTypes.ELEMENT:
+            raise ValueError(
+                'If an ISet is provided, it must be of type ELEMENT.')
 
-    def add_load(self, nid_or_set: int | ISet, load_type: EDloadType, params: tuple):
         if load_type == EDloadType.NEWTON:
             if len(params) > 0:
                 raise ValueError(
-                    "For a NEWTON load, the params tuple should be empty.")
+                    'For a NEWTON load, the params tuple should be empty.')
         elif load_type == EDloadType.CENTRIF:
             if len(params) != 7:
                 raise ValueError(
-                    "For a CENTRIF load 7 parameters should be provided in the tuple.")
+                    'For a CENTRIF load 7 parameters should be provided in the tuple.')
             vector = params[4:]
             if abs((vector[0]**2+vector[1]**2+vector[2]**2) - 1.0) > 1e-7:
                 raise ValueError(
-                    "The rotation axis components are not normalized.")
+                    'The rotation axis components are not normalized.')
         elif load_type == EDloadType.GRAV:
             if len(params) != 4:
                 raise ValueError(
-                    "For a GRAV load 4 parameters should be provided inside the tuple.")
+                    'For a GRAV load 4 parameters should be provided inside the tuple.')
             vector = params[1:]
             if abs((vector[0]**2+vector[1]**2+vector[2]**2) - 1.0) > 1e-7:
                 raise ValueError(
@@ -158,16 +134,17 @@ class Dload:
         elif load_type in [EDloadType.P1, EDloadType.P2, EDloadType.P3, EDloadType.P4, EDloadType.P5, EDloadType.P6]:
             if len(params) != 1:
                 raise ValueError(
-                    "For a Px load 1one parameter should be provided inside the tuple.")
+                    'For a Px load 1one parameter should be provided inside the tuple.')
         else:
-            raise ValueError("load_type can only be NEWTON, CENTRIF, GRAV")
+            raise ValueError(
+                'load_type can only be NEWTON, CENTRIF, GRAV or Px.')
 
-        if isinstance(nid_or_set, int):
-            if nid_or_set < 1:
+        if isinstance(eid_or_set, int):
+            if eid_or_set < 1:
                 raise ValueError(
-                    f'nid must be greater than 0, got {nid_or_set}')
+                    f'nid must be greater than 0, got {eid_or_set}')
 
-        self.loads.append((nid_or_set, load_type, params))
+        self.loads.append((eid_or_set, load_type, params))
 
     def __str__(self):
 

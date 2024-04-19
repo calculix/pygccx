@@ -384,4 +384,16 @@ class EResultLocations(str, Enum):
     ELEMENT = 'ELEMENT'
     INT_PNT = 'INT_PNT'
 
+class EMpcTypes(str, Enum):
+    PLANE = 'PLANE'
+    """Forces all dependant nodes to stay in a plane"""
+    STRAIGHT = 'STRAIGHT'
+    """Forces all dependant nodes to stay on a straight line"""
+    BEAM = 'BEAM'
+    """Rigid beam. Forces two nodes to maintain their euclidean distance"""
+    MEANROT = 'MEANROT'
+    """Forces the rotation of the pilot node to be the average of all dependant nodes"""
+    DIST = 'DIST'
+    """Specifies that the euclidean distance between two nodes a and b must not exceed a given distanc"""
+
 

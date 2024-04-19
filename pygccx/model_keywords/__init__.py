@@ -42,3 +42,4 @@ from .include import Include
 from .equation import Equation
 from .universal import Universal
 from .deformation_plasticity import DeformationPlasticity
+from .mpc import Mpc

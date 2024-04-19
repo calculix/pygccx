@@ -23,6 +23,7 @@ from pygccx.test.test_mesh import *
 from pygccx.test.test_model_keywords import *
 from pygccx.test.test_result_reader import *
 from pygccx.test.test_step_keywords import *
+from pygccx.test.test_stress_tools import *
 
 if __name__ == '__main__':
     unittest.main()

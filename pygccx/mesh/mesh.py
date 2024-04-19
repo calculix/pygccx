@@ -131,7 +131,7 @@ class Mesh:
 
     def get_surface_from_node_set(self, surf_name:str,
                             node_set:protocols.ISet, 
-                            surf_type:enums.ESurfTypes) -> protocols.ISurface:
+                            surf_type:enums.ESurfTypes):
         """
         Gets a surface from a given node set.
 

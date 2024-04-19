@@ -80,6 +80,7 @@ def _read_and_expand_inp(filename:str) -> list[list[str]]:
 
         for line in csv_reader:
             if not line : continue
+            line = line if line[-1] else line[:-1] # delete empty last element
             if line[0] == '*INCLUDE':
                 input = line[1].split('=')[-1]
                 out += _read_and_expand_inp(input)

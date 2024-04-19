@@ -36,7 +36,9 @@ class ElementSurface():
     type: enums.ESurfTypes = field(default=enums.ESurfTypes.EL_FACE, init=False)
     """Enum type of this surface."""
     element_faces:set[tuple[int, int]]
-    """Set with element faces"""
+    """Set with element faces. Each element face is a tuple with (elem_id, face_id).
+    face_id is the number of the face inside element elem_id acc. ccx manual. 
+    face_no - 1 gives the index of the face inside the element"""
 
     def write_ccx(self, buffer:list[str]): 
         """Writes the CCX input string to the given buffer."""
@@ -71,7 +73,7 @@ class NodeSurface():
 def get_surface_from_node_set(name:str,
                          elements:Iterable[protocols.IElement], 
                          node_set:protocols.ISet, 
-                         stype:enums.ESurfTypes) -> protocols.ISurface:
+                         stype:enums.ESurfTypes):
 
     """
     Gets a surface from a given node set.

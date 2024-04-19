@@ -17,8 +17,7 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from genericpath import isfile
-import os
+import os, pickle
 import subprocess
 from dataclasses import dataclass, field
 from typing import Optional
@@ -203,7 +202,6 @@ class Model:
         else:
             subprocess.run(f'{self.cgx_path} "{self.jobname}.frd"', cwd=self.working_dir)
 
-
     def get_frd_result(self) -> FrdResult:
         """
         Returns a frd result object from the jobname.frd
@@ -223,6 +221,44 @@ class Model:
         """
         filename = os.path.join(self.working_dir, f'{self.jobname}.dat')
         return DatResult.from_file(filename)
+
+    def to_pickle(self):
+        """
+        Serializes this model to a pickle file "jobname.pkl" in the working directory.
+        Usefull for further post processing after the solve command.
+        This way you can sepparate prepro, solve and postpro.
+
+        Loading a model from a pickle file is much more save than loading from
+        an inp file which causes loss of information.
+
+        IMPORTANT: The gmsh model is not serialized!
+        """
+
+        filename = os.path.join(self.working_dir,  f'{self.jobname}.pkl')
+        with open(filename, 'wb') as f:
+            pickle.dump(self, f)
+
+    @staticmethod
+    def from_pickle(filename:str) -> 'Model':
+        """Instanciates a model from the given pickle file.
+
+        Args:
+            filename (str): Filename incl. path to pickle file of the model to load. 
+
+        Returns:
+            Model: Deserialized Model
+
+        Raises:
+            TypeError: Raised if deserialized object is not a Model
+        """
+
+        with open(filename, 'rb') as f:
+            obj = pickle.load(f)
+        if isinstance(obj, Model): return obj
+        raise TypeError("Deserialized object is not of type Model.")
+
+        
+    
 
     def __enter__(self):
         return self

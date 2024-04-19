@@ -48,7 +48,8 @@ def make_contact(name:str, contact_type:EContactTypes, dep_surf:ISurface, ind_su
         clearance (number): Optional. Clearance between contact surfaces. 
                             If specified, a Clearance object is generated.
         mue (number): Friction coefficient. If specified, a Friction object is generated.
-        lam (number): Stick slope. Must be provided if mue is given
+        lam (number): Stick slope. Must be provided if mue is given for frictional contact.
+                      Optional for TIED. If ommitted for TIED, normal stiffness k is used.
         desc (str): Optional. Description of this contact.
 
     Keyword Args:
@@ -57,6 +58,7 @@ def make_contact(name:str, contact_type:EContactTypes, dep_surf:ISurface, ind_su
         p0 (number): pressure at zero distance for contact type EXPONENTIAL
         k (number): contact stiffness for contact type LINEAR and TIED.
                     For TIED this value is also used for the tangential stiffness
+                    if not specified by lam.
         sig_inf (number): pressure at high contact distance for contact type LINEAR 
                           and NODE TO SURFACE
         table (Iterable[Iterable[number]]): Pressure - Overclosure pairs for contact 
@@ -90,8 +92,9 @@ def make_contact(name:str, contact_type:EContactTypes, dep_surf:ISurface, ind_su
     # Friction
     if pressure_overclosure == EPressureOverclosures.TIED:
         # TIED needs always friction. mue is irrelevant
+        lam_tie = lam if lam is not None else kwargs.get('k')
         out.append(
-            Friction(mue=0.5, lam=kwargs.get('k'))  # type: ignore | this is save, because k is checked in SurfaceBehavior
+            Friction(mue=0.5, lam=lam_tie)  # type: ignore | this is save, because k is checked in SurfaceBehavior
         )
     else:
         if mue is not None: 

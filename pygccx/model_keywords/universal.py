@@ -29,7 +29,7 @@ class Universal:
 
     Args:
         kwrd_str: Keyword string. This is written directly to the ccx input file w/o any modification.
-        name: Name of this material up to 80 characters
+        name: Optional. Name of this instance
         desc: Optional. A short description of this Material. This is written to the ccx input file.
     """
     kwrd_str:str

@@ -43,6 +43,7 @@ from pygccx.model_keywords.test.test_include import TestInclude
 from pygccx.model_keywords.test.test_equation import TestEquation
 from pygccx.model_keywords.test.test_deformation_plasticity import TestDeformationPlasticity
 from pygccx.model_keywords.test.test_mpc import TestMpc
+from pygccx.model_keywords.test.test_pretension_section import TestPretensionSection
 
 if __name__ == '__main__':
     unittest.main()

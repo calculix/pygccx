@@ -88,7 +88,7 @@ class ContactPrint:
         EContactPrintResults.CFN in self.entities or 
         EContactPrintResults.CFS in self.entities):
             if not self.master or not self.slave:
-                raise ValueError('master and slave must be profided if CF, CFN or CFS is choosen as entity')
+                raise ValueError('master and slave must be provided if CF, CFN or CFS is choosen as entity')
 
     def __str__(self):
         s = f'*CONTACT PRINT'

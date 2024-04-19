@@ -74,7 +74,7 @@ class NodePrint:
     def _validate(self):
         if not self._is_initialized: return 
         if self.nset.type != ESetTypes.NODE:
-            raise ValueError(f'Set type of nset must be NODE, got {self.nset.name}')
+            raise ValueError(f'Set type of nset must be NODE, got {self.nset.type.name}')
         if not self.entities:
             raise ValueError('entities must not be empty')
         if self.time_points and self.frequency != 1:

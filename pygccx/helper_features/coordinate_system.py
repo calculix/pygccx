@@ -114,6 +114,7 @@ class CoordinateSystem:
         if len(v_inc) != 3:
             raise ValueError(f'v_inc must have a length of 3, got {len(v_inc)}')
         self._origin += np.array(v_inc, dtype=float)
+        return self
 
     def copy(self) -> 'CoordinateSystem': 
         """Returns an independant copy of this coordinate system"""    
@@ -128,6 +129,7 @@ class CoordinateSystem:
             degrees (bool): Flag if ang is given in deg. Default = False
         """
         self._rotate(0, ang, degrees)
+        return self
 
     def rotate_y(self, ang:number, degrees:bool=False):
         """
@@ -138,6 +140,7 @@ class CoordinateSystem:
             degrees (bool): Flag if ang is given in deg. Default = False
         """
         self._rotate(1, ang, degrees)
+        return self
 
     def rotate_z(self, ang:number, degrees:bool=False):
         """
@@ -148,6 +151,7 @@ class CoordinateSystem:
             degrees (bool): Flag if ang is given in deg. Default = False
         """
         self._rotate(2, ang, degrees)
+        return self
 
     def transform_point_from_global(self, point:npt.ArrayLike) -> np.ndarray:
         """

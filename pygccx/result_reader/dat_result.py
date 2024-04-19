@@ -315,6 +315,8 @@ def _parse_header_components(line:list[str]) -> tuple[str,...]:
 def _parse_data_line(line:list[str], entity_loc:EResultLocations):
 
     id = int(line[0])
+    # delete non numeric elements in line. i.e. the 'L' at the end
+    line = [s for s in line if _isnumeric(s)]
     if entity_loc == EResultLocations.INT_PNT:
         return id, np.array(line[2:], dtype=float)
     return id, np.array(line[1:], dtype=float)

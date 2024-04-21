@@ -89,6 +89,34 @@ class EELasticTypes(str, Enum):
     ANISO = 'ANISO'
     """Anisotropic"""
 
+class EHyperELasticTypes(str, Enum):
+    ARRUDA_BOYCE = 'ARRUDA-BOYCE'
+    """Arruda-Boyce"""
+    MOONEY_RIVLIN = 'MOONEY-RIVLIN'
+    """Mooney-Rivlin"""
+    NEO_HOOKE = 'NEO HOOKE'
+    """Neo Hooke"""
+    OGDEN_1 = 'OGDEN,N=1'
+    """Ogden, strain energy order 1"""
+    OGDEN_2 = 'OGDEN,N=2'
+    """Ogden, strain energy order 2"""
+    OGDEN_3 = 'OGDEN,N=3'
+    """Ogden, strain energy order 3"""
+    POLYNOMIAL_1 = 'POLYNOMIAL,N=1'
+    """Polynomial, strain energy order 1"""
+    POLYNOMIAL_2 = 'POLYNOMIAL,N=2'
+    """Polynomial, strain energy order 2"""
+    POLYNOMIAL_3 = 'POLYNOMIAL,N=3'
+    """Polynomial, strain energy order 3"""
+    REDUCED_POLYNOMIAL_1 = 'REDUCED POLYNOMIAL,N=1'
+    """Reduced Polynomial, strain energy order 1"""
+    REDUCED_POLYNOMIAL_2 = 'REDUCED POLYNOMIAL,N=2'
+    """Reduced Polynomial, strain energy order 2"""
+    REDUCED_POLYNOMIAL_3 = 'REDUCED POLYNOMIAL,N=3'
+    """Reduced Polynomial, strain energy order 3"""
+    YEOH = 'YEOH'
+    """Yeoh"""
+
 class EOrientationSystems(str, Enum):
     RECTANGULAR = 'RECTANGULAR'
     """Right-handed cartesian system"""

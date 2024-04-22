@@ -24,6 +24,7 @@ from .distributing_coupling import DistribuitingCoupling
 from .mass import Mass
 from .material import Material
 from .elastic import Elastic
+from .density import Density
 from .plastic import Plastic, CyclicHardening
 from .orientation import Orientation
 from .transform import Transform

@@ -1,3 +1,26 @@
+0.2.2:
+    - NEW FEATURES
+      - New model keyword *DENSITY (model_keywords.Density)
+      - New model keyword *DLOAD (model_keywords.Dload)
+      - New model keyword *MPC (model_keywords.Mpc)
+      - New model keyword *PRE-TENSION SECTION (model_keywords.PretensionSection)
+      - New model keyword *HYPERELASTIC (model_keywords.HyperElastic)
+      - New class "Bolt" in module tools
+          Class to generate pretensioned bolts for bolted connections made from 
+          solid elements. Methods for evaluating section forces are also available.
+      - Mew methods "to_pickle" and "from_pickle" in class Model to quickly
+        save and load the model from/to a pickle file
+
+    - ENHANCEMENTS
+      - Stick slope "lam" is now be use also for TIED surface-to-surface contact in 
+        model_keywords.group_funcs.make_contact. If omitted, normal stiffness k is 
+        used as before
+      - Placement methods (move, rotate_x, ...) in CoordinateSystem now return
+        "self" which enables method chaining. 
+        E.g. csys.move().rotate_x().rotate(y)
+
+    Minor bug fixes and improvements all over the place.
+
 0.2.1:
     - NEW FEATURES
       - New methods in class CoordinateSystem to transform points, vectors or tensors
@@ -7,7 +30,7 @@
           - get_mises_stress. 
             Returns the mises stresses from given stress tensors.
           - get_principal_stresses. 
-            Returns eigenvalues and eigenvactors from given stress tensors.
+            Returns eigenvalues and eigenvectors from given stress tensors.
           - get_worst_principal_stress.
             Returns the worst principal stresses from given stress tensors.
           - get_principal_shear_stresses. 
@@ -30,13 +53,13 @@
       - New method mesh.add_sets(*sets) 
         for adding existing ISet instances to mesh.
       - New method mesh.add_node_surface(surf_name, nids) 
-        for manuel creation of node surfaces .
+        for manual creation of node surfaces .
       - New method mesh.add_el_face_surface(surf_name, faces)
-        for manuel creation of element face surfaces 
+        for manual creation of element face surfaces 
       - New method mesh.add_surfaces(*surfaces)
         for adding existing ISurface instances to mesh.
       - New parameter "no_cpu" in model.solve
-        for selecting the number of cpus used during solve.
+        for selecting the number of cpu's used during solve.
       - New parameter "load_inp" in model.show_results_in_cgx.
         Loading of the inp file together with the frd is now optional
       

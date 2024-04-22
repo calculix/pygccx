@@ -14,7 +14,7 @@ in pygccx.
 
 Look in the examples folder for a quick start and to learn more about how to use pygccx.
 The best way to explore pygccx is by using an IDE like VS Code or PyCharm with auto completion,
-intellysense and static type checking switched on. So you can see all the members, parameters types and doc strings.
+intellysense and static type checking switched on. So you can see all the members, parameters, types and doc strings.
 In the folder docs/pygccx you can find an auto generated html documentation of all classes.
 
 
@@ -40,16 +40,21 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
         - *CONTACT PAIR
         - *COUPLING
         - *DEFORMATION PLASTICITY
+        - *DENSITY
         - *DISTRIBUTING COUPLING
+        - *DLOAD
         - *EALSTIC
         - *EQUATION
         - *FRICTION
         - *GAP
+        - *HYPERELASTIC
         - *INCLUDE (also for step keywords)
         - *MASS
         - *MATERIAL
+        - *MPC
         - *ORIENTATION
         - *PLASTIC
+        - *PRE-TENSION SECTION
         - *RIGID BODY
         - *SOLID SECTION
         - *SPRING
@@ -80,6 +85,8 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
 - Tools for calculate invariant stresses (Mises, Principals, etc)
 - Tools for transformation of coordinates, vectors or tensors between
   coordinate systems
+- Tool for generating preloaded bolts consisting of solid elements and
+  tools for postprocessing of section forces and moments
 
 # Planned capabilities of Pygccx:
 - Support of all CCX keywords for static analysis

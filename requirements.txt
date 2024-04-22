@@ -1,6 +1,6 @@
 cycler==0.11.0
 fonttools==4.34.4
-gmsh==4.10.3
+gmsh==4.12.2
 kiwisolver==1.4.4
 Mako==1.2.1
 Markdown==3.4.1
@@ -10,6 +10,7 @@ numpy==1.22.4
 packaging==21.3
 pdoc3==0.10.0
 Pillow==9.2.0
+pygccx==0.2.1
 pyparsing==3.0.9
 python-dateutil==2.8.2
 scipy==1.9.0

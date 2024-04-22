@@ -2,6 +2,7 @@
 __pycache__/
 venv/
 venv_setup/
+venv310/
 notes.txt
 Problems/
 build/
@@ -19,3 +20,9 @@ examples/**/*.nam
 examples/**/*.out
 examples/**/*.fbd
 examples/**/*.eig
+examples/**/*.pkl
+examples/**/*.dwl
+examples/3_disc_teststand
+examples/radial_ball_bearing
+examples/thrust_ball_bearing
+**/tools/bearings/

@@ -137,6 +137,32 @@ class ELoadOps(str, Enum):
     MOD = 'MOD'
     NEW = 'NEW'
 
+class EDloadType(str, Enum):
+    GRAV = 'GRAV'
+    """Gravity load"""
+    CENTRIF = 'CENTRIF'
+    """Centrifugal force"""
+    NEWTON = 'NEWTON'
+    """NEWTON load"""
+#     P1NP = 'P1NP'
+#     P2NP = 'P2NP'
+#     P3NP = 'P3NP'
+#     P4NP = 'P4NP'
+#     P5NP = 'P5NP'
+#     P6NP = 'P6NP'
+    P1 = 'P1'
+    """Uniform pressure with distributed load type on face 1"""
+    P2 = 'P2'
+    """Uniform pressure with distributed load type on face 2"""
+    P3 = 'P3'
+    """Uniform pressure with distributed load type on face 3"""
+    P4 = 'P4'
+    """Uniform pressure with distributed load type on face 4"""
+    P5 = 'P5'
+    """Uniform pressure with distributed load type on face 5"""
+    P6 = 'P6'
+    """Uniform pressure with distributed load type on face 6"""
+    
 class EResultOutputs(str, Enum):
     DEFAULT = 'DEFAULT'
     """Default output for 1D and 2D Elements"""

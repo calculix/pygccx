@@ -24,7 +24,7 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
   and extract to any location you want.
 - install pygccx with pip
     ```
-    pip install "path/to/pygccx"   (the folder where setup.py is located)
+    pip install "path/to/pygccx"   (the folder where setup.py or pyproject.toml is located)
     ```
 
 # Capabilities of Pygccx:

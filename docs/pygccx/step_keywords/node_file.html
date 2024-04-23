@@ -143,7 +143,7 @@ class NodeFile:
         if self.time_points and self.frequency != 1:
             raise ValueError(&#34;frequency and time_points are mutually exclusive.&#34;)
         if self.nset and self.nset.type != ESetTypes.NODE:
-            raise ValueError(f&#39;Set type of nset must be NODE, got {self.nset.name}&#39;)
+            raise ValueError(f&#39;Set type of nset must be NODE, got {self.nset.type.name}&#39;)
 
     def __str__(self):
         s = &#39;*NODE FILE&#39;
@@ -294,7 +294,7 @@ class NodeFile:
         if self.time_points and self.frequency != 1:
             raise ValueError(&#34;frequency and time_points are mutually exclusive.&#34;)
         if self.nset and self.nset.type != ESetTypes.NODE:
-            raise ValueError(f&#39;Set type of nset must be NODE, got {self.nset.name}&#39;)
+            raise ValueError(f&#39;Set type of nset must be NODE, got {self.nset.type.name}&#39;)
 
     def __str__(self):
         s = &#39;*NODE FILE&#39;

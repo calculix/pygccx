@@ -79,7 +79,9 @@ class ElementSurface():
     type: enums.ESurfTypes = field(default=enums.ESurfTypes.EL_FACE, init=False)
     &#34;&#34;&#34;Enum type of this surface.&#34;&#34;&#34;
     element_faces:set[tuple[int, int]]
-    &#34;&#34;&#34;Set with element faces&#34;&#34;&#34;
+    &#34;&#34;&#34;Set with element faces. Each element face is a tuple with (elem_id, face_id).
+    face_id is the number of the face inside element elem_id acc. ccx manual. 
+    face_no - 1 gives the index of the face inside the element&#34;&#34;&#34;
 
     def write_ccx(self, buffer:list[str]): 
         &#34;&#34;&#34;Writes the CCX input string to the given buffer.&#34;&#34;&#34;
@@ -114,7 +116,7 @@ class NodeSurface():
 def get_surface_from_node_set(name:str,
                          elements:Iterable[protocols.IElement], 
                          node_set:protocols.ISet, 
-                         stype:enums.ESurfTypes) -&gt; protocols.ISurface:
+                         stype:enums.ESurfTypes):
 
     &#34;&#34;&#34;
     Gets a surface from a given node set.
@@ -166,7 +168,7 @@ def _get_node_surface_from_set(name:str, node_set:protocols.ISet) -&gt; NodeSurf
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="pygccx.mesh.surface.get_surface_from_node_set"><code class="name flex">
-<span>def <span class="ident">get_surface_from_node_set</span></span>(<span>name: str, elements: Iterable[<a title="pygccx.protocols.IElement" href="../protocols.html#pygccx.protocols.IElement">IElement</a>], node_set: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, stype: <a title="pygccx.enums.ESurfTypes" href="../enums.html#pygccx.enums.ESurfTypes">ESurfTypes</a>) ‑> <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a></span>
+<span>def <span class="ident">get_surface_from_node_set</span></span>(<span>name: str, elements: Iterable[<a title="pygccx.protocols.IElement" href="../protocols.html#pygccx.protocols.IElement">IElement</a>], node_set: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, stype: <a title="pygccx.enums.ESurfTypes" href="../enums.html#pygccx.enums.ESurfTypes">ESurfTypes</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets a surface from a given node set.</p>
@@ -194,7 +196,7 @@ Type of node_set must be NODE and dim must be 2.</dd>
 <pre><code class="python">def get_surface_from_node_set(name:str,
                          elements:Iterable[protocols.IElement], 
                          node_set:protocols.ISet, 
-                         stype:enums.ESurfTypes) -&gt; protocols.ISurface:
+                         stype:enums.ESurfTypes):
 
     &#34;&#34;&#34;
     Gets a surface from a given node set.
@@ -248,7 +250,9 @@ class ElementSurface():
     type: enums.ESurfTypes = field(default=enums.ESurfTypes.EL_FACE, init=False)
     &#34;&#34;&#34;Enum type of this surface.&#34;&#34;&#34;
     element_faces:set[tuple[int, int]]
-    &#34;&#34;&#34;Set with element faces&#34;&#34;&#34;
+    &#34;&#34;&#34;Set with element faces. Each element face is a tuple with (elem_id, face_id).
+    face_id is the number of the face inside element elem_id acc. ccx manual. 
+    face_no - 1 gives the index of the face inside the element&#34;&#34;&#34;
 
     def write_ccx(self, buffer:list[str]): 
         &#34;&#34;&#34;Writes the CCX input string to the given buffer.&#34;&#34;&#34;
@@ -262,7 +266,9 @@ class ElementSurface():
 <dl>
 <dt id="pygccx.mesh.surface.ElementSurface.element_faces"><code class="name">var <span class="ident">element_faces</span> : set[tuple[int, int]]</code></dt>
 <dd>
-<div class="desc"><p>Set with element faces</p></div>
+<div class="desc"><p>Set with element faces. Each element face is a tuple with (elem_id, face_id).
+face_id is the number of the face inside element elem_id acc. ccx manual.
+face_no - 1 gives the index of the face inside the element</p></div>
 </dd>
 <dt id="pygccx.mesh.surface.ElementSurface.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
 <dd>

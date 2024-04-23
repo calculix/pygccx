@@ -1,0 +1,2079 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pygccx.tools.bolts.bolt API documentation</title>
+<meta name="description" content="Copyright Matthias Sedlmaier 2022
+This file is part of pygccx …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pygccx.tools.bolts.bolt</code></h1>
+</header>
+<section id="section-intro">
+<p>Copyright Matthias Sedlmaier 2022
+This file is part of pygccx.</p>
+<p>pygccx is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.</p>
+<p>pygccx is distributed in the hope that it will
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with pygccx.<br>
+If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#39;&#39;&#39;
+Copyright Matthias Sedlmaier 2022
+This file is part of pygccx.
+
+pygccx is free software: you can redistribute it 
+and/or modify it under the terms of the GNU General Public License as 
+published by the Free Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+pygccx is distributed in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with pygccx.  
+If not, see &lt;http://www.gnu.org/licenses/&gt;.
+&#39;&#39;&#39;
+
+from dataclasses import dataclass, field, fields
+from typing import Optional, Any
+
+import numpy as np
+import numpy.typing as npt
+
+from pygccx import model as ccx_model
+from pygccx.mesh.surface import get_surface_from_node_set
+from pygccx import enums
+from pygccx.protocols import IKeyword, ISet, ISurface, number
+from pygccx import model_keywords as mk
+from pygccx import step_keywords as sk
+from pygccx.helper_features.coordinate_system import CoordinateSystem
+from pygccx.result_reader import FrdResult
+
+class ResultNotFoundError(Exception): pass
+    
+@dataclass(init=False)
+class _InterfaceSurfaces:
+    &#34;&#34;&#34;Class to group element face surfaces which can be used to interface the bolt with other surfaces in the model.
+    E.g. to define contact between head and clamped parts made out of solid elements.&#34;&#34;&#34;
+
+    s_head_interf:ISurface
+    &#34;&#34;&#34;head contact surface. Can be used to tie the bolt head to clamped parts&#34;&#34;&#34;
+    s_thread_interf:ISurface
+    &#34;&#34;&#34;Cylindrical surface of the engaged thread. Can be used to tie the engaged thread to a tapped hole or the inner diameter of a nut.&#34;&#34;&#34;
+    s_pret_sec:ISurface
+    &#34;&#34;&#34;Surface for defining pretension section.&#34;&#34;&#34;
+
+@dataclass(init=False)
+class _InterfaceSets:
+    &#34;&#34;&#34;Class to group node sets which can be used to interface the bolt with other parts in the model.
+    This node sets are also the basis for all InterfaceSurfaces.&#34;&#34;&#34;
+
+    n_head_interf:ISet
+    &#34;&#34;&#34;Node set of the head contact surface.&#34;&#34;&#34;
+    n_thread_interf:ISet
+    &#34;&#34;&#34;Node set of the cylindrical surface of the engaged thread.&#34;&#34;&#34;
+    n_pret_sec:ISet
+    &#34;&#34;&#34;Node set of the pretension section surface.&#34;&#34;&#34;
+
+@dataclass
+class Bolt:
+    &#34;&#34;&#34;
+    This class is for generating preloaded bolts with a 60° thread flank angle.
+
+    After instantiating a bolt object with all needed parameters, a call of 
+    .generate_and_insert() will generate the bolt from solid elements and insert 
+    it in the model. All necessary keywords, sets, surfaces, etc. are generated 
+    and inserted in the model as well.
+
+    The modelling follows the recommendations of VDI 2230 part 2 &#34;multi bolted joints&#34; 
+    model class 3.
+
+    With the methods .tie_head_to_solid() and .tie_thread_to_solid() the bolt can 
+    easily be tied to other solid elements of the model (e.g. the clamped parts).
+
+    The pretension can be controlled with *CLOAD or *BOUNDARY keywords using the 
+    pretention node, which is available through .pretension_node.
+
+    After the solution, section forces can be obtained with the method 
+    .get_section_forces().
+    See examples/bolted_flange
+    &#34;&#34;&#34;
+
+    # region fields
+    name:str
+    &#34;&#34;&#34;Name of bolt. Must be unique in whole model. You must take care by yourself that name is unique.
+    Name is used for naming sets, surfaces, contacts, material etc. for this bolt.&#34;&#34;&#34;
+
+    csys:CoordinateSystem
+    &#34;&#34;&#34;Rectangular coordinate system of bolt. Origin is located in the center of head contact face.
+    X is pointing from head to thread. Y and Z lie in the head contact plane.&#34;&#34;&#34;
+
+    d_n:float
+    &#34;&#34;&#34;Nominal bolt diameter.&#34;&#34;&#34;
+
+    l_c:float
+    &#34;&#34;&#34;Clamping length. This is usually the thickness of clamped parts, or the distance from
+    head contact face to first engaged thread turn.&#34;&#34;&#34;
+
+    d_w:float
+    &#34;&#34;&#34;Outer diameter of head contact face. Usually 1.5 * d_n&#34;&#34;&#34;
+
+    k:float
+    &#34;&#34;&#34;Hight of head&#34;&#34;&#34;
+
+    p:float
+    &#34;&#34;&#34;Thread pitch. Distance between threads, not threads per length.&#34;&#34;&#34;
+
+    material:tuple[number, number]|mk.Material
+    &#34;&#34;&#34;Material for bolt. Can be either a tuple with (emodule, poissons ratio) or a 
+    predefined material keyword&#34;&#34;&#34;
+
+    shaft_sections:Optional[list[list[number]]] = field(default_factory=list)
+    &#34;&#34;&#34;List with unthreaded shaft sections in the form [[d0, l0], [d1, l1], ..., [dn, ln]] 
+    with d = diameter of section, l = length of section.\n
+    The ordering is from head to thread, so the first section is connected to the head.\n 
+    The diameter of the first section must be smaller than d_w.\n
+    The sum of all length must be smaller than the clamping length l_c. The remaining 
+    length l_c - sum(li) is modelled as a free thread with d = d3 or ds.
+    See also attribute use_ds_for_thread.&#34;&#34;&#34;
+
+    use_ds_for_thread:bool = False
+    &#34;&#34;&#34;Flag if stress cross section diameter ds should be used to model the free and engaged thread.
+    If False, core diameter d3 is used as recommended in VDI 2230 part 1. Default = False&#34;&#34;&#34;
+
+    model_keywords:list[IKeyword] = field(init=False, default_factory=list)
+    &#34;&#34;&#34;List with all generated model keywords for the bolt. This list is only kept for information. 
+    It is not used after the generation. Only available after generate_and_insert&#34;&#34;&#34;
+
+    interface_sets:_InterfaceSets = field(init=False, default_factory=_InterfaceSets)
+    &#34;&#34;&#34;Object with sets used or interfacing with surrounding model. 
+    Only available after generate_and_insert. 
+    Useful for further preprocessing like defining contacts to tie bolt head to clamping parts etc.
+    See interface_surfaces for corresponding element-face surfaces
+    &#34;&#34;&#34;
+    interface_surfaces:_InterfaceSurfaces = field(init=False, default_factory=_InterfaceSurfaces)
+    &#34;&#34;&#34;Object with element-face surfaces used or interfacing with surrounding model. 
+    Only available after generate_and_insert. 
+    Useful for further preprocessing like defining contacts to tie bolt head to clamping parts etc.
+    See interface_sets for corresponding node sets&#34;&#34;&#34;
+
+    internal_sets:list[ISet] = field(init=False, default_factory=list)
+    &#34;&#34;&#34;List with all internal node sets used to define internal_surfaces.
+    Only available after generate_and_insert.&#34;&#34;&#34;
+
+    internal_surfaces:list[ISurface] = field(init=False, default_factory=list)
+    &#34;&#34;&#34;List with all internal element face surfaces used to tie the shaft sections together.
+    Only available after generate_and_insert.&#34;&#34;&#34;
+
+    pretension_node:int = field(init=False, default=0)
+    &#34;&#34;&#34;Node id of the pretension node. Use this node to define pretension force or displacement.
+    Only available after generate_and_insert.&#34;&#34;&#34;
+
+    e_set:ISet = field(init=False, default=None)
+    &#34;&#34;&#34;Element set with all elements of this bolt.
+    Only available after generate_and_insert.&#34;&#34;&#34;
+
+    _is_initialized:bool = field(init=False, default=False)
+
+    # endregion
+
+    # region public methods
+    def get_d3(self) -&gt; float: 
+        &#34;&#34;&#34;
+        Gets the core diameter of the thread.\n
+        d3 = d_n - 1.2269 * p
+
+        Returns:
+            float: core diameter
+        &#34;&#34;&#34;
+        return self.d_n - 1.2269 * self.p
+    
+    def get_d2(self) -&gt; float:
+        &#34;&#34;&#34;
+        Gets the pitch diameter of the thread.\n
+        d2 = d_n - 0.6495 * p
+
+        Returns:
+            float: pitch diameter
+        &#34;&#34;&#34;
+        return self.d_n - 0.6495 * self.p
+    
+    def get_ds(self) -&gt; float:
+        &#34;&#34;&#34;
+        Gets the stress cross section diameter of the thread.\n
+        ds = (d3 + d2) / 2
+
+        Returns:
+            float: stress cross section diameter
+        &#34;&#34;&#34;
+        return (self.get_d3() + self.get_d2()) / 2
+    
+    def get_as(self) -&gt; float:
+        &#34;&#34;&#34;
+        Gets the stress cross section area of the thread.\n
+        As = pi/4 * ds**2
+
+        Returns:
+            float: stress cross section area
+        &#34;&#34;&#34;
+        return np.pi / 4 * self.get_ds()**2
+    
+    def get_ws(self) -&gt; float:
+        &#34;&#34;&#34;
+        Gets the of the moment of resistance of the thread.\n
+        Ws = pi/32 * ds**3
+
+        Returns:
+            float: moment of resistance
+        &#34;&#34;&#34;
+        return np.pi / 32 * self.get_ds()**3
+
+    def generate_and_insert(self, model:ccx_model.Model):
+        &#34;&#34;&#34;
+        Generates the mesh and all required keywords for the bolt and inserts it into the given model.
+
+        Args:
+            model (ccx_model.Model): Model where the bolt should be inserted
+        &#34;&#34;&#34;
+        self.nid_start = model.mesh.get_max_node_id() + 1
+        self.eid_start = model.mesh.get_max_element_id() + 1
+        gmsh = model.get_gmsh()
+        gmsh_options = &#39;Geometry.AutoCoherence&#39;, &#39;Mesh.FirstElementTag&#39;, &#39;Mesh.FirstNodeTag&#39;, &#39;Mesh.SaveAll&#39;
+        gmsh_options = {opt:gmsh.option.getNumber(opt) for opt in gmsh_options}
+
+        with ccx_model.Model(model.ccx_path, model.cgx_path, self.name, model.working_dir) as bolt_model:
+            section_dimtags, sec_no_max = self._make_bolt_mesh(bolt_model)
+            self._make_sets_and_surfaces(bolt_model, section_dimtags, sec_no_max)
+            self._make_internal_contacts()
+            self._make_pretension(bolt_model)
+            self._make_material()
+            self._align_bolt(bolt_model)
+            self._integrate_bolt_in_model(model, bolt_model)
+
+        for k, v in gmsh_options.items():
+            gmsh.option.setNumber(k, v)
+
+    def get_section_forces(self, model:ccx_model.Model, frd_result:FrdResult, time:float) -&gt; npt.NDArray[np.float_]:
+        &#34;&#34;&#34;
+        Gets the section forces at the bolt head, at each end of a shaft section and at 
+        the first engaged thread turn in the local coordinate system.
+
+        Return value is a 2D numpy array in the following form:
+        Each row: [x-coordinate in local csys, F_x, F_y, F_z, M_x, M_y, M_z]
+        Row ordering:
+            row 0: Bolt head 
+            row 1 to n: End of each of the n shaft sections
+            row -1: First engaged thread turn
+
+        Args:
+            model (ccx_model.Model): model where this bolt was inserted. Same that was passed to generate_and_insert
+            frd_result (FrdResult): FrdResult object containing reaction Forces (RF)
+            time (float): Result time for which section forces should be returned.
+
+        Returns:
+            npt.NDArray[np.float_]: 2D Array with section forces
+
+        Raises:
+            ResultNotFoundError: Raised if no reaction forces were found for given time in frd_result
+        &#34;&#34;&#34;
+
+        # check if reaktion force result exists
+        forces_res = frd_result.get_result_set_by_entity_and_time(enums.EFrdEntities.FORC, time)
+        if forces_res is None:
+            raise ResultNotFoundError(f&#39;The requested result &#34;{enums.EFrdEntities.FORC.name}&#34; at time {time} was not found in frd_result&#39;)
+
+        # get section node sets to evaluate and their force sign
+        # reaktion forces are only available at the dependant nodes
+        sets = [(self.internal_sets[1], -1)] # head
+
+        sections, _ = self._get_expanded_shaft_sections()
+        for i, sec in enumerate(sections[:-1]):
+            d_i = sec[0]
+            d_next = sections[i+1,0]
+            ind, dep, sign = self.internal_sets[2 + i*2], self.internal_sets[2 + i*2 + 1], -1
+            if d_i &lt;= d_next: ind, dep, sign = dep, ind, -sign
+            # lower equal makes sure the ind side is on the engaged thread for the last
+            # section
+            sets.append((dep, sign))
+
+        out = []
+        for dep_set, sign in sets:
+            nids = list(dep_set.ids) # fix ordering
+            nodes = model.mesh.get_nodes_by_ids(*nids)
+            nodes = np.array([self.csys.transform_point_from_global(n) for n in nodes])
+            x = np.average(nodes[:,0])
+            
+            forces = forces_res.get_values_by_ids(nids) * sign
+            forces = np.array([self.csys.transform_vector_from_global(f) for f in forces])
+            fx, fy, fz = np.sum(forces, axis=0) 
+            mx =  np.sum(forces[:,2] * nodes[:,1]) - np.sum(forces[:,1] * nodes[:,2]) # mx = sum( Fz_i * y_i) - sum( Fy_i * z_i)
+            my =  np.sum(forces[:,0] * nodes[:,2]) # my = sum( Fx_i * z_i) 
+            mz = -np.sum(forces[:,0] * nodes[:,1]) # mz = sum(-Fx_i * y_i) 
+            out.append([x, fx, fy, fz, mx, my, mz])
+
+        return np.array(out)
+            
+    def tie_head_to_solid(self, solid_surface:ISurface, k:Optional[float]=1e6) -&gt; tuple[IKeyword,...]:
+        &#34;&#34;&#34;
+        Returns a tuple with all required model keywords to tie the bolt head to the given 
+        element face surface, e.g. the head contact surface of a clamped part.
+
+        As contact formulation surface-to-surface penalty tie contact is used. This way no
+        over constraint with the internal mpc-based *TIE contacts occurs.
+        The penalty stiffness in normal and tangential direction is equal and can be given
+        by the parameter k. Default is 1e6.
+        Make sure there is no large gap or penetration between the given surface and the bolt 
+        head contact surface. 
+
+        The name of the returned contact is f&#39;{self.name}_head_tie_contact&#39;
+
+        Args:
+            solid_surface (ISurface): Element face surface where the bolt head should be tied to.
+            k (Optional[float], optional): Penalty stiffness in normal and tangential direction. Defaults to 1e6.
+
+        Returns:
+            tuple[IKeyword,...]: tuple with model keywords required for tie contact
+        &#34;&#34;&#34;
+
+        if solid_surface.type != enums.ESurfTypes.EL_FACE:
+            raise ValueError(f&#39;Type of solid_surface must be EL_FACE, got {solid_surface.type.name}&#39;)
+        
+        name = f&#39;{self.name}_head_tie_contact&#39;
+        return self._make_interface_contact(name, solid_surface, self.interface_surfaces.s_head_interf, k, k)
+
+    def tie_thread_to_solid(self, solid_surface:ISurface, k:Optional[float]=1e6, lam:Optional[float]=None) -&gt; tuple[IKeyword,...]:
+        &#34;&#34;&#34;        
+        Returns a tuple with all required model keywords to tie the cylindrical face of the engaged thread to the given 
+        element face surface, e.g. the cylindrical face of a tapped hole or a nut.
+
+        As contact formulation surface-to-surface penalty tie contact is used. This way no
+        over constraint with the internal mpc-based *TIE contacts occurs.
+        The penalty stiffness in normal and tangential direction can be given optionally by the parameters k and lam.
+
+        Make sure there is no large gap or penetration between the given surface and the engaged thread. 
+
+        The name of the returned contact is f&#39;{self.name}_thread_tie_contact.&#39;
+
+        Args:
+            solid_surface (ISurface): Element face surface where the bolt thread should be tied to.
+            k (Optional[float], optional): Penalty stiffness in normal direction. Defaults to 1e6.
+            lam (Optional[float], optional): Penalty stiffness in tangential direction. Defaults to k / 100 if omitted.
+
+        Returns:
+            tuple[IKeyword,...]: tuple with model keywords required for tie contact
+        &#34;&#34;&#34;
+
+        if solid_surface.type != enums.ESurfTypes.EL_FACE:
+            raise ValueError(f&#39;Type of solid_surface must be EL_FACE, got {solid_surface.type.name}&#39;)
+        
+        if lam is None: lam = k / 100
+        name = f&#39;{self.name}_thread_tie_contact&#39;
+        return self._make_interface_contact(name, solid_surface, self.interface_surfaces.s_thread_interf, k, lam)
+    
+    def get_vdi_contact_thread_stiffness(self, e_t:float, e_b:Optional[float]=None) -&gt; tuple[float, float]:
+        &#34;&#34;&#34;
+        EXPERIMENTAL!\n
+        Gets the normal and tangential stiffness for tie_thread_to_solid acc. to VDI 2230 guideline.
+
+        The tangential stiffness is approximated from eq 5.1/4 of VDI 2230 2003 page 28:
+            d_GM = d_G + d_M\n
+            d_G = d_n / (2 * e_b * pi/4 * d3**2)\n
+            d_M = d_n / (3 * e_t * pi/4 * d_n**2)\n
+            C_GM = 1 / d_GM\n
+            lam = C_GM / (pi * dt * d_n/3)\n
+            dt = modelled diameter of engaged thread = ds if use_ds_for_thread else d3
+
+        Args:
+            e_t (float): Emodule of part with outer thread (tapped hole or nut)
+            e_b (Optional[float]): Emodule of bolt. Can be omitted if self.material is a tuple with (emodule, mue)
+
+        Returns:
+            tuple[float, float]: normal stiffness, tangential stiffness
+
+        &#34;&#34;&#34;
+
+        if e_b is None: 
+            if isinstance(self.material, tuple): 
+                e_b = self.material[0]
+            else:
+                raise ValueError(&#39;e_b must be given. It can not be inferred from material of type IKeyword&#39;)
+        
+        d_G = self.d_n / (2 * e_b * np.pi/4 * self.get_d3()**2)
+        d_M = 1 / (3 * e_t * np.pi/4 * self.d_n)
+        c_GM = 1 / (d_G + d_M)
+        dt = self.get_ds() if self.use_ds_for_thread else self.get_d3()
+        lam = c_GM / (np.pi * dt * self.d_n / 3)
+        return lam * 100, lam
+    # endregion
+
+    # region private methods
+    def __post_init__(self):
+        self._is_initialized = True
+
+    def __setattr__(self, name:str, value:Any):
+        super().__setattr__(name, value)
+        self._validate() 
+
+    def _validate(self):
+        if not self._is_initialized: return
+
+        if self.csys.type != enums.EOrientationSystems.RECTANGULAR:
+            raise ValueError(f&#39;csys must be {enums.EOrientationSystems.RECTANGULAR.name}!&#39;)
+        if self.d_n &lt;= 0:
+            raise ValueError(&#39;Nominal diameter d_n must be greater than 0!&#39;)
+        if self.l_c &lt;= 0:
+            raise ValueError(&#39;Clamping length l_c must be greater than 0!&#39;)
+        if self.d_w &lt;= self.d_n:
+            raise ValueError(&#39;Outer diameter of head contact surface d_w must be greater than nominal diameter d_n!&#39;)
+        if self.k &lt;= 0:
+            raise ValueError(&#39;Height of head k must be greater than 0!&#39;)
+        if self.p &lt;= 0:
+            raise ValueError(&#39;Thread pitch p must be greater than 0!&#39;)
+        if isinstance(self.material, tuple):
+            if self.material[0] &lt;= 0:
+                raise ValueError(&#39;Emodule of material (1st element) must be greater than 0!&#39;)
+            if self.material[1] &lt;= 0:
+                raise ValueError(&#39;Poissons ratio of material (2nd element) must be greater than 0!&#39;)
+            if self.material[1] &gt;= 0.5:
+                raise ValueError(&#39;Poissons ratio of material (2nd element) must be lower than 0.5!&#39;)
+        if self.shaft_sections:
+            for i, row in enumerate(self.shaft_sections):
+                if len(row) != 2:
+                    raise ValueError(f&#39;Row {i} of shaft_section must have len 2!&#39;)
+                if row[0] &lt;= 0:
+                    raise ValueError(f&#39;Diameter in row {i} of shaft_sections must be greater than 0!&#39;)
+                if row[1] &lt;= 0:
+                    raise ValueError(f&#39;Length in row {i} of shaft_sections must be greater than 0!&#39;)
+            if self.shaft_sections[0][0] &gt;= self.d_w:
+                raise ValueError(&#39;Diameter of first shaft section must be smaller than outer diameter of head bearing surface d_w!&#39;)
+
+    def _make_bolt_mesh(self, model:ccx_model.Model):
+
+        gmsh = model.get_gmsh()
+        geo = gmsh.model.geo
+        gmsh.option.setNumber(&#39;Geometry.AutoCoherence&#39;, 1)
+
+        sections, sec_no_max = self._get_expanded_shaft_sections()
+
+        def mk_crosssection(r:float, z0:float):
+            p = [geo.addPoint(0, 0, z0),
+                 geo.addPoint(r, 0, z0),
+                 geo.addPoint(0, r, z0),
+                 geo.addPoint(-r, 0, z0),
+                 geo.addPoint(0, -r, z0)]
+
+            l = [geo.addLine(p[0], p[1]),
+                 geo.addLine(p[0], p[2]),
+                 geo.addLine(p[0], p[3]),
+                 geo.addLine(p[0], p[4]),
+                 geo.addCircleArc(p[1], p[0], p[2]),
+                 geo.addCircleArc(p[2], p[0], p[3]),
+                 geo.addCircleArc(p[3], p[0], p[4]),
+                 geo.addCircleArc(p[4], p[0], p[1])]
+            
+            lc = [geo.addCurveLoop([l[0], l[4], -l[1]]),
+                  geo.addCurveLoop([l[1], l[5], -l[2]]),
+                  geo.addCurveLoop([l[2], l[6], -l[3]]),
+                  geo.addCurveLoop([l[3], l[7], -l[0]])]
+            
+            s = [geo.addPlaneSurface([lci]) for lci in lc]
+
+            return p, l, lc, s
+
+        def extrude_section(start_dimtags: list[tuple[int]], ds:float, ls:float, ne:int=0):
+            if ne == 0: ne = int((ls / ds)**0.5 * 2) + 1
+            res = geo.extrude(start_dimtags, 0, 0, ls, [ne], recombine=True)
+            return dict(
+                fs=start_dimtags, # start faces
+                fc=res[3::5], # zylinder faces
+                fe=res[0::5], # end faces
+                v=res[1::5], # volumes
+            )
+        
+        def mk_section(ds:float, ls:float, z0:float, ne:int=0):
+            r = ds / 2
+            p, l, lc, s = mk_crosssection(r,z0)
+
+            for li in l[:4]: geo.mesh.setTransfiniteCurve(li, 2)
+            for li in l[4:]: geo.mesh.setTransfiniteCurve(li, 3)
+                   
+            start_dimtags = [(2, si) for si in s]
+            return extrude_section(start_dimtags, ds, ls, ne)
+
+        def mk_head(start_dimtags: list[tuple[int]]):
+            p, l, lc, s = mk_crosssection(sections[0,0] / 2, -1)
+            r = self.d_w / 2
+            ph = [geo.addPoint(r, 0, -1), # index 5
+                  geo.addPoint(0, r, -1),
+                  geo.addPoint(-r, 0, -1),
+                  geo.addPoint(0, -r, -1)]
+            
+            lh = [geo.addLine(p[1], ph[0]), # index 8
+                  geo.addLine(p[2], ph[1]),
+                  geo.addLine(p[3], ph[2]),
+                  geo.addLine(p[4], ph[3]),
+                  geo.addCircleArc(ph[0], p[0], ph[1]),
+                  geo.addCircleArc(ph[1], p[0], ph[2]),
+                  geo.addCircleArc(ph[2], p[0], ph[3]),
+                  geo.addCircleArc(ph[3], p[0], ph[0]),]
+            
+            lch = [geo.addCurveLoop([lh[0], lh[4], -lh[1], -l[4]]), # index 4
+                   geo.addCurveLoop([lh[1], lh[5], -lh[2], -l[5]]),
+                   geo.addCurveLoop([lh[2], lh[6], -lh[3], -l[6]]),
+                   geo.addCurveLoop([lh[3], lh[7], -lh[0], -l[7]])]
+            
+            sh = [geo.addPlaneSurface([lchi]) for lchi in lch]
+
+            for li in l[:4]: geo.mesh.setTransfiniteCurve(li, 2)
+            for li in l[4:]: geo.mesh.setTransfiniteCurve(li, 3)
+            for li in lh[:4]: geo.mesh.setTransfiniteCurve(li, 2)
+            for li in lh[4:]: geo.mesh.setTransfiniteCurve(li, 3)
+
+            for si in sh: geo.mesh.setRecombine(2, si)
+
+            start_dimtags = [(2, si) for si in s] + [(2, si) for si in sh]
+            res = geo.extrude(start_dimtags, 0, 0, -self.k, [2], recombine=True)
+
+            return dict(
+                fs_i = [(2, si) for si in s],
+                fs_o = [(2, si) for si in sh],
+                v = [dt for dt in res if dt[0] == 3]
+            )
+            
+        z0 = 0.
+        section_dimtags:list[dict[str,list[tuple[int,int]]]] = []
+        for sec_no, (ds, ls) in enumerate(sections):
+            if sec_no == sec_no_max:
+                section_dimtags.append(mk_section(ds, ls/2, z0))
+                section_dimtags.append(extrude_section(section_dimtags[-1][&#39;fe&#39;], ds, ls/2))
+            else:
+                section_dimtags.append(mk_section(ds, ls, z0))
+
+            z0 += ls + 1
+
+        head_dimtags = mk_head(section_dimtags[0][&#39;fs&#39;])
+
+        # delete coherence-prevent-gaps
+        gmsh.option.setNumber(&#39;Geometry.AutoCoherence&#39;, 0)
+        geo.translate(head_dimtags[&#39;v&#39;], 0, 0, 1)
+        z0 = 0
+        for sec_no, sec_dimtags in enumerate(section_dimtags):
+            if sec_no == sec_no_max:
+                geo.translate(sec_dimtags[&#39;v&#39;] + section_dimtags[sec_no + 1][&#39;v&#39;], 0, 0, -z0)
+                z0 += 1
+                continue
+            if sec_no == sec_no_max + 1: continue
+
+            geo.translate(sec_dimtags[&#39;v&#39;], 0, 0, -z0)
+            z0 += 1
+
+        geo.synchronize()
+
+        # Physical groups
+        gmsh.model.addPhysicalGroup(2, [x[1] for x in head_dimtags[&#39;fs_o&#39;]], name=f&#39;{self.name}_n_head_interf&#39;)
+        gmsh.model.addPhysicalGroup(2, [x[1] for x in section_dimtags[-1][&#39;fc&#39;]], name=f&#39;{self.name}_n_thread_interf&#39;)
+        gmsh.model.addPhysicalGroup(2, [x[1] for x in head_dimtags[&#39;fs_i&#39;]], name=f&#39;_{self.name}_n_hs0_tie&#39;)
+        gmsh.model.addPhysicalGroup(2, [x[1] for x in section_dimtags[0][&#39;fs&#39;]], name=f&#39;_{self.name}_n_s0h_tie&#39;)
+        gmsh.model.addPhysicalGroup(3, [x[1] for row in section_dimtags for x in row[&#39;v&#39;]] + [x[1] for x in head_dimtags[&#39;v&#39;]], name=f&#39;{self.name}_e_all&#39;)
+
+        i = 0
+        for sec_no, sec_dimtags in enumerate(section_dimtags[:-1]):
+            if sec_no == sec_no_max:
+                gmsh.model.addPhysicalGroup(2, [x[1] for x in sec_dimtags[&#39;fe&#39;]], name=f&#39;{self.name}_n_pret_sec&#39;)
+            else:
+                gmsh.model.addPhysicalGroup(2, [x[1] for x in sec_dimtags[&#39;fe&#39;]], name=f&#39;_{self.name}_n_s{i}s{i+1}_tie&#39;)
+                gmsh.model.addPhysicalGroup(2, [x[1] for x in section_dimtags[sec_no + 1][&#39;fs&#39;]], name=f&#39;_{self.name}_n_s{i+1}s{i}_tie&#39;)
+                i += 1
+
+        gmsh.option.setNumber(&#39;Mesh.FirstElementTag&#39;, self.eid_start)
+        gmsh.option.setNumber(&#39;Mesh.FirstNodeTag&#39;, self.nid_start)
+        gmsh.option.setNumber(&#39;Mesh.SaveAll&#39;, 0)
+
+        gmsh.model.mesh.generate()
+        gmsh.model.mesh.setOrder(2)
+        gmsh.model.mesh.renumberNodes()
+        gmsh.model.mesh.renumberElements()
+        
+        model.update_mesh_from_gmsh()
+
+        return section_dimtags, sec_no_max
+    
+    def _get_expanded_shaft_sections(self):
+
+        if not self.shaft_sections: sections = np.empty((0,2))
+        else: sections = np.asarray(self.shaft_sections, dtype=float) 
+
+        # length of free thread        
+        lt = self.l_c - np.sum(sections[:,1]) 
+        # diameter of free and engaged thread
+        dt = self.get_ds() if self.use_ds_for_thread else self.get_d3()
+        sections = np.vstack([sections, [dt, lt]])
+        # get slenderest section within clamping length. This will be split in halve for pretension
+        sec_no_max = np.argmax(sections[:,1] / sections[:,0]) 
+        # append enganged thread
+        sections = np.vstack([sections, [dt, self.d_n]])
+
+        return sections, sec_no_max
+
+    def _make_sets_and_surfaces(self, model:ccx_model.Model, section_dimtags:list[dict[str,list[tuple[int,int]]]], sec_no_max:int):
+        gmsh = model.get_gmsh()
+
+        self.e_set = model.mesh.get_el_set_by_name(f&#39;{self.name}_e_all&#39;)
+
+        # make pretension surface
+        eids = set()
+        for _, tag in section_dimtags[sec_no_max][&#39;v&#39;]:
+            _, eid_vecs, _ = gmsh.model.mesh.getElements(3, tag)
+            for eid_vec in eid_vecs:
+                eids.update(eid_vec)
+        elems = model.mesh.get_elements_by_ids(*eids)
+        # use function get_surface_from_node_set from module surface, bc there is the possibility to
+        # give a subset of elements to search for surfaces
+        self.interface_surfaces.s_pret_sec = get_surface_from_node_set(f&#39;{self.name}_s_pret_sec&#39;, elems, 
+                                              model.mesh.get_node_set_by_name(f&#39;{self.name}_n_pret_sec&#39;),
+                                              enums.ESurfTypes.EL_FACE)
+        model.mesh.add_surfaces(self.interface_surfaces.s_pret_sec)
+
+        # get interface sets
+        for f in fields(self.interface_sets):
+            setattr(self.interface_sets, f.name, model.mesh.get_node_set_by_name(f&#39;{self.name}_{f.name}&#39;))
+        # get internal sets
+        i = 0
+        self.internal_sets.append(model.mesh.get_node_set_by_name(f&#39;_{self.name}_n_hs0_tie&#39;))
+        self.internal_sets.append(model.mesh.get_node_set_by_name(f&#39;_{self.name}_n_s0h_tie&#39;))
+        for sec_no, _ in enumerate(section_dimtags[:-1]):
+            if sec_no != sec_no_max:
+                self.internal_sets += [
+                    model.mesh.get_node_set_by_name(f&#39;_{self.name}_n_s{i}s{i+1}_tie&#39;),
+                    model.mesh.get_node_set_by_name(f&#39;_{self.name}_n_s{i+1}s{i}_tie&#39;)]
+                i += 1
+
+        # make interface surfaces from interface node sets
+        for f in fields(self.interface_sets):
+            if &#39;pret_sec&#39; in f.name: continue # already added
+            n_set = getattr(self.interface_sets, f.name)
+            surf_name = &#39;s&#39; + f.name[1:] # change n to s
+            surf = model.mesh.add_surface_from_node_set(f&#39;{self.name}_{surf_name}&#39;, n_set, enums.ESurfTypes.EL_FACE)
+            setattr(self.interface_surfaces, surf_name, surf)     
+
+        # make internal surfaces
+        for int_set in self.internal_sets:
+            name = int_set.name[len(self.name)+1:].replace(&#39;_N_&#39;, &#39;_S_&#39;)
+            self.internal_surfaces.append( model.mesh.add_surface_from_node_set(f&#39;_{self.name}{name}&#39;, int_set, enums.ESurfTypes.EL_FACE))
+
+    def _make_internal_contacts(self):
+
+        # make head-shaft contact. head is independent, so spc&#39;s or mpc&#39;s 
+        # can be defined on outer head contact surface
+        self.model_keywords.append(
+                mk.Tie(name=f&#39;{self.name}_0_tie&#39;, 
+                       dep_surf=self.internal_surfaces[1],
+                       ind_surf=self.internal_surfaces[0],)
+            )
+
+        j = 1
+        sections, _ = self._get_expanded_shaft_sections()
+        for i, sec in enumerate(sections[:-1]):
+            d_i = sec[0]
+            d_next = sections[i+1,0]
+            ind, dep = self.internal_surfaces[2 + i*2], self.internal_surfaces[2 + i*2 + 1]
+            if d_i &lt;= d_next: ind, dep = dep, ind
+            # lower equal makes sure the ind side is on the engaged thread for the last
+            # section
+
+            self.model_keywords.append(
+                mk.Tie(name=f&#39;{self.name}_{j}_tie&#39;, 
+                       dep_surf=dep,
+                       ind_surf=ind,)
+            )
+            j += 1
+
+    def _make_pretension(self, model:ccx_model.Model):
+        self.pretension_node = model.mesh.add_node((0,0,0))
+        self.model_keywords.append(
+            mk.PretensionSection(self.pretension_node,
+                                 surface=self.interface_surfaces.s_pret_sec,
+                                 name=f&#39;{self.name}_pret_sec&#39;)
+        )
+
+    def _make_material(self):
+        if isinstance(self.material, tuple):
+            self.model_keywords += [
+                mat:=mk.Material(f&#39;{self.name}_mat&#39;),
+                mk.Elastic(self.material),
+                mk.SolidSection(self.e_set, mat)
+            ]
+        else:
+            self.model_keywords.append(
+                mk.SolidSection(self.e_set, self.material)
+            )
+
+    def _align_bolt(self, model:ccx_model.Model):
+        csys_x = CoordinateSystem(&#39;&#39;).rotate_y(-90., degrees=True)
+        for nid, coords in model.mesh.nodes.items():
+            new_coords = csys_x.transform_point_from_global(coords)
+            new_coords = self.csys.transform_point_to_global(new_coords)
+            model.mesh.nodes[nid]=new_coords
+
+    def _integrate_bolt_in_model(self, model:ccx_model.Model, bolt_model:ccx_model.Model):
+        model.mesh.nodes.update(bolt_model.mesh.nodes)
+        model.mesh.elements.update(bolt_model.mesh.elements)
+        model.mesh.node_sets += bolt_model.mesh.node_sets
+        model.mesh.element_sets += bolt_model.mesh.element_sets
+        model.mesh.surfaces += bolt_model.mesh.surfaces
+        model.model_keywords += self.model_keywords
+
+    def _make_interface_contact(self, name, ind_surf, dep_surf, k, lam):
+        return mk.group_funcs.make_contact(name=name,
+                                    contact_type=enums.EContactTypes.SURFACE_TO_SURFACE,
+                                    ind_surf=ind_surf,
+                                    dep_surf=dep_surf,
+                                    pressure_overclosure=enums.EPressureOverclosures.TIED,
+                                    k=k, lam=lam)
+    # endregion</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pygccx.tools.bolts.bolt.Bolt"><code class="flex name class">
+<span>class <span class="ident">Bolt</span></span>
+<span>(</span><span>name: str, csys: <a title="pygccx.helper_features.coordinate_system.CoordinateSystem" href="../../helper_features/coordinate_system.html#pygccx.helper_features.coordinate_system.CoordinateSystem">CoordinateSystem</a>, d_n: float, l_c: float, d_w: float, k: float, p: float, material: tuple[int | float | numpy.number, int | float | numpy.number] | <a title="pygccx.model_keywords.material.Material" href="../../model_keywords/material.html#pygccx.model_keywords.material.Material">Material</a>, shaft_sections: Optional[list[list[int | float | numpy.number]]] = &lt;factory&gt;, use_ds_for_thread: bool = False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>This class is for generating preloaded bolts with a 60° thread flank angle.</p>
+<p>After instantiating a bolt object with all needed parameters, a call of
+.generate_and_insert() will generate the bolt from solid elements and insert
+it in the model. All necessary keywords, sets, surfaces, etc. are generated
+and inserted in the model as well.</p>
+<p>The modelling follows the recommendations of VDI 2230 part 2 "multi bolted joints"
+model class 3.</p>
+<p>With the methods .tie_head_to_solid() and .tie_thread_to_solid() the bolt can
+easily be tied to other solid elements of the model (e.g. the clamped parts).</p>
+<p>The pretension can be controlled with <em>CLOAD or </em>BOUNDARY keywords using the
+pretention node, which is available through .pretension_node.</p>
+<p>After the solution, section forces can be obtained with the method
+.get_section_forces().
+See examples/bolted_flange</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class Bolt:
+    &#34;&#34;&#34;
+    This class is for generating preloaded bolts with a 60° thread flank angle.
+
+    After instantiating a bolt object with all needed parameters, a call of 
+    .generate_and_insert() will generate the bolt from solid elements and insert 
+    it in the model. All necessary keywords, sets, surfaces, etc. are generated 
+    and inserted in the model as well.
+
+    The modelling follows the recommendations of VDI 2230 part 2 &#34;multi bolted joints&#34; 
+    model class 3.
+
+    With the methods .tie_head_to_solid() and .tie_thread_to_solid() the bolt can 
+    easily be tied to other solid elements of the model (e.g. the clamped parts).
+
+    The pretension can be controlled with *CLOAD or *BOUNDARY keywords using the 
+    pretention node, which is available through .pretension_node.
+
+    After the solution, section forces can be obtained with the method 
+    .get_section_forces().
+    See examples/bolted_flange
+    &#34;&#34;&#34;
+
+    # region fields
+    name:str
+    &#34;&#34;&#34;Name of bolt. Must be unique in whole model. You must take care by yourself that name is unique.
+    Name is used for naming sets, surfaces, contacts, material etc. for this bolt.&#34;&#34;&#34;
+
+    csys:CoordinateSystem
+    &#34;&#34;&#34;Rectangular coordinate system of bolt. Origin is located in the center of head contact face.
+    X is pointing from head to thread. Y and Z lie in the head contact plane.&#34;&#34;&#34;
+
+    d_n:float
+    &#34;&#34;&#34;Nominal bolt diameter.&#34;&#34;&#34;
+
+    l_c:float
+    &#34;&#34;&#34;Clamping length. This is usually the thickness of clamped parts, or the distance from
+    head contact face to first engaged thread turn.&#34;&#34;&#34;
+
+    d_w:float
+    &#34;&#34;&#34;Outer diameter of head contact face. Usually 1.5 * d_n&#34;&#34;&#34;
+
+    k:float
+    &#34;&#34;&#34;Hight of head&#34;&#34;&#34;
+
+    p:float
+    &#34;&#34;&#34;Thread pitch. Distance between threads, not threads per length.&#34;&#34;&#34;
+
+    material:tuple[number, number]|mk.Material
+    &#34;&#34;&#34;Material for bolt. Can be either a tuple with (emodule, poissons ratio) or a 
+    predefined material keyword&#34;&#34;&#34;
+
+    shaft_sections:Optional[list[list[number]]] = field(default_factory=list)
+    &#34;&#34;&#34;List with unthreaded shaft sections in the form [[d0, l0], [d1, l1], ..., [dn, ln]] 
+    with d = diameter of section, l = length of section.\n
+    The ordering is from head to thread, so the first section is connected to the head.\n 
+    The diameter of the first section must be smaller than d_w.\n
+    The sum of all length must be smaller than the clamping length l_c. The remaining 
+    length l_c - sum(li) is modelled as a free thread with d = d3 or ds.
+    See also attribute use_ds_for_thread.&#34;&#34;&#34;
+
+    use_ds_for_thread:bool = False
+    &#34;&#34;&#34;Flag if stress cross section diameter ds should be used to model the free and engaged thread.
+    If False, core diameter d3 is used as recommended in VDI 2230 part 1. Default = False&#34;&#34;&#34;
+
+    model_keywords:list[IKeyword] = field(init=False, default_factory=list)
+    &#34;&#34;&#34;List with all generated model keywords for the bolt. This list is only kept for information. 
+    It is not used after the generation. Only available after generate_and_insert&#34;&#34;&#34;
+
+    interface_sets:_InterfaceSets = field(init=False, default_factory=_InterfaceSets)
+    &#34;&#34;&#34;Object with sets used or interfacing with surrounding model. 
+    Only available after generate_and_insert. 
+    Useful for further preprocessing like defining contacts to tie bolt head to clamping parts etc.
+    See interface_surfaces for corresponding element-face surfaces
+    &#34;&#34;&#34;
+    interface_surfaces:_InterfaceSurfaces = field(init=False, default_factory=_InterfaceSurfaces)
+    &#34;&#34;&#34;Object with element-face surfaces used or interfacing with surrounding model. 
+    Only available after generate_and_insert. 
+    Useful for further preprocessing like defining contacts to tie bolt head to clamping parts etc.
+    See interface_sets for corresponding node sets&#34;&#34;&#34;
+
+    internal_sets:list[ISet] = field(init=False, default_factory=list)
+    &#34;&#34;&#34;List with all internal node sets used to define internal_surfaces.
+    Only available after generate_and_insert.&#34;&#34;&#34;
+
+    internal_surfaces:list[ISurface] = field(init=False, default_factory=list)
+    &#34;&#34;&#34;List with all internal element face surfaces used to tie the shaft sections together.
+    Only available after generate_and_insert.&#34;&#34;&#34;
+
+    pretension_node:int = field(init=False, default=0)
+    &#34;&#34;&#34;Node id of the pretension node. Use this node to define pretension force or displacement.
+    Only available after generate_and_insert.&#34;&#34;&#34;
+
+    e_set:ISet = field(init=False, default=None)
+    &#34;&#34;&#34;Element set with all elements of this bolt.
+    Only available after generate_and_insert.&#34;&#34;&#34;
+
+    _is_initialized:bool = field(init=False, default=False)
+
+    # endregion
+
+    # region public methods
+    def get_d3(self) -&gt; float: 
+        &#34;&#34;&#34;
+        Gets the core diameter of the thread.\n
+        d3 = d_n - 1.2269 * p
+
+        Returns:
+            float: core diameter
+        &#34;&#34;&#34;
+        return self.d_n - 1.2269 * self.p
+    
+    def get_d2(self) -&gt; float:
+        &#34;&#34;&#34;
+        Gets the pitch diameter of the thread.\n
+        d2 = d_n - 0.6495 * p
+
+        Returns:
+            float: pitch diameter
+        &#34;&#34;&#34;
+        return self.d_n - 0.6495 * self.p
+    
+    def get_ds(self) -&gt; float:
+        &#34;&#34;&#34;
+        Gets the stress cross section diameter of the thread.\n
+        ds = (d3 + d2) / 2
+
+        Returns:
+            float: stress cross section diameter
+        &#34;&#34;&#34;
+        return (self.get_d3() + self.get_d2()) / 2
+    
+    def get_as(self) -&gt; float:
+        &#34;&#34;&#34;
+        Gets the stress cross section area of the thread.\n
+        As = pi/4 * ds**2
+
+        Returns:
+            float: stress cross section area
+        &#34;&#34;&#34;
+        return np.pi / 4 * self.get_ds()**2
+    
+    def get_ws(self) -&gt; float:
+        &#34;&#34;&#34;
+        Gets the of the moment of resistance of the thread.\n
+        Ws = pi/32 * ds**3
+
+        Returns:
+            float: moment of resistance
+        &#34;&#34;&#34;
+        return np.pi / 32 * self.get_ds()**3
+
+    def generate_and_insert(self, model:ccx_model.Model):
+        &#34;&#34;&#34;
+        Generates the mesh and all required keywords for the bolt and inserts it into the given model.
+
+        Args:
+            model (ccx_model.Model): Model where the bolt should be inserted
+        &#34;&#34;&#34;
+        self.nid_start = model.mesh.get_max_node_id() + 1
+        self.eid_start = model.mesh.get_max_element_id() + 1
+        gmsh = model.get_gmsh()
+        gmsh_options = &#39;Geometry.AutoCoherence&#39;, &#39;Mesh.FirstElementTag&#39;, &#39;Mesh.FirstNodeTag&#39;, &#39;Mesh.SaveAll&#39;
+        gmsh_options = {opt:gmsh.option.getNumber(opt) for opt in gmsh_options}
+
+        with ccx_model.Model(model.ccx_path, model.cgx_path, self.name, model.working_dir) as bolt_model:
+            section_dimtags, sec_no_max = self._make_bolt_mesh(bolt_model)
+            self._make_sets_and_surfaces(bolt_model, section_dimtags, sec_no_max)
+            self._make_internal_contacts()
+            self._make_pretension(bolt_model)
+            self._make_material()
+            self._align_bolt(bolt_model)
+            self._integrate_bolt_in_model(model, bolt_model)
+
+        for k, v in gmsh_options.items():
+            gmsh.option.setNumber(k, v)
+
+    def get_section_forces(self, model:ccx_model.Model, frd_result:FrdResult, time:float) -&gt; npt.NDArray[np.float_]:
+        &#34;&#34;&#34;
+        Gets the section forces at the bolt head, at each end of a shaft section and at 
+        the first engaged thread turn in the local coordinate system.
+
+        Return value is a 2D numpy array in the following form:
+        Each row: [x-coordinate in local csys, F_x, F_y, F_z, M_x, M_y, M_z]
+        Row ordering:
+            row 0: Bolt head 
+            row 1 to n: End of each of the n shaft sections
+            row -1: First engaged thread turn
+
+        Args:
+            model (ccx_model.Model): model where this bolt was inserted. Same that was passed to generate_and_insert
+            frd_result (FrdResult): FrdResult object containing reaction Forces (RF)
+            time (float): Result time for which section forces should be returned.
+
+        Returns:
+            npt.NDArray[np.float_]: 2D Array with section forces
+
+        Raises:
+            ResultNotFoundError: Raised if no reaction forces were found for given time in frd_result
+        &#34;&#34;&#34;
+
+        # check if reaktion force result exists
+        forces_res = frd_result.get_result_set_by_entity_and_time(enums.EFrdEntities.FORC, time)
+        if forces_res is None:
+            raise ResultNotFoundError(f&#39;The requested result &#34;{enums.EFrdEntities.FORC.name}&#34; at time {time} was not found in frd_result&#39;)
+
+        # get section node sets to evaluate and their force sign
+        # reaktion forces are only available at the dependant nodes
+        sets = [(self.internal_sets[1], -1)] # head
+
+        sections, _ = self._get_expanded_shaft_sections()
+        for i, sec in enumerate(sections[:-1]):
+            d_i = sec[0]
+            d_next = sections[i+1,0]
+            ind, dep, sign = self.internal_sets[2 + i*2], self.internal_sets[2 + i*2 + 1], -1
+            if d_i &lt;= d_next: ind, dep, sign = dep, ind, -sign
+            # lower equal makes sure the ind side is on the engaged thread for the last
+            # section
+            sets.append((dep, sign))
+
+        out = []
+        for dep_set, sign in sets:
+            nids = list(dep_set.ids) # fix ordering
+            nodes = model.mesh.get_nodes_by_ids(*nids)
+            nodes = np.array([self.csys.transform_point_from_global(n) for n in nodes])
+            x = np.average(nodes[:,0])
+            
+            forces = forces_res.get_values_by_ids(nids) * sign
+            forces = np.array([self.csys.transform_vector_from_global(f) for f in forces])
+            fx, fy, fz = np.sum(forces, axis=0) 
+            mx =  np.sum(forces[:,2] * nodes[:,1]) - np.sum(forces[:,1] * nodes[:,2]) # mx = sum( Fz_i * y_i) - sum( Fy_i * z_i)
+            my =  np.sum(forces[:,0] * nodes[:,2]) # my = sum( Fx_i * z_i) 
+            mz = -np.sum(forces[:,0] * nodes[:,1]) # mz = sum(-Fx_i * y_i) 
+            out.append([x, fx, fy, fz, mx, my, mz])
+
+        return np.array(out)
+            
+    def tie_head_to_solid(self, solid_surface:ISurface, k:Optional[float]=1e6) -&gt; tuple[IKeyword,...]:
+        &#34;&#34;&#34;
+        Returns a tuple with all required model keywords to tie the bolt head to the given 
+        element face surface, e.g. the head contact surface of a clamped part.
+
+        As contact formulation surface-to-surface penalty tie contact is used. This way no
+        over constraint with the internal mpc-based *TIE contacts occurs.
+        The penalty stiffness in normal and tangential direction is equal and can be given
+        by the parameter k. Default is 1e6.
+        Make sure there is no large gap or penetration between the given surface and the bolt 
+        head contact surface. 
+
+        The name of the returned contact is f&#39;{self.name}_head_tie_contact&#39;
+
+        Args:
+            solid_surface (ISurface): Element face surface where the bolt head should be tied to.
+            k (Optional[float], optional): Penalty stiffness in normal and tangential direction. Defaults to 1e6.
+
+        Returns:
+            tuple[IKeyword,...]: tuple with model keywords required for tie contact
+        &#34;&#34;&#34;
+
+        if solid_surface.type != enums.ESurfTypes.EL_FACE:
+            raise ValueError(f&#39;Type of solid_surface must be EL_FACE, got {solid_surface.type.name}&#39;)
+        
+        name = f&#39;{self.name}_head_tie_contact&#39;
+        return self._make_interface_contact(name, solid_surface, self.interface_surfaces.s_head_interf, k, k)
+
+    def tie_thread_to_solid(self, solid_surface:ISurface, k:Optional[float]=1e6, lam:Optional[float]=None) -&gt; tuple[IKeyword,...]:
+        &#34;&#34;&#34;        
+        Returns a tuple with all required model keywords to tie the cylindrical face of the engaged thread to the given 
+        element face surface, e.g. the cylindrical face of a tapped hole or a nut.
+
+        As contact formulation surface-to-surface penalty tie contact is used. This way no
+        over constraint with the internal mpc-based *TIE contacts occurs.
+        The penalty stiffness in normal and tangential direction can be given optionally by the parameters k and lam.
+
+        Make sure there is no large gap or penetration between the given surface and the engaged thread. 
+
+        The name of the returned contact is f&#39;{self.name}_thread_tie_contact.&#39;
+
+        Args:
+            solid_surface (ISurface): Element face surface where the bolt thread should be tied to.
+            k (Optional[float], optional): Penalty stiffness in normal direction. Defaults to 1e6.
+            lam (Optional[float], optional): Penalty stiffness in tangential direction. Defaults to k / 100 if omitted.
+
+        Returns:
+            tuple[IKeyword,...]: tuple with model keywords required for tie contact
+        &#34;&#34;&#34;
+
+        if solid_surface.type != enums.ESurfTypes.EL_FACE:
+            raise ValueError(f&#39;Type of solid_surface must be EL_FACE, got {solid_surface.type.name}&#39;)
+        
+        if lam is None: lam = k / 100
+        name = f&#39;{self.name}_thread_tie_contact&#39;
+        return self._make_interface_contact(name, solid_surface, self.interface_surfaces.s_thread_interf, k, lam)
+    
+    def get_vdi_contact_thread_stiffness(self, e_t:float, e_b:Optional[float]=None) -&gt; tuple[float, float]:
+        &#34;&#34;&#34;
+        EXPERIMENTAL!\n
+        Gets the normal and tangential stiffness for tie_thread_to_solid acc. to VDI 2230 guideline.
+
+        The tangential stiffness is approximated from eq 5.1/4 of VDI 2230 2003 page 28:
+            d_GM = d_G + d_M\n
+            d_G = d_n / (2 * e_b * pi/4 * d3**2)\n
+            d_M = d_n / (3 * e_t * pi/4 * d_n**2)\n
+            C_GM = 1 / d_GM\n
+            lam = C_GM / (pi * dt * d_n/3)\n
+            dt = modelled diameter of engaged thread = ds if use_ds_for_thread else d3
+
+        Args:
+            e_t (float): Emodule of part with outer thread (tapped hole or nut)
+            e_b (Optional[float]): Emodule of bolt. Can be omitted if self.material is a tuple with (emodule, mue)
+
+        Returns:
+            tuple[float, float]: normal stiffness, tangential stiffness
+
+        &#34;&#34;&#34;
+
+        if e_b is None: 
+            if isinstance(self.material, tuple): 
+                e_b = self.material[0]
+            else:
+                raise ValueError(&#39;e_b must be given. It can not be inferred from material of type IKeyword&#39;)
+        
+        d_G = self.d_n / (2 * e_b * np.pi/4 * self.get_d3()**2)
+        d_M = 1 / (3 * e_t * np.pi/4 * self.d_n)
+        c_GM = 1 / (d_G + d_M)
+        dt = self.get_ds() if self.use_ds_for_thread else self.get_d3()
+        lam = c_GM / (np.pi * dt * self.d_n / 3)
+        return lam * 100, lam
+    # endregion
+
+    # region private methods
+    def __post_init__(self):
+        self._is_initialized = True
+
+    def __setattr__(self, name:str, value:Any):
+        super().__setattr__(name, value)
+        self._validate() 
+
+    def _validate(self):
+        if not self._is_initialized: return
+
+        if self.csys.type != enums.EOrientationSystems.RECTANGULAR:
+            raise ValueError(f&#39;csys must be {enums.EOrientationSystems.RECTANGULAR.name}!&#39;)
+        if self.d_n &lt;= 0:
+            raise ValueError(&#39;Nominal diameter d_n must be greater than 0!&#39;)
+        if self.l_c &lt;= 0:
+            raise ValueError(&#39;Clamping length l_c must be greater than 0!&#39;)
+        if self.d_w &lt;= self.d_n:
+            raise ValueError(&#39;Outer diameter of head contact surface d_w must be greater than nominal diameter d_n!&#39;)
+        if self.k &lt;= 0:
+            raise ValueError(&#39;Height of head k must be greater than 0!&#39;)
+        if self.p &lt;= 0:
+            raise ValueError(&#39;Thread pitch p must be greater than 0!&#39;)
+        if isinstance(self.material, tuple):
+            if self.material[0] &lt;= 0:
+                raise ValueError(&#39;Emodule of material (1st element) must be greater than 0!&#39;)
+            if self.material[1] &lt;= 0:
+                raise ValueError(&#39;Poissons ratio of material (2nd element) must be greater than 0!&#39;)
+            if self.material[1] &gt;= 0.5:
+                raise ValueError(&#39;Poissons ratio of material (2nd element) must be lower than 0.5!&#39;)
+        if self.shaft_sections:
+            for i, row in enumerate(self.shaft_sections):
+                if len(row) != 2:
+                    raise ValueError(f&#39;Row {i} of shaft_section must have len 2!&#39;)
+                if row[0] &lt;= 0:
+                    raise ValueError(f&#39;Diameter in row {i} of shaft_sections must be greater than 0!&#39;)
+                if row[1] &lt;= 0:
+                    raise ValueError(f&#39;Length in row {i} of shaft_sections must be greater than 0!&#39;)
+            if self.shaft_sections[0][0] &gt;= self.d_w:
+                raise ValueError(&#39;Diameter of first shaft section must be smaller than outer diameter of head bearing surface d_w!&#39;)
+
+    def _make_bolt_mesh(self, model:ccx_model.Model):
+
+        gmsh = model.get_gmsh()
+        geo = gmsh.model.geo
+        gmsh.option.setNumber(&#39;Geometry.AutoCoherence&#39;, 1)
+
+        sections, sec_no_max = self._get_expanded_shaft_sections()
+
+        def mk_crosssection(r:float, z0:float):
+            p = [geo.addPoint(0, 0, z0),
+                 geo.addPoint(r, 0, z0),
+                 geo.addPoint(0, r, z0),
+                 geo.addPoint(-r, 0, z0),
+                 geo.addPoint(0, -r, z0)]
+
+            l = [geo.addLine(p[0], p[1]),
+                 geo.addLine(p[0], p[2]),
+                 geo.addLine(p[0], p[3]),
+                 geo.addLine(p[0], p[4]),
+                 geo.addCircleArc(p[1], p[0], p[2]),
+                 geo.addCircleArc(p[2], p[0], p[3]),
+                 geo.addCircleArc(p[3], p[0], p[4]),
+                 geo.addCircleArc(p[4], p[0], p[1])]
+            
+            lc = [geo.addCurveLoop([l[0], l[4], -l[1]]),
+                  geo.addCurveLoop([l[1], l[5], -l[2]]),
+                  geo.addCurveLoop([l[2], l[6], -l[3]]),
+                  geo.addCurveLoop([l[3], l[7], -l[0]])]
+            
+            s = [geo.addPlaneSurface([lci]) for lci in lc]
+
+            return p, l, lc, s
+
+        def extrude_section(start_dimtags: list[tuple[int]], ds:float, ls:float, ne:int=0):
+            if ne == 0: ne = int((ls / ds)**0.5 * 2) + 1
+            res = geo.extrude(start_dimtags, 0, 0, ls, [ne], recombine=True)
+            return dict(
+                fs=start_dimtags, # start faces
+                fc=res[3::5], # zylinder faces
+                fe=res[0::5], # end faces
+                v=res[1::5], # volumes
+            )
+        
+        def mk_section(ds:float, ls:float, z0:float, ne:int=0):
+            r = ds / 2
+            p, l, lc, s = mk_crosssection(r,z0)
+
+            for li in l[:4]: geo.mesh.setTransfiniteCurve(li, 2)
+            for li in l[4:]: geo.mesh.setTransfiniteCurve(li, 3)
+                   
+            start_dimtags = [(2, si) for si in s]
+            return extrude_section(start_dimtags, ds, ls, ne)
+
+        def mk_head(start_dimtags: list[tuple[int]]):
+            p, l, lc, s = mk_crosssection(sections[0,0] / 2, -1)
+            r = self.d_w / 2
+            ph = [geo.addPoint(r, 0, -1), # index 5
+                  geo.addPoint(0, r, -1),
+                  geo.addPoint(-r, 0, -1),
+                  geo.addPoint(0, -r, -1)]
+            
+            lh = [geo.addLine(p[1], ph[0]), # index 8
+                  geo.addLine(p[2], ph[1]),
+                  geo.addLine(p[3], ph[2]),
+                  geo.addLine(p[4], ph[3]),
+                  geo.addCircleArc(ph[0], p[0], ph[1]),
+                  geo.addCircleArc(ph[1], p[0], ph[2]),
+                  geo.addCircleArc(ph[2], p[0], ph[3]),
+                  geo.addCircleArc(ph[3], p[0], ph[0]),]
+            
+            lch = [geo.addCurveLoop([lh[0], lh[4], -lh[1], -l[4]]), # index 4
+                   geo.addCurveLoop([lh[1], lh[5], -lh[2], -l[5]]),
+                   geo.addCurveLoop([lh[2], lh[6], -lh[3], -l[6]]),
+                   geo.addCurveLoop([lh[3], lh[7], -lh[0], -l[7]])]
+            
+            sh = [geo.addPlaneSurface([lchi]) for lchi in lch]
+
+            for li in l[:4]: geo.mesh.setTransfiniteCurve(li, 2)
+            for li in l[4:]: geo.mesh.setTransfiniteCurve(li, 3)
+            for li in lh[:4]: geo.mesh.setTransfiniteCurve(li, 2)
+            for li in lh[4:]: geo.mesh.setTransfiniteCurve(li, 3)
+
+            for si in sh: geo.mesh.setRecombine(2, si)
+
+            start_dimtags = [(2, si) for si in s] + [(2, si) for si in sh]
+            res = geo.extrude(start_dimtags, 0, 0, -self.k, [2], recombine=True)
+
+            return dict(
+                fs_i = [(2, si) for si in s],
+                fs_o = [(2, si) for si in sh],
+                v = [dt for dt in res if dt[0] == 3]
+            )
+            
+        z0 = 0.
+        section_dimtags:list[dict[str,list[tuple[int,int]]]] = []
+        for sec_no, (ds, ls) in enumerate(sections):
+            if sec_no == sec_no_max:
+                section_dimtags.append(mk_section(ds, ls/2, z0))
+                section_dimtags.append(extrude_section(section_dimtags[-1][&#39;fe&#39;], ds, ls/2))
+            else:
+                section_dimtags.append(mk_section(ds, ls, z0))
+
+            z0 += ls + 1
+
+        head_dimtags = mk_head(section_dimtags[0][&#39;fs&#39;])
+
+        # delete coherence-prevent-gaps
+        gmsh.option.setNumber(&#39;Geometry.AutoCoherence&#39;, 0)
+        geo.translate(head_dimtags[&#39;v&#39;], 0, 0, 1)
+        z0 = 0
+        for sec_no, sec_dimtags in enumerate(section_dimtags):
+            if sec_no == sec_no_max:
+                geo.translate(sec_dimtags[&#39;v&#39;] + section_dimtags[sec_no + 1][&#39;v&#39;], 0, 0, -z0)
+                z0 += 1
+                continue
+            if sec_no == sec_no_max + 1: continue
+
+            geo.translate(sec_dimtags[&#39;v&#39;], 0, 0, -z0)
+            z0 += 1
+
+        geo.synchronize()
+
+        # Physical groups
+        gmsh.model.addPhysicalGroup(2, [x[1] for x in head_dimtags[&#39;fs_o&#39;]], name=f&#39;{self.name}_n_head_interf&#39;)
+        gmsh.model.addPhysicalGroup(2, [x[1] for x in section_dimtags[-1][&#39;fc&#39;]], name=f&#39;{self.name}_n_thread_interf&#39;)
+        gmsh.model.addPhysicalGroup(2, [x[1] for x in head_dimtags[&#39;fs_i&#39;]], name=f&#39;_{self.name}_n_hs0_tie&#39;)
+        gmsh.model.addPhysicalGroup(2, [x[1] for x in section_dimtags[0][&#39;fs&#39;]], name=f&#39;_{self.name}_n_s0h_tie&#39;)
+        gmsh.model.addPhysicalGroup(3, [x[1] for row in section_dimtags for x in row[&#39;v&#39;]] + [x[1] for x in head_dimtags[&#39;v&#39;]], name=f&#39;{self.name}_e_all&#39;)
+
+        i = 0
+        for sec_no, sec_dimtags in enumerate(section_dimtags[:-1]):
+            if sec_no == sec_no_max:
+                gmsh.model.addPhysicalGroup(2, [x[1] for x in sec_dimtags[&#39;fe&#39;]], name=f&#39;{self.name}_n_pret_sec&#39;)
+            else:
+                gmsh.model.addPhysicalGroup(2, [x[1] for x in sec_dimtags[&#39;fe&#39;]], name=f&#39;_{self.name}_n_s{i}s{i+1}_tie&#39;)
+                gmsh.model.addPhysicalGroup(2, [x[1] for x in section_dimtags[sec_no + 1][&#39;fs&#39;]], name=f&#39;_{self.name}_n_s{i+1}s{i}_tie&#39;)
+                i += 1
+
+        gmsh.option.setNumber(&#39;Mesh.FirstElementTag&#39;, self.eid_start)
+        gmsh.option.setNumber(&#39;Mesh.FirstNodeTag&#39;, self.nid_start)
+        gmsh.option.setNumber(&#39;Mesh.SaveAll&#39;, 0)
+
+        gmsh.model.mesh.generate()
+        gmsh.model.mesh.setOrder(2)
+        gmsh.model.mesh.renumberNodes()
+        gmsh.model.mesh.renumberElements()
+        
+        model.update_mesh_from_gmsh()
+
+        return section_dimtags, sec_no_max
+    
+    def _get_expanded_shaft_sections(self):
+
+        if not self.shaft_sections: sections = np.empty((0,2))
+        else: sections = np.asarray(self.shaft_sections, dtype=float) 
+
+        # length of free thread        
+        lt = self.l_c - np.sum(sections[:,1]) 
+        # diameter of free and engaged thread
+        dt = self.get_ds() if self.use_ds_for_thread else self.get_d3()
+        sections = np.vstack([sections, [dt, lt]])
+        # get slenderest section within clamping length. This will be split in halve for pretension
+        sec_no_max = np.argmax(sections[:,1] / sections[:,0]) 
+        # append enganged thread
+        sections = np.vstack([sections, [dt, self.d_n]])
+
+        return sections, sec_no_max
+
+    def _make_sets_and_surfaces(self, model:ccx_model.Model, section_dimtags:list[dict[str,list[tuple[int,int]]]], sec_no_max:int):
+        gmsh = model.get_gmsh()
+
+        self.e_set = model.mesh.get_el_set_by_name(f&#39;{self.name}_e_all&#39;)
+
+        # make pretension surface
+        eids = set()
+        for _, tag in section_dimtags[sec_no_max][&#39;v&#39;]:
+            _, eid_vecs, _ = gmsh.model.mesh.getElements(3, tag)
+            for eid_vec in eid_vecs:
+                eids.update(eid_vec)
+        elems = model.mesh.get_elements_by_ids(*eids)
+        # use function get_surface_from_node_set from module surface, bc there is the possibility to
+        # give a subset of elements to search for surfaces
+        self.interface_surfaces.s_pret_sec = get_surface_from_node_set(f&#39;{self.name}_s_pret_sec&#39;, elems, 
+                                              model.mesh.get_node_set_by_name(f&#39;{self.name}_n_pret_sec&#39;),
+                                              enums.ESurfTypes.EL_FACE)
+        model.mesh.add_surfaces(self.interface_surfaces.s_pret_sec)
+
+        # get interface sets
+        for f in fields(self.interface_sets):
+            setattr(self.interface_sets, f.name, model.mesh.get_node_set_by_name(f&#39;{self.name}_{f.name}&#39;))
+        # get internal sets
+        i = 0
+        self.internal_sets.append(model.mesh.get_node_set_by_name(f&#39;_{self.name}_n_hs0_tie&#39;))
+        self.internal_sets.append(model.mesh.get_node_set_by_name(f&#39;_{self.name}_n_s0h_tie&#39;))
+        for sec_no, _ in enumerate(section_dimtags[:-1]):
+            if sec_no != sec_no_max:
+                self.internal_sets += [
+                    model.mesh.get_node_set_by_name(f&#39;_{self.name}_n_s{i}s{i+1}_tie&#39;),
+                    model.mesh.get_node_set_by_name(f&#39;_{self.name}_n_s{i+1}s{i}_tie&#39;)]
+                i += 1
+
+        # make interface surfaces from interface node sets
+        for f in fields(self.interface_sets):
+            if &#39;pret_sec&#39; in f.name: continue # already added
+            n_set = getattr(self.interface_sets, f.name)
+            surf_name = &#39;s&#39; + f.name[1:] # change n to s
+            surf = model.mesh.add_surface_from_node_set(f&#39;{self.name}_{surf_name}&#39;, n_set, enums.ESurfTypes.EL_FACE)
+            setattr(self.interface_surfaces, surf_name, surf)     
+
+        # make internal surfaces
+        for int_set in self.internal_sets:
+            name = int_set.name[len(self.name)+1:].replace(&#39;_N_&#39;, &#39;_S_&#39;)
+            self.internal_surfaces.append( model.mesh.add_surface_from_node_set(f&#39;_{self.name}{name}&#39;, int_set, enums.ESurfTypes.EL_FACE))
+
+    def _make_internal_contacts(self):
+
+        # make head-shaft contact. head is independent, so spc&#39;s or mpc&#39;s 
+        # can be defined on outer head contact surface
+        self.model_keywords.append(
+                mk.Tie(name=f&#39;{self.name}_0_tie&#39;, 
+                       dep_surf=self.internal_surfaces[1],
+                       ind_surf=self.internal_surfaces[0],)
+            )
+
+        j = 1
+        sections, _ = self._get_expanded_shaft_sections()
+        for i, sec in enumerate(sections[:-1]):
+            d_i = sec[0]
+            d_next = sections[i+1,0]
+            ind, dep = self.internal_surfaces[2 + i*2], self.internal_surfaces[2 + i*2 + 1]
+            if d_i &lt;= d_next: ind, dep = dep, ind
+            # lower equal makes sure the ind side is on the engaged thread for the last
+            # section
+
+            self.model_keywords.append(
+                mk.Tie(name=f&#39;{self.name}_{j}_tie&#39;, 
+                       dep_surf=dep,
+                       ind_surf=ind,)
+            )
+            j += 1
+
+    def _make_pretension(self, model:ccx_model.Model):
+        self.pretension_node = model.mesh.add_node((0,0,0))
+        self.model_keywords.append(
+            mk.PretensionSection(self.pretension_node,
+                                 surface=self.interface_surfaces.s_pret_sec,
+                                 name=f&#39;{self.name}_pret_sec&#39;)
+        )
+
+    def _make_material(self):
+        if isinstance(self.material, tuple):
+            self.model_keywords += [
+                mat:=mk.Material(f&#39;{self.name}_mat&#39;),
+                mk.Elastic(self.material),
+                mk.SolidSection(self.e_set, mat)
+            ]
+        else:
+            self.model_keywords.append(
+                mk.SolidSection(self.e_set, self.material)
+            )
+
+    def _align_bolt(self, model:ccx_model.Model):
+        csys_x = CoordinateSystem(&#39;&#39;).rotate_y(-90., degrees=True)
+        for nid, coords in model.mesh.nodes.items():
+            new_coords = csys_x.transform_point_from_global(coords)
+            new_coords = self.csys.transform_point_to_global(new_coords)
+            model.mesh.nodes[nid]=new_coords
+
+    def _integrate_bolt_in_model(self, model:ccx_model.Model, bolt_model:ccx_model.Model):
+        model.mesh.nodes.update(bolt_model.mesh.nodes)
+        model.mesh.elements.update(bolt_model.mesh.elements)
+        model.mesh.node_sets += bolt_model.mesh.node_sets
+        model.mesh.element_sets += bolt_model.mesh.element_sets
+        model.mesh.surfaces += bolt_model.mesh.surfaces
+        model.model_keywords += self.model_keywords
+
+    def _make_interface_contact(self, name, ind_surf, dep_surf, k, lam):
+        return mk.group_funcs.make_contact(name=name,
+                                    contact_type=enums.EContactTypes.SURFACE_TO_SURFACE,
+                                    ind_surf=ind_surf,
+                                    dep_surf=dep_surf,
+                                    pressure_overclosure=enums.EPressureOverclosures.TIED,
+                                    k=k, lam=lam)
+    # endregion</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.tools.bolts.bolt.Bolt.csys"><code class="name">var <span class="ident">csys</span> : <a title="pygccx.helper_features.coordinate_system.CoordinateSystem" href="../../helper_features/coordinate_system.html#pygccx.helper_features.coordinate_system.CoordinateSystem">CoordinateSystem</a></code></dt>
+<dd>
+<div class="desc"><p>Rectangular coordinate system of bolt. Origin is located in the center of head contact face.
+X is pointing from head to thread. Y and Z lie in the head contact plane.</p></div>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.d_n"><code class="name">var <span class="ident">d_n</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Nominal bolt diameter.</p></div>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.d_w"><code class="name">var <span class="ident">d_w</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Outer diameter of head contact face. Usually 1.5 * d_n</p></div>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.e_set"><code class="name">var <span class="ident">e_set</span> : <a title="pygccx.protocols.ISet" href="../../protocols.html#pygccx.protocols.ISet">ISet</a></code></dt>
+<dd>
+<div class="desc"><p>Element set with all elements of this bolt.
+Only available after generate_and_insert.</p></div>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.interface_sets"><code class="name">var <span class="ident">interface_sets</span> : pygccx.tools.bolts.bolt._InterfaceSets</code></dt>
+<dd>
+<div class="desc"><p>Object with sets used or interfacing with surrounding model.
+Only available after generate_and_insert.
+Useful for further preprocessing like defining contacts to tie bolt head to clamping parts etc.
+See interface_surfaces for corresponding element-face surfaces</p></div>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.interface_surfaces"><code class="name">var <span class="ident">interface_surfaces</span> : pygccx.tools.bolts.bolt._InterfaceSurfaces</code></dt>
+<dd>
+<div class="desc"><p>Object with element-face surfaces used or interfacing with surrounding model.
+Only available after generate_and_insert.
+Useful for further preprocessing like defining contacts to tie bolt head to clamping parts etc.
+See interface_sets for corresponding node sets</p></div>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.internal_sets"><code class="name">var <span class="ident">internal_sets</span> : list[<a title="pygccx.protocols.ISet" href="../../protocols.html#pygccx.protocols.ISet">ISet</a>]</code></dt>
+<dd>
+<div class="desc"><p>List with all internal node sets used to define internal_surfaces.
+Only available after generate_and_insert.</p></div>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.internal_surfaces"><code class="name">var <span class="ident">internal_surfaces</span> : list[<a title="pygccx.protocols.ISurface" href="../../protocols.html#pygccx.protocols.ISurface">ISurface</a>]</code></dt>
+<dd>
+<div class="desc"><p>List with all internal element face surfaces used to tie the shaft sections together.
+Only available after generate_and_insert.</p></div>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.k"><code class="name">var <span class="ident">k</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Hight of head</p></div>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.l_c"><code class="name">var <span class="ident">l_c</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Clamping length. This is usually the thickness of clamped parts, or the distance from
+head contact face to first engaged thread turn.</p></div>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.material"><code class="name">var <span class="ident">material</span> : tuple[int | float | numpy.number, int | float | numpy.number] | <a title="pygccx.model_keywords.material.Material" href="../../model_keywords/material.html#pygccx.model_keywords.material.Material">Material</a></code></dt>
+<dd>
+<div class="desc"><p>Material for bolt. Can be either a tuple with (emodule, poissons ratio) or a
+predefined material keyword</p></div>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.model_keywords"><code class="name">var <span class="ident">model_keywords</span> : list[<a title="pygccx.protocols.IKeyword" href="../../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>]</code></dt>
+<dd>
+<div class="desc"><p>List with all generated model keywords for the bolt. This list is only kept for information.
+It is not used after the generation. Only available after generate_and_insert</p></div>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Name of bolt. Must be unique in whole model. You must take care by yourself that name is unique.
+Name is used for naming sets, surfaces, contacts, material etc. for this bolt.</p></div>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.p"><code class="name">var <span class="ident">p</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Thread pitch. Distance between threads, not threads per length.</p></div>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.pretension_node"><code class="name">var <span class="ident">pretension_node</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Node id of the pretension node. Use this node to define pretension force or displacement.
+Only available after generate_and_insert.</p></div>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.shaft_sections"><code class="name">var <span class="ident">shaft_sections</span> : Optional[list[list[int | float | numpy.number]]]</code></dt>
+<dd>
+<div class="desc"><p>List with unthreaded shaft sections in the form [[d0, l0], [d1, l1], &hellip;, [dn, ln]]
+with d = diameter of section, l = length of section.</p>
+<p>The ordering is from head to thread, so the first section is connected to the head.</p>
+<p>The diameter of the first section must be smaller than d_w.</p>
+<p>The sum of all length must be smaller than the clamping length l_c. The remaining
+length l_c - sum(li) is modelled as a free thread with d = d3 or ds.
+See also attribute use_ds_for_thread.</p></div>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.use_ds_for_thread"><code class="name">var <span class="ident">use_ds_for_thread</span> : bool</code></dt>
+<dd>
+<div class="desc"><p>Flag if stress cross section diameter ds should be used to model the free and engaged thread.
+If False, core diameter d3 is used as recommended in VDI 2230 part 1. Default = False</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pygccx.tools.bolts.bolt.Bolt.generate_and_insert"><code class="name flex">
+<span>def <span class="ident">generate_and_insert</span></span>(<span>self, model: <a title="pygccx.model.Model" href="../../model.html#pygccx.model.Model">Model</a>)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Generates the mesh and all required keywords for the bolt and inserts it into the given model.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>model</code></strong> :&ensp;<code>ccx_model.Model</code></dt>
+<dd>Model where the bolt should be inserted</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_and_insert(self, model:ccx_model.Model):
+    &#34;&#34;&#34;
+    Generates the mesh and all required keywords for the bolt and inserts it into the given model.
+
+    Args:
+        model (ccx_model.Model): Model where the bolt should be inserted
+    &#34;&#34;&#34;
+    self.nid_start = model.mesh.get_max_node_id() + 1
+    self.eid_start = model.mesh.get_max_element_id() + 1
+    gmsh = model.get_gmsh()
+    gmsh_options = &#39;Geometry.AutoCoherence&#39;, &#39;Mesh.FirstElementTag&#39;, &#39;Mesh.FirstNodeTag&#39;, &#39;Mesh.SaveAll&#39;
+    gmsh_options = {opt:gmsh.option.getNumber(opt) for opt in gmsh_options}
+
+    with ccx_model.Model(model.ccx_path, model.cgx_path, self.name, model.working_dir) as bolt_model:
+        section_dimtags, sec_no_max = self._make_bolt_mesh(bolt_model)
+        self._make_sets_and_surfaces(bolt_model, section_dimtags, sec_no_max)
+        self._make_internal_contacts()
+        self._make_pretension(bolt_model)
+        self._make_material()
+        self._align_bolt(bolt_model)
+        self._integrate_bolt_in_model(model, bolt_model)
+
+    for k, v in gmsh_options.items():
+        gmsh.option.setNumber(k, v)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.get_as"><code class="name flex">
+<span>def <span class="ident">get_as</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the stress cross section area of the thread.</p>
+<p>As = pi/4 * ds**2</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>stress cross section area</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_as(self) -&gt; float:
+    &#34;&#34;&#34;
+    Gets the stress cross section area of the thread.\n
+    As = pi/4 * ds**2
+
+    Returns:
+        float: stress cross section area
+    &#34;&#34;&#34;
+    return np.pi / 4 * self.get_ds()**2</code></pre>
+</details>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.get_d2"><code class="name flex">
+<span>def <span class="ident">get_d2</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the pitch diameter of the thread.</p>
+<p>d2 = d_n - 0.6495 * p</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>pitch diameter</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_d2(self) -&gt; float:
+    &#34;&#34;&#34;
+    Gets the pitch diameter of the thread.\n
+    d2 = d_n - 0.6495 * p
+
+    Returns:
+        float: pitch diameter
+    &#34;&#34;&#34;
+    return self.d_n - 0.6495 * self.p</code></pre>
+</details>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.get_d3"><code class="name flex">
+<span>def <span class="ident">get_d3</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the core diameter of the thread.</p>
+<p>d3 = d_n - 1.2269 * p</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>core diameter</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_d3(self) -&gt; float: 
+    &#34;&#34;&#34;
+    Gets the core diameter of the thread.\n
+    d3 = d_n - 1.2269 * p
+
+    Returns:
+        float: core diameter
+    &#34;&#34;&#34;
+    return self.d_n - 1.2269 * self.p</code></pre>
+</details>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.get_ds"><code class="name flex">
+<span>def <span class="ident">get_ds</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the stress cross section diameter of the thread.</p>
+<p>ds = (d3 + d2) / 2</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>stress cross section diameter</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_ds(self) -&gt; float:
+    &#34;&#34;&#34;
+    Gets the stress cross section diameter of the thread.\n
+    ds = (d3 + d2) / 2
+
+    Returns:
+        float: stress cross section diameter
+    &#34;&#34;&#34;
+    return (self.get_d3() + self.get_d2()) / 2</code></pre>
+</details>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.get_section_forces"><code class="name flex">
+<span>def <span class="ident">get_section_forces</span></span>(<span>self, model: <a title="pygccx.model.Model" href="../../model.html#pygccx.model.Model">Model</a>, frd_result: <a title="pygccx.result_reader.frd_result.FrdResult" href="../../result_reader/frd_result.html#pygccx.result_reader.frd_result.FrdResult">FrdResult</a>, time: float) ‑> numpy.ndarray[typing.Any, numpy.dtype[numpy.float64]]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the section forces at the bolt head, at each end of a shaft section and at
+the first engaged thread turn in the local coordinate system.</p>
+<p>Return value is a 2D numpy array in the following form:
+Each row: [x-coordinate in local csys, F_x, F_y, F_z, M_x, M_y, M_z]
+Row ordering:
+row 0: Bolt head
+row 1 to n: End of each of the n shaft sections
+row -1: First engaged thread turn</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>model</code></strong> :&ensp;<code>ccx_model.Model</code></dt>
+<dd>model where this bolt was inserted. Same that was passed to generate_and_insert</dd>
+<dt><strong><code>frd_result</code></strong> :&ensp;<code>FrdResult</code></dt>
+<dd>FrdResult object containing reaction Forces (RF)</dd>
+<dt><strong><code>time</code></strong> :&ensp;<code>float</code></dt>
+<dd>Result time for which section forces should be returned.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>npt.NDArray[np.float_]</code></dt>
+<dd>2D Array with section forces</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code><a title="pygccx.tools.bolts.bolt.ResultNotFoundError" href="#pygccx.tools.bolts.bolt.ResultNotFoundError">ResultNotFoundError</a></code></dt>
+<dd>Raised if no reaction forces were found for given time in frd_result</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_section_forces(self, model:ccx_model.Model, frd_result:FrdResult, time:float) -&gt; npt.NDArray[np.float_]:
+    &#34;&#34;&#34;
+    Gets the section forces at the bolt head, at each end of a shaft section and at 
+    the first engaged thread turn in the local coordinate system.
+
+    Return value is a 2D numpy array in the following form:
+    Each row: [x-coordinate in local csys, F_x, F_y, F_z, M_x, M_y, M_z]
+    Row ordering:
+        row 0: Bolt head 
+        row 1 to n: End of each of the n shaft sections
+        row -1: First engaged thread turn
+
+    Args:
+        model (ccx_model.Model): model where this bolt was inserted. Same that was passed to generate_and_insert
+        frd_result (FrdResult): FrdResult object containing reaction Forces (RF)
+        time (float): Result time for which section forces should be returned.
+
+    Returns:
+        npt.NDArray[np.float_]: 2D Array with section forces
+
+    Raises:
+        ResultNotFoundError: Raised if no reaction forces were found for given time in frd_result
+    &#34;&#34;&#34;
+
+    # check if reaktion force result exists
+    forces_res = frd_result.get_result_set_by_entity_and_time(enums.EFrdEntities.FORC, time)
+    if forces_res is None:
+        raise ResultNotFoundError(f&#39;The requested result &#34;{enums.EFrdEntities.FORC.name}&#34; at time {time} was not found in frd_result&#39;)
+
+    # get section node sets to evaluate and their force sign
+    # reaktion forces are only available at the dependant nodes
+    sets = [(self.internal_sets[1], -1)] # head
+
+    sections, _ = self._get_expanded_shaft_sections()
+    for i, sec in enumerate(sections[:-1]):
+        d_i = sec[0]
+        d_next = sections[i+1,0]
+        ind, dep, sign = self.internal_sets[2 + i*2], self.internal_sets[2 + i*2 + 1], -1
+        if d_i &lt;= d_next: ind, dep, sign = dep, ind, -sign
+        # lower equal makes sure the ind side is on the engaged thread for the last
+        # section
+        sets.append((dep, sign))
+
+    out = []
+    for dep_set, sign in sets:
+        nids = list(dep_set.ids) # fix ordering
+        nodes = model.mesh.get_nodes_by_ids(*nids)
+        nodes = np.array([self.csys.transform_point_from_global(n) for n in nodes])
+        x = np.average(nodes[:,0])
+        
+        forces = forces_res.get_values_by_ids(nids) * sign
+        forces = np.array([self.csys.transform_vector_from_global(f) for f in forces])
+        fx, fy, fz = np.sum(forces, axis=0) 
+        mx =  np.sum(forces[:,2] * nodes[:,1]) - np.sum(forces[:,1] * nodes[:,2]) # mx = sum( Fz_i * y_i) - sum( Fy_i * z_i)
+        my =  np.sum(forces[:,0] * nodes[:,2]) # my = sum( Fx_i * z_i) 
+        mz = -np.sum(forces[:,0] * nodes[:,1]) # mz = sum(-Fx_i * y_i) 
+        out.append([x, fx, fy, fz, mx, my, mz])
+
+    return np.array(out)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.get_vdi_contact_thread_stiffness"><code class="name flex">
+<span>def <span class="ident">get_vdi_contact_thread_stiffness</span></span>(<span>self, e_t: float, e_b: Optional[float] = None) ‑> tuple[float, float]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>EXPERIMENTAL!</p>
+<p>Gets the normal and tangential stiffness for tie_thread_to_solid acc. to VDI 2230 guideline.</p>
+<p>The tangential stiffness is approximated from eq 5.1/4 of VDI 2230 2003 page 28:
+d_GM = d_G + d_M</p>
+<pre><code>d_G = d_n / (2 * e_b * pi/4 * d3**2)
+
+d_M = d_n / (3 * e_t * pi/4 * d_n**2)
+
+C_GM = 1 / d_GM
+
+lam = C_GM / (pi * dt * d_n/3)
+
+dt = modelled diameter of engaged thread = ds if use_ds_for_thread else d3
+</code></pre>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>e_t</code></strong> :&ensp;<code>float</code></dt>
+<dd>Emodule of part with outer thread (tapped hole or nut)</dd>
+<dt><strong><code>e_b</code></strong> :&ensp;<code>Optional[float]</code></dt>
+<dd>Emodule of bolt. Can be omitted if self.material is a tuple with (emodule, mue)</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple[float, float]</code></dt>
+<dd>normal stiffness, tangential stiffness</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_vdi_contact_thread_stiffness(self, e_t:float, e_b:Optional[float]=None) -&gt; tuple[float, float]:
+    &#34;&#34;&#34;
+    EXPERIMENTAL!\n
+    Gets the normal and tangential stiffness for tie_thread_to_solid acc. to VDI 2230 guideline.
+
+    The tangential stiffness is approximated from eq 5.1/4 of VDI 2230 2003 page 28:
+        d_GM = d_G + d_M\n
+        d_G = d_n / (2 * e_b * pi/4 * d3**2)\n
+        d_M = d_n / (3 * e_t * pi/4 * d_n**2)\n
+        C_GM = 1 / d_GM\n
+        lam = C_GM / (pi * dt * d_n/3)\n
+        dt = modelled diameter of engaged thread = ds if use_ds_for_thread else d3
+
+    Args:
+        e_t (float): Emodule of part with outer thread (tapped hole or nut)
+        e_b (Optional[float]): Emodule of bolt. Can be omitted if self.material is a tuple with (emodule, mue)
+
+    Returns:
+        tuple[float, float]: normal stiffness, tangential stiffness
+
+    &#34;&#34;&#34;
+
+    if e_b is None: 
+        if isinstance(self.material, tuple): 
+            e_b = self.material[0]
+        else:
+            raise ValueError(&#39;e_b must be given. It can not be inferred from material of type IKeyword&#39;)
+    
+    d_G = self.d_n / (2 * e_b * np.pi/4 * self.get_d3()**2)
+    d_M = 1 / (3 * e_t * np.pi/4 * self.d_n)
+    c_GM = 1 / (d_G + d_M)
+    dt = self.get_ds() if self.use_ds_for_thread else self.get_d3()
+    lam = c_GM / (np.pi * dt * self.d_n / 3)
+    return lam * 100, lam</code></pre>
+</details>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.get_ws"><code class="name flex">
+<span>def <span class="ident">get_ws</span></span>(<span>self) ‑> float</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Gets the of the moment of resistance of the thread.</p>
+<p>Ws = pi/32 * ds**3</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>float</code></dt>
+<dd>moment of resistance</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_ws(self) -&gt; float:
+    &#34;&#34;&#34;
+    Gets the of the moment of resistance of the thread.\n
+    Ws = pi/32 * ds**3
+
+    Returns:
+        float: moment of resistance
+    &#34;&#34;&#34;
+    return np.pi / 32 * self.get_ds()**3</code></pre>
+</details>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.tie_head_to_solid"><code class="name flex">
+<span>def <span class="ident">tie_head_to_solid</span></span>(<span>self, solid_surface: <a title="pygccx.protocols.ISurface" href="../../protocols.html#pygccx.protocols.ISurface">ISurface</a>, k: Optional[float] = 1000000.0) ‑> tuple[<a title="pygccx.protocols.IKeyword" href="../../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>, ...]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a tuple with all required model keywords to tie the bolt head to the given
+element face surface, e.g. the head contact surface of a clamped part.</p>
+<p>As contact formulation surface-to-surface penalty tie contact is used. This way no
+over constraint with the internal mpc-based *TIE contacts occurs.
+The penalty stiffness in normal and tangential direction is equal and can be given
+by the parameter k. Default is 1e6.
+Make sure there is no large gap or penetration between the given surface and the bolt
+head contact surface. </p>
+<p>The name of the returned contact is f'{self.name}_head_tie_contact'</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>solid_surface</code></strong> :&ensp;<code>ISurface</code></dt>
+<dd>Element face surface where the bolt head should be tied to.</dd>
+<dt><strong><code>k</code></strong> :&ensp;<code>Optional[float]</code>, optional</dt>
+<dd>Penalty stiffness in normal and tangential direction. Defaults to 1e6.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple[IKeyword,&hellip;]</code></dt>
+<dd>tuple with model keywords required for tie contact</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def tie_head_to_solid(self, solid_surface:ISurface, k:Optional[float]=1e6) -&gt; tuple[IKeyword,...]:
+    &#34;&#34;&#34;
+    Returns a tuple with all required model keywords to tie the bolt head to the given 
+    element face surface, e.g. the head contact surface of a clamped part.
+
+    As contact formulation surface-to-surface penalty tie contact is used. This way no
+    over constraint with the internal mpc-based *TIE contacts occurs.
+    The penalty stiffness in normal and tangential direction is equal and can be given
+    by the parameter k. Default is 1e6.
+    Make sure there is no large gap or penetration between the given surface and the bolt 
+    head contact surface. 
+
+    The name of the returned contact is f&#39;{self.name}_head_tie_contact&#39;
+
+    Args:
+        solid_surface (ISurface): Element face surface where the bolt head should be tied to.
+        k (Optional[float], optional): Penalty stiffness in normal and tangential direction. Defaults to 1e6.
+
+    Returns:
+        tuple[IKeyword,...]: tuple with model keywords required for tie contact
+    &#34;&#34;&#34;
+
+    if solid_surface.type != enums.ESurfTypes.EL_FACE:
+        raise ValueError(f&#39;Type of solid_surface must be EL_FACE, got {solid_surface.type.name}&#39;)
+    
+    name = f&#39;{self.name}_head_tie_contact&#39;
+    return self._make_interface_contact(name, solid_surface, self.interface_surfaces.s_head_interf, k, k)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.Bolt.tie_thread_to_solid"><code class="name flex">
+<span>def <span class="ident">tie_thread_to_solid</span></span>(<span>self, solid_surface: <a title="pygccx.protocols.ISurface" href="../../protocols.html#pygccx.protocols.ISurface">ISurface</a>, k: Optional[float] = 1000000.0, lam: Optional[float] = None) ‑> tuple[<a title="pygccx.protocols.IKeyword" href="../../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>, ...]</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Returns a tuple with all required model keywords to tie the cylindrical face of the engaged thread to the given
+element face surface, e.g. the cylindrical face of a tapped hole or a nut.</p>
+<p>As contact formulation surface-to-surface penalty tie contact is used. This way no
+over constraint with the internal mpc-based *TIE contacts occurs.
+The penalty stiffness in normal and tangential direction can be given optionally by the parameters k and lam.</p>
+<p>Make sure there is no large gap or penetration between the given surface and the engaged thread. </p>
+<p>The name of the returned contact is f'{self.name}_thread_tie_contact.'</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>solid_surface</code></strong> :&ensp;<code>ISurface</code></dt>
+<dd>Element face surface where the bolt thread should be tied to.</dd>
+<dt><strong><code>k</code></strong> :&ensp;<code>Optional[float]</code>, optional</dt>
+<dd>Penalty stiffness in normal direction. Defaults to 1e6.</dd>
+<dt><strong><code>lam</code></strong> :&ensp;<code>Optional[float]</code>, optional</dt>
+<dd>Penalty stiffness in tangential direction. Defaults to k / 100 if omitted.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple[IKeyword,&hellip;]</code></dt>
+<dd>tuple with model keywords required for tie contact</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def tie_thread_to_solid(self, solid_surface:ISurface, k:Optional[float]=1e6, lam:Optional[float]=None) -&gt; tuple[IKeyword,...]:
+    &#34;&#34;&#34;        
+    Returns a tuple with all required model keywords to tie the cylindrical face of the engaged thread to the given 
+    element face surface, e.g. the cylindrical face of a tapped hole or a nut.
+
+    As contact formulation surface-to-surface penalty tie contact is used. This way no
+    over constraint with the internal mpc-based *TIE contacts occurs.
+    The penalty stiffness in normal and tangential direction can be given optionally by the parameters k and lam.
+
+    Make sure there is no large gap or penetration between the given surface and the engaged thread. 
+
+    The name of the returned contact is f&#39;{self.name}_thread_tie_contact.&#39;
+
+    Args:
+        solid_surface (ISurface): Element face surface where the bolt thread should be tied to.
+        k (Optional[float], optional): Penalty stiffness in normal direction. Defaults to 1e6.
+        lam (Optional[float], optional): Penalty stiffness in tangential direction. Defaults to k / 100 if omitted.
+
+    Returns:
+        tuple[IKeyword,...]: tuple with model keywords required for tie contact
+    &#34;&#34;&#34;
+
+    if solid_surface.type != enums.ESurfTypes.EL_FACE:
+        raise ValueError(f&#39;Type of solid_surface must be EL_FACE, got {solid_surface.type.name}&#39;)
+    
+    if lam is None: lam = k / 100
+    name = f&#39;{self.name}_thread_tie_contact&#39;
+    return self._make_interface_contact(name, solid_surface, self.interface_surfaces.s_thread_interf, k, lam)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.tools.bolts.bolt.ResultNotFoundError"><code class="flex name class">
+<span>class <span class="ident">ResultNotFoundError</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Common base class for all non-exit exceptions.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ResultNotFoundError(Exception): pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pygccx.tools.bolts" href="index.html">pygccx.tools.bolts</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pygccx.tools.bolts.bolt.Bolt" href="#pygccx.tools.bolts.bolt.Bolt">Bolt</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.csys" href="#pygccx.tools.bolts.bolt.Bolt.csys">csys</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.d_n" href="#pygccx.tools.bolts.bolt.Bolt.d_n">d_n</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.d_w" href="#pygccx.tools.bolts.bolt.Bolt.d_w">d_w</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.e_set" href="#pygccx.tools.bolts.bolt.Bolt.e_set">e_set</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.generate_and_insert" href="#pygccx.tools.bolts.bolt.Bolt.generate_and_insert">generate_and_insert</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.get_as" href="#pygccx.tools.bolts.bolt.Bolt.get_as">get_as</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.get_d2" href="#pygccx.tools.bolts.bolt.Bolt.get_d2">get_d2</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.get_d3" href="#pygccx.tools.bolts.bolt.Bolt.get_d3">get_d3</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.get_ds" href="#pygccx.tools.bolts.bolt.Bolt.get_ds">get_ds</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.get_section_forces" href="#pygccx.tools.bolts.bolt.Bolt.get_section_forces">get_section_forces</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.get_vdi_contact_thread_stiffness" href="#pygccx.tools.bolts.bolt.Bolt.get_vdi_contact_thread_stiffness">get_vdi_contact_thread_stiffness</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.get_ws" href="#pygccx.tools.bolts.bolt.Bolt.get_ws">get_ws</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.interface_sets" href="#pygccx.tools.bolts.bolt.Bolt.interface_sets">interface_sets</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.interface_surfaces" href="#pygccx.tools.bolts.bolt.Bolt.interface_surfaces">interface_surfaces</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.internal_sets" href="#pygccx.tools.bolts.bolt.Bolt.internal_sets">internal_sets</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.internal_surfaces" href="#pygccx.tools.bolts.bolt.Bolt.internal_surfaces">internal_surfaces</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.k" href="#pygccx.tools.bolts.bolt.Bolt.k">k</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.l_c" href="#pygccx.tools.bolts.bolt.Bolt.l_c">l_c</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.material" href="#pygccx.tools.bolts.bolt.Bolt.material">material</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.model_keywords" href="#pygccx.tools.bolts.bolt.Bolt.model_keywords">model_keywords</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.name" href="#pygccx.tools.bolts.bolt.Bolt.name">name</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.p" href="#pygccx.tools.bolts.bolt.Bolt.p">p</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.pretension_node" href="#pygccx.tools.bolts.bolt.Bolt.pretension_node">pretension_node</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.shaft_sections" href="#pygccx.tools.bolts.bolt.Bolt.shaft_sections">shaft_sections</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.tie_head_to_solid" href="#pygccx.tools.bolts.bolt.Bolt.tie_head_to_solid">tie_head_to_solid</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.tie_thread_to_solid" href="#pygccx.tools.bolts.bolt.Bolt.tie_thread_to_solid">tie_thread_to_solid</a></code></li>
+<li><code><a title="pygccx.tools.bolts.bolt.Bolt.use_ds_for_thread" href="#pygccx.tools.bolts.bolt.Bolt.use_ds_for_thread">use_ds_for_thread</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.tools.bolts.bolt.ResultNotFoundError" href="#pygccx.tools.bolts.bolt.ResultNotFoundError">ResultNotFoundError</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

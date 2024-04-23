@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>pygccx.model_keywords.universal API documentation</title>
+<title>pygccx.model_keywords.density API documentation</title>
 <meta name="description" content="Copyright Matthias Sedlmaier 2022
 This file is part of pygccx …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -20,7 +20,7 @@ This file is part of pygccx …" />
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>pygccx.model_keywords.universal</code></h1>
+<h1 class="title">Module <code>pygccx.model_keywords.density</code></h1>
 </header>
 <section id="section-intro">
 <p>Copyright Matthias Sedlmaier 2022
@@ -60,30 +60,64 @@ along with pygccx.
 If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field, InitVar
+
+from pygccx.protocols import number
+from pygccx.auxiliary import f2s
+
 
 @dataclass
-class Universal:
+class Density:
+
     &#34;&#34;&#34;
-    Class to pass any string to the ccx input file. The string kwrd_str is written &#34;as is&#34; 
-    to the input file.
-    
-    It can be used to place non implemented keywords or comments in the input file.
+    Class to define the density of a material
+
+    The density for the first temperature have to be provided
+    to the init of this class. Further sets to define temperature dependence
+    can be added by the method add_density_for_temp().
 
     Args:
-        kwrd_str: Keyword string. This is written directly to the ccx input file w/o any modification.
-        name: Optional. Name of this instance
-        desc: Optional. A short description of this Material. This is written to the ccx input file.
+        density: Density for the first temperature.
+        temp: Optional. First temperature.
+        name: Optional. Name of this instance.
+        desc: Optional. A short description of this instance. This is written to the ccx input file.
     &#34;&#34;&#34;
-    kwrd_str:str
-    &#34;&#34;&#34;Keyword string. This is written directly to the ccx input file w/o any modification.&#34;&#34;&#34;
-    name:str = &#39;&#39;
-    &#34;&#34;&#34;Name of this instance&#34;&#34;&#34;
-    desc:str = &#39;&#39;
-    &#34;&#34;&#34;A short description of this instance. This is written to the ccx input file&#34;&#34;&#34; 
+
+    density: InitVar[number]
+    &#34;&#34;&#34;Density&#34;&#34;&#34;
+    temp: InitVar[number] = 294.
+    &#34;&#34;&#34;Temperature of first density parameter&#34;&#34;&#34;
+    name: str = &#39;&#39;
+    &#34;&#34;&#34;Name of this instance.&#34;&#34;&#34;
+    desc: str = &#39;&#39;
+    &#34;&#34;&#34;A short description of this instance. This is written to the ccx input file.&#34;&#34;&#34;
+    density_for_temps: list[tuple] = field(default_factory=list, init=False)
+    &#34;&#34;&#34;List with temperature dependent density in the form:\n
+    [(dens1, temp1), (dens2, temp2), ...]&#34;&#34;&#34;
+
+    def __post_init__(self, density, temp):
+        self.add_density_for_temp(density, temp)
+
+    def add_density_for_temp(self, density: number, temp: number):
+        &#34;&#34;&#34;
+        Adds density for a given temperature.
+
+        Args:
+            temp (int | float): Density. 
+            temp (int | float): Temperature for density.
+        &#34;&#34;&#34;
+
+        self.density_for_temps.append((density, temp))
 
     def __str__(self):
-        return self.kwrd_str</code></pre>
+
+        s = f&#39;*DENSITY\n&#39;
+        n = 8
+
+        for line in self.density_for_temps:
+            s += f2s(line[0])+&#39;,&#39;+f2s(line[1])+&#39;\n&#39;
+
+        return s</code></pre>
 </details>
 </section>
 <section>
@@ -95,63 +129,132 @@ class Universal:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="pygccx.model_keywords.universal.Universal"><code class="flex name class">
-<span>class <span class="ident">Universal</span></span>
-<span>(</span><span>kwrd_str: str, name: str = '', desc: str = '')</span>
+<dt id="pygccx.model_keywords.density.Density"><code class="flex name class">
+<span>class <span class="ident">Density</span></span>
+<span>(</span><span>density: dataclasses.InitVar[int | float | numpy.number], temp: dataclasses.InitVar[int | float | numpy.number] = 294.0, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Class to pass any string to the ccx input file. The string kwrd_str is written "as is"
-to the input file.</p>
-<p>It can be used to place non implemented keywords or comments in the input file.</p>
+<div class="desc"><p>Class to define the density of a material</p>
+<p>The density for the first temperature have to be provided
+to the init of this class. Further sets to define temperature dependence
+can be added by the method add_density_for_temp().</p>
 <h2 id="args">Args</h2>
 <dl>
-<dt><strong><code>kwrd_str</code></strong></dt>
-<dd>Keyword string. This is written directly to the ccx input file w/o any modification.</dd>
+<dt><strong><code>density</code></strong></dt>
+<dd>Density for the first temperature.</dd>
+<dt><strong><code>temp</code></strong></dt>
+<dd>Optional. First temperature.</dd>
 <dt><strong><code>name</code></strong></dt>
-<dd>Optional. Name of this instance</dd>
+<dd>Optional. Name of this instance.</dd>
 <dt><strong><code>desc</code></strong></dt>
-<dd>Optional. A short description of this Material. This is written to the ccx input file.</dd>
+<dd>Optional. A short description of this instance. This is written to the ccx input file.</dd>
 </dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@dataclass
-class Universal:
+class Density:
+
     &#34;&#34;&#34;
-    Class to pass any string to the ccx input file. The string kwrd_str is written &#34;as is&#34; 
-    to the input file.
-    
-    It can be used to place non implemented keywords or comments in the input file.
+    Class to define the density of a material
+
+    The density for the first temperature have to be provided
+    to the init of this class. Further sets to define temperature dependence
+    can be added by the method add_density_for_temp().
 
     Args:
-        kwrd_str: Keyword string. This is written directly to the ccx input file w/o any modification.
-        name: Optional. Name of this instance
-        desc: Optional. A short description of this Material. This is written to the ccx input file.
+        density: Density for the first temperature.
+        temp: Optional. First temperature.
+        name: Optional. Name of this instance.
+        desc: Optional. A short description of this instance. This is written to the ccx input file.
     &#34;&#34;&#34;
-    kwrd_str:str
-    &#34;&#34;&#34;Keyword string. This is written directly to the ccx input file w/o any modification.&#34;&#34;&#34;
-    name:str = &#39;&#39;
-    &#34;&#34;&#34;Name of this instance&#34;&#34;&#34;
-    desc:str = &#39;&#39;
-    &#34;&#34;&#34;A short description of this instance. This is written to the ccx input file&#34;&#34;&#34; 
+
+    density: InitVar[number]
+    &#34;&#34;&#34;Density&#34;&#34;&#34;
+    temp: InitVar[number] = 294.
+    &#34;&#34;&#34;Temperature of first density parameter&#34;&#34;&#34;
+    name: str = &#39;&#39;
+    &#34;&#34;&#34;Name of this instance.&#34;&#34;&#34;
+    desc: str = &#39;&#39;
+    &#34;&#34;&#34;A short description of this instance. This is written to the ccx input file.&#34;&#34;&#34;
+    density_for_temps: list[tuple] = field(default_factory=list, init=False)
+    &#34;&#34;&#34;List with temperature dependent density in the form:\n
+    [(dens1, temp1), (dens2, temp2), ...]&#34;&#34;&#34;
+
+    def __post_init__(self, density, temp):
+        self.add_density_for_temp(density, temp)
+
+    def add_density_for_temp(self, density: number, temp: number):
+        &#34;&#34;&#34;
+        Adds density for a given temperature.
+
+        Args:
+            temp (int | float): Density. 
+            temp (int | float): Temperature for density.
+        &#34;&#34;&#34;
+
+        self.density_for_temps.append((density, temp))
 
     def __str__(self):
-        return self.kwrd_str</code></pre>
+
+        s = f&#39;*DENSITY\n&#39;
+        n = 8
+
+        for line in self.density_for_temps:
+            s += f2s(line[0])+&#39;,&#39;+f2s(line[1])+&#39;\n&#39;
+
+        return s</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="pygccx.model_keywords.universal.Universal.desc"><code class="name">var <span class="ident">desc</span> : str</code></dt>
+<dt id="pygccx.model_keywords.density.Density.density"><code class="name">var <span class="ident">density</span> : dataclasses.InitVar[int | float | numpy.number]</code></dt>
 <dd>
-<div class="desc"><p>A short description of this instance. This is written to the ccx input file</p></div>
+<div class="desc"><p>Density</p></div>
 </dd>
-<dt id="pygccx.model_keywords.universal.Universal.kwrd_str"><code class="name">var <span class="ident">kwrd_str</span> : str</code></dt>
+<dt id="pygccx.model_keywords.density.Density.density_for_temps"><code class="name">var <span class="ident">density_for_temps</span> : list[tuple]</code></dt>
 <dd>
-<div class="desc"><p>Keyword string. This is written directly to the ccx input file w/o any modification.</p></div>
+<div class="desc"><p>List with temperature dependent density in the form:</p>
+<p>[(dens1, temp1), (dens2, temp2), &hellip;]</p></div>
 </dd>
-<dt id="pygccx.model_keywords.universal.Universal.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dt id="pygccx.model_keywords.density.Density.desc"><code class="name">var <span class="ident">desc</span> : str</code></dt>
 <dd>
-<div class="desc"><p>Name of this instance</p></div>
+<div class="desc"><p>A short description of this instance. This is written to the ccx input file.</p></div>
+</dd>
+<dt id="pygccx.model_keywords.density.Density.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Name of this instance.</p></div>
+</dd>
+<dt id="pygccx.model_keywords.density.Density.temp"><code class="name">var <span class="ident">temp</span> : dataclasses.InitVar[int | float | numpy.number]</code></dt>
+<dd>
+<div class="desc"><p>Temperature of first density parameter</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pygccx.model_keywords.density.Density.add_density_for_temp"><code class="name flex">
+<span>def <span class="ident">add_density_for_temp</span></span>(<span>self, density: int | float | numpy.number, temp: int | float | numpy.number)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Adds density for a given temperature.</p>
+<h2 id="args">Args</h2>
+<p>temp (int | float): Density.
+temp (int | float): Temperature for density.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_density_for_temp(self, density: number, temp: number):
+    &#34;&#34;&#34;
+    Adds density for a given temperature.
+
+    Args:
+        temp (int | float): Density. 
+        temp (int | float): Temperature for density.
+    &#34;&#34;&#34;
+
+    self.density_for_temps.append((density, temp))</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
@@ -172,11 +275,14 @@ class Universal:
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="pygccx.model_keywords.universal.Universal" href="#pygccx.model_keywords.universal.Universal">Universal</a></code></h4>
+<h4><code><a title="pygccx.model_keywords.density.Density" href="#pygccx.model_keywords.density.Density">Density</a></code></h4>
 <ul class="">
-<li><code><a title="pygccx.model_keywords.universal.Universal.desc" href="#pygccx.model_keywords.universal.Universal.desc">desc</a></code></li>
-<li><code><a title="pygccx.model_keywords.universal.Universal.kwrd_str" href="#pygccx.model_keywords.universal.Universal.kwrd_str">kwrd_str</a></code></li>
-<li><code><a title="pygccx.model_keywords.universal.Universal.name" href="#pygccx.model_keywords.universal.Universal.name">name</a></code></li>
+<li><code><a title="pygccx.model_keywords.density.Density.add_density_for_temp" href="#pygccx.model_keywords.density.Density.add_density_for_temp">add_density_for_temp</a></code></li>
+<li><code><a title="pygccx.model_keywords.density.Density.density" href="#pygccx.model_keywords.density.Density.density">density</a></code></li>
+<li><code><a title="pygccx.model_keywords.density.Density.density_for_temps" href="#pygccx.model_keywords.density.Density.density_for_temps">density_for_temps</a></code></li>
+<li><code><a title="pygccx.model_keywords.density.Density.desc" href="#pygccx.model_keywords.density.Density.desc">desc</a></code></li>
+<li><code><a title="pygccx.model_keywords.density.Density.name" href="#pygccx.model_keywords.density.Density.name">name</a></code></li>
+<li><code><a title="pygccx.model_keywords.density.Density.temp" href="#pygccx.model_keywords.density.Density.temp">temp</a></code></li>
 </ul>
 </li>
 </ul>

@@ -157,6 +157,7 @@ class CoordinateSystem:
         if len(v_inc) != 3:
             raise ValueError(f&#39;v_inc must have a length of 3, got {len(v_inc)}&#39;)
         self._origin += np.array(v_inc, dtype=float)
+        return self
 
     def copy(self) -&gt; &#39;CoordinateSystem&#39;: 
         &#34;&#34;&#34;Returns an independant copy of this coordinate system&#34;&#34;&#34;    
@@ -171,6 +172,7 @@ class CoordinateSystem:
             degrees (bool): Flag if ang is given in deg. Default = False
         &#34;&#34;&#34;
         self._rotate(0, ang, degrees)
+        return self
 
     def rotate_y(self, ang:number, degrees:bool=False):
         &#34;&#34;&#34;
@@ -181,6 +183,7 @@ class CoordinateSystem:
             degrees (bool): Flag if ang is given in deg. Default = False
         &#34;&#34;&#34;
         self._rotate(1, ang, degrees)
+        return self
 
     def rotate_z(self, ang:number, degrees:bool=False):
         &#34;&#34;&#34;
@@ -191,6 +194,7 @@ class CoordinateSystem:
             degrees (bool): Flag if ang is given in deg. Default = False
         &#34;&#34;&#34;
         self._rotate(2, ang, degrees)
+        return self
 
     def transform_point_from_global(self, point:npt.ArrayLike) -&gt; np.ndarray:
         &#34;&#34;&#34;
@@ -670,6 +674,7 @@ class CoordinateSystem:
         if len(v_inc) != 3:
             raise ValueError(f&#39;v_inc must have a length of 3, got {len(v_inc)}&#39;)
         self._origin += np.array(v_inc, dtype=float)
+        return self
 
     def copy(self) -&gt; &#39;CoordinateSystem&#39;: 
         &#34;&#34;&#34;Returns an independant copy of this coordinate system&#34;&#34;&#34;    
@@ -684,6 +689,7 @@ class CoordinateSystem:
             degrees (bool): Flag if ang is given in deg. Default = False
         &#34;&#34;&#34;
         self._rotate(0, ang, degrees)
+        return self
 
     def rotate_y(self, ang:number, degrees:bool=False):
         &#34;&#34;&#34;
@@ -694,6 +700,7 @@ class CoordinateSystem:
             degrees (bool): Flag if ang is given in deg. Default = False
         &#34;&#34;&#34;
         self._rotate(1, ang, degrees)
+        return self
 
     def rotate_z(self, ang:number, degrees:bool=False):
         &#34;&#34;&#34;
@@ -704,6 +711,7 @@ class CoordinateSystem:
             degrees (bool): Flag if ang is given in deg. Default = False
         &#34;&#34;&#34;
         self._rotate(2, ang, degrees)
+        return self
 
     def transform_point_from_global(self, point:npt.ArrayLike) -&gt; np.ndarray:
         &#34;&#34;&#34;
@@ -1158,7 +1166,8 @@ row 2: vector of z axis in global system</p></div>
     &#34;&#34;&#34;
     if len(v_inc) != 3:
         raise ValueError(f&#39;v_inc must have a length of 3, got {len(v_inc)}&#39;)
-    self._origin += np.array(v_inc, dtype=float)</code></pre>
+    self._origin += np.array(v_inc, dtype=float)
+    return self</code></pre>
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.rotate_x"><code class="name flex">
@@ -1185,7 +1194,8 @@ row 2: vector of z axis in global system</p></div>
         ang (number): Rotation angle 
         degrees (bool): Flag if ang is given in deg. Default = False
     &#34;&#34;&#34;
-    self._rotate(0, ang, degrees)</code></pre>
+    self._rotate(0, ang, degrees)
+    return self</code></pre>
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.rotate_y"><code class="name flex">
@@ -1212,7 +1222,8 @@ row 2: vector of z axis in global system</p></div>
         ang (number): Rotation angle 
         degrees (bool): Flag if ang is given in deg. Default = False
     &#34;&#34;&#34;
-    self._rotate(1, ang, degrees)</code></pre>
+    self._rotate(1, ang, degrees)
+    return self</code></pre>
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.rotate_z"><code class="name flex">
@@ -1239,7 +1250,8 @@ row 2: vector of z axis in global system</p></div>
         ang (number): Rotation angle 
         degrees (bool): Flag if ang is given in deg. Default = False
     &#34;&#34;&#34;
-    self._rotate(2, ang, degrees)</code></pre>
+    self._rotate(2, ang, degrees)
+    return self</code></pre>
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.set_matrix"><code class="name flex">
@@ -1324,7 +1336,7 @@ row 2: vector of z axis in global system</dd>
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_point_from_global"><code class="name flex">
-<span>def <span class="ident">transform_point_from_global</span></span>(<span>self, point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]]) ‑> numpy.ndarray</span>
+<span>def <span class="ident">transform_point_from_global</span></span>(<span>self, point: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]]) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Transforms the given global cartesian point coordinates into this system and
@@ -1383,7 +1395,7 @@ of point to transform
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_point_to_global"><code class="name flex">
-<span>def <span class="ident">transform_point_to_global</span></span>(<span>self, point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]]) ‑> numpy.ndarray</span>
+<span>def <span class="ident">transform_point_to_global</span></span>(<span>self, point: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]]) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Transforms the given local point coordinates into the global system and
@@ -1444,7 +1456,7 @@ of points to transform
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_point_to_other"><code class="name flex">
-<span>def <span class="ident">transform_point_to_other</span></span>(<span>self, point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], other: <a title="pygccx.helper_features.coordinate_system.CoordinateSystem" href="#pygccx.helper_features.coordinate_system.CoordinateSystem">CoordinateSystem</a>) ‑> numpy.ndarray</span>
+<span>def <span class="ident">transform_point_to_other</span></span>(<span>self, point: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], other: <a title="pygccx.helper_features.coordinate_system.CoordinateSystem" href="#pygccx.helper_features.coordinate_system.CoordinateSystem">CoordinateSystem</a>) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Transforms the given point coordinates from this system into an other
@@ -1499,7 +1511,7 @@ If other system is cylindrical, polar coordinates
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_tensor_from_global"><code class="name flex">
-<span>def <span class="ident">transform_tensor_from_global</span></span>(<span>self, tensor: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
+<span>def <span class="ident">transform_tensor_from_global</span></span>(<span>self, tensor: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Transforms the given global tensor into this system and returns it.</p>
@@ -1577,7 +1589,7 @@ Only required if this system is CYLINCRICAL.</p>
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_tensor_to_global"><code class="name flex">
-<span>def <span class="ident">transform_tensor_to_global</span></span>(<span>self, tensor: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
+<span>def <span class="ident">transform_tensor_to_global</span></span>(<span>self, tensor: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Transforms the given local tensor from this system into the global and returns it.</p>
@@ -1649,7 +1661,7 @@ Only required if this system is CYLINCRICAL.</p>
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_tensor_to_other"><code class="name flex">
-<span>def <span class="ident">transform_tensor_to_other</span></span>(<span>self, other: <a title="pygccx.helper_features.coordinate_system.CoordinateSystem" href="#pygccx.helper_features.coordinate_system.CoordinateSystem">CoordinateSystem</a>, tensor: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
+<span>def <span class="ident">transform_tensor_to_other</span></span>(<span>self, other: <a title="pygccx.helper_features.coordinate_system.CoordinateSystem" href="#pygccx.helper_features.coordinate_system.CoordinateSystem">CoordinateSystem</a>, tensor: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Transforms the given local tensor into an other system and returns it.</p>
@@ -1711,7 +1723,7 @@ Only required if this system OR the other is CYLINCRICAL.</p>
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_vector_from_global"><code class="name flex">
-<span>def <span class="ident">transform_vector_from_global</span></span>(<span>self, vector: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
+<span>def <span class="ident">transform_vector_from_global</span></span>(<span>self, vector: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Transforms the given global vector into this system and returns it.</p>
@@ -1782,7 +1794,7 @@ Only required if this system is CYLINCRICAL.</p>
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_vector_to_global"><code class="name flex">
-<span>def <span class="ident">transform_vector_to_global</span></span>(<span>self, vector: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
+<span>def <span class="ident">transform_vector_to_global</span></span>(<span>self, vector: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Transforms the given local vector from this system into the global and returns it.</p>
@@ -1848,7 +1860,7 @@ Only required if this system is CYLINCRICAL.</p>
 </details>
 </dd>
 <dt id="pygccx.helper_features.coordinate_system.CoordinateSystem.transform_vector_to_other"><code class="name flex">
-<span>def <span class="ident">transform_vector_to_other</span></span>(<span>self, other: <a title="pygccx.helper_features.coordinate_system.CoordinateSystem" href="#pygccx.helper_features.coordinate_system.CoordinateSystem">CoordinateSystem</a>, vector: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
+<span>def <span class="ident">transform_vector_to_other</span></span>(<span>self, other: <a title="pygccx.helper_features.coordinate_system.CoordinateSystem" href="#pygccx.helper_features.coordinate_system.CoordinateSystem">CoordinateSystem</a>, vector: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]], ref_point: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]], ForwardRef(None)] = None) ‑> numpy.ndarray</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Transforms the given local vector into an other system and returns it.</p>

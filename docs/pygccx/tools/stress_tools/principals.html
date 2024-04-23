@@ -168,7 +168,7 @@ def get_max_principal_shear_stress(tensors:npt.ArrayLike) -&gt; npt.NDArray[np.f
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="pygccx.tools.stress_tools.principals.get_max_principal_shear_stress"><code class="name flex">
-<span>def <span class="ident">get_max_principal_shear_stress</span></span>(<span>tensors: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]]) ‑> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating[typing.Any]]]</span>
+<span>def <span class="ident">get_max_principal_shear_stress</span></span>(<span>tensors: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]]) ‑> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating[typing.Any]]]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets the max principal shear stress for the given tensors</p>
@@ -207,7 +207,7 @@ The components order is assumed to be:
 </details>
 </dd>
 <dt id="pygccx.tools.stress_tools.principals.get_principal_shear_stresses"><code class="name flex">
-<span>def <span class="ident">get_principal_shear_stresses</span></span>(<span>tensors: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]]) ‑> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating[typing.Any]]]</span>
+<span>def <span class="ident">get_principal_shear_stresses</span></span>(<span>tensors: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]]) ‑> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating[typing.Any]]]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets the principal shear stresses for the given tensors.</p>
@@ -255,7 +255,7 @@ Ordering of shear stresses per row:
 </details>
 </dd>
 <dt id="pygccx.tools.stress_tools.principals.get_principal_stresses"><code class="name flex">
-<span>def <span class="ident">get_principal_stresses</span></span>(<span>tensors: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]]) ‑> tuple[numpy.ndarray[typing.Any, numpy.dtype[numpy.floating[typing.Any]]], numpy.ndarray[typing.Any, numpy.dtype[numpy.floating[typing.Any]]]]</span>
+<span>def <span class="ident">get_principal_stresses</span></span>(<span>tensors: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]]) ‑> tuple[numpy.ndarray[typing.Any, numpy.dtype[numpy.floating[typing.Any]]], numpy.ndarray[typing.Any, numpy.dtype[numpy.floating[typing.Any]]]]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets the principal stresses and their vectors for the given tensors.</p>
@@ -307,7 +307,7 @@ Nx3x3 3D-Array: Corresponding eigen vectors. ith column for ith principal</dd>
 </details>
 </dd>
 <dt id="pygccx.tools.stress_tools.principals.get_worst_principal_stress"><code class="name flex">
-<span>def <span class="ident">get_worst_principal_stress</span></span>(<span>tensors: Union[numpy._array_like._SupportsArray[numpy.dtype], numpy._nested_sequence._NestedSequence[numpy._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]]) ‑> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating[typing.Any]]]</span>
+<span>def <span class="ident">get_worst_principal_stress</span></span>(<span>tensors: Union[numpy.typing._array_like._SupportsArray[numpy.dtype], numpy.typing._nested_sequence._NestedSequence[numpy.typing._array_like._SupportsArray[numpy.dtype]], bool, int, float, complex, str, bytes, numpy.typing._nested_sequence._NestedSequence[Union[bool, int, float, complex, str, bytes]]]) ‑> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating[typing.Any]]]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets the worst principal stress (with sign) for the given tensors.</p>

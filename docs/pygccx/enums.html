@@ -132,6 +132,34 @@ class EELasticTypes(str, Enum):
     ANISO = &#39;ANISO&#39;
     &#34;&#34;&#34;Anisotropic&#34;&#34;&#34;
 
+class EHyperELasticTypes(str, Enum):
+    ARRUDA_BOYCE = &#39;ARRUDA-BOYCE&#39;
+    &#34;&#34;&#34;Arruda-Boyce&#34;&#34;&#34;
+    MOONEY_RIVLIN = &#39;MOONEY-RIVLIN&#39;
+    &#34;&#34;&#34;Mooney-Rivlin&#34;&#34;&#34;
+    NEO_HOOKE = &#39;NEO HOOKE&#39;
+    &#34;&#34;&#34;Neo Hooke&#34;&#34;&#34;
+    OGDEN_1 = &#39;OGDEN,N=1&#39;
+    &#34;&#34;&#34;Ogden, strain energy order 1&#34;&#34;&#34;
+    OGDEN_2 = &#39;OGDEN,N=2&#39;
+    &#34;&#34;&#34;Ogden, strain energy order 2&#34;&#34;&#34;
+    OGDEN_3 = &#39;OGDEN,N=3&#39;
+    &#34;&#34;&#34;Ogden, strain energy order 3&#34;&#34;&#34;
+    POLYNOMIAL_1 = &#39;POLYNOMIAL,N=1&#39;
+    &#34;&#34;&#34;Polynomial, strain energy order 1&#34;&#34;&#34;
+    POLYNOMIAL_2 = &#39;POLYNOMIAL,N=2&#39;
+    &#34;&#34;&#34;Polynomial, strain energy order 2&#34;&#34;&#34;
+    POLYNOMIAL_3 = &#39;POLYNOMIAL,N=3&#39;
+    &#34;&#34;&#34;Polynomial, strain energy order 3&#34;&#34;&#34;
+    REDUCED_POLYNOMIAL_1 = &#39;REDUCED POLYNOMIAL,N=1&#39;
+    &#34;&#34;&#34;Reduced Polynomial, strain energy order 1&#34;&#34;&#34;
+    REDUCED_POLYNOMIAL_2 = &#39;REDUCED POLYNOMIAL,N=2&#39;
+    &#34;&#34;&#34;Reduced Polynomial, strain energy order 2&#34;&#34;&#34;
+    REDUCED_POLYNOMIAL_3 = &#39;REDUCED POLYNOMIAL,N=3&#39;
+    &#34;&#34;&#34;Reduced Polynomial, strain energy order 3&#34;&#34;&#34;
+    YEOH = &#39;YEOH&#39;
+    &#34;&#34;&#34;Yeoh&#34;&#34;&#34;
+
 class EOrientationSystems(str, Enum):
     RECTANGULAR = &#39;RECTANGULAR&#39;
     &#34;&#34;&#34;Right-handed cartesian system&#34;&#34;&#34;
@@ -152,6 +180,32 @@ class ELoadOps(str, Enum):
     MOD = &#39;MOD&#39;
     NEW = &#39;NEW&#39;
 
+class EDloadType(str, Enum):
+    GRAV = &#39;GRAV&#39;
+    &#34;&#34;&#34;Gravity load&#34;&#34;&#34;
+    CENTRIF = &#39;CENTRIF&#39;
+    &#34;&#34;&#34;Centrifugal force&#34;&#34;&#34;
+    NEWTON = &#39;NEWTON&#39;
+    &#34;&#34;&#34;NEWTON load&#34;&#34;&#34;
+#     P1NP = &#39;P1NP&#39;
+#     P2NP = &#39;P2NP&#39;
+#     P3NP = &#39;P3NP&#39;
+#     P4NP = &#39;P4NP&#39;
+#     P5NP = &#39;P5NP&#39;
+#     P6NP = &#39;P6NP&#39;
+    P1 = &#39;P1&#39;
+    &#34;&#34;&#34;Uniform pressure with distributed load type on face 1&#34;&#34;&#34;
+    P2 = &#39;P2&#39;
+    &#34;&#34;&#34;Uniform pressure with distributed load type on face 2&#34;&#34;&#34;
+    P3 = &#39;P3&#39;
+    &#34;&#34;&#34;Uniform pressure with distributed load type on face 3&#34;&#34;&#34;
+    P4 = &#39;P4&#39;
+    &#34;&#34;&#34;Uniform pressure with distributed load type on face 4&#34;&#34;&#34;
+    P5 = &#39;P5&#39;
+    &#34;&#34;&#34;Uniform pressure with distributed load type on face 5&#34;&#34;&#34;
+    P6 = &#39;P6&#39;
+    &#34;&#34;&#34;Uniform pressure with distributed load type on face 6&#34;&#34;&#34;
+    
 class EResultOutputs(str, Enum):
     DEFAULT = &#39;DEFAULT&#39;
     &#34;&#34;&#34;Default output for 1D and 2D Elements&#34;&#34;&#34;
@@ -425,7 +479,19 @@ class EReultEntityTypes(str, Enum):
 class EResultLocations(str, Enum):
     NODAL = &#39;NODAL&#39;
     ELEMENT = &#39;ELEMENT&#39;
-    INT_PNT = &#39;INT_PNT&#39;</code></pre>
+    INT_PNT = &#39;INT_PNT&#39;
+
+class EMpcTypes(str, Enum):
+    PLANE = &#39;PLANE&#39;
+    &#34;&#34;&#34;Forces all dependant nodes to stay in a plane&#34;&#34;&#34;
+    STRAIGHT = &#39;STRAIGHT&#39;
+    &#34;&#34;&#34;Forces all dependant nodes to stay on a straight line&#34;&#34;&#34;
+    BEAM = &#39;BEAM&#39;
+    &#34;&#34;&#34;Rigid beam. Forces two nodes to maintain their euclidean distance&#34;&#34;&#34;
+    MEANROT = &#39;MEANROT&#39;
+    &#34;&#34;&#34;Forces the rotation of the pilot node to be the average of all dependant nodes&#34;&#34;&#34;
+    DIST = &#39;DIST&#39;
+    &#34;&#34;&#34;Specifies that the euclidean distance between two nodes a and b must not exceed a given distanc&#34;&#34;&#34;</code></pre>
 </details>
 </section>
 <section>
@@ -746,6 +812,87 @@ Therefore, the location of the reference node is important.</p></div>
 <dt id="pygccx.enums.EDatEntities.U"><code class="name">var <span class="ident">U</span></code></dt>
 <dd>
 <div class="desc"><p>Displacements</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.EDloadType"><code class="flex name class">
+<span>class <span class="ident">EDloadType</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EDloadType(str, Enum):
+    GRAV = &#39;GRAV&#39;
+    &#34;&#34;&#34;Gravity load&#34;&#34;&#34;
+    CENTRIF = &#39;CENTRIF&#39;
+    &#34;&#34;&#34;Centrifugal force&#34;&#34;&#34;
+    NEWTON = &#39;NEWTON&#39;
+    &#34;&#34;&#34;NEWTON load&#34;&#34;&#34;
+#     P1NP = &#39;P1NP&#39;
+#     P2NP = &#39;P2NP&#39;
+#     P3NP = &#39;P3NP&#39;
+#     P4NP = &#39;P4NP&#39;
+#     P5NP = &#39;P5NP&#39;
+#     P6NP = &#39;P6NP&#39;
+    P1 = &#39;P1&#39;
+    &#34;&#34;&#34;Uniform pressure with distributed load type on face 1&#34;&#34;&#34;
+    P2 = &#39;P2&#39;
+    &#34;&#34;&#34;Uniform pressure with distributed load type on face 2&#34;&#34;&#34;
+    P3 = &#39;P3&#39;
+    &#34;&#34;&#34;Uniform pressure with distributed load type on face 3&#34;&#34;&#34;
+    P4 = &#39;P4&#39;
+    &#34;&#34;&#34;Uniform pressure with distributed load type on face 4&#34;&#34;&#34;
+    P5 = &#39;P5&#39;
+    &#34;&#34;&#34;Uniform pressure with distributed load type on face 5&#34;&#34;&#34;
+    P6 = &#39;P6&#39;
+    &#34;&#34;&#34;Uniform pressure with distributed load type on face 6&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EDloadType.CENTRIF"><code class="name">var <span class="ident">CENTRIF</span></code></dt>
+<dd>
+<div class="desc"><p>Centrifugal force</p></div>
+</dd>
+<dt id="pygccx.enums.EDloadType.GRAV"><code class="name">var <span class="ident">GRAV</span></code></dt>
+<dd>
+<div class="desc"><p>Gravity load</p></div>
+</dd>
+<dt id="pygccx.enums.EDloadType.NEWTON"><code class="name">var <span class="ident">NEWTON</span></code></dt>
+<dd>
+<div class="desc"><p>NEWTON load</p></div>
+</dd>
+<dt id="pygccx.enums.EDloadType.P1"><code class="name">var <span class="ident">P1</span></code></dt>
+<dd>
+<div class="desc"><p>Uniform pressure with distributed load type on face 1</p></div>
+</dd>
+<dt id="pygccx.enums.EDloadType.P2"><code class="name">var <span class="ident">P2</span></code></dt>
+<dd>
+<div class="desc"><p>Uniform pressure with distributed load type on face 2</p></div>
+</dd>
+<dt id="pygccx.enums.EDloadType.P3"><code class="name">var <span class="ident">P3</span></code></dt>
+<dd>
+<div class="desc"><p>Uniform pressure with distributed load type on face 3</p></div>
+</dd>
+<dt id="pygccx.enums.EDloadType.P4"><code class="name">var <span class="ident">P4</span></code></dt>
+<dd>
+<div class="desc"><p>Uniform pressure with distributed load type on face 4</p></div>
+</dd>
+<dt id="pygccx.enums.EDloadType.P5"><code class="name">var <span class="ident">P5</span></code></dt>
+<dd>
+<div class="desc"><p>Uniform pressure with distributed load type on face 5</p></div>
+</dd>
+<dt id="pygccx.enums.EDloadType.P6"><code class="name">var <span class="ident">P6</span></code></dt>
+<dd>
+<div class="desc"><p>Uniform pressure with distributed load type on face 6</p></div>
 </dd>
 </dl>
 </dd>
@@ -1363,6 +1510,105 @@ in cyclic symmetric frequency calculations</p></div>
 </dd>
 </dl>
 </dd>
+<dt id="pygccx.enums.EHyperELasticTypes"><code class="flex name class">
+<span>class <span class="ident">EHyperELasticTypes</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EHyperELasticTypes(str, Enum):
+    ARRUDA_BOYCE = &#39;ARRUDA-BOYCE&#39;
+    &#34;&#34;&#34;Arruda-Boyce&#34;&#34;&#34;
+    MOONEY_RIVLIN = &#39;MOONEY-RIVLIN&#39;
+    &#34;&#34;&#34;Mooney-Rivlin&#34;&#34;&#34;
+    NEO_HOOKE = &#39;NEO HOOKE&#39;
+    &#34;&#34;&#34;Neo Hooke&#34;&#34;&#34;
+    OGDEN_1 = &#39;OGDEN,N=1&#39;
+    &#34;&#34;&#34;Ogden, strain energy order 1&#34;&#34;&#34;
+    OGDEN_2 = &#39;OGDEN,N=2&#39;
+    &#34;&#34;&#34;Ogden, strain energy order 2&#34;&#34;&#34;
+    OGDEN_3 = &#39;OGDEN,N=3&#39;
+    &#34;&#34;&#34;Ogden, strain energy order 3&#34;&#34;&#34;
+    POLYNOMIAL_1 = &#39;POLYNOMIAL,N=1&#39;
+    &#34;&#34;&#34;Polynomial, strain energy order 1&#34;&#34;&#34;
+    POLYNOMIAL_2 = &#39;POLYNOMIAL,N=2&#39;
+    &#34;&#34;&#34;Polynomial, strain energy order 2&#34;&#34;&#34;
+    POLYNOMIAL_3 = &#39;POLYNOMIAL,N=3&#39;
+    &#34;&#34;&#34;Polynomial, strain energy order 3&#34;&#34;&#34;
+    REDUCED_POLYNOMIAL_1 = &#39;REDUCED POLYNOMIAL,N=1&#39;
+    &#34;&#34;&#34;Reduced Polynomial, strain energy order 1&#34;&#34;&#34;
+    REDUCED_POLYNOMIAL_2 = &#39;REDUCED POLYNOMIAL,N=2&#39;
+    &#34;&#34;&#34;Reduced Polynomial, strain energy order 2&#34;&#34;&#34;
+    REDUCED_POLYNOMIAL_3 = &#39;REDUCED POLYNOMIAL,N=3&#39;
+    &#34;&#34;&#34;Reduced Polynomial, strain energy order 3&#34;&#34;&#34;
+    YEOH = &#39;YEOH&#39;
+    &#34;&#34;&#34;Yeoh&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EHyperELasticTypes.ARRUDA_BOYCE"><code class="name">var <span class="ident">ARRUDA_BOYCE</span></code></dt>
+<dd>
+<div class="desc"><p>Arruda-Boyce</p></div>
+</dd>
+<dt id="pygccx.enums.EHyperELasticTypes.MOONEY_RIVLIN"><code class="name">var <span class="ident">MOONEY_RIVLIN</span></code></dt>
+<dd>
+<div class="desc"><p>Mooney-Rivlin</p></div>
+</dd>
+<dt id="pygccx.enums.EHyperELasticTypes.NEO_HOOKE"><code class="name">var <span class="ident">NEO_HOOKE</span></code></dt>
+<dd>
+<div class="desc"><p>Neo Hooke</p></div>
+</dd>
+<dt id="pygccx.enums.EHyperELasticTypes.OGDEN_1"><code class="name">var <span class="ident">OGDEN_1</span></code></dt>
+<dd>
+<div class="desc"><p>Ogden, strain energy order 1</p></div>
+</dd>
+<dt id="pygccx.enums.EHyperELasticTypes.OGDEN_2"><code class="name">var <span class="ident">OGDEN_2</span></code></dt>
+<dd>
+<div class="desc"><p>Ogden, strain energy order 2</p></div>
+</dd>
+<dt id="pygccx.enums.EHyperELasticTypes.OGDEN_3"><code class="name">var <span class="ident">OGDEN_3</span></code></dt>
+<dd>
+<div class="desc"><p>Ogden, strain energy order 3</p></div>
+</dd>
+<dt id="pygccx.enums.EHyperELasticTypes.POLYNOMIAL_1"><code class="name">var <span class="ident">POLYNOMIAL_1</span></code></dt>
+<dd>
+<div class="desc"><p>Polynomial, strain energy order 1</p></div>
+</dd>
+<dt id="pygccx.enums.EHyperELasticTypes.POLYNOMIAL_2"><code class="name">var <span class="ident">POLYNOMIAL_2</span></code></dt>
+<dd>
+<div class="desc"><p>Polynomial, strain energy order 2</p></div>
+</dd>
+<dt id="pygccx.enums.EHyperELasticTypes.POLYNOMIAL_3"><code class="name">var <span class="ident">POLYNOMIAL_3</span></code></dt>
+<dd>
+<div class="desc"><p>Polynomial, strain energy order 3</p></div>
+</dd>
+<dt id="pygccx.enums.EHyperELasticTypes.REDUCED_POLYNOMIAL_1"><code class="name">var <span class="ident">REDUCED_POLYNOMIAL_1</span></code></dt>
+<dd>
+<div class="desc"><p>Reduced Polynomial, strain energy order 1</p></div>
+</dd>
+<dt id="pygccx.enums.EHyperELasticTypes.REDUCED_POLYNOMIAL_2"><code class="name">var <span class="ident">REDUCED_POLYNOMIAL_2</span></code></dt>
+<dd>
+<div class="desc"><p>Reduced Polynomial, strain energy order 2</p></div>
+</dd>
+<dt id="pygccx.enums.EHyperELasticTypes.REDUCED_POLYNOMIAL_3"><code class="name">var <span class="ident">REDUCED_POLYNOMIAL_3</span></code></dt>
+<dd>
+<div class="desc"><p>Reduced Polynomial, strain energy order 3</p></div>
+</dd>
+<dt id="pygccx.enums.EHyperELasticTypes.YEOH"><code class="name">var <span class="ident">YEOH</span></code></dt>
+<dd>
+<div class="desc"><p>Yeoh</p></div>
+</dd>
+</dl>
+</dd>
 <dt id="pygccx.enums.ELoadOps"><code class="flex name class">
 <span>class <span class="ident">ELoadOps</span></span>
 <span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
@@ -1391,6 +1637,57 @@ in cyclic symmetric frequency calculations</p></div>
 <dt id="pygccx.enums.ELoadOps.NEW"><code class="name">var <span class="ident">NEW</span></code></dt>
 <dd>
 <div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.EMpcTypes"><code class="flex name class">
+<span>class <span class="ident">EMpcTypes</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EMpcTypes(str, Enum):
+    PLANE = &#39;PLANE&#39;
+    &#34;&#34;&#34;Forces all dependant nodes to stay in a plane&#34;&#34;&#34;
+    STRAIGHT = &#39;STRAIGHT&#39;
+    &#34;&#34;&#34;Forces all dependant nodes to stay on a straight line&#34;&#34;&#34;
+    BEAM = &#39;BEAM&#39;
+    &#34;&#34;&#34;Rigid beam. Forces two nodes to maintain their euclidean distance&#34;&#34;&#34;
+    MEANROT = &#39;MEANROT&#39;
+    &#34;&#34;&#34;Forces the rotation of the pilot node to be the average of all dependant nodes&#34;&#34;&#34;
+    DIST = &#39;DIST&#39;
+    &#34;&#34;&#34;Specifies that the euclidean distance between two nodes a and b must not exceed a given distanc&#34;&#34;&#34;</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.str</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EMpcTypes.BEAM"><code class="name">var <span class="ident">BEAM</span></code></dt>
+<dd>
+<div class="desc"><p>Rigid beam. Forces two nodes to maintain their euclidean distance</p></div>
+</dd>
+<dt id="pygccx.enums.EMpcTypes.DIST"><code class="name">var <span class="ident">DIST</span></code></dt>
+<dd>
+<div class="desc"><p>Specifies that the euclidean distance between two nodes a and b must not exceed a given distanc</p></div>
+</dd>
+<dt id="pygccx.enums.EMpcTypes.MEANROT"><code class="name">var <span class="ident">MEANROT</span></code></dt>
+<dd>
+<div class="desc"><p>Forces the rotation of the pilot node to be the average of all dependant nodes</p></div>
+</dd>
+<dt id="pygccx.enums.EMpcTypes.PLANE"><code class="name">var <span class="ident">PLANE</span></code></dt>
+<dd>
+<div class="desc"><p>Forces all dependant nodes to stay in a plane</p></div>
+</dd>
+<dt id="pygccx.enums.EMpcTypes.STRAIGHT"><code class="name">var <span class="ident">STRAIGHT</span></code></dt>
+<dd>
+<div class="desc"><p>Forces all dependant nodes to stay on a straight line</p></div>
 </dd>
 </dl>
 </dd>
@@ -2005,6 +2302,20 @@ in cyclic symmetric frequency calculations</p></div>
 </ul>
 </li>
 <li>
+<h4><code><a title="pygccx.enums.EDloadType" href="#pygccx.enums.EDloadType">EDloadType</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pygccx.enums.EDloadType.CENTRIF" href="#pygccx.enums.EDloadType.CENTRIF">CENTRIF</a></code></li>
+<li><code><a title="pygccx.enums.EDloadType.GRAV" href="#pygccx.enums.EDloadType.GRAV">GRAV</a></code></li>
+<li><code><a title="pygccx.enums.EDloadType.NEWTON" href="#pygccx.enums.EDloadType.NEWTON">NEWTON</a></code></li>
+<li><code><a title="pygccx.enums.EDloadType.P1" href="#pygccx.enums.EDloadType.P1">P1</a></code></li>
+<li><code><a title="pygccx.enums.EDloadType.P2" href="#pygccx.enums.EDloadType.P2">P2</a></code></li>
+<li><code><a title="pygccx.enums.EDloadType.P3" href="#pygccx.enums.EDloadType.P3">P3</a></code></li>
+<li><code><a title="pygccx.enums.EDloadType.P4" href="#pygccx.enums.EDloadType.P4">P4</a></code></li>
+<li><code><a title="pygccx.enums.EDloadType.P5" href="#pygccx.enums.EDloadType.P5">P5</a></code></li>
+<li><code><a title="pygccx.enums.EDloadType.P6" href="#pygccx.enums.EDloadType.P6">P6</a></code></li>
+</ul>
+</li>
+<li>
 <h4><code><a title="pygccx.enums.EELasticTypes" href="#pygccx.enums.EELasticTypes">EELasticTypes</a></code></h4>
 <ul class="">
 <li><code><a title="pygccx.enums.EELasticTypes.ANISO" href="#pygccx.enums.EELasticTypes.ANISO">ANISO</a></code></li>
@@ -2115,10 +2426,38 @@ in cyclic symmetric frequency calculations</p></div>
 </ul>
 </li>
 <li>
+<h4><code><a title="pygccx.enums.EHyperELasticTypes" href="#pygccx.enums.EHyperELasticTypes">EHyperELasticTypes</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.EHyperELasticTypes.ARRUDA_BOYCE" href="#pygccx.enums.EHyperELasticTypes.ARRUDA_BOYCE">ARRUDA_BOYCE</a></code></li>
+<li><code><a title="pygccx.enums.EHyperELasticTypes.MOONEY_RIVLIN" href="#pygccx.enums.EHyperELasticTypes.MOONEY_RIVLIN">MOONEY_RIVLIN</a></code></li>
+<li><code><a title="pygccx.enums.EHyperELasticTypes.NEO_HOOKE" href="#pygccx.enums.EHyperELasticTypes.NEO_HOOKE">NEO_HOOKE</a></code></li>
+<li><code><a title="pygccx.enums.EHyperELasticTypes.OGDEN_1" href="#pygccx.enums.EHyperELasticTypes.OGDEN_1">OGDEN_1</a></code></li>
+<li><code><a title="pygccx.enums.EHyperELasticTypes.OGDEN_2" href="#pygccx.enums.EHyperELasticTypes.OGDEN_2">OGDEN_2</a></code></li>
+<li><code><a title="pygccx.enums.EHyperELasticTypes.OGDEN_3" href="#pygccx.enums.EHyperELasticTypes.OGDEN_3">OGDEN_3</a></code></li>
+<li><code><a title="pygccx.enums.EHyperELasticTypes.POLYNOMIAL_1" href="#pygccx.enums.EHyperELasticTypes.POLYNOMIAL_1">POLYNOMIAL_1</a></code></li>
+<li><code><a title="pygccx.enums.EHyperELasticTypes.POLYNOMIAL_2" href="#pygccx.enums.EHyperELasticTypes.POLYNOMIAL_2">POLYNOMIAL_2</a></code></li>
+<li><code><a title="pygccx.enums.EHyperELasticTypes.POLYNOMIAL_3" href="#pygccx.enums.EHyperELasticTypes.POLYNOMIAL_3">POLYNOMIAL_3</a></code></li>
+<li><code><a title="pygccx.enums.EHyperELasticTypes.REDUCED_POLYNOMIAL_1" href="#pygccx.enums.EHyperELasticTypes.REDUCED_POLYNOMIAL_1">REDUCED_POLYNOMIAL_1</a></code></li>
+<li><code><a title="pygccx.enums.EHyperELasticTypes.REDUCED_POLYNOMIAL_2" href="#pygccx.enums.EHyperELasticTypes.REDUCED_POLYNOMIAL_2">REDUCED_POLYNOMIAL_2</a></code></li>
+<li><code><a title="pygccx.enums.EHyperELasticTypes.REDUCED_POLYNOMIAL_3" href="#pygccx.enums.EHyperELasticTypes.REDUCED_POLYNOMIAL_3">REDUCED_POLYNOMIAL_3</a></code></li>
+<li><code><a title="pygccx.enums.EHyperELasticTypes.YEOH" href="#pygccx.enums.EHyperELasticTypes.YEOH">YEOH</a></code></li>
+</ul>
+</li>
+<li>
 <h4><code><a title="pygccx.enums.ELoadOps" href="#pygccx.enums.ELoadOps">ELoadOps</a></code></h4>
 <ul class="">
 <li><code><a title="pygccx.enums.ELoadOps.MOD" href="#pygccx.enums.ELoadOps.MOD">MOD</a></code></li>
 <li><code><a title="pygccx.enums.ELoadOps.NEW" href="#pygccx.enums.ELoadOps.NEW">NEW</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.EMpcTypes" href="#pygccx.enums.EMpcTypes">EMpcTypes</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.EMpcTypes.BEAM" href="#pygccx.enums.EMpcTypes.BEAM">BEAM</a></code></li>
+<li><code><a title="pygccx.enums.EMpcTypes.DIST" href="#pygccx.enums.EMpcTypes.DIST">DIST</a></code></li>
+<li><code><a title="pygccx.enums.EMpcTypes.MEANROT" href="#pygccx.enums.EMpcTypes.MEANROT">MEANROT</a></code></li>
+<li><code><a title="pygccx.enums.EMpcTypes.PLANE" href="#pygccx.enums.EMpcTypes.PLANE">PLANE</a></code></li>
+<li><code><a title="pygccx.enums.EMpcTypes.STRAIGHT" href="#pygccx.enums.EMpcTypes.STRAIGHT">STRAIGHT</a></code></li>
 </ul>
 </li>
 <li>

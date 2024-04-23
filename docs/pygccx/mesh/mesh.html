@@ -174,7 +174,7 @@ class Mesh:
 
     def get_surface_from_node_set(self, surf_name:str,
                             node_set:protocols.ISet, 
-                            surf_type:enums.ESurfTypes) -&gt; protocols.ISurface:
+                            surf_type:enums.ESurfTypes):
         &#34;&#34;&#34;
         Gets a surface from a given node set.
 
@@ -606,7 +606,7 @@ class Mesh:
 
     def get_surface_from_node_set(self, surf_name:str,
                             node_set:protocols.ISet, 
-                            surf_type:enums.ESurfTypes) -&gt; protocols.ISurface:
+                            surf_type:enums.ESurfTypes):
         &#34;&#34;&#34;
         Gets a surface from a given node set.
 
@@ -1642,7 +1642,7 @@ I.e. C3D20R -&gt; C3D20 or C3D8I -&gt; C3D8R</p>
 </details>
 </dd>
 <dt id="pygccx.mesh.mesh.Mesh.get_surface_from_node_set"><code class="name flex">
-<span>def <span class="ident">get_surface_from_node_set</span></span>(<span>self, surf_name: str, node_set: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, surf_type: <a title="pygccx.enums.ESurfTypes" href="../enums.html#pygccx.enums.ESurfTypes">ESurfTypes</a>) ‑> <a title="pygccx.protocols.ISurface" href="../protocols.html#pygccx.protocols.ISurface">ISurface</a></span>
+<span>def <span class="ident">get_surface_from_node_set</span></span>(<span>self, surf_name: str, node_set: <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, surf_type: <a title="pygccx.enums.ESurfTypes" href="../enums.html#pygccx.enums.ESurfTypes">ESurfTypes</a>)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets a surface from a given node set.</p>
@@ -1669,7 +1669,7 @@ Type of node_set must be NODE and dim must be 2.</dd>
 </summary>
 <pre><code class="python">def get_surface_from_node_set(self, surf_name:str,
                         node_set:protocols.ISet, 
-                        surf_type:enums.ESurfTypes) -&gt; protocols.ISurface:
+                        surf_type:enums.ESurfTypes):
     &#34;&#34;&#34;
     Gets a surface from a given node set.
 

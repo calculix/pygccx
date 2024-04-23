@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pygccx.step_keywords.dload API documentation</title>
+<meta name="description" content="Copyright Matthias Sedlmaier 2022
+This file is part of pygccx …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pygccx.step_keywords.dload</code></h1>
+</header>
+<section id="section-intro">
+<p>Copyright Matthias Sedlmaier 2022
+This file is part of pygccx.</p>
+<p>pygccx is free software: you can redistribute it
+and/or modify it under the terms of the GNU General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.</p>
+<p>pygccx is distributed in the hope that it will
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the
+GNU General Public License for more details.</p>
+<p>You should have received a copy of the GNU General Public License
+along with pygccx.<br>
+If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#39;&#39;&#39;
+Copyright Matthias Sedlmaier 2022
+This file is part of pygccx.
+
+pygccx is free software: you can redistribute it 
+and/or modify it under the terms of the GNU General Public License as 
+published by the Free Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+pygccx is distributed in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with pygccx.  
+If not, see &lt;http://www.gnu.org/licenses/&gt;.
+&#39;&#39;&#39;
+
+from dataclasses import dataclass, field, InitVar
+from typing import Optional, Any
+
+from pygccx.enums import EDloadType, ELoadOps, ESetTypes
+from pygccx.protocols import IKeyword, ISet, number
+from pygccx.auxiliary import f2s
+
+
+@dataclass
+class Dload:
+    &#34;&#34;&#34;
+    Class for defining distributed loads. 
+    These include constant pressure loading on element faces and mass loading (load per unit mass)
+    either by gravity forces or by centrifugal forces.
+
+
+    Args:
+        eid_or_set: Element id or element set on which the first force 
+                    (first line under *DLOAD) should be applied
+        load_type: The distributed load type (NEWTON, GRAV, CENTRIF, Px).
+        params: Parameters (first line under *DLOAD). This depends on the load type.
+        op: Optional. Option if forces should be modified or defined new
+        amplitude: Optional Amplitude object
+        time_delay: Optional. Time shift by which the AMPLITUDE definition it refers 
+                    to is moved in positive time direction
+        load_case: Optional. Only for *STEADY STATE DYNAMICS calculations. 1 means 
+                    that the loading is real or in-phase.
+                    2 indicates that the load is imaginary or equivalently 
+                    phaseshifted by 90deg
+        sector: Optional. Sector where the load should be applied. Only for 
+                    *MODAL DYNAMIC and *STEADY STATE DYNAMICS calculations with cyclic 
+                    symmetry
+        name: Optional. Name of this Cload instance
+        desc: Optional. A short description of this Cload. This is written to the ccx input 
+                    file.
+    &#34;&#34;&#34;
+
+    eid_or_set: InitVar[int | ISet]
+    &#34;&#34;&#34;Element id or element set on which the first load (first line under *DLOAD) should be applied&#34;&#34;&#34;
+    load_type: InitVar[EDloadType]
+    &#34;&#34;&#34;Degree of freedom on which the first force (first line under *CLOAD) should be applied&#34;&#34;&#34;
+    params: InitVar[tuple[number]]
+    &#34;&#34;&#34;Magnitude of the first force (first line under *CLOAD). If the load is NEWTON the tuple should be empty.
+    If the load is GRAV the tuple contains 4 numbers as described in the documentation and if the load is CENTRIF
+    the tuple contains 7 numbers (see docs)&#34;&#34;&#34;
+    op: ELoadOps = ELoadOps.MOD
+    &#34;&#34;&#34;Option if forces should be modified or defined new&#34;&#34;&#34;
+    amplitude: Optional[IKeyword] = None
+    &#34;&#34;&#34;Amplitude object&#34;&#34;&#34;
+    time_delay: Optional[number] = None
+    &#34;&#34;&#34;time shift by which the AMPLITUDE definition it refers to is moved in positive time direction&#34;&#34;&#34;
+    load_case: int = 1
+    &#34;&#34;&#34; only for *STEADY STATE DYNAMICS calculations. 1 means that the loading is real or in-phase.
+    2 indicates that the load is imaginary or equivalently phaseshifted by 90◦&#34;&#34;&#34;
+    sector: Optional[int] = None
+    &#34;&#34;&#34;Sector where the force should be applied. Only for *MODAL DYNAMIC and
+    *STEADY STATE DYNAMICS calculations with cyclic symmetry&#34;&#34;&#34;
+    name: str = &#39;&#39;
+    &#34;&#34;&#34;Name of this Dload instance&#34;&#34;&#34;
+    desc: str = &#39;&#39;
+    &#34;&#34;&#34;A short description of this Dload. This is written to the ccx input file.&#34;&#34;&#34;
+
+    loads: list[tuple] = field(default_factory=list, init=False)
+    &#34;&#34;&#34;List of loads in the form:\n
+    [(eid_or_set, load_type, params), ...]&#34;&#34;&#34;
+
+    _is_initialized: bool = field(init=False, default=False)
+
+    def __setattr__(self, name: str, value: Any) -&gt; None:
+        super().__setattr__(name, value)
+        self._validate()
+
+    def __post_init__(self, eid_or_set, load_type, params):
+        self._is_initialized = True
+        self.add_load(eid_or_set, load_type, params)
+
+    def _validate(self):
+        if not self._is_initialized:
+            return
+        if self.time_delay is not None and self.amplitude is None:
+            raise ValueError(
+                &#39;amplitude can not be None if a value for time_delay is given.&#39;)
+        if self.load_case not in (1, 2):
+            raise ValueError(
+                f&#39;load_case must be either 1 or 2, got {self.load_case}.&#39;)
+        if self.sector is not None and self.sector &lt; 1:
+            raise ValueError(
+                f&#39;sector must be grater or equal than 1, got {self.sector}.&#39;)
+
+    def add_load(self, eid_or_set: int | ISet, load_type: EDloadType, params: tuple):
+        if not isinstance(eid_or_set, int) and eid_or_set.type != ESetTypes.ELEMENT:
+            raise ValueError(
+                &#39;If an ISet is provided, it must be of type ELEMENT.&#39;)
+
+        if load_type == EDloadType.NEWTON:
+            if len(params) &gt; 0:
+                raise ValueError(
+                    &#39;For a NEWTON load, the params tuple should be empty.&#39;)
+        elif load_type == EDloadType.CENTRIF:
+            if len(params) != 7:
+                raise ValueError(
+                    &#39;For a CENTRIF load 7 parameters should be provided in the tuple.&#39;)
+            vector = params[4:]
+            if abs((vector[0]**2+vector[1]**2+vector[2]**2) - 1.0) &gt; 1e-7:
+                raise ValueError(
+                    &#39;The rotation axis components are not normalized.&#39;)
+        elif load_type == EDloadType.GRAV:
+            if len(params) != 4:
+                raise ValueError(
+                    &#39;For a GRAV load 4 parameters should be provided inside the tuple.&#39;)
+            vector = params[1:]
+            if abs((vector[0]**2+vector[1]**2+vector[2]**2) - 1.0) &gt; 1e-7:
+                raise ValueError(
+                    &#34;The gravity vector components are not normalized.&#34;)
+        elif load_type in [EDloadType.P1, EDloadType.P2, EDloadType.P3, EDloadType.P4, EDloadType.P5, EDloadType.P6]:
+            if len(params) != 1:
+                raise ValueError(
+                    &#39;For a Px load 1one parameter should be provided inside the tuple.&#39;)
+        else:
+            raise ValueError(
+                &#39;load_type can only be NEWTON, CENTRIF, GRAV or Px.&#39;)
+
+        if isinstance(eid_or_set, int):
+            if eid_or_set &lt; 1:
+                raise ValueError(
+                    f&#39;nid must be greater than 0, got {eid_or_set}&#39;)
+
+        self.loads.append((eid_or_set, load_type, params))
+
+    def __str__(self):
+
+        s = &#39;*DLOAD&#39;
+        if self.op != ELoadOps.MOD:
+            s += f&#39;,OP={self.op.value}&#39;
+        if self.amplitude:
+            s += f&#39;,AMPLITUDE={self.amplitude.name}&#39;
+        if self.time_delay is not None:
+            s += f&#39;,TIME DELAY={f2s(self.time_delay)}&#39;
+        if self.load_case != 1:
+            s += f&#39;,LOAD CASE={self.load_case}&#39;
+        if self.sector is not None:
+            s += f&#39;,SECTOR={self.sector}&#39;
+        s += &#39;\n&#39;
+
+        for l in self.loads:
+            if isinstance(l[0], int):
+                s += f&#39;{l[0]},&#39;
+            if isinstance(l[0], ISet):
+                s += f&#39;{l[0].name},&#39;
+            s += l[1].value
+            if l[1] != EDloadType.NEWTON:
+                s += &#39;,&#39;
+                s += &#39;,&#39;.join(map(f2s, l[2]))
+            s += &#39;\n&#39;
+
+        return s</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pygccx.step_keywords.dload.Dload"><code class="flex name class">
+<span>class <span class="ident">Dload</span></span>
+<span>(</span><span>eid_or_set: dataclasses.InitVar[int | <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>], load_type: dataclasses.InitVar[EDloadType], params: dataclasses.InitVar[tuple[int | float | numpy.number]], op: <a title="pygccx.enums.ELoadOps" href="../enums.html#pygccx.enums.ELoadOps">ELoadOps</a> = ELoadOps.MOD, amplitude: Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>] = None, time_delay: Union[int, float, numpy.number, ForwardRef(None)] = None, load_case: int = 1, sector: Optional[int] = None, name: str = '', desc: str = '')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class for defining distributed loads.
+These include constant pressure loading on element faces and mass loading (load per unit mass)
+either by gravity forces or by centrifugal forces.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>eid_or_set</code></strong></dt>
+<dd>Element id or element set on which the first force
+(first line under *DLOAD) should be applied</dd>
+<dt><strong><code>load_type</code></strong></dt>
+<dd>The distributed load type (NEWTON, GRAV, CENTRIF, Px).</dd>
+<dt><strong><code>params</code></strong></dt>
+<dd>Parameters (first line under *DLOAD). This depends on the load type.</dd>
+<dt><strong><code>op</code></strong></dt>
+<dd>Optional. Option if forces should be modified or defined new</dd>
+<dt><strong><code>amplitude</code></strong></dt>
+<dd>Optional Amplitude object</dd>
+<dt><strong><code>time_delay</code></strong></dt>
+<dd>Optional. Time shift by which the AMPLITUDE definition it refers
+to is moved in positive time direction</dd>
+<dt><strong><code>load_case</code></strong></dt>
+<dd>Optional. Only for *STEADY STATE DYNAMICS calculations. 1 means
+that the loading is real or in-phase.
+2 indicates that the load is imaginary or equivalently
+phaseshifted by 90deg</dd>
+<dt><strong><code>sector</code></strong></dt>
+<dd>Optional. Sector where the load should be applied. Only for
+<em>MODAL DYNAMIC and </em>STEADY STATE DYNAMICS calculations with cyclic
+symmetry</dd>
+<dt><strong><code>name</code></strong></dt>
+<dd>Optional. Name of this Cload instance</dd>
+<dt><strong><code>desc</code></strong></dt>
+<dd>Optional. A short description of this Cload. This is written to the ccx input
+file.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class Dload:
+    &#34;&#34;&#34;
+    Class for defining distributed loads. 
+    These include constant pressure loading on element faces and mass loading (load per unit mass)
+    either by gravity forces or by centrifugal forces.
+
+
+    Args:
+        eid_or_set: Element id or element set on which the first force 
+                    (first line under *DLOAD) should be applied
+        load_type: The distributed load type (NEWTON, GRAV, CENTRIF, Px).
+        params: Parameters (first line under *DLOAD). This depends on the load type.
+        op: Optional. Option if forces should be modified or defined new
+        amplitude: Optional Amplitude object
+        time_delay: Optional. Time shift by which the AMPLITUDE definition it refers 
+                    to is moved in positive time direction
+        load_case: Optional. Only for *STEADY STATE DYNAMICS calculations. 1 means 
+                    that the loading is real or in-phase.
+                    2 indicates that the load is imaginary or equivalently 
+                    phaseshifted by 90deg
+        sector: Optional. Sector where the load should be applied. Only for 
+                    *MODAL DYNAMIC and *STEADY STATE DYNAMICS calculations with cyclic 
+                    symmetry
+        name: Optional. Name of this Cload instance
+        desc: Optional. A short description of this Cload. This is written to the ccx input 
+                    file.
+    &#34;&#34;&#34;
+
+    eid_or_set: InitVar[int | ISet]
+    &#34;&#34;&#34;Element id or element set on which the first load (first line under *DLOAD) should be applied&#34;&#34;&#34;
+    load_type: InitVar[EDloadType]
+    &#34;&#34;&#34;Degree of freedom on which the first force (first line under *CLOAD) should be applied&#34;&#34;&#34;
+    params: InitVar[tuple[number]]
+    &#34;&#34;&#34;Magnitude of the first force (first line under *CLOAD). If the load is NEWTON the tuple should be empty.
+    If the load is GRAV the tuple contains 4 numbers as described in the documentation and if the load is CENTRIF
+    the tuple contains 7 numbers (see docs)&#34;&#34;&#34;
+    op: ELoadOps = ELoadOps.MOD
+    &#34;&#34;&#34;Option if forces should be modified or defined new&#34;&#34;&#34;
+    amplitude: Optional[IKeyword] = None
+    &#34;&#34;&#34;Amplitude object&#34;&#34;&#34;
+    time_delay: Optional[number] = None
+    &#34;&#34;&#34;time shift by which the AMPLITUDE definition it refers to is moved in positive time direction&#34;&#34;&#34;
+    load_case: int = 1
+    &#34;&#34;&#34; only for *STEADY STATE DYNAMICS calculations. 1 means that the loading is real or in-phase.
+    2 indicates that the load is imaginary or equivalently phaseshifted by 90◦&#34;&#34;&#34;
+    sector: Optional[int] = None
+    &#34;&#34;&#34;Sector where the force should be applied. Only for *MODAL DYNAMIC and
+    *STEADY STATE DYNAMICS calculations with cyclic symmetry&#34;&#34;&#34;
+    name: str = &#39;&#39;
+    &#34;&#34;&#34;Name of this Dload instance&#34;&#34;&#34;
+    desc: str = &#39;&#39;
+    &#34;&#34;&#34;A short description of this Dload. This is written to the ccx input file.&#34;&#34;&#34;
+
+    loads: list[tuple] = field(default_factory=list, init=False)
+    &#34;&#34;&#34;List of loads in the form:\n
+    [(eid_or_set, load_type, params), ...]&#34;&#34;&#34;
+
+    _is_initialized: bool = field(init=False, default=False)
+
+    def __setattr__(self, name: str, value: Any) -&gt; None:
+        super().__setattr__(name, value)
+        self._validate()
+
+    def __post_init__(self, eid_or_set, load_type, params):
+        self._is_initialized = True
+        self.add_load(eid_or_set, load_type, params)
+
+    def _validate(self):
+        if not self._is_initialized:
+            return
+        if self.time_delay is not None and self.amplitude is None:
+            raise ValueError(
+                &#39;amplitude can not be None if a value for time_delay is given.&#39;)
+        if self.load_case not in (1, 2):
+            raise ValueError(
+                f&#39;load_case must be either 1 or 2, got {self.load_case}.&#39;)
+        if self.sector is not None and self.sector &lt; 1:
+            raise ValueError(
+                f&#39;sector must be grater or equal than 1, got {self.sector}.&#39;)
+
+    def add_load(self, eid_or_set: int | ISet, load_type: EDloadType, params: tuple):
+        if not isinstance(eid_or_set, int) and eid_or_set.type != ESetTypes.ELEMENT:
+            raise ValueError(
+                &#39;If an ISet is provided, it must be of type ELEMENT.&#39;)
+
+        if load_type == EDloadType.NEWTON:
+            if len(params) &gt; 0:
+                raise ValueError(
+                    &#39;For a NEWTON load, the params tuple should be empty.&#39;)
+        elif load_type == EDloadType.CENTRIF:
+            if len(params) != 7:
+                raise ValueError(
+                    &#39;For a CENTRIF load 7 parameters should be provided in the tuple.&#39;)
+            vector = params[4:]
+            if abs((vector[0]**2+vector[1]**2+vector[2]**2) - 1.0) &gt; 1e-7:
+                raise ValueError(
+                    &#39;The rotation axis components are not normalized.&#39;)
+        elif load_type == EDloadType.GRAV:
+            if len(params) != 4:
+                raise ValueError(
+                    &#39;For a GRAV load 4 parameters should be provided inside the tuple.&#39;)
+            vector = params[1:]
+            if abs((vector[0]**2+vector[1]**2+vector[2]**2) - 1.0) &gt; 1e-7:
+                raise ValueError(
+                    &#34;The gravity vector components are not normalized.&#34;)
+        elif load_type in [EDloadType.P1, EDloadType.P2, EDloadType.P3, EDloadType.P4, EDloadType.P5, EDloadType.P6]:
+            if len(params) != 1:
+                raise ValueError(
+                    &#39;For a Px load 1one parameter should be provided inside the tuple.&#39;)
+        else:
+            raise ValueError(
+                &#39;load_type can only be NEWTON, CENTRIF, GRAV or Px.&#39;)
+
+        if isinstance(eid_or_set, int):
+            if eid_or_set &lt; 1:
+                raise ValueError(
+                    f&#39;nid must be greater than 0, got {eid_or_set}&#39;)
+
+        self.loads.append((eid_or_set, load_type, params))
+
+    def __str__(self):
+
+        s = &#39;*DLOAD&#39;
+        if self.op != ELoadOps.MOD:
+            s += f&#39;,OP={self.op.value}&#39;
+        if self.amplitude:
+            s += f&#39;,AMPLITUDE={self.amplitude.name}&#39;
+        if self.time_delay is not None:
+            s += f&#39;,TIME DELAY={f2s(self.time_delay)}&#39;
+        if self.load_case != 1:
+            s += f&#39;,LOAD CASE={self.load_case}&#39;
+        if self.sector is not None:
+            s += f&#39;,SECTOR={self.sector}&#39;
+        s += &#39;\n&#39;
+
+        for l in self.loads:
+            if isinstance(l[0], int):
+                s += f&#39;{l[0]},&#39;
+            if isinstance(l[0], ISet):
+                s += f&#39;{l[0].name},&#39;
+            s += l[1].value
+            if l[1] != EDloadType.NEWTON:
+                s += &#39;,&#39;
+                s += &#39;,&#39;.join(map(f2s, l[2]))
+            s += &#39;\n&#39;
+
+        return s</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.step_keywords.dload.Dload.amplitude"><code class="name">var <span class="ident">amplitude</span> : Optional[<a title="pygccx.protocols.IKeyword" href="../protocols.html#pygccx.protocols.IKeyword">IKeyword</a>]</code></dt>
+<dd>
+<div class="desc"><p>Amplitude object</p></div>
+</dd>
+<dt id="pygccx.step_keywords.dload.Dload.desc"><code class="name">var <span class="ident">desc</span> : str</code></dt>
+<dd>
+<div class="desc"><p>A short description of this Dload. This is written to the ccx input file.</p></div>
+</dd>
+<dt id="pygccx.step_keywords.dload.Dload.eid_or_set"><code class="name">var <span class="ident">eid_or_set</span> : dataclasses.InitVar[int | <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>]</code></dt>
+<dd>
+<div class="desc"><p>Element id or element set on which the first load (first line under *DLOAD) should be applied</p></div>
+</dd>
+<dt id="pygccx.step_keywords.dload.Dload.load_case"><code class="name">var <span class="ident">load_case</span> : int</code></dt>
+<dd>
+<div class="desc"><p>only for *STEADY STATE DYNAMICS calculations. 1 means that the loading is real or in-phase.
+2 indicates that the load is imaginary or equivalently phaseshifted by 90◦</p></div>
+</dd>
+<dt id="pygccx.step_keywords.dload.Dload.load_type"><code class="name">var <span class="ident">load_type</span> : dataclasses.InitVar[EDloadType]</code></dt>
+<dd>
+<div class="desc"><p>Degree of freedom on which the first force (first line under *CLOAD) should be applied</p></div>
+</dd>
+<dt id="pygccx.step_keywords.dload.Dload.loads"><code class="name">var <span class="ident">loads</span> : list[tuple]</code></dt>
+<dd>
+<div class="desc"><p>List of loads in the form:</p>
+<p>[(eid_or_set, load_type, params), &hellip;]</p></div>
+</dd>
+<dt id="pygccx.step_keywords.dload.Dload.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Name of this Dload instance</p></div>
+</dd>
+<dt id="pygccx.step_keywords.dload.Dload.op"><code class="name">var <span class="ident">op</span> : <a title="pygccx.enums.ELoadOps" href="../enums.html#pygccx.enums.ELoadOps">ELoadOps</a></code></dt>
+<dd>
+<div class="desc"><p>Option if forces should be modified or defined new</p></div>
+</dd>
+<dt id="pygccx.step_keywords.dload.Dload.params"><code class="name">var <span class="ident">params</span> : dataclasses.InitVar[tuple[int | float | numpy.number]]</code></dt>
+<dd>
+<div class="desc"><p>Magnitude of the first force (first line under *CLOAD). If the load is NEWTON the tuple should be empty.
+If the load is GRAV the tuple contains 4 numbers as described in the documentation and if the load is CENTRIF
+the tuple contains 7 numbers (see docs)</p></div>
+</dd>
+<dt id="pygccx.step_keywords.dload.Dload.sector"><code class="name">var <span class="ident">sector</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"><p>Sector where the force should be applied. Only for <em>MODAL DYNAMIC and
+</em>STEADY STATE DYNAMICS calculations with cyclic symmetry</p></div>
+</dd>
+<dt id="pygccx.step_keywords.dload.Dload.time_delay"><code class="name">var <span class="ident">time_delay</span> : Union[int, float, numpy.number, ForwardRef(None)]</code></dt>
+<dd>
+<div class="desc"><p>time shift by which the AMPLITUDE definition it refers to is moved in positive time direction</p></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="pygccx.step_keywords.dload.Dload.add_load"><code class="name flex">
+<span>def <span class="ident">add_load</span></span>(<span>self, eid_or_set: int | <a title="pygccx.protocols.ISet" href="../protocols.html#pygccx.protocols.ISet">ISet</a>, load_type: <a title="pygccx.enums.EDloadType" href="../enums.html#pygccx.enums.EDloadType">EDloadType</a>, params: tuple)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def add_load(self, eid_or_set: int | ISet, load_type: EDloadType, params: tuple):
+    if not isinstance(eid_or_set, int) and eid_or_set.type != ESetTypes.ELEMENT:
+        raise ValueError(
+            &#39;If an ISet is provided, it must be of type ELEMENT.&#39;)
+
+    if load_type == EDloadType.NEWTON:
+        if len(params) &gt; 0:
+            raise ValueError(
+                &#39;For a NEWTON load, the params tuple should be empty.&#39;)
+    elif load_type == EDloadType.CENTRIF:
+        if len(params) != 7:
+            raise ValueError(
+                &#39;For a CENTRIF load 7 parameters should be provided in the tuple.&#39;)
+        vector = params[4:]
+        if abs((vector[0]**2+vector[1]**2+vector[2]**2) - 1.0) &gt; 1e-7:
+            raise ValueError(
+                &#39;The rotation axis components are not normalized.&#39;)
+    elif load_type == EDloadType.GRAV:
+        if len(params) != 4:
+            raise ValueError(
+                &#39;For a GRAV load 4 parameters should be provided inside the tuple.&#39;)
+        vector = params[1:]
+        if abs((vector[0]**2+vector[1]**2+vector[2]**2) - 1.0) &gt; 1e-7:
+            raise ValueError(
+                &#34;The gravity vector components are not normalized.&#34;)
+    elif load_type in [EDloadType.P1, EDloadType.P2, EDloadType.P3, EDloadType.P4, EDloadType.P5, EDloadType.P6]:
+        if len(params) != 1:
+            raise ValueError(
+                &#39;For a Px load 1one parameter should be provided inside the tuple.&#39;)
+    else:
+        raise ValueError(
+            &#39;load_type can only be NEWTON, CENTRIF, GRAV or Px.&#39;)
+
+    if isinstance(eid_or_set, int):
+        if eid_or_set &lt; 1:
+            raise ValueError(
+                f&#39;nid must be greater than 0, got {eid_or_set}&#39;)
+
+    self.loads.append((eid_or_set, load_type, params))</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pygccx.step_keywords" href="index.html">pygccx.step_keywords</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pygccx.step_keywords.dload.Dload" href="#pygccx.step_keywords.dload.Dload">Dload</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pygccx.step_keywords.dload.Dload.add_load" href="#pygccx.step_keywords.dload.Dload.add_load">add_load</a></code></li>
+<li><code><a title="pygccx.step_keywords.dload.Dload.amplitude" href="#pygccx.step_keywords.dload.Dload.amplitude">amplitude</a></code></li>
+<li><code><a title="pygccx.step_keywords.dload.Dload.desc" href="#pygccx.step_keywords.dload.Dload.desc">desc</a></code></li>
+<li><code><a title="pygccx.step_keywords.dload.Dload.eid_or_set" href="#pygccx.step_keywords.dload.Dload.eid_or_set">eid_or_set</a></code></li>
+<li><code><a title="pygccx.step_keywords.dload.Dload.load_case" href="#pygccx.step_keywords.dload.Dload.load_case">load_case</a></code></li>
+<li><code><a title="pygccx.step_keywords.dload.Dload.load_type" href="#pygccx.step_keywords.dload.Dload.load_type">load_type</a></code></li>
+<li><code><a title="pygccx.step_keywords.dload.Dload.loads" href="#pygccx.step_keywords.dload.Dload.loads">loads</a></code></li>
+<li><code><a title="pygccx.step_keywords.dload.Dload.name" href="#pygccx.step_keywords.dload.Dload.name">name</a></code></li>
+<li><code><a title="pygccx.step_keywords.dload.Dload.op" href="#pygccx.step_keywords.dload.Dload.op">op</a></code></li>
+<li><code><a title="pygccx.step_keywords.dload.Dload.params" href="#pygccx.step_keywords.dload.Dload.params">params</a></code></li>
+<li><code><a title="pygccx.step_keywords.dload.Dload.sector" href="#pygccx.step_keywords.dload.Dload.sector">sector</a></code></li>
+<li><code><a title="pygccx.step_keywords.dload.Dload.time_delay" href="#pygccx.step_keywords.dload.Dload.time_delay">time_delay</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

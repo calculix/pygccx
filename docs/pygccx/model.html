@@ -60,8 +60,7 @@ along with pygccx.
 If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
-from genericpath import isfile
-import os
+import os, pickle
 import subprocess
 from dataclasses import dataclass, field
 from typing import Optional
@@ -246,7 +245,6 @@ class Model:
         else:
             subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34;&#39;, cwd=self.working_dir)
 
-
     def get_frd_result(self) -&gt; FrdResult:
         &#34;&#34;&#34;
         Returns a frd result object from the jobname.frd
@@ -266,6 +264,44 @@ class Model:
         &#34;&#34;&#34;
         filename = os.path.join(self.working_dir, f&#39;{self.jobname}.dat&#39;)
         return DatResult.from_file(filename)
+
+    def to_pickle(self):
+        &#34;&#34;&#34;
+        Serializes this model to a pickle file &#34;jobname.pkl&#34; in the working directory.
+        Usefull for further post processing after the solve command.
+        This way you can sepparate prepro, solve and postpro.
+
+        Loading a model from a pickle file is much more save than loading from
+        an inp file which causes loss of information.
+
+        IMPORTANT: The gmsh model is not serialized!
+        &#34;&#34;&#34;
+
+        filename = os.path.join(self.working_dir,  f&#39;{self.jobname}.pkl&#39;)
+        with open(filename, &#39;wb&#39;) as f:
+            pickle.dump(self, f)
+
+    @staticmethod
+    def from_pickle(filename:str) -&gt; &#39;Model&#39;:
+        &#34;&#34;&#34;Instanciates a model from the given pickle file.
+
+        Args:
+            filename (str): Filename incl. path to pickle file of the model to load. 
+
+        Returns:
+            Model: Deserialized Model
+
+        Raises:
+            TypeError: Raised if deserialized object is not a Model
+        &#34;&#34;&#34;
+
+        with open(filename, &#39;rb&#39;) as f:
+            obj = pickle.load(f)
+        if isinstance(obj, Model): return obj
+        raise TypeError(&#34;Deserialized object is not of type Model.&#34;)
+
+        
+    
 
     def __enter__(self):
         return self
@@ -462,7 +498,6 @@ class Model:
         else:
             subprocess.run(f&#39;{self.cgx_path} &#34;{self.jobname}.frd&#34;&#39;, cwd=self.working_dir)
 
-
     def get_frd_result(self) -&gt; FrdResult:
         &#34;&#34;&#34;
         Returns a frd result object from the jobname.frd
@@ -482,6 +517,44 @@ class Model:
         &#34;&#34;&#34;
         filename = os.path.join(self.working_dir, f&#39;{self.jobname}.dat&#39;)
         return DatResult.from_file(filename)
+
+    def to_pickle(self):
+        &#34;&#34;&#34;
+        Serializes this model to a pickle file &#34;jobname.pkl&#34; in the working directory.
+        Usefull for further post processing after the solve command.
+        This way you can sepparate prepro, solve and postpro.
+
+        Loading a model from a pickle file is much more save than loading from
+        an inp file which causes loss of information.
+
+        IMPORTANT: The gmsh model is not serialized!
+        &#34;&#34;&#34;
+
+        filename = os.path.join(self.working_dir,  f&#39;{self.jobname}.pkl&#39;)
+        with open(filename, &#39;wb&#39;) as f:
+            pickle.dump(self, f)
+
+    @staticmethod
+    def from_pickle(filename:str) -&gt; &#39;Model&#39;:
+        &#34;&#34;&#34;Instanciates a model from the given pickle file.
+
+        Args:
+            filename (str): Filename incl. path to pickle file of the model to load. 
+
+        Returns:
+            Model: Deserialized Model
+
+        Raises:
+            TypeError: Raised if deserialized object is not a Model
+        &#34;&#34;&#34;
+
+        with open(filename, &#39;rb&#39;) as f:
+            obj = pickle.load(f)
+        if isinstance(obj, Model): return obj
+        raise TypeError(&#34;Deserialized object is not of type Model.&#34;)
+
+        
+    
 
     def __enter__(self):
         return self
@@ -517,6 +590,53 @@ class Model:
 <dt id="pygccx.model.Model.working_dir"><code class="name">var <span class="ident">working_dir</span> : str</code></dt>
 <dd>
 <div class="desc"><p>Working directory where all generated files will be stored</p></div>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="pygccx.model.Model.from_pickle"><code class="name flex">
+<span>def <span class="ident">from_pickle</span></span>(<span>filename: str) ‑> <a title="pygccx.model.Model" href="#pygccx.model.Model">Model</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Instanciates a model from the given pickle file.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
+<dd>Filename incl. path to pickle file of the model to load. </dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code><a title="pygccx.model.Model" href="#pygccx.model.Model">Model</a></code></dt>
+<dd>Deserialized Model</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>TypeError</code></dt>
+<dd>Raised if deserialized object is not a Model</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@staticmethod
+def from_pickle(filename:str) -&gt; &#39;Model&#39;:
+    &#34;&#34;&#34;Instanciates a model from the given pickle file.
+
+    Args:
+        filename (str): Filename incl. path to pickle file of the model to load. 
+
+    Returns:
+        Model: Deserialized Model
+
+    Raises:
+        TypeError: Raised if deserialized object is not a Model
+    &#34;&#34;&#34;
+
+    with open(filename, &#39;rb&#39;) as f:
+        obj = pickle.load(f)
+    if isinstance(obj, Model): return obj
+    raise TypeError(&#34;Deserialized object is not of type Model.&#34;)</code></pre>
+</details>
 </dd>
 </dl>
 <h3>Methods</h3>
@@ -610,7 +730,7 @@ class Model:
 </details>
 </dd>
 <dt id="pygccx.model.Model.get_gmsh"><code class="name flex">
-<span>def <span class="ident">get_gmsh</span></span>(<span>self) ‑> <module 'gmsh' from 'E:\\GitHub\\pygccx_project\\venv\\lib\\site-packages\\gmsh.py'></span>
+<span>def <span class="ident">get_gmsh</span></span>(<span>self) ‑> <module 'gmsh' from 'D:\\GitHub\\pygccx_project\\venv310\\lib\\site-packages\\gmsh.py'></span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets the Gmsh API with current model set to this instance</p></div>
@@ -735,6 +855,37 @@ OMP_NUM_THREADS to no_cpu</p></div>
     if  write_ccx_input: self.write_ccx_input_file()
     env = {&#39;OMP_NUM_THREADS&#39;: str(no_cpu)}
     subprocess.run(f&#39;{self.ccx_path} -i &#34;{self.jobname}&#34;&#39;, cwd=self.working_dir, env=env)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.model.Model.to_pickle"><code class="name flex">
+<span>def <span class="ident">to_pickle</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Serializes this model to a pickle file "jobname.pkl" in the working directory.
+Usefull for further post processing after the solve command.
+This way you can sepparate prepro, solve and postpro.</p>
+<p>Loading a model from a pickle file is much more save than loading from
+an inp file which causes loss of information.</p>
+<p>IMPORTANT: The gmsh model is not serialized!</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def to_pickle(self):
+    &#34;&#34;&#34;
+    Serializes this model to a pickle file &#34;jobname.pkl&#34; in the working directory.
+    Usefull for further post processing after the solve command.
+    This way you can sepparate prepro, solve and postpro.
+
+    Loading a model from a pickle file is much more save than loading from
+    an inp file which causes loss of information.
+
+    IMPORTANT: The gmsh model is not serialized!
+    &#34;&#34;&#34;
+
+    filename = os.path.join(self.working_dir,  f&#39;{self.jobname}.pkl&#39;)
+    with open(filename, &#39;wb&#39;) as f:
+        pickle.dump(self, f)</code></pre>
 </details>
 </dd>
 <dt id="pygccx.model.Model.update_mesh_from_gmsh"><code class="name flex">
@@ -904,6 +1055,7 @@ ignore_unsup_elems (bool, optional): Flag if unsupported elements should be igno
 <li><code><a title="pygccx.model.Model.ccx_path" href="#pygccx.model.Model.ccx_path">ccx_path</a></code></li>
 <li><code><a title="pygccx.model.Model.cgx_path" href="#pygccx.model.Model.cgx_path">cgx_path</a></code></li>
 <li><code><a title="pygccx.model.Model.clear_gmsh_model" href="#pygccx.model.Model.clear_gmsh_model">clear_gmsh_model</a></code></li>
+<li><code><a title="pygccx.model.Model.from_pickle" href="#pygccx.model.Model.from_pickle">from_pickle</a></code></li>
 <li><code><a title="pygccx.model.Model.get_dat_result" href="#pygccx.model.Model.get_dat_result">get_dat_result</a></code></li>
 <li><code><a title="pygccx.model.Model.get_frd_result" href="#pygccx.model.Model.get_frd_result">get_frd_result</a></code></li>
 <li><code><a title="pygccx.model.Model.get_gmsh" href="#pygccx.model.Model.get_gmsh">get_gmsh</a></code></li>
@@ -915,6 +1067,7 @@ ignore_unsup_elems (bool, optional): Flag if unsupported elements should be igno
 <li><code><a title="pygccx.model.Model.show_results_in_cgx" href="#pygccx.model.Model.show_results_in_cgx">show_results_in_cgx</a></code></li>
 <li><code><a title="pygccx.model.Model.solve" href="#pygccx.model.Model.solve">solve</a></code></li>
 <li><code><a title="pygccx.model.Model.steps" href="#pygccx.model.Model.steps">steps</a></code></li>
+<li><code><a title="pygccx.model.Model.to_pickle" href="#pygccx.model.Model.to_pickle">to_pickle</a></code></li>
 <li><code><a title="pygccx.model.Model.update_mesh_from_gmsh" href="#pygccx.model.Model.update_mesh_from_gmsh">update_mesh_from_gmsh</a></code></li>
 <li><code><a title="pygccx.model.Model.update_mesh_from_inp" href="#pygccx.model.Model.update_mesh_from_inp">update_mesh_from_inp</a></code></li>
 <li><code><a title="pygccx.model.Model.working_dir" href="#pygccx.model.Model.working_dir">working_dir</a></code></li>

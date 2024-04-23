@@ -82,7 +82,7 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
 - Solve CCX input file
 - Show result file in CGX
 - Create result object from *.frd or *.dat files for postprocessing
-- Tools for calculate invariant stresses (Mises, Principals, etc)
+- Tools for calculate invariant stresses (Mises, Principals, etc.)
 - Tools for transformation of coordinates, vectors or tensors between
   coordinate systems
 - Tool for generating preloaded bolts consisting of solid elements and

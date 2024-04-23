@@ -24,6 +24,7 @@ from pygccx.test.test_model_keywords import *
 from pygccx.test.test_result_reader import *
 from pygccx.test.test_step_keywords import *
 from pygccx.test.test_stress_tools import *
+from pygccx.tools.bolts.test.test_bolt import TestBolt
 
 if __name__ == '__main__':
     unittest.main()

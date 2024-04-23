@@ -90,7 +90,7 @@ class Dload:
         self._validate()
 
     def __post_init__(self, eid_or_set, load_type, params):
-        self._is_initialized = type
+        self._is_initialized = True
         self.add_load(eid_or_set, load_type, params)
 
     def _validate(self):

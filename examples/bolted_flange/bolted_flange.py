@@ -1,6 +1,33 @@
-import os, pickle
+'''
+Copyright Matthias Sedlmaier 2022
+This file is part of pygccx.
 
-import numpy as np
+pygccx is free software: you can redistribute it 
+and/or modify it under the terms of the GNU General Public License as 
+published by the Free Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+pygccx is distributed in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with pygccx.  
+If not, see <http://www.gnu.org/licenses/>.
+
+===============================================================================
+Sector model of two flanges clamped with a preloaded bolt.
+Bolt is generated using pygccx.tools.Bolt
+
+used model keywords:
+Boundary, DistribuitingCoupling, Material, Elastic, SolidSection, Transform
+
+used step keywords:
+Step, Static, Cload, NodeFile, ElFile, ContactFile, Boundary
+'''
+
+import os, pickle
 
 from pygccx import model as ccx_model
 from pygccx import model_keywords as mk
@@ -49,7 +76,7 @@ def main():
 
         # Generate Bolt. Bolt circle diameter is 240mm
         bolt_csys = CoordinateSystem('bolt_csys', origin=(0, 120, -22)).rotate_y(-90., degrees=True).rotate_x(-90., degrees=True)
-        # X = Bolt axis from head to thread. Y = Tangential direction. Z = Radial diraction, pointing outwards
+        # X = Bolt axis from head to thread. Y = Tangential direction. Z = Radial direction, pointing outwards
 
         bolt = Bolt(f'Bolt_M20', csys=bolt_csys, 
                     d_n=20, l_c=44, d_w=30, k=12.5, p=2.5,
@@ -112,19 +139,20 @@ def main():
             step_1:=sk.Step(nlgeom=False),
             step_2:=sk.Step()
         )
+
+        # Pretension step
         step_1.add_step_keywords(
             sk.Static(init_time_inc=0.5, min_time_inc=0.05),
-            sk.Cload(bolt.pretension_node, 1, 100_000), # Pretension each bolt to 100_000 N
-            sk.NodeFile([enums.ENodeFileResults.U, enums.ENodeFileResults.RF]), 
+            sk.Cload(bolt.pretension_node, 1, 100_000), # Pretension bolt to 100_000 N
+            sk.NodeFile([enums.ENodeFileResults.U, enums.ENodeFileResults.RF]), # RF important to get section forces of bolt
             sk.ElFile([enums.EElFileResults.S]),
             sk.ContactFile([enums.EContactFileResults.CDIS, enums.EContactFileResults.CSTR]),
         )
 
-        # Step Loading
+        # Loading step
         step_2.add_step_keywords(
             sk.Static(init_time_inc=0.1, direct=True),
-            sk.Cload(load_ref_pilot, 3, -50_000, op=enums.ELoadOps.NEW), # moment around global X, delete all other cloads
-            # External Force on Bolt: F_e = 4 * M / (D * n) = 50_000 N. With D = Bolt circle diameter, n = number of bolts
+            sk.Cload(load_ref_pilot, 3, -50_000, op=enums.ELoadOps.NEW), # External force on bolt sector
             sk.Boundary(bolt.pretension_node, 1, 0, fixed=True), # lock pretensions
             sk.NodeFile([enums.ENodeFileResults.U, enums.ENodeFileResults.RF]), 
             sk.ElFile([enums.EElFileResults.S]),

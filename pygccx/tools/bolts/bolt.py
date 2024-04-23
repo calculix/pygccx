@@ -1,5 +1,24 @@
+'''
+Copyright Matthias Sedlmaier 2022
+This file is part of pygccx.
+
+pygccx is free software: you can redistribute it 
+and/or modify it under the terms of the GNU General Public License as 
+published by the Free Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+pygccx is distributed in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with pygccx.  
+If not, see <http://www.gnu.org/licenses/>.
+'''
+
 from dataclasses import dataclass, field, fields
-from typing import Optional
+from typing import Optional, Any
 
 import numpy as np
 import numpy.typing as npt
@@ -23,7 +42,7 @@ class _InterfaceSurfaces:
     s_head_interf:ISurface
     """head contact surface. Can be used to tie the bolt head to clamped parts"""
     s_thread_interf:ISurface
-    """Cylindrical surface of the enganged thread. Can be used to tie the engaged thread to a tapped hole or the inner dimater of a nut."""
+    """Cylindrical surface of the engaged thread. Can be used to tie the engaged thread to a tapped hole or the inner diameter of a nut."""
     s_pret_sec:ISurface
     """Surface for defining pretension section."""
 
@@ -35,74 +54,116 @@ class _InterfaceSets:
     n_head_interf:ISet
     """Node set of the head contact surface."""
     n_thread_interf:ISet
-    """Node set of the clindrical surface of the engaged thread."""
+    """Node set of the cylindrical surface of the engaged thread."""
     n_pret_sec:ISet
     """Node set of the pretension section surface."""
 
 @dataclass
 class Bolt:
+    """
+    This class is for generating preloaded bolts with a 60° thread flank angle.
+
+    After instantiating a bolt object with all needed parameters, a call of 
+    .generate_and_insert() will generate the bolt from solid elements and insert 
+    it in the model. All necessary keywords, sets, surfaces, etc. are generated 
+    and inserted in the model as well.
+
+    The modelling follows the recommendations of VDI 2230 part 2 "multi bolted joints" 
+    model class 3.
+
+    With the methods .tie_head_to_solid() and .tie_thread_to_solid() the bolt can 
+    easily be tied to other solid elements of the model (e.g. the clamped parts).
+
+    The pretension can be controlled with *CLOAD or *BOUNDARY keywords using the 
+    pretention node, which is available through .pretension_node.
+
+    After the solution, section forces can be obtained with the method 
+    .get_section_forces().
+    See examples/bolted_flange
+    """
 
     # region fields
     name:str
     """Name of bolt. Must be unique in whole model. You must take care by yourself that name is unique.
     Name is used for naming sets, surfaces, contacts, material etc. for this bolt."""
+
     csys:CoordinateSystem
-    """Rectengular coordinate system of bolt. Origin is located in the center of head contact face.
+    """Rectangular coordinate system of bolt. Origin is located in the center of head contact face.
     X is pointing from head to thread. Y and Z lie in the head contact plane."""
+
     d_n:float
     """Nominal bolt diameter."""
+
     l_c:float
-    """Clampig length. This is usually the thickness of clamped parts, or the distance from
-    head contact face to first enganged thread turn."""
+    """Clamping length. This is usually the thickness of clamped parts, or the distance from
+    head contact face to first engaged thread turn."""
+
     d_w:float
-    """Diameter of head contact face. Usually 1.5 * d_n"""
+    """Outer diameter of head contact face. Usually 1.5 * d_n"""
+
     k:float
     """Hight of head"""
+
     p:float
     """Thread pitch. Distance between threads, not threads per length."""
+
     material:tuple[number, number]|mk.Material
-    """Material for bolt. Can be either a tuple with (emodule, poissons ratio) or a predefined material keyword"""
+    """Material for bolt. Can be either a tuple with (emodule, poissons ratio) or a 
+    predefined material keyword"""
+
     shaft_sections:Optional[list[list[number]]] = field(default_factory=list)
-    """List with shaft sections in the form [[d0, l0], [d1, l1], ..., [dn, ln]] with 
-    d = diameter of section, l = length of section.
-    The ordering is from head to thread, so the first section is connected to the head. 
-    The diameter of the first section must be lower than d_w. The sum of all length 
-    must be lower than the clamping length l_c. The remaining length l_c - sum(li) is modelled as a free thread with d = d3 or ds.
-    See attribute use_ds_for_thread."""
+    """List with unthreaded shaft sections in the form [[d0, l0], [d1, l1], ..., [dn, ln]] 
+    with d = diameter of section, l = length of section.\n
+    The ordering is from head to thread, so the first section is connected to the head.\n 
+    The diameter of the first section must be smaller than d_w.\n
+    The sum of all length must be smaller than the clamping length l_c. The remaining 
+    length l_c - sum(li) is modelled as a free thread with d = d3 or ds.
+    See also attribute use_ds_for_thread."""
 
     use_ds_for_thread:bool = False
     """Flag if stress cross section diameter ds should be used to model the free and engaged thread.
-    If False, core diameter d3 is used. Default = False"""
+    If False, core diameter d3 is used as recommended in VDI 2230 part 1. Default = False"""
 
     model_keywords:list[IKeyword] = field(init=False, default_factory=list)
-    """List with all generated model keywords for the beolt. Only available after generate_and_insert"""
+    """List with all generated model keywords for the bolt. This list is only kept for information. 
+    It is not used after the generation. Only available after generate_and_insert"""
+
     interface_sets:_InterfaceSets = field(init=False, default_factory=_InterfaceSets)
-    """Object with sets used or interfaceing with surrounding model. 
+    """Object with sets used or interfacing with surrounding model. 
     Only available after generate_and_insert. 
-    Usefull for further preprocessing like defining contacts to tie bolt head to clamping parts etc.
+    Useful for further preprocessing like defining contacts to tie bolt head to clamping parts etc.
     See interface_surfaces for corresponding element-face surfaces
     """
     interface_surfaces:_InterfaceSurfaces = field(init=False, default_factory=_InterfaceSurfaces)
-    """Object with element-face surfaces used or interfaceing with surrounding model. 
+    """Object with element-face surfaces used or interfacing with surrounding model. 
     Only available after generate_and_insert. 
-    Usefull for further preprocessing like defining contacts to tie bolt head to clamping parts etc.
+    Useful for further preprocessing like defining contacts to tie bolt head to clamping parts etc.
     See interface_sets for corresponding node sets"""
 
     internal_sets:list[ISet] = field(init=False, default_factory=list)
-    """List with all internal node sets used to define internal_surfaces."""
+    """List with all internal node sets used to define internal_surfaces.
+    Only available after generate_and_insert."""
+
     internal_surfaces:list[ISurface] = field(init=False, default_factory=list)
-    """List with all internal element face surfaces used to tie the shaft sections together"""
+    """List with all internal element face surfaces used to tie the shaft sections together.
+    Only available after generate_and_insert."""
+
     pretension_node:int = field(init=False, default=0)
-    """Node id of the pretension node. Use this node to define pretension force or displacement."""
+    """Node id of the pretension node. Use this node to define pretension force or displacement.
+    Only available after generate_and_insert."""
+
     e_set:ISet = field(init=False, default=None)
-    """Element set with all elements of this bolt."""
+    """Element set with all elements of this bolt.
+    Only available after generate_and_insert."""
+
+    _is_initialized:bool = field(init=False, default=False)
 
     # endregion
 
     # region public methods
     def get_d3(self) -> float: 
         """
-        Gets the core diameter of the thread.
+        Gets the core diameter of the thread.\n
         d3 = d_n - 1.2269 * p
 
         Returns:
@@ -112,7 +173,7 @@ class Bolt:
     
     def get_d2(self) -> float:
         """
-        Gets the pitch diameter of the thread.
+        Gets the pitch diameter of the thread.\n
         d2 = d_n - 0.6495 * p
 
         Returns:
@@ -122,7 +183,7 @@ class Bolt:
     
     def get_ds(self) -> float:
         """
-        Gets the stress cross section diameter of the thread
+        Gets the stress cross section diameter of the thread.\n
         ds = (d3 + d2) / 2
 
         Returns:
@@ -132,7 +193,7 @@ class Bolt:
     
     def get_as(self) -> float:
         """
-        Gets the stress cross section area of the thread
+        Gets the stress cross section area of the thread.\n
         As = pi/4 * ds**2
 
         Returns:
@@ -142,7 +203,7 @@ class Bolt:
     
     def get_ws(self) -> float:
         """
-        Gets the of the moment of resistance of the thread
+        Gets the of the moment of resistance of the thread.\n
         Ws = pi/32 * ds**3
 
         Returns:
@@ -196,7 +257,7 @@ class Bolt:
             npt.NDArray[np.float_]: 2D Array with section forces
 
         Raises:
-            ResultNotFoundError: Raised if no reaktion forces were found for given time in frd_result
+            ResultNotFoundError: Raised if no reaction forces were found for given time in frd_result
         """
 
         # check if reaktion force result exists
@@ -241,7 +302,7 @@ class Bolt:
         element face surface, e.g. the head contact surface of a clamped part.
 
         As contact formulation surface-to-surface penalty tie contact is used. This way no
-        overconstraint with the internal mpc-based *TIE contacts occurs.
+        over constraint with the internal mpc-based *TIE contacts occurs.
         The penalty stiffness in normal and tangential direction is equal and can be given
         by the parameter k. Default is 1e6.
         Make sure there is no large gap or penetration between the given surface and the bolt 
@@ -269,7 +330,7 @@ class Bolt:
         element face surface, e.g. the cylindrical face of a tapped hole or a nut.
 
         As contact formulation surface-to-surface penalty tie contact is used. This way no
-        overconstraint with the internal mpc-based *TIE contacts occurs.
+        over constraint with the internal mpc-based *TIE contacts occurs.
         The penalty stiffness in normal and tangential direction can be given optionally by the parameters k and lam.
 
         Make sure there is no large gap or penetration between the given surface and the engaged thread. 
@@ -279,7 +340,7 @@ class Bolt:
         Args:
             solid_surface (ISurface): Element face surface where the bolt thread should be tied to.
             k (Optional[float], optional): Penalty stiffness in normal direction. Defaults to 1e6.
-            lam (Optional[float], optional): Penalty stiffness in tangential direction. Defaults to k / 100 if ommitted.
+            lam (Optional[float], optional): Penalty stiffness in tangential direction. Defaults to k / 100 if omitted.
 
         Returns:
             tuple[IKeyword,...]: tuple with model keywords required for tie contact
@@ -293,19 +354,21 @@ class Bolt:
         return self._make_interface_contact(name, solid_surface, self.interface_surfaces.s_thread_interf, k, lam)
     
     def get_vdi_contact_thread_stiffness(self, e_t:float, e_b:Optional[float]=None) -> tuple[float, float]:
-        """Gets the normal and tangential stiffness for tie_thread_to_solid acc. to VDI 2230 guideline.
+        """
+        EXPERIMENTAL!\n
+        Gets the normal and tangential stiffness for tie_thread_to_solid acc. to VDI 2230 guideline.
 
         The tangential stiffness is approximated from eq 5.1/4 of VDI 2230 2003 page 28:
-        d_GM = d_G + d_M
-        d_G = d_n / (2 * e_b * pi/4 * d3**2)
-        d_M = d_n / (3 * e_t * pi/4 * d_n**2)
-        C_GM = 1 / d_GM
-        lam = C_GM / (pi * dt * d_n/3)
-        dt = modelled diameter of enganged thread = ds if use_ds_for_thread else d3
+            d_GM = d_G + d_M\n
+            d_G = d_n / (2 * e_b * pi/4 * d3**2)\n
+            d_M = d_n / (3 * e_t * pi/4 * d_n**2)\n
+            C_GM = 1 / d_GM\n
+            lam = C_GM / (pi * dt * d_n/3)\n
+            dt = modelled diameter of engaged thread = ds if use_ds_for_thread else d3
 
         Args:
             e_t (float): Emodule of part with outer thread (tapped hole or nut)
-            e_b (Optional[float]): Emodule of bolt. Can be ommitted if self.material is a tuple with (emodule, mue)
+            e_b (Optional[float]): Emodule of bolt. Can be omitted if self.material is a tuple with (emodule, mue)
 
         Returns:
             tuple[float, float]: normal stiffness, tangential stiffness
@@ -316,7 +379,7 @@ class Bolt:
             if isinstance(self.material, tuple): 
                 e_b = self.material[0]
             else:
-                raise ValueError('e_b must be given. It can not be infered from material of type IKeyword')
+                raise ValueError('e_b must be given. It can not be inferred from material of type IKeyword')
         
         d_G = self.d_n / (2 * e_b * np.pi/4 * self.get_d3()**2)
         d_M = 1 / (3 * e_t * np.pi/4 * self.d_n)
@@ -327,6 +390,46 @@ class Bolt:
     # endregion
 
     # region private methods
+    def __post_init__(self):
+        self._is_initialized = True
+
+    def __setattr__(self, name:str, value:Any):
+        super().__setattr__(name, value)
+        self._validate() 
+
+    def _validate(self):
+        if not self._is_initialized: return
+
+        if self.csys.type != enums.EOrientationSystems.RECTANGULAR:
+            raise ValueError(f'csys must be {enums.EOrientationSystems.RECTANGULAR.name}!')
+        if self.d_n <= 0:
+            raise ValueError('Nominal diameter d_n must be greater than 0!')
+        if self.l_c <= 0:
+            raise ValueError('Clamping length l_c must be greater than 0!')
+        if self.d_w <= self.d_n:
+            raise ValueError('Outer diameter of head contact surface d_w must be greater than nominal diameter d_n!')
+        if self.k <= 0:
+            raise ValueError('Height of head k must be greater than 0!')
+        if self.p <= 0:
+            raise ValueError('Thread pitch p must be greater than 0!')
+        if isinstance(self.material, tuple):
+            if self.material[0] <= 0:
+                raise ValueError('Emodule of material (1st element) must be greater than 0!')
+            if self.material[1] <= 0:
+                raise ValueError('Poissons ratio of material (2nd element) must be greater than 0!')
+            if self.material[1] >= 0.5:
+                raise ValueError('Poissons ratio of material (2nd element) must be lower than 0.5!')
+        if self.shaft_sections:
+            for i, row in enumerate(self.shaft_sections):
+                if len(row) != 2:
+                    raise ValueError(f'Row {i} of shaft_section must have len 2!')
+                if row[0] <= 0:
+                    raise ValueError(f'Diameter in row {i} of shaft_sections must be greater than 0!')
+                if row[1] <= 0:
+                    raise ValueError(f'Length in row {i} of shaft_sections must be greater than 0!')
+            if self.shaft_sections[0][0] >= self.d_w:
+                raise ValueError('Diameter of first shaft section must be smaller than outer diameter of head bearing surface d_w!')
+
     def _make_bolt_mesh(self, model:ccx_model.Model):
 
         gmsh = model.get_gmsh()
@@ -543,7 +646,7 @@ class Bolt:
 
     def _make_internal_contacts(self):
 
-        # make head-shaft contact. head is independant, so spc's or mpc's 
+        # make head-shaft contact. head is independent, so spc's or mpc's 
         # can be defined on outer head contact surface
         self.model_keywords.append(
                 mk.Tie(name=f'{self.name}_0_tie', 
@@ -612,36 +715,6 @@ class Bolt:
                                     k=k, lam=lam)
     # endregion
 
-if __name__ == '__main__':
-    from pygccx import step_keywords as sk
-    with ccx_model.Model(r'D:\GitHub\pygccx_project\executables\calculix_2.19_4win\ccx_static.exe', 
-                        r'D:\GitHub\pygccx_project\executables\calculix_2.19_4win\cgx_GLUT.exe') as test_model:
-        csys = CoordinateSystem('bolt_csys')
-        bolt = Bolt('testbolt', csys, 20, 50, 30, 15, 2.5, (210000, 0.3), [[20,30]], use_ds_for_thread=True)
-        bolt.generate_and_insert(test_model)
-
-        test_model.mesh.nodes[bolt.pretension_node] = (1000,1000,1000)
-
-        test_model.add_model_keywords(
-            mk.Boundary(bolt.interface_sets.n_head_interf, 1, 3), # fix bolt head
-            mk.Boundary(bolt.interface_sets.n_thread_interf,1 ,3), # fix engaged thread
-        )
-
-        test_model.add_steps(
-            step:=sk.Step()
-        )
-        step.add_step_keywords(
-            sk.Static(),
-            sk.Cload(bolt.pretension_node,1,100000),
-            sk.NodeFile([enums.ENodeFileResults.U, enums.ENodeFileResults.RF]), # request deformations in frd file
-            sk.ElFile([enums.EElFileResults.S]),       
-        )
-
-        test_model.solve()
-        test_model.show_results_in_cgx()
-
-        frd_result = test_model.get_frd_result()
-        section_forces = bolt.get_section_forces(test_model, frd_result, 1)
 
 
 

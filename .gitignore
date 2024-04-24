@@ -6,6 +6,7 @@ venv310/
 notes.txt
 Problems/
 build/
+dist/
 pygccx.egg-info/
 
 # Calculix files in examples

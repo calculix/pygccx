@@ -20,11 +20,14 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
 
 # Install Pygccx
 - Install Python 3.10 or higher (or make a virtual env of Python 3.10)
-- Download pygccx from https://github.com/calculix/pygccx/tags
-  and extract to any location you want.
+- Download pygccx-0.2.2-py3-none-any.whl or pygccx-0.2.2.tar.gz from https://github.com/calculix/pygccx/tags
 - install pygccx with pip
     ```
-    pip install "path/to/pygccx"   (the folder where setup.py or pyproject.toml is located)
+    pip install "path/to/pygccx-0.2.2-py3-none-any.whl"  
+    ```
+    or 
+    ```
+    pip install "path/to/pygccx-0.2.2.tar.gz"  
     ```
 
 # Capabilities of Pygccx:

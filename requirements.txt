@@ -1,3 +1,5 @@
+build==1.2.1
+colorama==0.4.6
 cycler==0.11.0
 fonttools==4.34.4
 gmsh==4.12.2
@@ -10,9 +12,11 @@ numpy==1.22.4
 packaging==21.3
 pdoc3==0.10.0
 Pillow==9.2.0
-pygccx==0.2.1
+pygccx==0.2.2
 pyparsing==3.0.9
+pyproject_hooks==1.0.0
 python-dateutil==2.8.2
 scipy==1.9.0
 six==1.16.0
+tomli==2.0.1
 typing_extensions==4.2.0

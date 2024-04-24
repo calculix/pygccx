@@ -41,7 +41,7 @@ CCX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.19_4win', 'ccx_
 CGX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.19_4win', 'cgx_GLUT.exe')
 
 def main():
-    with ccx_model.Model('/usr/bin/ccx', '/usr/bin/cgx', jobname='beam_gravity', working_dir=WKD) as model:
+    with ccx_model.Model(CCX_PATH, CGX_PATH, jobname='beam_gravity', working_dir=WKD) as model:
 
         # make model of a beam in gmsh
         # Cross section = 10x10; Length = 100

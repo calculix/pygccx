@@ -20,7 +20,6 @@ If not, see <http://www.gnu.org/licenses/>.
 import unittest
 from dataclasses import dataclass
 
-import numpy as np
 from pygccx.tools import Bolt
 from pygccx import enums
 

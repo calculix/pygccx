@@ -18,7 +18,7 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from dataclasses import dataclass
-from typing import Any, Iterable
+from typing import Iterable
 from pygccx.auxiliary import f2s
 from pygccx.protocols import number
 

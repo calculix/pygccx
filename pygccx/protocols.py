@@ -17,8 +17,7 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from dataclasses import dataclass
-from typing import Protocol, runtime_checkable, Iterable
+from typing import Protocol, runtime_checkable
 import numpy as np
 import numpy.typing as npt
 from . import enums

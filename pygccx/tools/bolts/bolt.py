@@ -28,7 +28,6 @@ from pygccx.mesh.surface import get_surface_from_node_set
 from pygccx import enums
 from pygccx.protocols import IKeyword, ISet, ISurface, number
 from pygccx import model_keywords as mk
-from pygccx import step_keywords as sk
 from pygccx.helper_features.coordinate_system import CoordinateSystem
 from pygccx.result_reader import FrdResult
 

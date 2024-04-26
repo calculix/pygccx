@@ -20,10 +20,9 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
 
 # Install Pygccx
 - Install Python 3.10 or higher (or make a virtual env of Python 3.10)
-- Download pygccx-0.2.2-py3-none-any.whl from https://github.com/calculix/pygccx/releases/download/v0.2.2/pygccx-0.2.2-py3-none-any.whl
 - install pygccx with pip
     ```
-    pip install "path/to/pygccx-0.2.2-py3-none-any.whl"  
+    pip install https://github.com/calculix/pygccx/releases/download/v0.2.2/pygccx-0.2.2-py3-none-any.whl
     ```
 
 # Capabilities of Pygccx:

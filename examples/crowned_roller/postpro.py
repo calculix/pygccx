@@ -29,8 +29,8 @@ from pygccx import enums
 
 WKD = os.path.dirname(os.path.abspath(__file__))
 # change this paths to your location of ccx and cgx
-CCX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.19_4win', 'ccx_static.exe')
-CGX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.19_4win', 'cgx_GLUT.exe')
+CCX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.21_4win', 'ccx_static.exe')
+CGX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.21_4win', 'cgx_GLUT.exe')
 
 
 with ccx_model.Model(CCX_PATH, CGX_PATH) as model:

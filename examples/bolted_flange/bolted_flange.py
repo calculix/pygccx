@@ -39,8 +39,8 @@ from pygccx.tools import Bolt
 WKD = os.path.dirname(os.path.abspath(__file__))
 os.chdir(WKD)
 # change this paths to your location of ccx and cgx
-CCX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.19_4win', 'ccx_static.exe')
-CGX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.19_4win', 'cgx_GLUT.exe')
+CCX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.21_4win', 'ccx_static.exe')
+CGX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.21_4win', 'cgx_GLUT.exe')
 
 def main():
     with ccx_model.Model(CCX_PATH, CGX_PATH, jobname='bolted_flange') as model:

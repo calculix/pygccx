@@ -76,6 +76,7 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
         - *STATIC
         - *STEP
         - *TIME POINTS
+    - [Unsupported keywords](https://github.com/calculix/pygccx/blob/master/unsupported_keywords.md)
 - Show CCX input file in CGX
 - Solve CCX input file
 - Show result file in CGX
@@ -87,7 +88,8 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
   tools for postprocessing of section forces and moments
 
 # Planned capabilities of Pygccx:
-- Support of all CCX keywords for static analysis
+- Support of all CCX keywords for static analysis<br>
+[Unsupported keywords](https://github.com/calculix/pygccx/blob/master/unsupported_keywords.md)
 - Postpro in GMSH
 - Read mesh from *.frd file
 

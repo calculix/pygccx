@@ -21,7 +21,7 @@ Sector model of two flanges clamped with a preloaded bolt.
 Bolt is generated using pygccx.tools.Bolt
 
 used model keywords:
-Boundary, DistribuitingCoupling, Material, Elastic, SolidSection, Transform
+Heading, Boundary, DistribuitingCoupling, Material, Elastic, SolidSection, Transform
 
 used step keywords:
 Step, Static, Cload, NodeFile, ElFile, ContactFile, Boundary
@@ -44,6 +44,8 @@ CGX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.21_4win', 'cgx_
 
 def main():
     with ccx_model.Model(CCX_PATH, CGX_PATH, jobname='bolted_flange') as model:
+
+        model.add_model_keywords(mk.Heading('Sector_model_of_bolted_flanges')) # spaces are removed by cgx. At least under windows
 
         # load a gmsh script to build the model and mesh
         model.get_gmsh().merge(os.path.join(WKD, 'model.geo'))

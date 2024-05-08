@@ -30,7 +30,7 @@ and due to the coarse mesh, a load of 950N can be applied without
 plastic collapse.
 
 used model keywords:
-Boundary, Coupling, Material, Elastic, Plastic, SolidSection
+Heading, Boundary, Coupling, Material, Elastic, Plastic, SolidSection
 
 used step keywords:
 Step, Static, Cload, NodeFile, ElFile
@@ -50,6 +50,8 @@ CGX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.21_4win', 'cgx_
 
 def main():
     with ccx_model.Model(CCX_PATH, CGX_PATH, jobname='beam_plastic', working_dir=WKD) as model:
+
+        model.add_model_keywords(mk.Heading('Simple_beam_with_plastic_material')) # spaces are removed by cgx. At least under windows
 
         # make model of a beam in gmsh
         # Cross section = 10x10; Length = 100

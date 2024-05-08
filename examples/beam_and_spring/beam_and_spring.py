@@ -25,7 +25,7 @@ with the force.
 
 
 used model keywords:
-Boundary, Coupling, Material, Elastic, SolidSection
+Heading, Boundary, Coupling, Material, Elastic, SolidSection
 
 used step keywords:
 Step, Static, Cload, NodeFile, ElFile
@@ -44,7 +44,9 @@ CCX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.21_4win', 'ccx_
 CGX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.21_4win', 'cgx_GLUT.exe')
 
 def main():
-    with ccx_model.Model(CCX_PATH, CGX_PATH, jobname='beam_amp_spring', working_dir=WKD) as model:
+    with ccx_model.Model(CCX_PATH, CGX_PATH, jobname='beam_and_spring', working_dir=WKD) as model:
+
+        model.add_model_keywords(mk.Heading('Simple_beam_and_spring')) # spaces are removed by cgx. At least under windows
 
         # make model of a beam in gmsh
         # Cross section = 10x10; Length = 100

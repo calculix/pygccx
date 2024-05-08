@@ -22,7 +22,7 @@ Material is linear elastic with a nonzero density.
 The gravity is enforced using the Dload step keyword.
 
 used model keywords:
-Boundary, Material, Elastic, Density, SolidSection
+Heading, Boundary, Material, Elastic, Density, SolidSection
 
 used step keywords:
 Step, Static, Dload, NodeFile, ElFile
@@ -42,6 +42,8 @@ CGX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.21_4win', 'cgx_
 
 def main():
     with ccx_model.Model(CCX_PATH, CGX_PATH, jobname='beam_gravity', working_dir=WKD) as model:
+
+        model.add_model_keywords(mk.Heading('Simple_beam_under_gravity_loading')) # spaces are removed by cgx. At least under windows
 
         # make model of a beam in gmsh
         # Cross section = 10x10; Length = 100

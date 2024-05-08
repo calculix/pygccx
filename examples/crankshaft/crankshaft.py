@@ -20,7 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 Model of a crankshaft with a rotating load.
 
 used model keywords:
-Boundary, RigidBody, Coupling, Material, Elastic, SolidSection
+Heading, Boundary, RigidBody, Coupling, Material, Elastic, SolidSection
 
 used step keywords:
 Step, Static, Cload, NodeFile, ElFile
@@ -42,6 +42,8 @@ CGX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.21_4win', 'cgx_
 
 def main():
     with ccx_model.Model(CCX_PATH, CGX_PATH, jobname='crankshaft', working_dir=WKD) as model:
+
+        model.add_model_keywords(mk.Heading('Model_of_a_crankshaft_with_a_rotating_load')) # spaces are removed by cgx. At least under windows
 
         # load a gmsh script to build the model and mesh
         model.get_gmsh().merge(os.path.join(WKD, 'crankshaft.geo'))

@@ -20,7 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 Model of a beam with one end fixed and a prescribed displacement at the other end.
 
 used model keywords:
-Boundary, Amplitude, Material, Elastic, SolidSection
+Heading, Boundary, Amplitude, Material, Elastic, SolidSection
 
 used step keywords:
 Step, Static, Boundary, NodeFile, ElFile
@@ -40,6 +40,8 @@ CGX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.21_4win', 'cgx_
 
 def main():
     with ccx_model.Model(CCX_PATH, CGX_PATH, jobname='beam_amp_disp', working_dir=WKD) as model:
+
+        model.add_model_keywords(mk.Heading('Simple_beam_and_amplitude')) # spaces are removed by cgx. At least under windows
 
         # make model of a beam in gmsh
         # Cross section = 10x10; Length = 100

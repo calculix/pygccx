@@ -25,7 +25,7 @@ the bolt is 50 mm long, so the bending moment at the head is 50 Nmm.
 So the section forces at the bolt head must show this value.
 
 used model keywords:
-Boundary, RigidBody
+Heading, Boundary, RigidBody
 
 used step keywords:
 Step, Static, Cload, NodeFile
@@ -47,7 +47,9 @@ CCX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.21_4win', 'ccx_
 CGX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.21_4win', 'cgx_GLUT.exe')
 
 def main():
-    with ccx_model.Model(CCX_PATH, CGX_PATH, jobname='bolted_flange') as model:
+    with ccx_model.Model(CCX_PATH, CGX_PATH, jobname='single_bolt') as model:
+
+        model.add_model_keywords(mk.Heading('Model_of_one_single_M10_bolt')) # spaces are removed by cgx. At least under windows
 
         csys = CoordinateSystem('bolt_csys')
         bolt = Bolt('bolt', csys, 
@@ -68,7 +70,7 @@ def main():
             sk.NodeFile([enums.ENodeFileResults.U, enums.ENodeFileResults.RF])
         )
 
-        # model.show_model_in_cgx()
+        model.show_model_in_cgx()
 
         model.solve(no_cpu=8)
 

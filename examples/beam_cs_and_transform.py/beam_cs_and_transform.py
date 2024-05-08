@@ -22,7 +22,7 @@ The force is rotated 45° around the global z-axis using a
 CoordinateSystem and Transform.
 
 used model keywords:
-Boundary, Transform, Coupling (kinematic), Material, Elastic, SolidSection
+Heading, Boundary, Transform, Coupling (kinematic), Material, Elastic, SolidSection
 
 used step keywords:
 Step, Static, Cload, NodeFile, ElFile
@@ -46,6 +46,8 @@ CGX_PATH = os.path.join(WKD,'../../', 'executables', 'calculix_2.21_4win', 'cgx_
 
 def main():
     with ccx_model.Model(CCX_PATH, CGX_PATH, jobname='beam_cs_and_transform', working_dir=WKD) as model:
+
+        model.add_model_keywords(mk.Heading('Simple_beam_with_transform')) # spaces are removed by cgx. At least under windows
 
         # make model of a beam in gmsh
         # Cross section = 10x10; Length = 100

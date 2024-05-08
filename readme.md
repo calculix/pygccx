@@ -45,6 +45,7 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
         - *EQUATION
         - *FRICTION
         - *GAP
+        - *HEADING
         - *HYPERELASTIC
         - *INCLUDE (also for step keywords)
         - *MASS

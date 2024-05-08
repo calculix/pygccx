@@ -48,7 +48,6 @@ The following keywords are not currently supported:
 *GEOMETRIC CONSTRAINT<br>
 *GEOMETRIC TOLERANCES<br>
 *HCF<br>
-*HEADING<br>
 *HEAT TRANSFER<br>
 *HYPERFOAM<br>
 *INITIAL CONDITIONS<br>

@@ -46,3 +46,4 @@ from .universal import Universal
 from .deformation_plasticity import DeformationPlasticity
 from .pretension_section import PretensionSection
 from .mpc import Mpc
+from .heading import Heading

@@ -1,3 +1,9 @@
+0.2.3:
+    - NEW FEATURES
+      - New model keyword *HEADING (model_keywords.Heading)
+      - New model keyword *CREEP (model_keywords.Creep)
+      - New step keyword *NO ANALYSIS (model_keywords.NoAnalysis)
+
 0.2.2:
     - NEW FEATURES
       - New model keyword *DENSITY (model_keywords.Density)

@@ -23,7 +23,6 @@ The following keywords are not currently supported:
 *CORRELATION LENGTH<br>
 *COUPLED TEMPERATURE-DISPLACEMENT<br>
 *CRACK PROPAGATION<br>
-*CREEP<br>
 *CYCLIC SYMMETRY MODEL<br>
 *DAMPING<br>
 *DASHPOT<br>

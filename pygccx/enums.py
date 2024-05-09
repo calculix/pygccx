@@ -450,4 +450,6 @@ class EMpcTypes(str, Enum):
     DIST = 'DIST'
     """Specifies that the euclidean distance between two nodes a and b must not exceed a given distanc"""
 
-
+class ECreepLaws(str, Enum):
+    NORTON = 'NORTON'
+    """Norton creep law. eps'= A * sig_mises**n * t**m"""

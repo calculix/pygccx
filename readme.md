@@ -37,6 +37,7 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
         - *CLEARANCE
         - *CONTACT PAIR
         - *COUPLING
+        - *CREEP
         - *DEFORMATION PLASTICITY
         - *DENSITY
         - *DISTRIBUTING COUPLING

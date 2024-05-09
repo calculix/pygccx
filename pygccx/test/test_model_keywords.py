@@ -46,6 +46,7 @@ from pygccx.model_keywords.test.test_mpc import TestMpc
 from pygccx.model_keywords.test.test_pretension_section import TestPretensionSection
 from pygccx.model_keywords.test.test_hyperelastic import TestHyperElastic
 from pygccx.model_keywords.test.test_heading import TestHeading
+from pygccx.model_keywords.test.test_creep import TestCreep
 
 if __name__ == '__main__':
     unittest.main()

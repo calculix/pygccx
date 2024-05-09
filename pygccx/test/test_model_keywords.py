@@ -47,6 +47,7 @@ from pygccx.model_keywords.test.test_pretension_section import TestPretensionSec
 from pygccx.model_keywords.test.test_hyperelastic import TestHyperElastic
 from pygccx.model_keywords.test.test_heading import TestHeading
 from pygccx.model_keywords.test.test_creep import TestCreep
+from pygccx.model_keywords.test.test_cyclic_symmetry_model import TestCyclicSymmetryModel
 
 if __name__ == '__main__':
     unittest.main()

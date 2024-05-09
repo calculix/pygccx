@@ -38,6 +38,7 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
         - *CONTACT PAIR
         - *COUPLING
         - *CREEP
+        - *CYCLIC SYMMETRY MODEL
         - *DEFORMATION PLASTICITY
         - *DENSITY
         - *DISTRIBUTING COUPLING

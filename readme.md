@@ -79,6 +79,7 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
         - *STATIC
         - *STEP
         - *TIME POINTS
+        - *VISCO
     - [Unsupported keywords](https://github.com/calculix/pygccx/blob/master/unsupported_keywords.md)
 - Show CCX input file in CGX
 - Solve CCX input file

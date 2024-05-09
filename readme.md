@@ -51,6 +51,7 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
         - *MASS
         - *MATERIAL
         - *MPC
+        - *NO ANALYSIS
         - *ORIENTATION
         - *PLASTIC
         - *PRE-TENSION SECTION

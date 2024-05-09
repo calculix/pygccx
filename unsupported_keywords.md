@@ -63,7 +63,6 @@ The following keywords are not currently supported:
 *MOHR COULOMB<br>
 *MOHR COULOMB HARDENING<br>
 *NETWORK MPC<br>
-*NO ANALYSIS<br>
 *NODAL THICKNESS<br>
 *NORMAL<br>
 *OBJECTIVE<br>

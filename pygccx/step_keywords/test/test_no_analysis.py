@@ -1,5 +1,5 @@
 '''
-Copyright Matthias Sedlmaier 2022
+Copyright Matthias Sedlmaier 2024
 This file is part of pygccx.
 
 pygccx is free software: you can redistribute it 
@@ -17,20 +17,19 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from .boundary import Boundary
-from .step import Step
-from .static import Static
-from .cload import Cload
-from .dload import Dload
-from .time_points import TimePoints
-from .node_file import NodeFile
-from .node_output import NodeOutput
-from .node_print import NodePrint
-from .el_file import ElFile
-from .element_output import ElementOutput
-from .el_print import ElPrint
-from .contact_file import ContactFile
-from .contact_print import ContactPrint
-from .contact_output import ContactOutput
-from .green import Green
-from .no_analysis import NoAnalysis
+from unittest import TestCase
+
+from pygccx.step_keywords import NoAnalysis
+from pygccx.protocols import IKeyword
+
+class TestNoAnalysis(TestCase):
+
+    def test_is_IKeyword(self):
+        na = NoAnalysis()
+        self.assertTrue(isinstance(na, IKeyword))
+
+    def test_happy_case(self):
+        h = NoAnalysis()
+
+        known = '*NO ANALYSIS\n'
+        self.assertEqual(str(h), known)

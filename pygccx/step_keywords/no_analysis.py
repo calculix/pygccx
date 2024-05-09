@@ -1,5 +1,5 @@
 '''
-Copyright Matthias Sedlmaier 2022
+Copyright Matthias Sedlmaier 2024
 This file is part of pygccx.
 
 pygccx is free software: you can redistribute it 
@@ -17,20 +17,22 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from .boundary import Boundary
-from .step import Step
-from .static import Static
-from .cload import Cload
-from .dload import Dload
-from .time_points import TimePoints
-from .node_file import NodeFile
-from .node_output import NodeOutput
-from .node_print import NodePrint
-from .el_file import ElFile
-from .element_output import ElementOutput
-from .el_print import ElPrint
-from .contact_file import ContactFile
-from .contact_print import ContactPrint
-from .contact_output import ContactOutput
-from .green import Green
-from .no_analysis import NoAnalysis
+from dataclasses import dataclass
+
+@dataclass
+class NoAnalysis:
+    """
+    Class for input deck and geometry checking only. No calculation is performed.
+
+    Args:
+        name: Optional. Name of this object. Not used
+        desc: Optional. A short description of this object. This is written to the ccx input file as a comment.
+    """
+
+    name:str = ''
+    """Name of this object. Not used"""
+    desc:str = ''
+    """A short description of this object. This is written to the ccx input file as a comment"""       
+
+    def __str__(self):
+        return f'*NO ANALYSIS\n'

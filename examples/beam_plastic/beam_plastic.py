@@ -108,7 +108,7 @@ def main():
         # add keywords to the step
         step.add_step_keywords(
             sk.Static(),                # step is a static one
-            sk.Cload(pilot, 2, 950),  # force in Y at pilot node with magnitude 20000
+            sk.Cload(pilot, 2, 950),  # force in Y 
             sk.NodeFile([enums.ENodeFileResults.U]), # request deformations in frd file
             sk.ElFile([enums.EElFileResults.S]), # request stresses in frd file
             sk.ElPrint(mesh.get_el_set_by_name('BEAM'),[enums.EElPrintResults.PEEQ])

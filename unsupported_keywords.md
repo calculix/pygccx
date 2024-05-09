@@ -90,4 +90,3 @@ The following keywords are not currently supported:
 *USER SECTION <br>
 *VALUES AT INFINITY<br>
 *VIEWFACTOR<br>
-*VISCO<br>

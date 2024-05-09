@@ -17,18 +17,20 @@ along with pygccx.
 If not, see <http://www.gnu.org/licenses/>.
 '''
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from typing import Optional
 
 from pygccx.enums import ESolvers
+from pygccx.protocols import number
 from pygccx.auxiliary import f2s
 
-from .visco import Visco
 @dataclass
-class Static(Visco):
+class Visco:
     """
-    Class to define a static analysis
+    Class to define a visco analysis
     
     Args:
+        cetol: Maximum viscous strain difference
         solver: Optional. Solver which should be used for the step
         direct: Optional. Flag is direct time stepping should be switched on. 
                 True switches off auto time stepping
@@ -43,10 +45,34 @@ class Static(Visco):
         desc: Optional. A short description of this instance. This is written to the ccx input file.
     """
 
-    cetol:float = field(init=False) # exclude Viso's cetol from init
+    cetol:float
+    """Maximum viscous strain difference"""
+    solver:ESolvers = ESolvers.DEFAULT
+    """Solver which should be used for the step"""
+    direct:bool = False
+    """Flag if direct time stepping should be switched on. 
+    True switches off auto time stepping"""
+    init_time_inc:number = 1.
+    """Size of the first time increment of the step."""
+    time_period:number = 1.
+    """Duration of the step"""
+    min_time_inc:Optional[number] = None
+    """Minimum allowed time increment. Only used if direct == False"""
+    max_time_inc:Optional[number] = None
+    """Maximum allowed time increment. Only used if direct == False"""
+    time_reset:bool = False
+    """forces the total time at the end of the present step to coincide 
+    with the total time at the end of the previous step"""
+    total_time_at_start:Optional[number] = None
+    """sets the total time at the start of the step to a specific value."""
+    name:str = ''
+    """Name of this instance"""
+    desc:str = ''
+    """A short description of this instance. This is written to the ccx input file."""
+
 
     def __str__(self):
-        s = '*STATIC'
+        s = f'*VISCO,CETOL={f2s(self.cetol)}'
         if self.solver != ESolvers.DEFAULT:
             s += f',SOLVER={self.solver.value}'
         if self.direct: s += ',DIRECT'
@@ -61,4 +87,6 @@ class Static(Visco):
         s = s.rstrip(',') + '\n'
 
         return s
+
+
 

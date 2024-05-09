@@ -31,6 +31,7 @@ from pygccx.step_keywords.test.test_el_file import TestElFile
 from pygccx.step_keywords.test.test_el_print import TestElPrint
 from pygccx.step_keywords.test.test_green import TestGreen
 from pygccx.step_keywords.test.test_no_analysis import TestNoAnalysis
+from pygccx.step_keywords.test.test_visco import TestVisco
 
 
 if __name__ == '__main__':

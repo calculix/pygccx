@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>pygccx.test.test_step_keywords API documentation</title>
-<meta name="description" content="Copyright Matthias Sedlmaier 2022
+<title>pygccx.step_keywords.no_analysis API documentation</title>
+<meta name="description" content="Copyright Matthias Sedlmaier 2024
 This file is part of pygccx …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -20,10 +20,10 @@ This file is part of pygccx …" />
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>pygccx.test.test_step_keywords</code></h1>
+<h1 class="title">Module <code>pygccx.step_keywords.no_analysis</code></h1>
 </header>
 <section id="section-intro">
-<p>Copyright Matthias Sedlmaier 2022
+<p>Copyright Matthias Sedlmaier 2024
 This file is part of pygccx.</p>
 <p>pygccx is free software: you can redistribute it
 and/or modify it under the terms of the GNU General Public License as
@@ -42,7 +42,7 @@ If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/<
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">&#39;&#39;&#39;
-Copyright Matthias Sedlmaier 2022
+Copyright Matthias Sedlmaier 2024
 This file is part of pygccx.
 
 pygccx is free software: you can redistribute it 
@@ -60,25 +60,25 @@ along with pygccx.
 If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
-import unittest
-from pygccx.step_keywords.test.test_boundary import TestBoundary
-from pygccx.step_keywords.test.test_step import TestStep
-from pygccx.step_keywords.test.test_static import TestStatic
-from pygccx.step_keywords.test.test_cload import TestCload
-from pygccx.step_keywords.test.test_time_points import TestTimePoints
-from pygccx.step_keywords.test.test_contact_file import TestContactFile
-from pygccx.step_keywords.test.test_contact_print import TestContactPrint
-from pygccx.step_keywords.test.test_node_file import TestNodeFile
-from pygccx.step_keywords.test.test_node_print import TestNodePrint
-from pygccx.step_keywords.test.test_el_file import TestElFile
-from pygccx.step_keywords.test.test_el_print import TestElPrint
-from pygccx.step_keywords.test.test_green import TestGreen
-from pygccx.step_keywords.test.test_no_analysis import TestNoAnalysis
-from pygccx.step_keywords.test.test_visco import TestVisco
+from dataclasses import dataclass
 
+@dataclass
+class NoAnalysis:
+    &#34;&#34;&#34;
+    Class for input deck and geometry checking only. No calculation is performed.
 
-if __name__ == &#39;__main__&#39;:
-    unittest.main()</code></pre>
+    Args:
+        name: Optional. Name of this object. Not used
+        desc: Optional. A short description of this object. This is written to the ccx input file as a comment.
+    &#34;&#34;&#34;
+
+    name:str = &#39;&#39;
+    &#34;&#34;&#34;Name of this object. Not used&#34;&#34;&#34;
+    desc:str = &#39;&#39;
+    &#34;&#34;&#34;A short description of this object. This is written to the ccx input file as a comment&#34;&#34;&#34;       
+
+    def __str__(self):
+        return f&#39;*NO ANALYSIS\n&#39;</code></pre>
 </details>
 </section>
 <section>
@@ -88,6 +88,56 @@ if __name__ == &#39;__main__&#39;:
 <section>
 </section>
 <section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="pygccx.step_keywords.no_analysis.NoAnalysis"><code class="flex name class">
+<span>class <span class="ident">NoAnalysis</span></span>
+<span>(</span><span>name: str = '', desc: str = '')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Class for input deck and geometry checking only. No calculation is performed.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>name</code></strong></dt>
+<dd>Optional. Name of this object. Not used</dd>
+<dt><strong><code>desc</code></strong></dt>
+<dd>Optional. A short description of this object. This is written to the ccx input file as a comment.</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@dataclass
+class NoAnalysis:
+    &#34;&#34;&#34;
+    Class for input deck and geometry checking only. No calculation is performed.
+
+    Args:
+        name: Optional. Name of this object. Not used
+        desc: Optional. A short description of this object. This is written to the ccx input file as a comment.
+    &#34;&#34;&#34;
+
+    name:str = &#39;&#39;
+    &#34;&#34;&#34;Name of this object. Not used&#34;&#34;&#34;
+    desc:str = &#39;&#39;
+    &#34;&#34;&#34;A short description of this object. This is written to the ccx input file as a comment&#34;&#34;&#34;       
+
+    def __str__(self):
+        return f&#39;*NO ANALYSIS\n&#39;</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.step_keywords.no_analysis.NoAnalysis.desc"><code class="name">var <span class="ident">desc</span> : str</code></dt>
+<dd>
+<div class="desc"><p>A short description of this object. This is written to the ccx input file as a comment</p></div>
+</dd>
+<dt id="pygccx.step_keywords.no_analysis.NoAnalysis.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Name of this object. Not used</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
 </section>
 </article>
 <nav id="sidebar">
@@ -98,7 +148,18 @@ if __name__ == &#39;__main__&#39;:
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="pygccx.test" href="index.html">pygccx.test</a></code></li>
+<li><code><a title="pygccx.step_keywords" href="index.html">pygccx.step_keywords</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="pygccx.step_keywords.no_analysis.NoAnalysis" href="#pygccx.step_keywords.no_analysis.NoAnalysis">NoAnalysis</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.step_keywords.no_analysis.NoAnalysis.desc" href="#pygccx.step_keywords.no_analysis.NoAnalysis.desc">desc</a></code></li>
+<li><code><a title="pygccx.step_keywords.no_analysis.NoAnalysis.name" href="#pygccx.step_keywords.no_analysis.NoAnalysis.name">name</a></code></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

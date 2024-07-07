@@ -278,7 +278,7 @@ class Bolt:
         for k, v in gmsh_options.items():
             gmsh.option.setNumber(k, v)
 
-    def get_section_forces(self, model:ccx_model.Model, frd_result:FrdResult, time:float) -&gt; npt.NDArray[np.float_]:
+    def get_section_forces(self, model:ccx_model.Model, frd_result:FrdResult, time:float) -&gt; npt.NDArray[np.floating]:
         &#34;&#34;&#34;
         Gets the section forces at the bolt head, at each end of a shaft section and at 
         the first engaged thread turn in the local coordinate system.
@@ -296,7 +296,7 @@ class Bolt:
             time (float): Result time for which section forces should be returned.
 
         Returns:
-            npt.NDArray[np.float_]: 2D Array with section forces
+            npt.NDArray[np.floating]: 2D Array with section forces
 
         Raises:
             ResultNotFoundError: Raised if no reaction forces were found for given time in frd_result
@@ -968,7 +968,7 @@ class Bolt:
         for k, v in gmsh_options.items():
             gmsh.option.setNumber(k, v)
 
-    def get_section_forces(self, model:ccx_model.Model, frd_result:FrdResult, time:float) -&gt; npt.NDArray[np.float_]:
+    def get_section_forces(self, model:ccx_model.Model, frd_result:FrdResult, time:float) -&gt; npt.NDArray[np.floating]:
         &#34;&#34;&#34;
         Gets the section forces at the bolt head, at each end of a shaft section and at 
         the first engaged thread turn in the local coordinate system.
@@ -986,7 +986,7 @@ class Bolt:
             time (float): Result time for which section forces should be returned.
 
         Returns:
-            npt.NDArray[np.float_]: 2D Array with section forces
+            npt.NDArray[np.floating]: 2D Array with section forces
 
         Raises:
             ResultNotFoundError: Raised if no reaction forces were found for given time in frd_result
@@ -1687,7 +1687,7 @@ If False, core diameter d3 is used as recommended in VDI 2230 part 1. Default = 
 </details>
 </dd>
 <dt id="pygccx.tools.bolts.bolt.Bolt.get_section_forces"><code class="name flex">
-<span>def <span class="ident">get_section_forces</span></span>(<span>self, model: <a title="pygccx.model.Model" href="../../model.html#pygccx.model.Model">Model</a>, frd_result: <a title="pygccx.result_reader.frd_result.FrdResult" href="../../result_reader/frd_result.html#pygccx.result_reader.frd_result.FrdResult">FrdResult</a>, time: float) ‑> numpy.ndarray[typing.Any, numpy.dtype[numpy.float64]]</span>
+<span>def <span class="ident">get_section_forces</span></span>(<span>self, model: <a title="pygccx.model.Model" href="../../model.html#pygccx.model.Model">Model</a>, frd_result: <a title="pygccx.result_reader.frd_result.FrdResult" href="../../result_reader/frd_result.html#pygccx.result_reader.frd_result.FrdResult">FrdResult</a>, time: float) ‑> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets the section forces at the bolt head, at each end of a shaft section and at
@@ -1709,7 +1709,7 @@ row -1: First engaged thread turn</p>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
-<dt><code>npt.NDArray[np.float_]</code></dt>
+<dt><code>npt.NDArray[np.floating]</code></dt>
 <dd>2D Array with section forces</dd>
 </dl>
 <h2 id="raises">Raises</h2>
@@ -1721,7 +1721,7 @@ row -1: First engaged thread turn</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_section_forces(self, model:ccx_model.Model, frd_result:FrdResult, time:float) -&gt; npt.NDArray[np.float_]:
+<pre><code class="python">def get_section_forces(self, model:ccx_model.Model, frd_result:FrdResult, time:float) -&gt; npt.NDArray[np.floating]:
     &#34;&#34;&#34;
     Gets the section forces at the bolt head, at each end of a shaft section and at 
     the first engaged thread turn in the local coordinate system.
@@ -1739,7 +1739,7 @@ row -1: First engaged thread turn</p>
         time (float): Result time for which section forces should be returned.
 
     Returns:
-        npt.NDArray[np.float_]: 2D Array with section forces
+        npt.NDArray[np.floating]: 2D Array with section forces
 
     Raises:
         ResultNotFoundError: Raised if no reaction forces were found for given time in frd_result

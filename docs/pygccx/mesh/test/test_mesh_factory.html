@@ -63,7 +63,7 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 import os
 import unittest
 from dataclasses import dataclass
-from pygccx.mesh.mesh_factory import mesh_from_inp
+from pygccx.mesh.mesh_factory import mesh_from_inp, mesh_from_frd
 from pygccx.enums import ESetTypes, EEtypes, ESurfTypes
 from pygccx.exceptions import ElementTypeNotSupportedError
 
@@ -191,48 +191,50 @@ class TestInpFactory(unittest.TestCase):
         self.assertEqual(len(mesh.element_sets), 1) # only the tet set
         self.assertEqual(len(mesh.surfaces), 2) # but with removed entities
 
-        # nall = mesh.get_node_set_by_name(&#39;NALL&#39;)
-        # self.assertIsNotNone(nall)
-        # self.assertEqual(len(nall.ids), 4405)
+class TestFrdFactory(unittest.TestCase):
 
-        # fix = mesh.get_node_set_by_name(&#39;FIX&#39;)
-        # self.assertIsNotNone(fix)
-        # self.assertEqual(len(fix.ids), 105)
+    def setUp(self) -&gt; None:
+        data_path = os.path.dirname(os.path.abspath(__file__))
+        self.data_path = os.path.join(data_path, &#39;test_data&#39;)
 
-        # load = mesh.get_node_set_by_name(&#39;LOAD&#39;)
-        # self.assertIsNotNone(load)
-        # self.assertEqual(len(load.ids), 105)
+    def test_beam_and_gap_w_skip_wo_clean(self):
+        # reads beam_and_gap.frd
+        # in file:
+        #   no nodes: 4405
+        #   no elems: 2341 one of them is unsupported (GAP)
+        # after reading file:
+        #   no nodes: 4405
+        #   no elems: 2340
 
-        # beam = mesh.get_node_set_by_name(&#39;BEAM&#39;)
-        # self.assertIsNotNone(beam)
-        # self.assertEqual(len(beam.ids), 4403)
+        mesh = mesh_from_frd(
+            os.path.join(self.data_path, &#39;beam_and_gap.frd&#39;),
+            ignore_unsup_elems=True)
+        
+        self.assertEqual(len(mesh.nodes), 4405)
+        self.assertEqual(len(mesh.elements), 2340)
 
-        # eall = mesh.get_el_set_by_name(&#39;EALL&#39;)
-        # self.assertIsNotNone(eall)
-        # self.assertEqual(len(eall.ids), 2341)
+    def test_beam_and_gap_w_skip_w_clean(self):
+        # reads beam_and_gap.frd
+        # in file:
+        #   no nodes: 4405
+        #   no elems: 2341 one of them is unsupported (GAP)
+        # after reading file:
+        #   no nodes: 4403 # the two nodes of the GAP are deleted
+        #   no elems: 2340
 
-        # beam = mesh.get_el_set_by_name(&#39;BEAM&#39;)
-        # self.assertIsNotNone(beam)
-        # self.assertEqual(len(beam.ids), 2340)
+        mesh = mesh_from_frd(
+            os.path.join(self.data_path, &#39;beam_and_gap.frd&#39;),
+            ignore_unsup_elems=True, clear_mesh=True)
+        
+        self.assertEqual(len(mesh.nodes), 4403)
+        self.assertEqual(len(mesh.elements), 2340)
 
-        # load_surf = mesh.get_surface_by_name(&#39;LOAD_SURF&#39;)
-        # self.assertIsNotNone(load_surf)
-        # self.assertEqual(len(load_surf.element_faces), 44)  # type: ignore
-        # self.assertEqual(load_surf.type, ESurfTypes.EL_FACE)
+    def test_beam_and_gap_wo_skip(self):
+        # reads beam_and_gap.frd
+        # The unsupported GAP-element raises an exception
 
-        # node_surf = mesh.get_surface_by_name(&#39;NODE_SURF&#39;)
-        # self.assertIsNotNone(node_surf)
-        # self.assertEqual(len(node_surf.node_ids), 3)  # type: ignore
-        # self.assertEqual(len(node_surf.node_set_names), 1)  # type: ignore
-        # self.assertEqual(node_surf.type, ESurfTypes.NODE)
-
-        # elem_surf = mesh.get_surface_by_name(&#39;ELEM_SURF&#39;)
-        # self.assertIsNotNone(elem_surf)
-        # self.assertEqual(len(elem_surf.element_faces), 9)  # type: ignore
-        # self.assertEqual(elem_surf.type, ESurfTypes.EL_FACE)
-
-        # for e in mesh.elements.values():
-        #     self.assertTrue(e.type in [EEtypes.C3D10, EEtypes.GAPUNI]) </code></pre>
+        path = os.path.join(self.data_path, &#39;beam_and_gap.frd&#39;)
+        self.assertRaises(ElementTypeNotSupportedError, mesh_from_frd, path, ignore_unsup_elems=False)</code></pre>
 </details>
 </section>
 <section>
@@ -278,6 +280,179 @@ class SetMock():
 <dt id="pygccx.mesh.test.test_mesh_factory.SetMock.type"><code class="name">var <span class="ident">type</span> : <a title="pygccx.enums.ESetTypes" href="../../enums.html#pygccx.enums.ESetTypes">ESetTypes</a></code></dt>
 <dd>
 <div class="desc"></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.mesh.test.test_mesh_factory.TestFrdFactory"><code class="flex name class">
+<span>class <span class="ident">TestFrdFactory</span></span>
+<span>(</span><span>methodName='runTest')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>A class whose instances are single test cases.</p>
+<p>By default, the test code itself should be placed in a method named
+'runTest'.</p>
+<p>If the fixture may be used for many test cases, create as
+many test methods as are needed. When instantiating such a TestCase
+subclass, specify in the constructor arguments the name of the test method
+that the instance is to execute.</p>
+<p>Test authors should subclass TestCase for their own tests. Construction
+and deconstruction of the test's environment ('fixture') can be
+implemented by overriding the 'setUp' and 'tearDown' methods respectively.</p>
+<p>If it is necessary to override the <strong>init</strong> method, the base class
+<strong>init</strong> method must always be called. It is important that subclasses
+should not change the signature of their <strong>init</strong> method, since instances
+of the classes are instantiated automatically by parts of the framework
+in order to be run.</p>
+<p>When subclassing TestCase, you can set these attributes:
+* failureException: determines which exception will be raised when
+the instance's assertion methods fail; test methods raising this
+exception will be deemed to have 'failed' rather than 'errored'.
+* longMessage: determines whether long messages (including repr of
+objects used in assert methods) will be printed on failure in <em>addition</em>
+to any explicit message passed.
+* maxDiff: sets the maximum length of a diff in failure messages
+by assert methods using difflib. It is looked up as an instance
+attribute so can be configured by individual tests if required.</p>
+<p>Create an instance of the class that will use the named test
+method when executed. Raises a ValueError if the instance does
+not have a method with the specified name.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TestFrdFactory(unittest.TestCase):
+
+    def setUp(self) -&gt; None:
+        data_path = os.path.dirname(os.path.abspath(__file__))
+        self.data_path = os.path.join(data_path, &#39;test_data&#39;)
+
+    def test_beam_and_gap_w_skip_wo_clean(self):
+        # reads beam_and_gap.frd
+        # in file:
+        #   no nodes: 4405
+        #   no elems: 2341 one of them is unsupported (GAP)
+        # after reading file:
+        #   no nodes: 4405
+        #   no elems: 2340
+
+        mesh = mesh_from_frd(
+            os.path.join(self.data_path, &#39;beam_and_gap.frd&#39;),
+            ignore_unsup_elems=True)
+        
+        self.assertEqual(len(mesh.nodes), 4405)
+        self.assertEqual(len(mesh.elements), 2340)
+
+    def test_beam_and_gap_w_skip_w_clean(self):
+        # reads beam_and_gap.frd
+        # in file:
+        #   no nodes: 4405
+        #   no elems: 2341 one of them is unsupported (GAP)
+        # after reading file:
+        #   no nodes: 4403 # the two nodes of the GAP are deleted
+        #   no elems: 2340
+
+        mesh = mesh_from_frd(
+            os.path.join(self.data_path, &#39;beam_and_gap.frd&#39;),
+            ignore_unsup_elems=True, clear_mesh=True)
+        
+        self.assertEqual(len(mesh.nodes), 4403)
+        self.assertEqual(len(mesh.elements), 2340)
+
+    def test_beam_and_gap_wo_skip(self):
+        # reads beam_and_gap.frd
+        # The unsupported GAP-element raises an exception
+
+        path = os.path.join(self.data_path, &#39;beam_and_gap.frd&#39;)
+        self.assertRaises(ElementTypeNotSupportedError, mesh_from_frd, path, ignore_unsup_elems=False)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>unittest.case.TestCase</li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="pygccx.mesh.test.test_mesh_factory.TestFrdFactory.setUp"><code class="name flex">
+<span>def <span class="ident">setUp</span></span>(<span>self) ‑> None</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Hook method for setting up the test fixture before exercising it.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def setUp(self) -&gt; None:
+    data_path = os.path.dirname(os.path.abspath(__file__))
+    self.data_path = os.path.join(data_path, &#39;test_data&#39;)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.test.test_mesh_factory.TestFrdFactory.test_beam_and_gap_w_skip_w_clean"><code class="name flex">
+<span>def <span class="ident">test_beam_and_gap_w_skip_w_clean</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_beam_and_gap_w_skip_w_clean(self):
+    # reads beam_and_gap.frd
+    # in file:
+    #   no nodes: 4405
+    #   no elems: 2341 one of them is unsupported (GAP)
+    # after reading file:
+    #   no nodes: 4403 # the two nodes of the GAP are deleted
+    #   no elems: 2340
+
+    mesh = mesh_from_frd(
+        os.path.join(self.data_path, &#39;beam_and_gap.frd&#39;),
+        ignore_unsup_elems=True, clear_mesh=True)
+    
+    self.assertEqual(len(mesh.nodes), 4403)
+    self.assertEqual(len(mesh.elements), 2340)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.test.test_mesh_factory.TestFrdFactory.test_beam_and_gap_w_skip_wo_clean"><code class="name flex">
+<span>def <span class="ident">test_beam_and_gap_w_skip_wo_clean</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_beam_and_gap_w_skip_wo_clean(self):
+    # reads beam_and_gap.frd
+    # in file:
+    #   no nodes: 4405
+    #   no elems: 2341 one of them is unsupported (GAP)
+    # after reading file:
+    #   no nodes: 4405
+    #   no elems: 2340
+
+    mesh = mesh_from_frd(
+        os.path.join(self.data_path, &#39;beam_and_gap.frd&#39;),
+        ignore_unsup_elems=True)
+    
+    self.assertEqual(len(mesh.nodes), 4405)
+    self.assertEqual(len(mesh.elements), 2340)</code></pre>
+</details>
+</dd>
+<dt id="pygccx.mesh.test.test_mesh_factory.TestFrdFactory.test_beam_and_gap_wo_skip"><code class="name flex">
+<span>def <span class="ident">test_beam_and_gap_wo_skip</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def test_beam_and_gap_wo_skip(self):
+    # reads beam_and_gap.frd
+    # The unsupported GAP-element raises an exception
+
+    path = os.path.join(self.data_path, &#39;beam_and_gap.frd&#39;)
+    self.assertRaises(ElementTypeNotSupportedError, mesh_from_frd, path, ignore_unsup_elems=False)</code></pre>
+</details>
 </dd>
 </dl>
 </dd>
@@ -433,50 +608,7 @@ not have a method with the specified name.</p></div>
         self.assertEqual(len(mesh.elements), 1) # only the tet
         self.assertEqual(len(mesh.node_sets), 1) # but with 4 nodes
         self.assertEqual(len(mesh.element_sets), 1) # only the tet set
-        self.assertEqual(len(mesh.surfaces), 2) # but with removed entities
-
-        # nall = mesh.get_node_set_by_name(&#39;NALL&#39;)
-        # self.assertIsNotNone(nall)
-        # self.assertEqual(len(nall.ids), 4405)
-
-        # fix = mesh.get_node_set_by_name(&#39;FIX&#39;)
-        # self.assertIsNotNone(fix)
-        # self.assertEqual(len(fix.ids), 105)
-
-        # load = mesh.get_node_set_by_name(&#39;LOAD&#39;)
-        # self.assertIsNotNone(load)
-        # self.assertEqual(len(load.ids), 105)
-
-        # beam = mesh.get_node_set_by_name(&#39;BEAM&#39;)
-        # self.assertIsNotNone(beam)
-        # self.assertEqual(len(beam.ids), 4403)
-
-        # eall = mesh.get_el_set_by_name(&#39;EALL&#39;)
-        # self.assertIsNotNone(eall)
-        # self.assertEqual(len(eall.ids), 2341)
-
-        # beam = mesh.get_el_set_by_name(&#39;BEAM&#39;)
-        # self.assertIsNotNone(beam)
-        # self.assertEqual(len(beam.ids), 2340)
-
-        # load_surf = mesh.get_surface_by_name(&#39;LOAD_SURF&#39;)
-        # self.assertIsNotNone(load_surf)
-        # self.assertEqual(len(load_surf.element_faces), 44)  # type: ignore
-        # self.assertEqual(load_surf.type, ESurfTypes.EL_FACE)
-
-        # node_surf = mesh.get_surface_by_name(&#39;NODE_SURF&#39;)
-        # self.assertIsNotNone(node_surf)
-        # self.assertEqual(len(node_surf.node_ids), 3)  # type: ignore
-        # self.assertEqual(len(node_surf.node_set_names), 1)  # type: ignore
-        # self.assertEqual(node_surf.type, ESurfTypes.NODE)
-
-        # elem_surf = mesh.get_surface_by_name(&#39;ELEM_SURF&#39;)
-        # self.assertIsNotNone(elem_surf)
-        # self.assertEqual(len(elem_surf.element_faces), 9)  # type: ignore
-        # self.assertEqual(elem_surf.type, ESurfTypes.EL_FACE)
-
-        # for e in mesh.elements.values():
-        #     self.assertTrue(e.type in [EEtypes.C3D10, EEtypes.GAPUNI]) </code></pre>
+        self.assertEqual(len(mesh.surfaces), 2) # but with removed entities</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -616,50 +748,7 @@ not have a method with the specified name.</p></div>
     self.assertEqual(len(mesh.elements), 1) # only the tet
     self.assertEqual(len(mesh.node_sets), 1) # but with 4 nodes
     self.assertEqual(len(mesh.element_sets), 1) # only the tet set
-    self.assertEqual(len(mesh.surfaces), 2) # but with removed entities
-
-    # nall = mesh.get_node_set_by_name(&#39;NALL&#39;)
-    # self.assertIsNotNone(nall)
-    # self.assertEqual(len(nall.ids), 4405)
-
-    # fix = mesh.get_node_set_by_name(&#39;FIX&#39;)
-    # self.assertIsNotNone(fix)
-    # self.assertEqual(len(fix.ids), 105)
-
-    # load = mesh.get_node_set_by_name(&#39;LOAD&#39;)
-    # self.assertIsNotNone(load)
-    # self.assertEqual(len(load.ids), 105)
-
-    # beam = mesh.get_node_set_by_name(&#39;BEAM&#39;)
-    # self.assertIsNotNone(beam)
-    # self.assertEqual(len(beam.ids), 4403)
-
-    # eall = mesh.get_el_set_by_name(&#39;EALL&#39;)
-    # self.assertIsNotNone(eall)
-    # self.assertEqual(len(eall.ids), 2341)
-
-    # beam = mesh.get_el_set_by_name(&#39;BEAM&#39;)
-    # self.assertIsNotNone(beam)
-    # self.assertEqual(len(beam.ids), 2340)
-
-    # load_surf = mesh.get_surface_by_name(&#39;LOAD_SURF&#39;)
-    # self.assertIsNotNone(load_surf)
-    # self.assertEqual(len(load_surf.element_faces), 44)  # type: ignore
-    # self.assertEqual(load_surf.type, ESurfTypes.EL_FACE)
-
-    # node_surf = mesh.get_surface_by_name(&#39;NODE_SURF&#39;)
-    # self.assertIsNotNone(node_surf)
-    # self.assertEqual(len(node_surf.node_ids), 3)  # type: ignore
-    # self.assertEqual(len(node_surf.node_set_names), 1)  # type: ignore
-    # self.assertEqual(node_surf.type, ESurfTypes.NODE)
-
-    # elem_surf = mesh.get_surface_by_name(&#39;ELEM_SURF&#39;)
-    # self.assertIsNotNone(elem_surf)
-    # self.assertEqual(len(elem_surf.element_faces), 9)  # type: ignore
-    # self.assertEqual(elem_surf.type, ESurfTypes.EL_FACE)
-
-    # for e in mesh.elements.values():
-    #     self.assertTrue(e.type in [EEtypes.C3D10, EEtypes.GAPUNI]) </code></pre>
+    self.assertEqual(len(mesh.surfaces), 2) # but with removed entities</code></pre>
 </details>
 </dd>
 <dt id="pygccx.mesh.test.test_mesh_factory.TestInpFactory.test_beam_and_gap_unsupported_element"><code class="name flex">
@@ -706,6 +795,15 @@ not have a method with the specified name.</p></div>
 <li><code><a title="pygccx.mesh.test.test_mesh_factory.SetMock.ids" href="#pygccx.mesh.test.test_mesh_factory.SetMock.ids">ids</a></code></li>
 <li><code><a title="pygccx.mesh.test.test_mesh_factory.SetMock.name" href="#pygccx.mesh.test.test_mesh_factory.SetMock.name">name</a></code></li>
 <li><code><a title="pygccx.mesh.test.test_mesh_factory.SetMock.type" href="#pygccx.mesh.test.test_mesh_factory.SetMock.type">type</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.mesh.test.test_mesh_factory.TestFrdFactory" href="#pygccx.mesh.test.test_mesh_factory.TestFrdFactory">TestFrdFactory</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.mesh.test.test_mesh_factory.TestFrdFactory.setUp" href="#pygccx.mesh.test.test_mesh_factory.TestFrdFactory.setUp">setUp</a></code></li>
+<li><code><a title="pygccx.mesh.test.test_mesh_factory.TestFrdFactory.test_beam_and_gap_w_skip_w_clean" href="#pygccx.mesh.test.test_mesh_factory.TestFrdFactory.test_beam_and_gap_w_skip_w_clean">test_beam_and_gap_w_skip_w_clean</a></code></li>
+<li><code><a title="pygccx.mesh.test.test_mesh_factory.TestFrdFactory.test_beam_and_gap_w_skip_wo_clean" href="#pygccx.mesh.test.test_mesh_factory.TestFrdFactory.test_beam_and_gap_w_skip_wo_clean">test_beam_and_gap_w_skip_wo_clean</a></code></li>
+<li><code><a title="pygccx.mesh.test.test_mesh_factory.TestFrdFactory.test_beam_and_gap_wo_skip" href="#pygccx.mesh.test.test_mesh_factory.TestFrdFactory.test_beam_and_gap_wo_skip">test_beam_and_gap_wo_skip</a></code></li>
 </ul>
 </li>
 <li>

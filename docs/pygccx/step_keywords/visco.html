@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>pygccx.step_keywords.static API documentation</title>
+<title>pygccx.step_keywords.visco API documentation</title>
 <meta name="description" content="Copyright Matthias Sedlmaier 2022
 This file is part of pygccx …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -20,7 +20,7 @@ This file is part of pygccx …" />
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>pygccx.step_keywords.static</code></h1>
+<h1 class="title">Module <code>pygccx.step_keywords.visco</code></h1>
 </header>
 <section id="section-intro">
 <p>Copyright Matthias Sedlmaier 2022
@@ -60,18 +60,20 @@ along with pygccx.
 If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
+from typing import Optional
 
 from pygccx.enums import ESolvers
+from pygccx.protocols import number
 from pygccx.auxiliary import f2s
 
-from .visco import Visco
 @dataclass
-class Static(Visco):
+class Visco:
     &#34;&#34;&#34;
-    Class to define a static analysis
+    Class to define a visco analysis
     
     Args:
+        cetol: Maximum viscous strain difference
         solver: Optional. Solver which should be used for the step
         direct: Optional. Flag is direct time stepping should be switched on. 
                 True switches off auto time stepping
@@ -86,10 +88,34 @@ class Static(Visco):
         desc: Optional. A short description of this instance. This is written to the ccx input file.
     &#34;&#34;&#34;
 
-    cetol:float = field(init=False) # exclude Viso&#39;s cetol from init
+    cetol:float
+    &#34;&#34;&#34;Maximum viscous strain difference&#34;&#34;&#34;
+    solver:ESolvers = ESolvers.DEFAULT
+    &#34;&#34;&#34;Solver which should be used for the step&#34;&#34;&#34;
+    direct:bool = False
+    &#34;&#34;&#34;Flag if direct time stepping should be switched on. 
+    True switches off auto time stepping&#34;&#34;&#34;
+    init_time_inc:number = 1.
+    &#34;&#34;&#34;Size of the first time increment of the step.&#34;&#34;&#34;
+    time_period:number = 1.
+    &#34;&#34;&#34;Duration of the step&#34;&#34;&#34;
+    min_time_inc:Optional[number] = None
+    &#34;&#34;&#34;Minimum allowed time increment. Only used if direct == False&#34;&#34;&#34;
+    max_time_inc:Optional[number] = None
+    &#34;&#34;&#34;Maximum allowed time increment. Only used if direct == False&#34;&#34;&#34;
+    time_reset:bool = False
+    &#34;&#34;&#34;forces the total time at the end of the present step to coincide 
+    with the total time at the end of the previous step&#34;&#34;&#34;
+    total_time_at_start:Optional[number] = None
+    &#34;&#34;&#34;sets the total time at the start of the step to a specific value.&#34;&#34;&#34;
+    name:str = &#39;&#39;
+    &#34;&#34;&#34;Name of this instance&#34;&#34;&#34;
+    desc:str = &#39;&#39;
+    &#34;&#34;&#34;A short description of this instance. This is written to the ccx input file.&#34;&#34;&#34;
+
 
     def __str__(self):
-        s = &#39;*STATIC&#39;
+        s = f&#39;*VISCO,CETOL={f2s(self.cetol)}&#39;
         if self.solver != ESolvers.DEFAULT:
             s += f&#39;,SOLVER={self.solver.value}&#39;
         if self.direct: s += &#39;,DIRECT&#39;
@@ -115,14 +141,16 @@ class Static(Visco):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="pygccx.step_keywords.static.Static"><code class="flex name class">
-<span>class <span class="ident">Static</span></span>
-<span>(</span><span>solver: <a title="pygccx.enums.ESolvers" href="../enums.html#pygccx.enums.ESolvers">ESolvers</a> = ESolvers.DEFAULT, direct: bool = False, init_time_inc: int | float | numpy.number = 1.0, time_period: int | float | numpy.number = 1.0, min_time_inc: Union[int, float, numpy.number, ForwardRef(None)] = None, max_time_inc: Union[int, float, numpy.number, ForwardRef(None)] = None, time_reset: bool = False, total_time_at_start: Union[int, float, numpy.number, ForwardRef(None)] = None, name: str = '', desc: str = '')</span>
+<dt id="pygccx.step_keywords.visco.Visco"><code class="flex name class">
+<span>class <span class="ident">Visco</span></span>
+<span>(</span><span>cetol: float, solver: <a title="pygccx.enums.ESolvers" href="../enums.html#pygccx.enums.ESolvers">ESolvers</a> = ESolvers.DEFAULT, direct: bool = False, init_time_inc: int | float | numpy.number = 1.0, time_period: int | float | numpy.number = 1.0, min_time_inc: Union[int, float, numpy.number, ForwardRef(None)] = None, max_time_inc: Union[int, float, numpy.number, ForwardRef(None)] = None, time_reset: bool = False, total_time_at_start: Union[int, float, numpy.number, ForwardRef(None)] = None, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Class to define a static analysis</p>
+<div class="desc"><p>Class to define a visco analysis</p>
 <h2 id="args">Args</h2>
 <dl>
+<dt><strong><code>cetol</code></strong></dt>
+<dd>Maximum viscous strain difference</dd>
 <dt><strong><code>solver</code></strong></dt>
 <dd>Optional. Solver which should be used for the step</dd>
 <dt><strong><code>direct</code></strong></dt>
@@ -151,11 +179,12 @@ with the total time at the end of the previous step</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@dataclass
-class Static(Visco):
+class Visco:
     &#34;&#34;&#34;
-    Class to define a static analysis
+    Class to define a visco analysis
     
     Args:
+        cetol: Maximum viscous strain difference
         solver: Optional. Solver which should be used for the step
         direct: Optional. Flag is direct time stepping should be switched on. 
                 True switches off auto time stepping
@@ -170,10 +199,34 @@ class Static(Visco):
         desc: Optional. A short description of this instance. This is written to the ccx input file.
     &#34;&#34;&#34;
 
-    cetol:float = field(init=False) # exclude Viso&#39;s cetol from init
+    cetol:float
+    &#34;&#34;&#34;Maximum viscous strain difference&#34;&#34;&#34;
+    solver:ESolvers = ESolvers.DEFAULT
+    &#34;&#34;&#34;Solver which should be used for the step&#34;&#34;&#34;
+    direct:bool = False
+    &#34;&#34;&#34;Flag if direct time stepping should be switched on. 
+    True switches off auto time stepping&#34;&#34;&#34;
+    init_time_inc:number = 1.
+    &#34;&#34;&#34;Size of the first time increment of the step.&#34;&#34;&#34;
+    time_period:number = 1.
+    &#34;&#34;&#34;Duration of the step&#34;&#34;&#34;
+    min_time_inc:Optional[number] = None
+    &#34;&#34;&#34;Minimum allowed time increment. Only used if direct == False&#34;&#34;&#34;
+    max_time_inc:Optional[number] = None
+    &#34;&#34;&#34;Maximum allowed time increment. Only used if direct == False&#34;&#34;&#34;
+    time_reset:bool = False
+    &#34;&#34;&#34;forces the total time at the end of the present step to coincide 
+    with the total time at the end of the previous step&#34;&#34;&#34;
+    total_time_at_start:Optional[number] = None
+    &#34;&#34;&#34;sets the total time at the start of the step to a specific value.&#34;&#34;&#34;
+    name:str = &#39;&#39;
+    &#34;&#34;&#34;Name of this instance&#34;&#34;&#34;
+    desc:str = &#39;&#39;
+    &#34;&#34;&#34;A short description of this instance. This is written to the ccx input file.&#34;&#34;&#34;
+
 
     def __str__(self):
-        s = &#39;*STATIC&#39;
+        s = f&#39;*VISCO,CETOL={f2s(self.cetol)}&#39;
         if self.solver != ESolvers.DEFAULT:
             s += f&#39;,SOLVER={self.solver.value}&#39;
         if self.direct: s += &#39;,DIRECT&#39;
@@ -189,28 +242,59 @@ class Static(Visco):
 
         return s</code></pre>
 </details>
-<h3>Ancestors</h3>
+<h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="pygccx.step_keywords.visco.Visco" href="visco.html#pygccx.step_keywords.visco.Visco">Visco</a></li>
+<li><a title="pygccx.step_keywords.static.Static" href="static.html#pygccx.step_keywords.static.Static">Static</a></li>
 </ul>
-<h3>Inherited members</h3>
-<ul class="hlist">
-<li><code><b><a title="pygccx.step_keywords.visco.Visco" href="visco.html#pygccx.step_keywords.visco.Visco">Visco</a></b></code>:
-<ul class="hlist">
-<li><code><a title="pygccx.step_keywords.visco.Visco.cetol" href="visco.html#pygccx.step_keywords.visco.Visco.cetol">cetol</a></code></li>
-<li><code><a title="pygccx.step_keywords.visco.Visco.desc" href="visco.html#pygccx.step_keywords.visco.Visco.desc">desc</a></code></li>
-<li><code><a title="pygccx.step_keywords.visco.Visco.direct" href="visco.html#pygccx.step_keywords.visco.Visco.direct">direct</a></code></li>
-<li><code><a title="pygccx.step_keywords.visco.Visco.init_time_inc" href="visco.html#pygccx.step_keywords.visco.Visco.init_time_inc">init_time_inc</a></code></li>
-<li><code><a title="pygccx.step_keywords.visco.Visco.max_time_inc" href="visco.html#pygccx.step_keywords.visco.Visco.max_time_inc">max_time_inc</a></code></li>
-<li><code><a title="pygccx.step_keywords.visco.Visco.min_time_inc" href="visco.html#pygccx.step_keywords.visco.Visco.min_time_inc">min_time_inc</a></code></li>
-<li><code><a title="pygccx.step_keywords.visco.Visco.name" href="visco.html#pygccx.step_keywords.visco.Visco.name">name</a></code></li>
-<li><code><a title="pygccx.step_keywords.visco.Visco.solver" href="visco.html#pygccx.step_keywords.visco.Visco.solver">solver</a></code></li>
-<li><code><a title="pygccx.step_keywords.visco.Visco.time_period" href="visco.html#pygccx.step_keywords.visco.Visco.time_period">time_period</a></code></li>
-<li><code><a title="pygccx.step_keywords.visco.Visco.time_reset" href="visco.html#pygccx.step_keywords.visco.Visco.time_reset">time_reset</a></code></li>
-<li><code><a title="pygccx.step_keywords.visco.Visco.total_time_at_start" href="visco.html#pygccx.step_keywords.visco.Visco.total_time_at_start">total_time_at_start</a></code></li>
-</ul>
-</li>
-</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.step_keywords.visco.Visco.cetol"><code class="name">var <span class="ident">cetol</span> : float</code></dt>
+<dd>
+<div class="desc"><p>Maximum viscous strain difference</p></div>
+</dd>
+<dt id="pygccx.step_keywords.visco.Visco.desc"><code class="name">var <span class="ident">desc</span> : str</code></dt>
+<dd>
+<div class="desc"><p>A short description of this instance. This is written to the ccx input file.</p></div>
+</dd>
+<dt id="pygccx.step_keywords.visco.Visco.direct"><code class="name">var <span class="ident">direct</span> : bool</code></dt>
+<dd>
+<div class="desc"><p>Flag if direct time stepping should be switched on.
+True switches off auto time stepping</p></div>
+</dd>
+<dt id="pygccx.step_keywords.visco.Visco.init_time_inc"><code class="name">var <span class="ident">init_time_inc</span> : int | float | numpy.number</code></dt>
+<dd>
+<div class="desc"><p>Size of the first time increment of the step.</p></div>
+</dd>
+<dt id="pygccx.step_keywords.visco.Visco.max_time_inc"><code class="name">var <span class="ident">max_time_inc</span> : Union[int, float, numpy.number, ForwardRef(None)]</code></dt>
+<dd>
+<div class="desc"><p>Maximum allowed time increment. Only used if direct == False</p></div>
+</dd>
+<dt id="pygccx.step_keywords.visco.Visco.min_time_inc"><code class="name">var <span class="ident">min_time_inc</span> : Union[int, float, numpy.number, ForwardRef(None)]</code></dt>
+<dd>
+<div class="desc"><p>Minimum allowed time increment. Only used if direct == False</p></div>
+</dd>
+<dt id="pygccx.step_keywords.visco.Visco.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dd>
+<div class="desc"><p>Name of this instance</p></div>
+</dd>
+<dt id="pygccx.step_keywords.visco.Visco.solver"><code class="name">var <span class="ident">solver</span> : <a title="pygccx.enums.ESolvers" href="../enums.html#pygccx.enums.ESolvers">ESolvers</a></code></dt>
+<dd>
+<div class="desc"><p>Solver which should be used for the step</p></div>
+</dd>
+<dt id="pygccx.step_keywords.visco.Visco.time_period"><code class="name">var <span class="ident">time_period</span> : int | float | numpy.number</code></dt>
+<dd>
+<div class="desc"><p>Duration of the step</p></div>
+</dd>
+<dt id="pygccx.step_keywords.visco.Visco.time_reset"><code class="name">var <span class="ident">time_reset</span> : bool</code></dt>
+<dd>
+<div class="desc"><p>forces the total time at the end of the present step to coincide
+with the total time at the end of the previous step</p></div>
+</dd>
+<dt id="pygccx.step_keywords.visco.Visco.total_time_at_start"><code class="name">var <span class="ident">total_time_at_start</span> : Union[int, float, numpy.number, ForwardRef(None)]</code></dt>
+<dd>
+<div class="desc"><p>sets the total time at the start of the step to a specific value.</p></div>
+</dd>
+</dl>
 </dd>
 </dl>
 </section>
@@ -229,7 +313,20 @@ class Static(Visco):
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="pygccx.step_keywords.static.Static" href="#pygccx.step_keywords.static.Static">Static</a></code></h4>
+<h4><code><a title="pygccx.step_keywords.visco.Visco" href="#pygccx.step_keywords.visco.Visco">Visco</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pygccx.step_keywords.visco.Visco.cetol" href="#pygccx.step_keywords.visco.Visco.cetol">cetol</a></code></li>
+<li><code><a title="pygccx.step_keywords.visco.Visco.desc" href="#pygccx.step_keywords.visco.Visco.desc">desc</a></code></li>
+<li><code><a title="pygccx.step_keywords.visco.Visco.direct" href="#pygccx.step_keywords.visco.Visco.direct">direct</a></code></li>
+<li><code><a title="pygccx.step_keywords.visco.Visco.init_time_inc" href="#pygccx.step_keywords.visco.Visco.init_time_inc">init_time_inc</a></code></li>
+<li><code><a title="pygccx.step_keywords.visco.Visco.max_time_inc" href="#pygccx.step_keywords.visco.Visco.max_time_inc">max_time_inc</a></code></li>
+<li><code><a title="pygccx.step_keywords.visco.Visco.min_time_inc" href="#pygccx.step_keywords.visco.Visco.min_time_inc">min_time_inc</a></code></li>
+<li><code><a title="pygccx.step_keywords.visco.Visco.name" href="#pygccx.step_keywords.visco.Visco.name">name</a></code></li>
+<li><code><a title="pygccx.step_keywords.visco.Visco.solver" href="#pygccx.step_keywords.visco.Visco.solver">solver</a></code></li>
+<li><code><a title="pygccx.step_keywords.visco.Visco.time_period" href="#pygccx.step_keywords.visco.Visco.time_period">time_period</a></code></li>
+<li><code><a title="pygccx.step_keywords.visco.Visco.time_reset" href="#pygccx.step_keywords.visco.Visco.time_reset">time_reset</a></code></li>
+<li><code><a title="pygccx.step_keywords.visco.Visco.total_time_at_start" href="#pygccx.step_keywords.visco.Visco.total_time_at_start">total_time_at_start</a></code></li>
+</ul>
 </li>
 </ul>
 </li>

@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>pygccx.mesh.mesh_factory.frd_factory API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>pygccx.mesh.mesh_factory.frd_factory</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from typing import Optional
+
+from pygccx.enums import EEtypes
+from pygccx.exceptions import ElementTypeNotSupportedError
+from .. import Mesh, Element
+from . inp_factory import _clear_mesh
+
+FRD_2_CCX_ETYPE_MAP = {  
+    1 : EEtypes.C3D8I,
+    2 : EEtypes.C3D6,
+    3 : EEtypes.C3D4,
+    4: EEtypes.C3D20R,  
+    5: EEtypes.C3D15,
+    6: EEtypes.C3D10
+}
+
+FRD_2_CCX_ALLOWED_MAPPING = {
+    1 : (EEtypes.C3D8I, EEtypes.C3D8, EEtypes.C3D8R),
+    2 : (EEtypes.C3D6,),
+    3 : (EEtypes.C3D4,),
+    4: (EEtypes.C3D20R, EEtypes.C3D20),
+    5: (EEtypes.C3D15,),
+    6: (EEtypes.C3D10,)
+}
+
+def mesh_from_frd(filename:str, type_mapping:Optional[dict[int, EEtypes]]=None, 
+                  ignore_unsup_elems:bool=False, clear_mesh:bool=False) -&gt; Mesh:
+    &#34;&#34;&#34;
+    Builds a pygccx mesh object from the given cgx result file.
+
+    Only nodes and 3D solid elements will be read.
+
+    If ignore_unsup_elems==True element blocks with unsupported elements (all 1D and 2D elements) are skipped.
+    If False, an ElementTypeNotSupportedError is raised if there are unsupported
+    elements in the file.
+
+    if clear_mesh==True the resulting mesh object is cleared. This means all element ids,
+    node ids and element faces which are not referred by any element are removed from every
+    set and surface. If False, no clearing is done. 
+
+    Args:
+        filename (str): File name incl. path of cgx result file. 
+        ignore_unsup_elems (bool, optional): Flag if unsupported elements should be skipped. If False, an ElementTypeNotSupportedError
+            is raised if an unsupported solid element is processed. Defaults to False.
+        clear_mesh (bool, optional): Flag if mesh object should be cleared. 
+    
+    Returns:
+        Mesh: The converted mesh
+    &#34;&#34;&#34;
+    
+    #Conversion Table for Element Types. if not specified as Parameter, take FRD_2_CCX_ETYPE_MAP as default
+    if type_mapping is None: type_mapping = FRD_2_CCX_ETYPE_MAP
+    _check_type_mapping(type_mapping)
+    
+    # For the format definition of *.frd look at the CGX Manual
+    nodes = {}
+    elems = {}
+    
+    # Parse the file
+    #-----------------------------------------------------
+    with open(filename) as f:
+        line = next(f)
+        while line:
+            line_split = line.split() #split line at white spaces
+            line_key = line_split[0]    
+            if line_key == &#39;2C&#39;:
+                n, line = _read_node_block(line, f)
+                nodes.update(n)
+                continue
+            if line_key == &#39;3C&#39;: 
+                e, line = _read_element_block(line, f, type_mapping, ignore_unsup_elems)
+                elems.update(e)
+                continue
+            if line_key.startswith(&#39;100C&#39;):
+                break # Nodal Result block starts -&gt; Finish
+            
+            line = next(f, None)
+
+    mesh = Mesh(nodes, elems, [], [])
+    if clear_mesh: return _clear_mesh(mesh)
+    return mesh
+
+def _read_node_block(line:str, f) -&gt; tuple[dict[int, tuple[float,...]], str]:
+
+    nodes = {}
+    for line in f:
+        line_split = line.split()
+        key = line_split[0] 
+        if key == &#39;-3&#39;: break
+
+        n_id=int(line[3:13])
+        n_x=float(line[13:25])
+        n_y=float(line[25:37])
+        n_z=float(line[37:])
+        nodes[n_id] = (n_x, n_y, n_z)
+
+    return nodes, line
+
+def _read_element_block(line:str, f, type_mapping:dict, skip_unsup_elems:bool):
+
+    elems = {}
+    for line in f:
+        line_split = line.split()
+        key = line_split[0]    
+        if key == &#39;-3&#39;: 
+            break
+       
+        if key == &#39;-1&#39;:
+            e_id = int(line_split[1])
+            e_type = int(line_split[2])
+            skip = False
+            if e_type not in FRD_2_CCX_ALLOWED_MAPPING:
+                if skip_unsup_elems: 
+                    skip = True
+                    continue
+                raise ElementTypeNotSupportedError(
+                    f&#39;{e_type} is not a supported frd element type number.&#39;
+                )
+            nids = []
+
+        if key == &#39;-2&#39; and not skip:
+            for nId in line_split[1:]:
+                nId = int(nId)
+                nids.append(nId)
+
+            elems[e_id] = Element(e_id, type_mapping[e_type], tuple(nids))
+
+    return elems, line
+
+def _check_type_mapping(type_mapping:dict[int, EEtypes]):
+
+    for gt, ccxt in type_mapping.items():
+        if gt not in FRD_2_CCX_ALLOWED_MAPPING:
+            raise ValueError(f&#39;{gt} is not a supported frd element type number.&#39;)
+
+        allowed_types = FRD_2_CCX_ALLOWED_MAPPING[gt]
+        if ccxt not in allowed_types:
+            allowed_str = &#39;,&#39;.join([x.name for x in allowed_types])
+            raise ValueError(f&#39;frd type {gt} can not be mapped to {ccxt.name}. Only {allowed_str} are allowed&#39;)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="pygccx.mesh.mesh_factory.frd_factory.mesh_from_frd"><code class="name flex">
+<span>def <span class="ident">mesh_from_frd</span></span>(<span>filename: str, type_mapping: Optional[dict[int, <a title="pygccx.enums.EEtypes" href="../../enums.html#pygccx.enums.EEtypes">EEtypes</a>]] = None, ignore_unsup_elems: bool = False, clear_mesh: bool = False) ‑> <a title="pygccx.mesh.mesh.Mesh" href="../mesh.html#pygccx.mesh.mesh.Mesh">Mesh</a></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Builds a pygccx mesh object from the given cgx result file.</p>
+<p>Only nodes and 3D solid elements will be read.</p>
+<p>If ignore_unsup_elems==True element blocks with unsupported elements (all 1D and 2D elements) are skipped.
+If False, an ElementTypeNotSupportedError is raised if there are unsupported
+elements in the file.</p>
+<p>if clear_mesh==True the resulting mesh object is cleared. This means all element ids,
+node ids and element faces which are not referred by any element are removed from every
+set and surface. If False, no clearing is done. </p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>filename</code></strong> :&ensp;<code>str</code></dt>
+<dd>File name incl. path of cgx result file. </dd>
+<dt><strong><code>ignore_unsup_elems</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Flag if unsupported elements should be skipped. If False, an ElementTypeNotSupportedError
+is raised if an unsupported solid element is processed. Defaults to False.</dd>
+<dt><strong><code>clear_mesh</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>Flag if mesh object should be cleared. </dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Mesh</code></dt>
+<dd>The converted mesh</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def mesh_from_frd(filename:str, type_mapping:Optional[dict[int, EEtypes]]=None, 
+                  ignore_unsup_elems:bool=False, clear_mesh:bool=False) -&gt; Mesh:
+    &#34;&#34;&#34;
+    Builds a pygccx mesh object from the given cgx result file.
+
+    Only nodes and 3D solid elements will be read.
+
+    If ignore_unsup_elems==True element blocks with unsupported elements (all 1D and 2D elements) are skipped.
+    If False, an ElementTypeNotSupportedError is raised if there are unsupported
+    elements in the file.
+
+    if clear_mesh==True the resulting mesh object is cleared. This means all element ids,
+    node ids and element faces which are not referred by any element are removed from every
+    set and surface. If False, no clearing is done. 
+
+    Args:
+        filename (str): File name incl. path of cgx result file. 
+        ignore_unsup_elems (bool, optional): Flag if unsupported elements should be skipped. If False, an ElementTypeNotSupportedError
+            is raised if an unsupported solid element is processed. Defaults to False.
+        clear_mesh (bool, optional): Flag if mesh object should be cleared. 
+    
+    Returns:
+        Mesh: The converted mesh
+    &#34;&#34;&#34;
+    
+    #Conversion Table for Element Types. if not specified as Parameter, take FRD_2_CCX_ETYPE_MAP as default
+    if type_mapping is None: type_mapping = FRD_2_CCX_ETYPE_MAP
+    _check_type_mapping(type_mapping)
+    
+    # For the format definition of *.frd look at the CGX Manual
+    nodes = {}
+    elems = {}
+    
+    # Parse the file
+    #-----------------------------------------------------
+    with open(filename) as f:
+        line = next(f)
+        while line:
+            line_split = line.split() #split line at white spaces
+            line_key = line_split[0]    
+            if line_key == &#39;2C&#39;:
+                n, line = _read_node_block(line, f)
+                nodes.update(n)
+                continue
+            if line_key == &#39;3C&#39;: 
+                e, line = _read_element_block(line, f, type_mapping, ignore_unsup_elems)
+                elems.update(e)
+                continue
+            if line_key.startswith(&#39;100C&#39;):
+                break # Nodal Result block starts -&gt; Finish
+            
+            line = next(f, None)
+
+    mesh = Mesh(nodes, elems, [], [])
+    if clear_mesh: return _clear_mesh(mesh)
+    return mesh</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="pygccx.mesh.mesh_factory" href="index.html">pygccx.mesh.mesh_factory</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="pygccx.mesh.mesh_factory.frd_factory.mesh_from_frd" href="#pygccx.mesh.mesh_factory.frd_factory.mesh_from_frd">mesh_from_frd</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

@@ -235,7 +235,7 @@ class Bolt:
         for k, v in gmsh_options.items():
             gmsh.option.setNumber(k, v)
 
-    def get_section_forces(self, model:ccx_model.Model, frd_result:FrdResult, time:float) -> npt.NDArray[np.float_]:
+    def get_section_forces(self, model:ccx_model.Model, frd_result:FrdResult, time:float) -> npt.NDArray[np.floating]:
         """
         Gets the section forces at the bolt head, at each end of a shaft section and at 
         the first engaged thread turn in the local coordinate system.
@@ -253,7 +253,7 @@ class Bolt:
             time (float): Result time for which section forces should be returned.
 
         Returns:
-            npt.NDArray[np.float_]: 2D Array with section forces
+            npt.NDArray[np.floating]: 2D Array with section forces
 
         Raises:
             ResultNotFoundError: Raised if no reaction forces were found for given time in frd_result

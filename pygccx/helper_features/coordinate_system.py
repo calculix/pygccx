@@ -47,8 +47,8 @@ class CoordinateSystem:
     origin:InitVar[Sequence[number]|npt.NDArray] = (0.,0.,0.)
     matrix:InitVar[Sequence[Sequence[number]]|npt.NDArray] = ((1.,0.,0.), (0.,1.,0.), (0.,0.,1.))
 
-    _origin:npt.NDArray[np.float_] = field(init=False)
-    _matrix:npt.NDArray[np.float_]   = field(init=False)
+    _origin:npt.NDArray[np.floating] = field(init=False)
+    _matrix:npt.NDArray[np.floating]   = field(init=False)
 
     def __post_init__(self, origin, matrix):
         self.set_origin(origin)

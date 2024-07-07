@@ -110,11 +110,44 @@ class Model:
         Args:
             filename (str): File name incl. path of ccx input file. 
             ignore_unsup_elems (bool, optional): Flag if unsupported elements should be skipped. If False, an ElementTypeNotSupportedError
-        is raised if an unsupported solid element is processed. Defaults to False.
-            ignore_unsup_elems (bool, optional): Flag if unsupported elements should be ignored. Defaults to False.
+                is raised if an unsupported solid element is processed. Defaults to False.
+            clear_mesh (bool, optional): Flag if mesh object should be cleared. 
         
         """
         self.mesh = msh.mesh_factory.mesh_from_inp(filename, ignore_unsup_elems, clear_mesh)
+
+    def update_mesh_from_frd(self, filename:str, type_mapping:Optional[dict[int, enums.EEtypes]]=None, 
+                             ignore_unsup_elems:bool=False, clear_mesh:bool=False):
+        """
+        Updates the mesh of this model from the given *.frd file. 
+
+        Only nodes and 3D solid elements will be read.
+
+        If ignore_unsup_elems==True element blocks with unsupported elements (all 1D and 2D elements) are skipped.
+        If False, an ElementTypeNotSupportedError is raised if there are unsupported
+        elements in the file.
+
+        if clear_mesh==True the resulting mesh object is cleared. This means all element ids,
+        node ids and element faces which are not referred by any element are removed from every
+        set and surface. If False, no clearing is done. 
+
+        If type_mapping is omitted, the default mapping from cgx element type number to ccx is:
+        {1 : C3D8I, 2 : C3D6, 3 : C3D4, 4 : C3D20R, 5 : C3D15, 6 : C3D10}
+
+        Args:
+            filename (str): File name incl. path of cgx result file. 
+
+            type_mapping (dict[int, EEtypes], optional): A dictionary for mapping cgx element type 
+            numbers to ccx element type enums. If provided, it is used to update the default type mapping dict.
+
+            ignore_unsup_elems (bool, optional): Flag if unsupported elements should be skipped. If False, an ElementTypeNotSupportedError
+            is raised if an unsupported solid element is processed. Defaults to False.
+            
+            clear_mesh (bool, optional): Flag if mesh object should be cleared. 
+        
+        """
+
+        self.mesh = msh.mesh_factory.mesh_from_frd(filename, type_mapping, ignore_unsup_elems, clear_mesh)
 
     def write_ccx_input_file(self):
         """Writes the ccx input file 'jobname.inp' to the working directory."""
@@ -168,7 +201,7 @@ class Model:
         """
 
         if  write_ccx_input: self.write_ccx_input_file()
-        subprocess.run(f'{self.cgx_path} -c "{self.jobname}.inp"', cwd=self.working_dir)
+        subprocess.run([self.cgx_path, '-c', f'{self.jobname}.inp'], cwd=self.working_dir)
 
     def solve(self, write_ccx_input:bool=True, no_cpu:int=1):
         """
@@ -183,7 +216,7 @@ class Model:
         """
         if  write_ccx_input: self.write_ccx_input_file()
         env = {'OMP_NUM_THREADS': str(no_cpu)}
-        subprocess.run(f'{self.ccx_path} -i "{self.jobname}"', cwd=self.working_dir, env=env)
+        subprocess.run([self.ccx_path, '-i', self.jobname], cwd=self.working_dir, env=env)
 
     def show_results_in_cgx(self, load_inp:bool=True):
         """
@@ -198,9 +231,9 @@ class Model:
         """
 
         if load_inp and os.path.isfile(os.path.join(self.working_dir, self.jobname + '.inp')):
-            subprocess.run(f'{self.cgx_path} "{self.jobname}.frd" "{self.jobname}.inp"', cwd=self.working_dir)
+            subprocess.run([self.cgx_path, f'{self.jobname}.frd', f'{self.jobname}.inp'], cwd=self.working_dir)
         else:
-            subprocess.run(f'{self.cgx_path} "{self.jobname}.frd"', cwd=self.working_dir)
+            subprocess.run([self.cgx_path, f'{self.jobname}.frd'], cwd=self.working_dir)
 
     def get_frd_result(self) -> FrdResult:
         """

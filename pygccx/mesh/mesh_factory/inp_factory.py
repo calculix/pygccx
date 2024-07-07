@@ -44,8 +44,8 @@ def mesh_from_inp(filename:str, ignore_unsup_elems:bool=False, clear_mesh:bool=F
     Args:
         filename (str): File name incl. path of ccx input file. 
         ignore_unsup_elems (bool, optional): Flag if unsupported elements should be skipped. If False, an ElementTypeNotSupportedError
-    is raised if an unsupported solid element is processed. Defaults to False.
-        ignore_unsup_elems (bool, optional): Flag if unsupported elements should be ignored. Defaults to False.
+            is raised if an unsupported solid element is processed. Defaults to False.
+        clear_mesh (bool, optional): Flag if mesh object should be cleared. 
     
     Returns:
         Mesh: The converted mesh

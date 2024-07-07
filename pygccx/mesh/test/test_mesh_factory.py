@@ -20,7 +20,7 @@ If not, see <http://www.gnu.org/licenses/>.
 import os
 import unittest
 from dataclasses import dataclass
-from pygccx.mesh.mesh_factory import mesh_from_inp
+from pygccx.mesh.mesh_factory import mesh_from_inp, mesh_from_frd
 from pygccx.enums import ESetTypes, EEtypes, ESurfTypes
 from pygccx.exceptions import ElementTypeNotSupportedError
 
@@ -148,45 +148,47 @@ class TestInpFactory(unittest.TestCase):
         self.assertEqual(len(mesh.element_sets), 1) # only the tet set
         self.assertEqual(len(mesh.surfaces), 2) # but with removed entities
 
-        # nall = mesh.get_node_set_by_name('NALL')
-        # self.assertIsNotNone(nall)
-        # self.assertEqual(len(nall.ids), 4405)
+class TestFrdFactory(unittest.TestCase):
 
-        # fix = mesh.get_node_set_by_name('FIX')
-        # self.assertIsNotNone(fix)
-        # self.assertEqual(len(fix.ids), 105)
+    def setUp(self) -> None:
+        data_path = os.path.dirname(os.path.abspath(__file__))
+        self.data_path = os.path.join(data_path, 'test_data')
 
-        # load = mesh.get_node_set_by_name('LOAD')
-        # self.assertIsNotNone(load)
-        # self.assertEqual(len(load.ids), 105)
+    def test_beam_and_gap_w_skip_wo_clean(self):
+        # reads beam_and_gap.frd
+        # in file:
+        #   no nodes: 4405
+        #   no elems: 2341 one of them is unsupported (GAP)
+        # after reading file:
+        #   no nodes: 4405
+        #   no elems: 2340
 
-        # beam = mesh.get_node_set_by_name('BEAM')
-        # self.assertIsNotNone(beam)
-        # self.assertEqual(len(beam.ids), 4403)
+        mesh = mesh_from_frd(
+            os.path.join(self.data_path, 'beam_and_gap.frd'),
+            ignore_unsup_elems=True)
+        
+        self.assertEqual(len(mesh.nodes), 4405)
+        self.assertEqual(len(mesh.elements), 2340)
 
-        # eall = mesh.get_el_set_by_name('EALL')
-        # self.assertIsNotNone(eall)
-        # self.assertEqual(len(eall.ids), 2341)
+    def test_beam_and_gap_w_skip_w_clean(self):
+        # reads beam_and_gap.frd
+        # in file:
+        #   no nodes: 4405
+        #   no elems: 2341 one of them is unsupported (GAP)
+        # after reading file:
+        #   no nodes: 4403 # the two nodes of the GAP are deleted
+        #   no elems: 2340
 
-        # beam = mesh.get_el_set_by_name('BEAM')
-        # self.assertIsNotNone(beam)
-        # self.assertEqual(len(beam.ids), 2340)
+        mesh = mesh_from_frd(
+            os.path.join(self.data_path, 'beam_and_gap.frd'),
+            ignore_unsup_elems=True, clear_mesh=True)
+        
+        self.assertEqual(len(mesh.nodes), 4403)
+        self.assertEqual(len(mesh.elements), 2340)
 
-        # load_surf = mesh.get_surface_by_name('LOAD_SURF')
-        # self.assertIsNotNone(load_surf)
-        # self.assertEqual(len(load_surf.element_faces), 44)  # type: ignore
-        # self.assertEqual(load_surf.type, ESurfTypes.EL_FACE)
+    def test_beam_and_gap_wo_skip(self):
+        # reads beam_and_gap.frd
+        # The unsupported GAP-element raises an exception
 
-        # node_surf = mesh.get_surface_by_name('NODE_SURF')
-        # self.assertIsNotNone(node_surf)
-        # self.assertEqual(len(node_surf.node_ids), 3)  # type: ignore
-        # self.assertEqual(len(node_surf.node_set_names), 1)  # type: ignore
-        # self.assertEqual(node_surf.type, ESurfTypes.NODE)
-
-        # elem_surf = mesh.get_surface_by_name('ELEM_SURF')
-        # self.assertIsNotNone(elem_surf)
-        # self.assertEqual(len(elem_surf.element_faces), 9)  # type: ignore
-        # self.assertEqual(elem_surf.type, ESurfTypes.EL_FACE)
-
-        # for e in mesh.elements.values():
-        #     self.assertTrue(e.type in [EEtypes.C3D10, EEtypes.GAPUNI]) 
+        path = os.path.join(self.data_path, 'beam_and_gap.frd')
+        self.assertRaises(ElementTypeNotSupportedError, mesh_from_frd, path, ignore_unsup_elems=False)

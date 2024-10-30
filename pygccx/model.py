@@ -215,7 +215,8 @@ class Model:
             OMP_NUM_THREADS to no_cpu
         """
         if  write_ccx_input: self.write_ccx_input_file()
-        env = {'OMP_NUM_THREADS': str(no_cpu)}
+        env = os.environ
+        env['OMP_NUM_THREADS'] = str(no_cpu)
         subprocess.run([self.ccx_path, '-i', self.jobname], cwd=self.working_dir, env=env)
 
     def show_results_in_cgx(self, load_inp:bool=True):

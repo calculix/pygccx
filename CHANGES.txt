@@ -2,7 +2,15 @@
     - NEW FEATURES
       - New model keyword *HEADING (model_keywords.Heading)
       - New model keyword *CREEP (model_keywords.Creep)
+      - New model keyword *CYCLIC SYMMETRY MODEL (model_keywords.CyclicSymmetryModel)
       - New step keyword *NO ANALYSIS (model_keywords.NoAnalysis)
+      - New step keyword *VISCO (model_keywords.Visco)
+      - New method model.update_mesh_from_frd(filename, type_mapping, ignore_unsup_elems, clear_mesh)
+        for reading mesh from result file.
+
+    - ENHANCEMENTS
+      - Bugfix in call to subprocess.run under Linux and Mac
+      - Bugfix in numpy typing for numpy > 2.0
 
 0.2.2:
     - NEW FEATURES

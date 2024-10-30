@@ -8,7 +8,7 @@ description='A python framework for CalculiX'
 authors = [
     {name = "Matthias Sedlmaier", email = "winterheart@gmx.de"},
 ]
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
     "numpy >= 1.22.4",
     "scipy >= 1.9.0",

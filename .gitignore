@@ -1,8 +1,6 @@
 .vscode/
 __pycache__/
-venv/
-venv_setup/
-venv310/
+venv*/
 notes.txt
 Problems/
 build/

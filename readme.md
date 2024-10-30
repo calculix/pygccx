@@ -96,7 +96,6 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
 - Support of all CCX keywords for static analysis<br>
 [Unsupported keywords](https://github.com/calculix/pygccx/blob/master/unsupported_keywords.md)
 - Postpro in GMSH
-- Read mesh from *.frd file
 
 # Prerequisites
 - Python 3.10

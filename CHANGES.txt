@@ -1,3 +1,8 @@
+0.2.4:
+    - ENHANCEMENTS
+      - Pass os.environ to all calls to subprocess.run.
+        If CCX and/or CGX is in PATH it is sufficient to set ccx_path='ccx' and/or cgx_path='cgx'
+
 0.2.3:
     - NEW FEATURES
       - New model keyword *HEADING (model_keywords.Heading)

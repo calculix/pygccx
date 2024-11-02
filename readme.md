@@ -98,4 +98,5 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
 - Postpro in GMSH
 
 # Prerequisites
+- Installation of Calculix CrunchiX (CCX) and Calculix GraphiX (CGX)
 - Python 3.10

@@ -36,9 +36,9 @@ from .result_reader import FrdResult, DatResult
 class Model:
 
     ccx_path:str
-    """Path to ccx executable"""
+    """Path to ccx executable. If ccx is in PATH, you can set ccx_path = 'ccx'."""
     cgx_path:str
-    """Path to cgx executable"""
+    """Path to cgx executable. If cgx is in PATH, you can set cgx_path = 'cgx'."""
     jobname:str = 'jobname'
     """Name of the job. All generated files will have this name."""
     working_dir:str = field(default_factory=os.getcwd)
@@ -201,7 +201,7 @@ class Model:
         """
 
         if  write_ccx_input: self.write_ccx_input_file()
-        subprocess.run([self.cgx_path, '-c', f'{self.jobname}.inp'], cwd=self.working_dir)
+        subprocess.run([self.cgx_path, '-c', f'{self.jobname}.inp'], cwd=self.working_dir, env=os.environ)
 
     def solve(self, write_ccx_input:bool=True, no_cpu:int=1):
         """
@@ -232,9 +232,9 @@ class Model:
         """
 
         if load_inp and os.path.isfile(os.path.join(self.working_dir, self.jobname + '.inp')):
-            subprocess.run([self.cgx_path, f'{self.jobname}.frd', f'{self.jobname}.inp'], cwd=self.working_dir)
+            subprocess.run([self.cgx_path, f'{self.jobname}.frd', f'{self.jobname}.inp'], cwd=self.working_dir, env=os.environ)
         else:
-            subprocess.run([self.cgx_path, f'{self.jobname}.frd'], cwd=self.working_dir)
+            subprocess.run([self.cgx_path, f'{self.jobname}.frd'], cwd=self.working_dir, env=os.environ)
 
     def get_frd_result(self) -> FrdResult:
         """

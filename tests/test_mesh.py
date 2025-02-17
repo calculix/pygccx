@@ -18,8 +18,10 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 import unittest
-from pygccx.helper_features.test.test_coordinate_system import TestCoordinateSystem
-
+from tests.tests_mesh.test_mesh import TestMesh
+from tests.tests_mesh.test_mesh_factory import TestInpFactory
+from tests.tests_mesh.test_mesh_factory import TestFrdFactory
 
 if __name__ == '__main__':
     unittest.main()
+

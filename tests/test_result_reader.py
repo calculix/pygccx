@@ -18,8 +18,14 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 import unittest
+from tests.tests_result_reader.test_frd_result import (TestFrdResult, Test_beam_buckling_frd,
+                                                       Test_beam_buckling_perturbation_frd,
+                                                       Test_beam_modal_frd,
+                                                       Test_beam_modal_perturbation_frd)
+from tests.tests_result_reader.test_dat_result import (TestDatResult, Test_achtel2_dat_ref, 
+                                                       Test_beam8f_dat_ref, Test_segmenttestsms_dat_ref,
+                                                       Test_beam8b_dat_ref)
 
-from pygccx.tools.stress_tools.test.test_stress_tools import TestStressTools
 
 if __name__ == '__main__':
     unittest.main()

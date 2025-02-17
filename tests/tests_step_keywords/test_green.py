@@ -39,17 +39,28 @@ class TestGreen(TestCase):
         known = '*GREEN,SOLVER=SPOOLES\n'
         self.assertEqual(str(g), known)
 
-        g = Green(solver=ESolvers.ITERATIVE_SCALING)
-        known = '*GREEN,SOLVER=ITERATIVE SCALING\n'
-        self.assertEqual(str(g), known)
-
-        g = Green(solver=ESolvers.ITERATIVE_CHOLESKY)
-        known = '*GREEN,SOLVER=ITERATIVE CHOLESKY\n'
-        self.assertEqual(str(g), known)
-
         g = Green(solver=ESolvers.PASTIX)
         known = '*GREEN,SOLVER=PASTIX\n'
         self.assertEqual(str(g), known)
+
+        self.assertRaises(ValueError, Green, solver=ESolvers.MATRIXSTORAGE)
+        self.assertRaises(ValueError, Green, solver=ESolvers.ITERATIVE_SCALING)
+        self.assertRaises(ValueError, Green, solver=ESolvers.ITERATIVE_CHOLESKY)
+
+        err = ''
+        try: Green(solver=ESolvers.MATRIXSTORAGE)
+        except ValueError as ve: err = str(ve)
+        self.assertEqual(err, 'Solver MATRIXSTORAGE can not be used for a *GREEN step.')
+
+        err = ''
+        try: Green(solver=ESolvers.ITERATIVE_SCALING)
+        except ValueError as ve: err = str(ve)
+        self.assertEqual(err, 'Solver ITERATIVE SCALING can not be used for a *GREEN step.')
+
+        err = ''
+        try: Green(solver=ESolvers.ITERATIVE_CHOLESKY)
+        except ValueError as ve: err = str(ve)
+        self.assertEqual(err, 'Solver ITERATIVE CHOLESKY can not be used for a *GREEN step.')
 
     def test_storage(self):
         g = Green(storage=True)

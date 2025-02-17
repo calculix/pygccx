@@ -18,10 +18,8 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 import unittest
-from pygccx.mesh.test.test_mesh import TestMesh
-from pygccx.mesh.test.test_mesh_factory import TestInpFactory
-from pygccx.mesh.test.test_mesh_factory import TestFrdFactory
+
+from tests.tests_stress_tools.test_stress_tools import TestStressTools
 
 if __name__ == '__main__':
     unittest.main()
-

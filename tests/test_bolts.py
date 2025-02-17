@@ -18,9 +18,8 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 import unittest
-from pygccx.result_reader.test.test_frd_result import TestFrdResult
-from pygccx.result_reader.test.test_dat_result import TestDatResult
 
+from tests.tests_bolts.test_bolt import TestBolt
 
 if __name__ == '__main__':
     unittest.main()

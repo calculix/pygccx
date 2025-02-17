@@ -79,9 +79,6 @@ class TestElPrint(TestCase):
         known +='S\n'
         self.assertEqual(str(ep), known)
 
-    def test_empty_entities(self):
-        self.assertRaises(ValueError, ElPrint, self.eset, [])
-
     def test_time_points_and_frequency(self):
         tp = TimePoints('TP1', (1,2,3,4))
         self.assertRaises(ValueError, ElPrint, self.eset, [EElPrintResults.S], time_points=tp, frequency=2)

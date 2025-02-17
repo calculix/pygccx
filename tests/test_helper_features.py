@@ -18,13 +18,8 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 import unittest
-from pygccx.test.test_helper_features import *
-from pygccx.test.test_mesh import *
-from pygccx.test.test_model_keywords import *
-from pygccx.test.test_result_reader import *
-from pygccx.test.test_step_keywords import *
-from pygccx.test.test_stress_tools import *
-from pygccx.tools.bolts.test.test_bolt import TestBolt
+from tests.tests_helper_features.test_coordinate_system import TestCoordinateSystem
+
 
 if __name__ == '__main__':
     unittest.main()

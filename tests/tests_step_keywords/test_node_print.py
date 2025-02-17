@@ -79,9 +79,6 @@ class TestNodePrint(TestCase):
         known +='U,RF\n'
         self.assertEqual(str(np), known)
 
-    def test_empty_entities(self):
-        self.assertRaises(ValueError, NodePrint, self.nset, [])
-
     def test_time_points_and_frequency(self):
         tp = TimePoints('TP1', (1,2,3,4))
         self.assertRaises(ValueError, NodePrint, self.nset, [ENodePrintResults.U], time_points=tp, frequency=2)

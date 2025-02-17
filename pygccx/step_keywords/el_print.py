@@ -75,8 +75,6 @@ class ElPrint:
         if not self._is_initialized: return 
         if self.elset.type != ESetTypes.ELEMENT:
             raise ValueError(f'Set type of nset must be NODE, got {self.elset.name}')
-        if not self.entities:
-            raise ValueError('entities must not be empty')
         if self.time_points and self.frequency != 1:
             raise ValueError("frequency and time_points are mutually exclusive.")
 

@@ -399,6 +399,7 @@ class ESolvers(str, Enum):
     ITERATIVE_CHOLESKY = 'ITERATIVE CHOLESKY'
     SPOOLES = 'SPOOLES'
     PASTIX = 'PASTIX'
+    MATRIXSTORAGE = 'MATRIXSTORAGE'
 
 class EStepAmplitudes(str, Enum):
     RAMP = 'RAMP'
@@ -453,3 +454,15 @@ class EMpcTypes(str, Enum):
 class ECreepLaws(str, Enum):
     NORTON = 'NORTON'
     """Norton creep law. eps'= A * sig_mises**n * t**m"""
+
+class EFrdAnalysisTypes(IntEnum):
+    STATIC = 0
+    TIME_STEP = auto()
+    FREQUENCY = auto()
+    LOAD_STEP = auto()
+    USER_NAMED = auto()
+
+class EDatAnalysisTypes(IntEnum):
+    STATIC = 0
+    FREQUENCY = auto()
+    BUCKLE = auto()

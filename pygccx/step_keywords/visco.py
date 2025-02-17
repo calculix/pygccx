@@ -70,6 +70,9 @@ class Visco:
     desc:str = ''
     """A short description of this instance. This is written to the ccx input file."""
 
+    def __post_init__(self):
+        if self.solver in [ESolvers.MATRIXSTORAGE]:
+            raise ValueError(f'Solver {self.solver.value} can not be used for a *{self.__class__.__name__.upper()} step.')
 
     def __str__(self):
         s = f'*VISCO,CETOL={f2s(self.cetol)}'

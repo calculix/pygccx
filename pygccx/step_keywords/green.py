@@ -43,7 +43,10 @@ class Green:
     desc:str = ''
     """A short description of this instance. This is written to the ccx input file."""
 
-
+    def __post_init__(self):
+        if self.solver in [ESolvers.MATRIXSTORAGE, ESolvers.ITERATIVE_CHOLESKY, ESolvers.ITERATIVE_SCALING]:
+            raise ValueError(f'Solver {self.solver.value} can not be used for a *{self.__class__.__name__.upper()} step.')
+        
     def __str__(self):
         s = '*GREEN'
         if self.solver != ESolvers.DEFAULT:

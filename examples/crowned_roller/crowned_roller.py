@@ -146,11 +146,11 @@ def main():
         line_set = mesh.get_node_set_by_name('CONTACT_LINE')
         line_nodes = np.array(mesh.get_nodes_by_ids(*line_set.ids))
         frd_result = model.get_frd_result()
-        cont_res_1 = frd_result.get_result_set_by_entity_and_time(enums.EFrdEntities.CONTACT, 1)
-        cont_res_2 = frd_result.get_result_set_by_entity_and_time(enums.EFrdEntities.CONTACT, 2)
+        cont_res_1 = frd_result.get_result_sets_by(entity=enums.EFrdEntities.CONTACT, step_time=1)
+        cont_res_2 = frd_result.get_result_sets_by(entity=enums.EFrdEntities.CONTACT, step_time=2)
         if cont_res_1 and cont_res_2:
-            pres_1 = cont_res_1.get_values_by_ids(line_set.ids)
-            pres_2 = cont_res_2.get_values_by_ids(line_set.ids)
+            pres_1 = cont_res_1[0].get_values_by_ids(line_set.ids)
+            pres_2 = cont_res_2[0].get_values_by_ids(line_set.ids)
 
             plt.plot(line_nodes[:,0], pres_1[:,3], '.', label='step 1')
             plt.plot(line_nodes[:,0], pres_2[:,3], '.', label='step 2')

@@ -153,7 +153,7 @@ def main():
         # get results from frd
         frd_result = model.get_frd_result()
         # get stress result for time 1.0
-        stress_result = frd_result.get_result_set_by_entity_and_time(entity=enums.EFrdEntities.STRESS, step_time=1)
+        stress_result = frd_result.get_result_sets_by(entity=enums.EFrdEntities.STRESS)[-1]
         if stress_result is not None:
             # get stress tensors for sorted node ids
             s = stress_result.get_values_by_ids(nids)

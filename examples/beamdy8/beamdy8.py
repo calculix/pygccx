@@ -44,8 +44,6 @@ def main():
         last_time = dat_result.get_available_times()[-1]
         u_real_1 = dat_result.get_result_sets_by(entity=enums.EDatEntities.U, set_name='N1', step_no=2, step_time=last_time)[0]
         u_imag_1 = dat_result.get_result_sets_by(entity=enums.EDatEntities.U, set_name='N1', step_no=2, step_time=last_time)[-1]
-        s_real_1 = dat_result.get_result_sets_by(entity=enums.EDatEntities.S, set_name='B1', step_no=2, step_time=last_time)[0]
-        s_imag_1 = dat_result.get_result_sets_by(entity=enums.EDatEntities.S, set_name='B1', step_no=2, step_time=last_time)[-1]
 
         frd_result = model.get_frd_result()
 

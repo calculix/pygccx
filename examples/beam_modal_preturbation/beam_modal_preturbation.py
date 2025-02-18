@@ -122,8 +122,7 @@ def main():
         )
         
         model.solve()
-        # model.show_results_in_cgx()
-        # dat_result = model.get_dat_result()
+        model.show_results_in_cgx()
 
 if __name__ == '__main__':
     main()

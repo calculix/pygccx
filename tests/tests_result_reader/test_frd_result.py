@@ -73,7 +73,7 @@ class TestFrdResult(TestCase):
 
     def test_get_result_sets_by_entity(self):
         frd_result = FrdResult.from_file(os.path.join(self.test_data_path, 'beam.frd'))
-        disp_sets = frd_result.get_result_sets_by_entity(EFrdEntities.DISP)
+        disp_sets = frd_result.get_result_sets_by(entity=EFrdEntities.DISP)
         self.assertEqual(len(disp_sets), 3)
 
         # check if all sets are DISP
@@ -82,57 +82,76 @@ class TestFrdResult(TestCase):
         self.assertEqual(re.pop(), EFrdEntities.DISP)
 
         # test with entity not in result
-        sets = frd_result.get_result_sets_by_entity(EFrdEntities.PE)
+        sets = frd_result.get_result_sets_by(entity=EFrdEntities.PE)
         self.assertEqual(len(sets), 0)
+
+    def test_get_result_set_by_entity_and_index(self):
+
+        frd_result = FrdResult.from_file(os.path.join(self.test_data_path, 'beam.frd'))
+        disp_0 = frd_result.get_result_sets_by(entity=EFrdEntities.DISP)[0]
+        self.assertEqual(disp_0.entity, EFrdEntities.DISP) 
+        self.assertAlmostEqual(disp_0.step_time, 0.34) 
+
+        disp_1 = frd_result.get_result_sets_by(entity=EFrdEntities.DISP)[1]
+        self.assertEqual(disp_1.entity, EFrdEntities.DISP) 
+        self.assertAlmostEqual(disp_1.step_time, 0.68) 
+
+        disp_2 = frd_result.get_result_sets_by(entity=EFrdEntities.DISP)[2]
+        self.assertEqual(disp_0.entity, EFrdEntities.DISP) 
+        self.assertAlmostEqual(disp_2.step_time, 1) 
+
+        disp_last = frd_result.get_result_sets_by(entity=EFrdEntities.DISP)[-1]
+        self.assertEqual(disp_last.entity, EFrdEntities.DISP) 
+        self.assertAlmostEqual(disp_last.step_time, 1) 
+
+        # test with entity not in result
+        res = frd_result.get_result_sets_by(entity=EFrdEntities.PE)
+        self.assertEqual(len(res), 0)
 
     def test_get_result_set_by_entity_and_time(self):
 
         frd_result = FrdResult.from_file(os.path.join(self.test_data_path, 'beam.frd'))
-        disp_034 = frd_result.get_result_set_by_entity_and_time(EFrdEntities.DISP, 0.34)
-        self.assertEqual(disp_034.entity, EFrdEntities.DISP) # type: ignore
-        self.assertAlmostEqual(disp_034.step_time, 0.34) # type: ignore
+        disp_034 = frd_result.get_result_sets_by(entity=EFrdEntities.DISP, step_time=0.34)[0]
+        self.assertEqual(disp_034.entity, EFrdEntities.DISP) 
+        self.assertAlmostEqual(disp_034.step_time, 0.34) 
 
         # time 0.5 should return result set for timwe 0.34 because its closest
-        disp_034 = frd_result.get_result_set_by_entity_and_time(EFrdEntities.DISP, 0.5)
-        self.assertEqual(disp_034.entity, EFrdEntities.DISP) # type: ignore
-        self.assertAlmostEqual(disp_034.step_time, 0.34) # type: ignore
+        disp_034 = frd_result.get_result_sets_by(entity=EFrdEntities.DISP, step_time=0.5)[0]
+        self.assertEqual(disp_034.entity, EFrdEntities.DISP) 
+        self.assertAlmostEqual(disp_034.step_time, 0.34) 
 
         # time 0 should return the first result set for timwe 0.34 because its closest
-        disp_034 = frd_result.get_result_set_by_entity_and_time(EFrdEntities.DISP, 0)
-        self.assertEqual(disp_034.entity, EFrdEntities.DISP) # type: ignore
-        self.assertAlmostEqual(disp_034.step_time, 0.34) # type: ignore
+        disp_034 = frd_result.get_result_sets_by(entity=EFrdEntities.DISP, step_time=0)[0]
+        self.assertEqual(disp_034.entity, EFrdEntities.DISP) 
+        self.assertAlmostEqual(disp_034.step_time, 0.34) 
 
         # time 100 should return the last result set for timwe 1.0 because its closest
-        disp_1 = frd_result.get_result_set_by_entity_and_time(EFrdEntities.DISP, 100)
-        self.assertEqual(disp_1.entity, EFrdEntities.DISP) # type: ignore
-        self.assertAlmostEqual(disp_1.step_time, 1) # type: ignore
+        disp_1 = frd_result.get_result_sets_by(entity=EFrdEntities.DISP, step_time=100)[0]
+        self.assertEqual(disp_1.entity, EFrdEntities.DISP) 
+        self.assertAlmostEqual(disp_1.step_time, 1) 
 
         # test with entity not in result
-        res = frd_result.get_result_set_by_entity_and_time(EFrdEntities.PE, 0.34)
-        self.assertIsNone(res)
+        res = frd_result.get_result_sets_by(entity=EFrdEntities.PE, step_time=0.34)
+        self.assertEqual(len(res), 0)
 
-    # def test_get_result_set_by_entity_and_index(self):
+    def test_get_result_set_by_entity_and_step_inc_no(self):
 
-    #     frd_result = FrdResult.from_file(os.path.join(self.test_data_path, 'beam.frd'))
-    #     disp_0 = frd_result.get_result_set_by_entity_and_index(EFrdEntities.DISP, 0)
-    #     self.assertEqual(disp_0.entity, EFrdEntities.DISP) # type: ignore
-    #     self.assertAlmostEqual(disp_0.step_time, 0.34) # type: ignore
+        frd_result = FrdResult.from_file(os.path.join(self.test_data_path, 'beam.frd'))
+        disp_0 = frd_result.get_result_sets_by(entity=EFrdEntities.DISP, step_inc_no=1)[0]
+        self.assertEqual(disp_0.entity, EFrdEntities.DISP) 
+        self.assertAlmostEqual(disp_0.step_time, 0.34) 
 
-    #     disp_1 = frd_result.get_result_set_by_entity_and_index(EFrdEntities.DISP, 1)
-    #     self.assertEqual(disp_1.entity, EFrdEntities.DISP) # type: ignore
-    #     self.assertAlmostEqual(disp_1.step_time, 0.68) # type: ignore
+        disp_1 = frd_result.get_result_sets_by(entity=EFrdEntities.DISP, step_inc_no=2)[0]
+        self.assertEqual(disp_1.entity, EFrdEntities.DISP) 
+        self.assertAlmostEqual(disp_1.step_time, 0.68) 
 
-    #     disp_2 = frd_result.get_result_set_by_entity_and_index(EFrdEntities.DISP, 2)
-    #     self.assertEqual(disp_0.entity, EFrdEntities.DISP) # type: ignore
-    #     self.assertAlmostEqual(disp_2.step_time, 1) # type: ignore
+        disp_2 = frd_result.get_result_sets_by(entity=EFrdEntities.DISP, step_inc_no=3)[0]
+        self.assertEqual(disp_0.entity, EFrdEntities.DISP) 
+        self.assertAlmostEqual(disp_2.step_time, 1) 
 
-    #     disp_last = frd_result.get_result_set_by_entity_and_index(EFrdEntities.DISP, -1)
-    #     self.assertEqual(disp_last.entity, EFrdEntities.DISP) # type: ignore
-    #     self.assertAlmostEqual(disp_last.step_time, 1) # type: ignore
-
-    #     # test with entity not in result
-    #     res = frd_result.get_result_set_by_entity_and_index(EFrdEntities.PE, 0)
-    #     self.assertIsNone(res)
+        # test with entity not in result
+        res = frd_result.get_result_sets_by(entity=EFrdEntities.PE, step_inc_no=1)
+        self.assertEqual(len(res), 0)
 
 class Test_beam_buckling_frd(TestCase):
     def setUp(self):

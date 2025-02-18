@@ -18,20 +18,20 @@ If not, see <http://www.gnu.org/licenses/>.
 '''
 
 from dataclasses import dataclass, field
-from typing import Iterable, TextIO
+from typing import Iterable, TextIO, Any, Optional
 
 import numpy as np
 import numpy.typing as npt
 
-from pygccx.enums import EResultLocations, EFrdEntities
+from pygccx.enums import EResultLocations, EFrdEntities, EFrdAnalysisTypes
 
-@dataclass(frozen=True, slots=True)
+@dataclass()
 class FrdResultSet:
     """
     Class representing a result set from a *.frd file.
 
     A result set contains the nodal result values of an
-    entity (i.e. DISP, STRESS) for a single step time.
+    entity (i.e. DISP, STRESS) for a single step increment.
     """
 
     entity:EFrdEntities
@@ -39,7 +39,16 @@ class FrdResultSet:
     no_components:int
     """number of components per value. I.e. for a DISP result set no_components == 3"""
     step_time:float
-    """Step time of this result set"""
+    """Step value of this result set. E.g. time for *STATIC step, frequency for *FREQUENCY step or buckling factor for *BUCKLE step"""
+    step_no:int
+    """Step number of this result set since the beginning of the calculation."""
+    step_inc_no:int = field(init=False)
+    """Increment number of this result set since the beginning of the step.
+    Increment number for *STATIC, mode number for *FREQUENCY, factor number for *BUCKLE"""
+    total_inc_no:int
+    """Increment number of this result set since the beginning of the calculation."""
+    analysis_type:EFrdAnalysisTypes
+    """Analysis type of this result set"""
     component_names:tuple[str,...]
     """Names of the value components. I.e. for a DISP result set ('D1', 'D2', 'D3')"""
     values:dict[int, npt.NDArray[np.float64]] = field(repr=False)
@@ -51,6 +60,8 @@ class FrdResultSet:
     """Location of the result entity. i.e. NODAL, ELEMENT, ..."""
     set_name:str = field(init=False, default='')
     """Name of the node- or element set."""
+    # mode_no:int|None
+    # """Mode number of this result set if any. Only if this result set belongs to a FREQUENCY step."""
 
     def get_values_by_ids(self, ids:Iterable[int]) -> npt.NDArray[np.float64]:
         """
@@ -74,64 +85,40 @@ class FrdResult:
     Don't instanciate this class directly. Use FrdResult.from_file() instead.
     """
 
-    step_times:tuple[float, ...]
-    """Sorted tuple with all step times"""
     result_sets:tuple[FrdResultSet, ...]
     """Tuple with all result sets"""
 
-    def get_result_sets_by_entity(self, entity:EFrdEntities) -> tuple[FrdResultSet, ...]:
-        """
-        Returns all result sets with the given entity
-        If no such result set exists an empty tuple is returned.
+    def get_available_times(self) -> tuple[float, ...]:
+        return tuple(sorted({rs.step_time for rs in self.result_sets}))
 
-        Args:
-            entity (EFrdEntities): Entity of result sets to be returned
-
-        Returns:
-            tuple[IResultSet, ...]: Tuple of all result sets with the given entity
-        """
-
-        return tuple(rs for rs in self.result_sets if rs.entity==entity)   
-
-    def get_result_set_by_entity_and_time(self, entity:EFrdEntities, step_time:float) -> FrdResultSet|None:
-        """
-        Returns the result set with the given entity and closest step time to the given step_time.
-        If no such result set exists, None is returned.
-
-        Args:
-            entity (EFrdEntities): Entity of result set to be returned
-            step_time (float): Step time of result set to be returned
+    def get_result_sets_by(self,*,
+                            entity:Optional[EFrdEntities]=None,
+                            step_no:Optional[int]=None,
+                            step_inc_no:Optional[int]=None,
+                            total_inc_no:Optional[int]=None,
+                            step_time:Optional[float]=None,
+                            analysis_type:Optional[EFrdAnalysisTypes]=None
+                            ) -> tuple[FrdResultSet,...]:
+        """Returns a tuple with FrdResultSets filtered by the given values.
+        The kwarg step_time is applied at last, if given. 
+        The results with the closest time to given step_time will be returned.
 
         Returns:
-            IResultSet|None: Matched result set or None
+            tuple[DatResultsSet,...]: Filtered result sets
         """
-        # filter by name
-        result_sets = self.get_result_sets_by_entity(entity)
+        rs = self.result_sets
 
-        # filter by step times    
-        nearest_time = min(self.step_times, key=lambda x:abs(x - step_time)) 
-        for rs in result_sets:
-            if rs.step_time == nearest_time: return rs
+        if entity is not None: rs = [r for r in rs if r.entity==entity]
+        if step_no is not None: rs = [r for r in rs if r.step_no==step_no]
+        if step_inc_no is not None: rs = [r for r in rs if r.step_inc_no==step_inc_no]
+        if total_inc_no is not None: rs = [r for r in rs if r.total_inc_no==total_inc_no]
+        if analysis_type is not None: rs = [r for r in rs if r.analysis_type==analysis_type]
+        if step_time is not None:
+            available_times = {rs.step_time for rs in self.result_sets}
+            nearest_time = min(available_times, key=lambda x:abs(x - step_time)) 
+            rs = [r for r in rs if r.step_time==nearest_time]
 
-    def get_result_set_by_entity_and_index(self, entity:EFrdEntities, step_index:int) -> FrdResultSet|None:
-        """
-        Returns the result set with the given entity and step index (index of step time in step_times).
-        If no such result set exists, None is returned.
-
-        Args:
-            entity (EFrdEntities): Entity of result set to be returned
-            step_index (int): Step index of result set to be returned
-
-        Returns:
-            IResultSet|None: Matched result set or None
-        """
-        # filter by name
-        result_sets = self.get_result_sets_by_entity(entity)
-
-        # filter by step indices
-        step_time = self.step_times[step_index] 
-        for rs in result_sets:
-            if rs.step_time == step_time: return rs
+        return tuple(rs)
 
     @classmethod
     def from_file(cls, filename:str) -> 'FrdResult':
@@ -153,23 +140,66 @@ class FrdResult:
               
         # Parse the file
         #-----------------------------------------------------
-        step_times = set()
         result_stes:list[FrdResultSet] = []
 
         with open(filename) as f:
-            while line := f.readline():
+            while line := f.readline():  
                 line_split = line.split() 
-                if line_split[0] == '100CL':
-                    rs = _read_result_block(f, line_split)
+                if not line_split: continue
+                stepinfo = None
+                if '1P' in line_split[0]:
+                    stepinfo, line_split, line = _read_step_info(f, line_split)
+                if '100C' in line_split[0]:
+                    rs = _read_result_block(f, line_split, line, stepinfo)
                     result_stes.append(rs)
-                    step_times.add(rs.step_time)
 
-        step_times = tuple(sorted(step_times))
-        return cls(step_times, tuple(result_stes))
+        # fill in step_inc
+        last_stp_no, last_inc_no = 0, 0
+        for rs in result_stes:
+            if rs.step_no != last_stp_no: 
+                last_inc_no = rs.total_inc_no - 1
+                last_stp_no = rs.step_no
+            rs.step_inc_no = rs.total_inc_no - last_inc_no
 
-def _read_result_block(f:TextIO, line_split:list[str]) -> FrdResultSet:
+        return cls(tuple(result_stes))
 
-        step_time = float(line_split[2])
+def _read_step_info(f:TextIO, line_split:list[str]) -> tuple[dict[str, Any], list[str]]:
+
+    stepinfo = {}
+    while line_split[0].strip().startswith('1P'):
+        key = line_split[0].strip()[2:]
+        value = line_split[1:]
+
+        match key:
+            case "STEP": value = [int(x) for x in value]
+            case "MODE": value = int(value[0])
+            case "GM": value = float(value[0])      
+            case "GK": value = float(value[0])
+            case "HID": value = int(value[0])     
+            case "SUBC": value = int(value[0])   
+
+        stepinfo[key] = value
+        line = f.readline()
+        line_split = line.split()
+
+    return stepinfo, line_split, line
+
+def _read_result_block(f:TextIO, line_split:list[str], line:str, 
+                       stepinfo:dict[str, Any]) -> FrdResultSet:
+        
+        key, code, setname, value, numnod, text, ictype, numstp, analysis, fmt = (
+            line[2:5],
+            line[5:6],
+            line[6:12].strip(),
+            float(line[12:24]),
+            int(line[24:36]),
+            line[36:56].strip(),
+            EFrdAnalysisTypes(int(line[56:58])),
+            int(line[58:63]),
+            line[63:73].strip(),
+            int(line[73:])
+        )
+
         component_names:list[str] = []
         values:dict[int, list[float]] = {}
         entity_name = ''
@@ -203,8 +233,14 @@ def _read_result_block(f:TextIO, line_split:list[str]) -> FrdResultSet:
         # convert dict[int, list[float]] -> dict[int, np.NDarray]
         values_arr = {nid:np.array(v, dtype=float) for nid, v in values.items()}
 
-        return FrdResultSet(EFrdEntities(entity_name) , no_comp, step_time, 
-                            tuple(component_names[:no_comp]), values_arr)
+        return FrdResultSet(entity=EFrdEntities(entity_name), 
+                            no_components=no_comp, 
+                            step_time=value, 
+                            step_no=stepinfo['STEP'][2],
+                            total_inc_no=numstp,
+                            analysis_type=ictype,
+                            component_names=tuple(component_names[:no_comp]), 
+                            values=values_arr)
         
 def _read_component_line(line:str, len_comp_str:int) -> tuple[int, list[float]]:
 

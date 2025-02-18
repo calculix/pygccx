@@ -6,7 +6,6 @@ The following keywords are not currently supported:
 *BEAM SECTION<br>
 *BOUNDARY<br>
 &ensp;&ensp;&ensp;&ensp;Submodel<br>
-*BUCKLE<br>
 *CFD<br>
 *CFLUX<br>
 *CHANGE CONTACT TYPE<br>
@@ -40,7 +39,6 @@ The following keywords are not currently supported:
 *FILTER<br>
 *FLUID CONSTANTS<br>
 *FLUID SECTION<br>
-*FREQUENCY<br>
 *GAP CONDUCTANCE<br>
 *GAP HEAT GENERATION<br>
 *GEOMETRIC CONSTRAINT<br>

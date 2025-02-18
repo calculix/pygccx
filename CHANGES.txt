@@ -1,3 +1,18 @@
+0.3.0:
+    - NEW FEATURES
+      - New model keyword *BUCKLE (model_keywords.Buckle)
+      - New model keyword *FREQUENCY (model_keywords.Frequency)
+
+    - CHANGES
+      - API of result readers.
+        In order to support the results from *BUCKLE and *FREQUENCY, both result readers
+        (FrdResult and DatResult) had to be rewritten and the API to query result sets changed.
+        There is now only one method to query result sets:
+        FrdResult.get_result_sets_by()
+
+    - ENHANCEMENTS
+      Minor bug fixes and improvements all over the place.
+
 0.2.4:
     - ENHANCEMENTS
       - Pass os.environ to all calls to subprocess.run.

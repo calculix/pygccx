@@ -20,13 +20,22 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
 
 # Install Pygccx
 - Install Python 3.10 or higher (or make a virtual env of Python 3.10)
-- install pygccx with pip
+- install pygccx with pip<br>
+    the latest version
     ```
-    pip install https://github.com/calculix/pygccx/releases/download/v0.2.4/pygccx-0.2.4-py3-none-any.whl
+    pip install git+https://github.com/calculix/pygccx.git
     ```
+    or a specific version
+    ```
+    pip install git+https://github.com/calculix/pygccx.git@vx.x.x
+    ```
+    where x.x.x is the version number.<br>
+    For available versions look at https://github.com/calculix/pygccx/releases<br><br>
+
+    For an offline installation you can download wheel files from the assets of each release<br>
 
 # Capabilities of Pygccx:
-- Static analysis of 3D structures (only solid elements, no shells or beams)
+- Static, buckling or frequency analysis of 3D structures (only solid elements, no shells or beams)
 - Build geometry and mesh using Gmsh-Python API
 - Read and convert 3D mesh (only nodes, sets and solid elements) from GMSH to CCX
 - Add additional abstract elements (SPRING, GAP, MASS) to model
@@ -66,6 +75,7 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
         - *TRANSFORM <br>
     - Implemented step keywords:
         - *BOUNDARY (inhomogeneous)
+        - *BUCKLE
         - *CLOAD
         - *CONTACT FILE
         - *CONTACT OUTPUT
@@ -73,6 +83,7 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
         - *ELEMENT OUTPUT
         - *EL FILE
         - *EL PRINT
+        - *FREQUENCY
         - *GREEN
         - *NODE FILE
         - *NODE OUTPUT
@@ -85,7 +96,7 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
 - Show CCX input file in CGX
 - Solve CCX input file
 - Show result file in CGX
-- Create result object from *.frd or *.dat files for postprocessing
+- Create result objects from *.frd or *.dat files for postprocessing
 - Tools for calculate invariant stresses (Mises, Principals, etc.)
 - Tools for transformation of coordinates, vectors or tensors between
   coordinate systems
@@ -98,5 +109,5 @@ In the folder docs/pygccx you can find an auto generated html documentation of a
 - Postpro in GMSH
 
 # Prerequisites
-- Installation of Calculix CrunchiX (CCX) and Calculix GraphiX (CGX)
+- Installation of Calculix CrunchiX 2.22 (CCX) and Calculix GraphiX (CGX)
 - Python 3.10

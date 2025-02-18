@@ -35,3 +35,5 @@ from .contact_output import ContactOutput
 from .green import Green
 from .no_analysis import NoAnalysis
 from .visco import Visco
+from .buckle import Buckle
+from .frequency import Frequency

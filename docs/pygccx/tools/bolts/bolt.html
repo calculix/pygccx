@@ -278,7 +278,7 @@ class Bolt:
         for k, v in gmsh_options.items():
             gmsh.option.setNumber(k, v)
 
-    def get_section_forces(self, model:ccx_model.Model, frd_result:FrdResult, time:float) -&gt; npt.NDArray[np.floating]:
+    def get_section_forces(self, model:ccx_model.Model, frd_result:FrdResult, time:float, step_no:Optional[int]=None) -&gt; npt.NDArray[np.floating]:
         &#34;&#34;&#34;
         Gets the section forces at the bolt head, at each end of a shaft section and at 
         the first engaged thread turn in the local coordinate system.
@@ -294,6 +294,8 @@ class Bolt:
             model (ccx_model.Model): model where this bolt was inserted. Same that was passed to generate_and_insert
             frd_result (FrdResult): FrdResult object containing reaction Forces (RF)
             time (float): Result time for which section forces should be returned.
+            step_no (Optional[int]): Step number of the result set. 
+                Usefull if multiple steps have increments with same step time
 
         Returns:
             npt.NDArray[np.floating]: 2D Array with section forces
@@ -303,9 +305,10 @@ class Bolt:
         &#34;&#34;&#34;
 
         # check if reaktion force result exists
-        forces_res = frd_result.get_result_set_by_entity_and_time(enums.EFrdEntities.FORC, time)
-        if forces_res is None:
+        forces_res_tup = frd_result.get_result_sets_by(entity=enums.EFrdEntities.FORC, step_time=time, step_no=step_no)
+        if not forces_res_tup:
             raise ResultNotFoundError(f&#39;The requested result &#34;{enums.EFrdEntities.FORC.name}&#34; at time {time} was not found in frd_result&#39;)
+        forces_res = forces_res_tup[0]
 
         # get section node sets to evaluate and their force sign
         # reaktion forces are only available at the dependant nodes
@@ -968,7 +971,7 @@ class Bolt:
         for k, v in gmsh_options.items():
             gmsh.option.setNumber(k, v)
 
-    def get_section_forces(self, model:ccx_model.Model, frd_result:FrdResult, time:float) -&gt; npt.NDArray[np.floating]:
+    def get_section_forces(self, model:ccx_model.Model, frd_result:FrdResult, time:float, step_no:Optional[int]=None) -&gt; npt.NDArray[np.floating]:
         &#34;&#34;&#34;
         Gets the section forces at the bolt head, at each end of a shaft section and at 
         the first engaged thread turn in the local coordinate system.
@@ -984,6 +987,8 @@ class Bolt:
             model (ccx_model.Model): model where this bolt was inserted. Same that was passed to generate_and_insert
             frd_result (FrdResult): FrdResult object containing reaction Forces (RF)
             time (float): Result time for which section forces should be returned.
+            step_no (Optional[int]): Step number of the result set. 
+                Usefull if multiple steps have increments with same step time
 
         Returns:
             npt.NDArray[np.floating]: 2D Array with section forces
@@ -993,9 +998,10 @@ class Bolt:
         &#34;&#34;&#34;
 
         # check if reaktion force result exists
-        forces_res = frd_result.get_result_set_by_entity_and_time(enums.EFrdEntities.FORC, time)
-        if forces_res is None:
+        forces_res_tup = frd_result.get_result_sets_by(entity=enums.EFrdEntities.FORC, step_time=time, step_no=step_no)
+        if not forces_res_tup:
             raise ResultNotFoundError(f&#39;The requested result &#34;{enums.EFrdEntities.FORC.name}&#34; at time {time} was not found in frd_result&#39;)
+        forces_res = forces_res_tup[0]
 
         # get section node sets to evaluate and their force sign
         # reaktion forces are only available at the dependant nodes
@@ -1687,7 +1693,7 @@ If False, core diameter d3 is used as recommended in VDI 2230 part 1. Default = 
 </details>
 </dd>
 <dt id="pygccx.tools.bolts.bolt.Bolt.get_section_forces"><code class="name flex">
-<span>def <span class="ident">get_section_forces</span></span>(<span>self, model: <a title="pygccx.model.Model" href="../../model.html#pygccx.model.Model">Model</a>, frd_result: <a title="pygccx.result_reader.frd_result.FrdResult" href="../../result_reader/frd_result.html#pygccx.result_reader.frd_result.FrdResult">FrdResult</a>, time: float) ‑> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]]</span>
+<span>def <span class="ident">get_section_forces</span></span>(<span>self, model: <a title="pygccx.model.Model" href="../../model.html#pygccx.model.Model">Model</a>, frd_result: <a title="pygccx.result_reader.frd_result.FrdResult" href="../../result_reader/frd_result.html#pygccx.result_reader.frd_result.FrdResult">FrdResult</a>, time: float, step_no: Optional[int] = None) ‑> numpy.ndarray[typing.Any, numpy.dtype[numpy.floating]]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Gets the section forces at the bolt head, at each end of a shaft section and at
@@ -1706,6 +1712,9 @@ row -1: First engaged thread turn</p>
 <dd>FrdResult object containing reaction Forces (RF)</dd>
 <dt><strong><code>time</code></strong> :&ensp;<code>float</code></dt>
 <dd>Result time for which section forces should be returned.</dd>
+<dt><strong><code>step_no</code></strong> :&ensp;<code>Optional[int]</code></dt>
+<dd>Step number of the result set.
+Usefull if multiple steps have increments with same step time</dd>
 </dl>
 <h2 id="returns">Returns</h2>
 <dl>
@@ -1721,7 +1730,7 @@ row -1: First engaged thread turn</p>
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def get_section_forces(self, model:ccx_model.Model, frd_result:FrdResult, time:float) -&gt; npt.NDArray[np.floating]:
+<pre><code class="python">def get_section_forces(self, model:ccx_model.Model, frd_result:FrdResult, time:float, step_no:Optional[int]=None) -&gt; npt.NDArray[np.floating]:
     &#34;&#34;&#34;
     Gets the section forces at the bolt head, at each end of a shaft section and at 
     the first engaged thread turn in the local coordinate system.
@@ -1737,6 +1746,8 @@ row -1: First engaged thread turn</p>
         model (ccx_model.Model): model where this bolt was inserted. Same that was passed to generate_and_insert
         frd_result (FrdResult): FrdResult object containing reaction Forces (RF)
         time (float): Result time for which section forces should be returned.
+        step_no (Optional[int]): Step number of the result set. 
+            Usefull if multiple steps have increments with same step time
 
     Returns:
         npt.NDArray[np.floating]: 2D Array with section forces
@@ -1746,9 +1757,10 @@ row -1: First engaged thread turn</p>
     &#34;&#34;&#34;
 
     # check if reaktion force result exists
-    forces_res = frd_result.get_result_set_by_entity_and_time(enums.EFrdEntities.FORC, time)
-    if forces_res is None:
+    forces_res_tup = frd_result.get_result_sets_by(entity=enums.EFrdEntities.FORC, step_time=time, step_no=step_no)
+    if not forces_res_tup:
         raise ResultNotFoundError(f&#39;The requested result &#34;{enums.EFrdEntities.FORC.name}&#34; at time {time} was not found in frd_result&#39;)
+    forces_res = forces_res_tup[0]
 
     # get section node sets to evaluate and their force sign
     # reaktion forces are only available at the dependant nodes

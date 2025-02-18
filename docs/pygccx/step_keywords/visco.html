@@ -113,6 +113,9 @@ class Visco:
     desc:str = &#39;&#39;
     &#34;&#34;&#34;A short description of this instance. This is written to the ccx input file.&#34;&#34;&#34;
 
+    def __post_init__(self):
+        if self.solver in [ESolvers.MATRIXSTORAGE]:
+            raise ValueError(f&#39;Solver {self.solver.value} can not be used for a *{self.__class__.__name__.upper()} step.&#39;)
 
     def __str__(self):
         s = f&#39;*VISCO,CETOL={f2s(self.cetol)}&#39;
@@ -224,6 +227,9 @@ class Visco:
     desc:str = &#39;&#39;
     &#34;&#34;&#34;A short description of this instance. This is written to the ccx input file.&#34;&#34;&#34;
 
+    def __post_init__(self):
+        if self.solver in [ESolvers.MATRIXSTORAGE]:
+            raise ValueError(f&#39;Solver {self.solver.value} can not be used for a *{self.__class__.__name__.upper()} step.&#39;)
 
     def __str__(self):
         s = f&#39;*VISCO,CETOL={f2s(self.cetol)}&#39;

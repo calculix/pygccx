@@ -442,6 +442,7 @@ class ESolvers(str, Enum):
     ITERATIVE_CHOLESKY = &#39;ITERATIVE CHOLESKY&#39;
     SPOOLES = &#39;SPOOLES&#39;
     PASTIX = &#39;PASTIX&#39;
+    MATRIXSTORAGE = &#39;MATRIXSTORAGE&#39;
 
 class EStepAmplitudes(str, Enum):
     RAMP = &#39;RAMP&#39;
@@ -495,7 +496,19 @@ class EMpcTypes(str, Enum):
 
 class ECreepLaws(str, Enum):
     NORTON = &#39;NORTON&#39;
-    &#34;&#34;&#34;Norton creep law. eps&#39;= A * sig_mises**n * t**m&#34;&#34;&#34;</code></pre>
+    &#34;&#34;&#34;Norton creep law. eps&#39;= A * sig_mises**n * t**m&#34;&#34;&#34;
+
+class EFrdAnalysisTypes(IntEnum):
+    STATIC = 0
+    TIME_STEP = auto()
+    FREQUENCY = auto()
+    LOAD_STEP = auto()
+    USER_NAMED = auto()
+
+class EDatAnalysisTypes(IntEnum):
+    STATIC = 0
+    FREQUENCY = auto()
+    BUCKLE = auto()</code></pre>
 </details>
 </section>
 <section>
@@ -728,6 +741,43 @@ Therefore, the location of the reference node is important.</p></div>
 <dt id="pygccx.enums.ECreepLaws.NORTON"><code class="name">var <span class="ident">NORTON</span></code></dt>
 <dd>
 <div class="desc"><p>Norton creep law. eps'= A * sig_mises<strong>n * t</strong>m</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.EDatAnalysisTypes"><code class="flex name class">
+<span>class <span class="ident">EDatAnalysisTypes</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EDatAnalysisTypes(IntEnum):
+    STATIC = 0
+    FREQUENCY = auto()
+    BUCKLE = auto()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.IntEnum</li>
+<li>builtins.int</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EDatAnalysisTypes.BUCKLE"><code class="name">var <span class="ident">BUCKLE</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EDatAnalysisTypes.FREQUENCY"><code class="name">var <span class="ident">FREQUENCY</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EDatAnalysisTypes.STATIC"><code class="name">var <span class="ident">STATIC</span></code></dt>
+<dd>
+<div class="desc"></div>
 </dd>
 </dl>
 </dd>
@@ -1270,6 +1320,53 @@ Therefore, the location of the reference node is important.</p></div>
 <dt id="pygccx.enums.EEtypes.SPRINGA"><code class="name">var <span class="ident">SPRINGA</span></code></dt>
 <dd>
 <div class="desc"><p>Two-node 3-dimensional spring</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="pygccx.enums.EFrdAnalysisTypes"><code class="flex name class">
+<span>class <span class="ident">EFrdAnalysisTypes</span></span>
+<span>(</span><span>value, names=None, *, module=None, qualname=None, type=None, start=1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>An enumeration.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class EFrdAnalysisTypes(IntEnum):
+    STATIC = 0
+    TIME_STEP = auto()
+    FREQUENCY = auto()
+    LOAD_STEP = auto()
+    USER_NAMED = auto()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.IntEnum</li>
+<li>builtins.int</li>
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="pygccx.enums.EFrdAnalysisTypes.FREQUENCY"><code class="name">var <span class="ident">FREQUENCY</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EFrdAnalysisTypes.LOAD_STEP"><code class="name">var <span class="ident">LOAD_STEP</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EFrdAnalysisTypes.STATIC"><code class="name">var <span class="ident">STATIC</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EFrdAnalysisTypes.TIME_STEP"><code class="name">var <span class="ident">TIME_STEP</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.EFrdAnalysisTypes.USER_NAMED"><code class="name">var <span class="ident">USER_NAMED</span></code></dt>
+<dd>
+<div class="desc"></div>
 </dd>
 </dl>
 </dd>
@@ -2161,7 +2258,8 @@ in cyclic symmetric frequency calculations</p></div>
     ITERATIVE_SCALING = &#39;ITERATIVE SCALING&#39;
     ITERATIVE_CHOLESKY = &#39;ITERATIVE CHOLESKY&#39;
     SPOOLES = &#39;SPOOLES&#39;
-    PASTIX = &#39;PASTIX&#39;</code></pre>
+    PASTIX = &#39;PASTIX&#39;
+    MATRIXSTORAGE = &#39;MATRIXSTORAGE&#39;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -2179,6 +2277,10 @@ in cyclic symmetric frequency calculations</p></div>
 <div class="desc"></div>
 </dd>
 <dt id="pygccx.enums.ESolvers.ITERATIVE_SCALING"><code class="name">var <span class="ident">ITERATIVE_SCALING</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="pygccx.enums.ESolvers.MATRIXSTORAGE"><code class="name">var <span class="ident">MATRIXSTORAGE</span></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -2319,6 +2421,14 @@ in cyclic symmetric frequency calculations</p></div>
 </ul>
 </li>
 <li>
+<h4><code><a title="pygccx.enums.EDatAnalysisTypes" href="#pygccx.enums.EDatAnalysisTypes">EDatAnalysisTypes</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.EDatAnalysisTypes.BUCKLE" href="#pygccx.enums.EDatAnalysisTypes.BUCKLE">BUCKLE</a></code></li>
+<li><code><a title="pygccx.enums.EDatAnalysisTypes.FREQUENCY" href="#pygccx.enums.EDatAnalysisTypes.FREQUENCY">FREQUENCY</a></code></li>
+<li><code><a title="pygccx.enums.EDatAnalysisTypes.STATIC" href="#pygccx.enums.EDatAnalysisTypes.STATIC">STATIC</a></code></li>
+</ul>
+</li>
+<li>
 <h4><code><a title="pygccx.enums.EDatEntities" href="#pygccx.enums.EDatEntities">EDatEntities</a></code></h4>
 <ul class="two-column">
 <li><code><a title="pygccx.enums.EDatEntities.CDIS" href="#pygccx.enums.EDatEntities.CDIS">CDIS</a></code></li>
@@ -2413,6 +2523,16 @@ in cyclic symmetric frequency calculations</p></div>
 <li><code><a title="pygccx.enums.EEtypes.SPRING1" href="#pygccx.enums.EEtypes.SPRING1">SPRING1</a></code></li>
 <li><code><a title="pygccx.enums.EEtypes.SPRING2" href="#pygccx.enums.EEtypes.SPRING2">SPRING2</a></code></li>
 <li><code><a title="pygccx.enums.EEtypes.SPRINGA" href="#pygccx.enums.EEtypes.SPRINGA">SPRINGA</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="pygccx.enums.EFrdAnalysisTypes" href="#pygccx.enums.EFrdAnalysisTypes">EFrdAnalysisTypes</a></code></h4>
+<ul class="">
+<li><code><a title="pygccx.enums.EFrdAnalysisTypes.FREQUENCY" href="#pygccx.enums.EFrdAnalysisTypes.FREQUENCY">FREQUENCY</a></code></li>
+<li><code><a title="pygccx.enums.EFrdAnalysisTypes.LOAD_STEP" href="#pygccx.enums.EFrdAnalysisTypes.LOAD_STEP">LOAD_STEP</a></code></li>
+<li><code><a title="pygccx.enums.EFrdAnalysisTypes.STATIC" href="#pygccx.enums.EFrdAnalysisTypes.STATIC">STATIC</a></code></li>
+<li><code><a title="pygccx.enums.EFrdAnalysisTypes.TIME_STEP" href="#pygccx.enums.EFrdAnalysisTypes.TIME_STEP">TIME_STEP</a></code></li>
+<li><code><a title="pygccx.enums.EFrdAnalysisTypes.USER_NAMED" href="#pygccx.enums.EFrdAnalysisTypes.USER_NAMED">USER_NAMED</a></code></li>
 </ul>
 </li>
 <li>
@@ -2586,10 +2706,11 @@ in cyclic symmetric frequency calculations</p></div>
 </li>
 <li>
 <h4><code><a title="pygccx.enums.ESolvers" href="#pygccx.enums.ESolvers">ESolvers</a></code></h4>
-<ul class="">
+<ul class="two-column">
 <li><code><a title="pygccx.enums.ESolvers.DEFAULT" href="#pygccx.enums.ESolvers.DEFAULT">DEFAULT</a></code></li>
 <li><code><a title="pygccx.enums.ESolvers.ITERATIVE_CHOLESKY" href="#pygccx.enums.ESolvers.ITERATIVE_CHOLESKY">ITERATIVE_CHOLESKY</a></code></li>
 <li><code><a title="pygccx.enums.ESolvers.ITERATIVE_SCALING" href="#pygccx.enums.ESolvers.ITERATIVE_SCALING">ITERATIVE_SCALING</a></code></li>
+<li><code><a title="pygccx.enums.ESolvers.MATRIXSTORAGE" href="#pygccx.enums.ESolvers.MATRIXSTORAGE">MATRIXSTORAGE</a></code></li>
 <li><code><a title="pygccx.enums.ESolvers.PASTIX" href="#pygccx.enums.ESolvers.PASTIX">PASTIX</a></code></li>
 <li><code><a title="pygccx.enums.ESolvers.SPOOLES" href="#pygccx.enums.ESolvers.SPOOLES">SPOOLES</a></code></li>
 </ul>

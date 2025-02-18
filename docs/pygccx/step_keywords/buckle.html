@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.10.0" />
-<title>pygccx.step_keywords.green API documentation</title>
+<title>pygccx.step_keywords.buckle API documentation</title>
 <meta name="description" content="Copyright Matthias Sedlmaier 2022
 This file is part of pygccx …" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
@@ -20,7 +20,7 @@ This file is part of pygccx …" />
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>pygccx.step_keywords.green</code></h1>
+<h1 class="title">Module <code>pygccx.step_keywords.buckle</code></h1>
 </header>
 <section id="section-intro">
 <p>Copyright Matthias Sedlmaier 2022
@@ -61,41 +61,64 @@ If not, see &lt;http://www.gnu.org/licenses/&gt;.
 &#39;&#39;&#39;
 
 from dataclasses import dataclass
+from typing import Optional
+
 from pygccx.enums import ESolvers
+from pygccx.protocols import number
+from pygccx.auxiliary import f2s
 
 @dataclass
-class Green:
+class Buckle:
     &#34;&#34;&#34;
-    Class to define a green function analysis
+    Class to define a buckling analysis
     
     Args:
+
         solver: Optional. Solver which should be used for the step
-        storage: Flag if the scalar frequencies, Green functions, mass and stiffness matrix 
-        should be stored in binary form in file jobname.eig for further use in a *SENSITIVITY procedure
+        no_buckling_factors: Number of buckling factors desired
+        accuracy: Accuracy desired.
+        no_lanczos_vectors: Number Lanczos vectors calculated in each iteration (default: 4 * no eigenvalues
+        max_iterations: Maximum number of iterations
         name: Optional. Name of this instance
         desc: Optional. A short description of this instance. This is written to the ccx input file.
     &#34;&#34;&#34;
 
     solver:ESolvers = ESolvers.DEFAULT
     &#34;&#34;&#34;Solver which should be used for the step&#34;&#34;&#34;
-    storage:bool = False
-    &#34;&#34;&#34;Flag if the scalar frequencies, Green functions, mass and stiffness matrix 
-    should be stored in binary form in file jobname.eig for further use in a *SENSITIVITY procedure&#34;&#34;&#34;
+    no_buckling_factors:int = 1
+    &#34;&#34;&#34;Number of buckling factors desired&#34;&#34;&#34;
+    accuracy:Optional[float] = None
+    &#34;&#34;&#34;Accuracy desired.&#34;&#34;&#34;
+    no_lanczos_vectors:Optional[int] = None
+    &#34;&#34;&#34;Number Lanczos vectors calculated in each iteration (default: 4 * no eigenvalues&#34;&#34;&#34;
+    max_iterations:Optional[int] = None
+    &#34;&#34;&#34;Maximum number of iterations&#34;&#34;&#34;
     name:str = &#39;&#39;
     &#34;&#34;&#34;Name of this instance&#34;&#34;&#34;
     desc:str = &#39;&#39;
     &#34;&#34;&#34;A short description of this instance. This is written to the ccx input file.&#34;&#34;&#34;
 
     def __post_init__(self):
-        if self.solver in [ESolvers.MATRIXSTORAGE, ESolvers.ITERATIVE_CHOLESKY, ESolvers.ITERATIVE_SCALING]:
+        if self.solver in [ESolvers.ITERATIVE_CHOLESKY, ESolvers.ITERATIVE_SCALING]:
             raise ValueError(f&#39;Solver {self.solver.value} can not be used for a *{self.__class__.__name__.upper()} step.&#39;)
-        
+        if self.max_iterations is not None and self.max_iterations &lt;= 0:
+            raise ValueError(f&#39;max_iterations must be greater than 0, got {self.max_iterations}.&#39;)
+        if self.no_lanczos_vectors is not None and self.no_lanczos_vectors &lt;= 0:
+            raise ValueError(f&#39;no_lanczos_vectors must be greater than 0, got {self.no_lanczos_vectors}.&#39;)
+        if self.accuracy is not None and self.accuracy &lt;= 0:
+            raise ValueError(f&#39;accuracy must be greater than 0, got {self.accuracy}.&#39;)
+
     def __str__(self):
-        s = &#39;*GREEN&#39;
+        s = f&#39;*BUCKLE&#39;
         if self.solver != ESolvers.DEFAULT:
             s += f&#39;,SOLVER={self.solver.value}&#39;
-        if self.storage: s += &#39;,STORAGE=YES&#39;
         s += &#39;\n&#39;
+
+        s += f&#39;{self.no_buckling_factors}&#39;
+        s += f&#39;,{f2s(self.accuracy)}&#39; if self.accuracy is not None else &#39;,&#39;
+        s += f&#39;,{self.no_lanczos_vectors}&#39; if self.no_lanczos_vectors is not None else &#39;,&#39;      
+        s += f&#39;,{self.max_iterations}&#39; if self.max_iterations is not None else &#39;,&#39;  
+        s = s.rstrip(&#39;,&#39;) + &#39;\n&#39;
 
         return s</code></pre>
 </details>
@@ -109,19 +132,24 @@ class Green:
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="pygccx.step_keywords.green.Green"><code class="flex name class">
-<span>class <span class="ident">Green</span></span>
-<span>(</span><span>solver: <a title="pygccx.enums.ESolvers" href="../enums.html#pygccx.enums.ESolvers">ESolvers</a> = ESolvers.DEFAULT, storage: bool = False, name: str = '', desc: str = '')</span>
+<dt id="pygccx.step_keywords.buckle.Buckle"><code class="flex name class">
+<span>class <span class="ident">Buckle</span></span>
+<span>(</span><span>solver: <a title="pygccx.enums.ESolvers" href="../enums.html#pygccx.enums.ESolvers">ESolvers</a> = ESolvers.DEFAULT, no_buckling_factors: int = 1, accuracy: Optional[float] = None, no_lanczos_vectors: Optional[int] = None, max_iterations: Optional[int] = None, name: str = '', desc: str = '')</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Class to define a green function analysis</p>
+<div class="desc"><p>Class to define a buckling analysis</p>
 <h2 id="args">Args</h2>
 <dl>
 <dt><strong><code>solver</code></strong></dt>
 <dd>Optional. Solver which should be used for the step</dd>
-<dt><strong><code>storage</code></strong></dt>
-<dd>Flag if the scalar frequencies, Green functions, mass and stiffness matrix </dd>
-<dt>should be stored in binary form in file jobname.eig for further use in a *SENSITIVITY procedure</dt>
+<dt><strong><code>no_buckling_factors</code></strong></dt>
+<dd>Number of buckling factors desired</dd>
+<dt><strong><code>accuracy</code></strong></dt>
+<dd>Accuracy desired.</dd>
+<dt><strong><code>no_lanczos_vectors</code></strong></dt>
+<dd>Number Lanczos vectors calculated in each iteration (default: 4 * no eigenvalues</dd>
+<dt><strong><code>max_iterations</code></strong></dt>
+<dd>Maximum number of iterations</dd>
 <dt><strong><code>name</code></strong></dt>
 <dd>Optional. Name of this instance</dd>
 <dt><strong><code>desc</code></strong></dt>
@@ -132,59 +160,89 @@ class Green:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@dataclass
-class Green:
+class Buckle:
     &#34;&#34;&#34;
-    Class to define a green function analysis
+    Class to define a buckling analysis
     
     Args:
+
         solver: Optional. Solver which should be used for the step
-        storage: Flag if the scalar frequencies, Green functions, mass and stiffness matrix 
-        should be stored in binary form in file jobname.eig for further use in a *SENSITIVITY procedure
+        no_buckling_factors: Number of buckling factors desired
+        accuracy: Accuracy desired.
+        no_lanczos_vectors: Number Lanczos vectors calculated in each iteration (default: 4 * no eigenvalues
+        max_iterations: Maximum number of iterations
         name: Optional. Name of this instance
         desc: Optional. A short description of this instance. This is written to the ccx input file.
     &#34;&#34;&#34;
 
     solver:ESolvers = ESolvers.DEFAULT
     &#34;&#34;&#34;Solver which should be used for the step&#34;&#34;&#34;
-    storage:bool = False
-    &#34;&#34;&#34;Flag if the scalar frequencies, Green functions, mass and stiffness matrix 
-    should be stored in binary form in file jobname.eig for further use in a *SENSITIVITY procedure&#34;&#34;&#34;
+    no_buckling_factors:int = 1
+    &#34;&#34;&#34;Number of buckling factors desired&#34;&#34;&#34;
+    accuracy:Optional[float] = None
+    &#34;&#34;&#34;Accuracy desired.&#34;&#34;&#34;
+    no_lanczos_vectors:Optional[int] = None
+    &#34;&#34;&#34;Number Lanczos vectors calculated in each iteration (default: 4 * no eigenvalues&#34;&#34;&#34;
+    max_iterations:Optional[int] = None
+    &#34;&#34;&#34;Maximum number of iterations&#34;&#34;&#34;
     name:str = &#39;&#39;
     &#34;&#34;&#34;Name of this instance&#34;&#34;&#34;
     desc:str = &#39;&#39;
     &#34;&#34;&#34;A short description of this instance. This is written to the ccx input file.&#34;&#34;&#34;
 
     def __post_init__(self):
-        if self.solver in [ESolvers.MATRIXSTORAGE, ESolvers.ITERATIVE_CHOLESKY, ESolvers.ITERATIVE_SCALING]:
+        if self.solver in [ESolvers.ITERATIVE_CHOLESKY, ESolvers.ITERATIVE_SCALING]:
             raise ValueError(f&#39;Solver {self.solver.value} can not be used for a *{self.__class__.__name__.upper()} step.&#39;)
-        
+        if self.max_iterations is not None and self.max_iterations &lt;= 0:
+            raise ValueError(f&#39;max_iterations must be greater than 0, got {self.max_iterations}.&#39;)
+        if self.no_lanczos_vectors is not None and self.no_lanczos_vectors &lt;= 0:
+            raise ValueError(f&#39;no_lanczos_vectors must be greater than 0, got {self.no_lanczos_vectors}.&#39;)
+        if self.accuracy is not None and self.accuracy &lt;= 0:
+            raise ValueError(f&#39;accuracy must be greater than 0, got {self.accuracy}.&#39;)
+
     def __str__(self):
-        s = &#39;*GREEN&#39;
+        s = f&#39;*BUCKLE&#39;
         if self.solver != ESolvers.DEFAULT:
             s += f&#39;,SOLVER={self.solver.value}&#39;
-        if self.storage: s += &#39;,STORAGE=YES&#39;
         s += &#39;\n&#39;
+
+        s += f&#39;{self.no_buckling_factors}&#39;
+        s += f&#39;,{f2s(self.accuracy)}&#39; if self.accuracy is not None else &#39;,&#39;
+        s += f&#39;,{self.no_lanczos_vectors}&#39; if self.no_lanczos_vectors is not None else &#39;,&#39;      
+        s += f&#39;,{self.max_iterations}&#39; if self.max_iterations is not None else &#39;,&#39;  
+        s = s.rstrip(&#39;,&#39;) + &#39;\n&#39;
 
         return s</code></pre>
 </details>
 <h3>Class variables</h3>
 <dl>
-<dt id="pygccx.step_keywords.green.Green.desc"><code class="name">var <span class="ident">desc</span> : str</code></dt>
+<dt id="pygccx.step_keywords.buckle.Buckle.accuracy"><code class="name">var <span class="ident">accuracy</span> : Optional[float]</code></dt>
+<dd>
+<div class="desc"><p>Accuracy desired.</p></div>
+</dd>
+<dt id="pygccx.step_keywords.buckle.Buckle.desc"><code class="name">var <span class="ident">desc</span> : str</code></dt>
 <dd>
 <div class="desc"><p>A short description of this instance. This is written to the ccx input file.</p></div>
 </dd>
-<dt id="pygccx.step_keywords.green.Green.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
+<dt id="pygccx.step_keywords.buckle.Buckle.max_iterations"><code class="name">var <span class="ident">max_iterations</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"><p>Maximum number of iterations</p></div>
+</dd>
+<dt id="pygccx.step_keywords.buckle.Buckle.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
 <dd>
 <div class="desc"><p>Name of this instance</p></div>
 </dd>
-<dt id="pygccx.step_keywords.green.Green.solver"><code class="name">var <span class="ident">solver</span> : <a title="pygccx.enums.ESolvers" href="../enums.html#pygccx.enums.ESolvers">ESolvers</a></code></dt>
+<dt id="pygccx.step_keywords.buckle.Buckle.no_buckling_factors"><code class="name">var <span class="ident">no_buckling_factors</span> : int</code></dt>
+<dd>
+<div class="desc"><p>Number of buckling factors desired</p></div>
+</dd>
+<dt id="pygccx.step_keywords.buckle.Buckle.no_lanczos_vectors"><code class="name">var <span class="ident">no_lanczos_vectors</span> : Optional[int]</code></dt>
+<dd>
+<div class="desc"><p>Number Lanczos vectors calculated in each iteration (default: 4 * no eigenvalues</p></div>
+</dd>
+<dt id="pygccx.step_keywords.buckle.Buckle.solver"><code class="name">var <span class="ident">solver</span> : <a title="pygccx.enums.ESolvers" href="../enums.html#pygccx.enums.ESolvers">ESolvers</a></code></dt>
 <dd>
 <div class="desc"><p>Solver which should be used for the step</p></div>
-</dd>
-<dt id="pygccx.step_keywords.green.Green.storage"><code class="name">var <span class="ident">storage</span> : bool</code></dt>
-<dd>
-<div class="desc"><p>Flag if the scalar frequencies, Green functions, mass and stiffness matrix
-should be stored in binary form in file jobname.eig for further use in a *SENSITIVITY procedure</p></div>
 </dd>
 </dl>
 </dd>
@@ -205,12 +263,15 @@ should be stored in binary form in file jobname.eig for further use in a *SENSIT
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="pygccx.step_keywords.green.Green" href="#pygccx.step_keywords.green.Green">Green</a></code></h4>
-<ul class="">
-<li><code><a title="pygccx.step_keywords.green.Green.desc" href="#pygccx.step_keywords.green.Green.desc">desc</a></code></li>
-<li><code><a title="pygccx.step_keywords.green.Green.name" href="#pygccx.step_keywords.green.Green.name">name</a></code></li>
-<li><code><a title="pygccx.step_keywords.green.Green.solver" href="#pygccx.step_keywords.green.Green.solver">solver</a></code></li>
-<li><code><a title="pygccx.step_keywords.green.Green.storage" href="#pygccx.step_keywords.green.Green.storage">storage</a></code></li>
+<h4><code><a title="pygccx.step_keywords.buckle.Buckle" href="#pygccx.step_keywords.buckle.Buckle">Buckle</a></code></h4>
+<ul class="two-column">
+<li><code><a title="pygccx.step_keywords.buckle.Buckle.accuracy" href="#pygccx.step_keywords.buckle.Buckle.accuracy">accuracy</a></code></li>
+<li><code><a title="pygccx.step_keywords.buckle.Buckle.desc" href="#pygccx.step_keywords.buckle.Buckle.desc">desc</a></code></li>
+<li><code><a title="pygccx.step_keywords.buckle.Buckle.max_iterations" href="#pygccx.step_keywords.buckle.Buckle.max_iterations">max_iterations</a></code></li>
+<li><code><a title="pygccx.step_keywords.buckle.Buckle.name" href="#pygccx.step_keywords.buckle.Buckle.name">name</a></code></li>
+<li><code><a title="pygccx.step_keywords.buckle.Buckle.no_buckling_factors" href="#pygccx.step_keywords.buckle.Buckle.no_buckling_factors">no_buckling_factors</a></code></li>
+<li><code><a title="pygccx.step_keywords.buckle.Buckle.no_lanczos_vectors" href="#pygccx.step_keywords.buckle.Buckle.no_lanczos_vectors">no_lanczos_vectors</a></code></li>
+<li><code><a title="pygccx.step_keywords.buckle.Buckle.solver" href="#pygccx.step_keywords.buckle.Buckle.solver">solver</a></code></li>
 </ul>
 </li>
 </ul>
